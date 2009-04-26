@@ -24,7 +24,7 @@ static sqlite3_stmt *init_statement = nil;
 
 @implementation Country
 
-@synthesize iconImage, name, iso2, iso3;
+@synthesize iconImage, name, iso2, iso3, usedInReport;
 
 // Creates the object with primary key and title is brought into memory.
 - (id)initWithISO3:(NSString *)pk database:(sqlite3 *)db 
@@ -53,7 +53,7 @@ static sqlite3_stmt *init_statement = nil;
 			self.iso2 = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 0)];
 			self.name = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 1)];
 			
-			[self loadImageFromBirne];
+			// [self loadImageFromBirne]; // that's done on demand
         }
         // Reset the statement for future reuse.
         sqlite3_reset(init_statement);
@@ -74,6 +74,9 @@ static sqlite3_stmt *init_statement = nil;
 
 - (void) loadImageFromBirne
 {
+	// do nothing if we already have an icon
+	if (iconImage) return;
+	
 	// first try the local app directory
 	UIImage *tmpImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", iso3]];
 	if (tmpImage)
@@ -96,7 +99,7 @@ static sqlite3_stmt *init_statement = nil;
 	}
 
 	// thirdly, download the image from Apple and put it into the document directory
-	NSString *URL=[NSString stringWithFormat:@"http://ax.Birne.apple.com/images/flags/30/%@.png", [self.iso3 lowercaseString]];
+	NSString *URL=[NSString stringWithFormat:@"http://ax.itunes.apple.com/images/flags/30/%@.png", [self.iso3 lowercaseString]];
 	NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
 															cachePolicy:NSURLRequestUseProtocolCachePolicy
 														timeoutInterval:600.0];
@@ -190,6 +193,15 @@ static sqlite3_stmt *init_statement = nil;
 	{
 		NSLog(sourceSt);
 	}*/
+}
+
+
+- (void) setUsedInReport:(BOOL) aBool
+{
+	usedInReport = aBool;
+	
+	// if the country is used in a report, we need an icon as well
+	[self loadImageFromBirne];
 }
 
 @end

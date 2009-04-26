@@ -1130,49 +1130,6 @@ static sqlite3_stmt *reportid_statement = nil;
 
 }
 
-/*
-- (void) addReportToDBfromString:(NSString *)string;
-{
-	NSUInteger report_id;
-	if (report_id=[self reportIDForDate:dayString type:ReportTypeDay])
-	{
-		// this report already downloaded
-		NSLog(@"Report for day %@ already downloaded, id %d", dayString, report_id);
-		return;
-	}
-	else
-	{
-		report_id=[self insertReportForDate:dayString type:ReportTypeDay];
-	}
-	
-	NSArray *lines = [string componentsSeparatedByString:@"\n"];
-	NSEnumerator *enu = [lines objectEnumerator];
-	NSString *oneLine;
-	
-	// first line = headers
-	
-	oneLine = [enu nextObject];
-	NSArray *column_names = [oneLine componentsSeparatedByString:@"\t"];
-	NSLog([column_names description]);
-	
-	
-	while(oneLine = [enu nextObject])
-	{
-		NSArray *columns = [oneLine componentsSeparatedByString:@"\t"];
-		if ([columns count] == [column_names count])
-		{
-			NSLog(oneLine);
-			
-			NSUInteger appID = [self getIDforApp:[columns objectAtIndex:6] vendor_identifier:[columns objectAtIndex:2] apple_identifier:[[columns objectAtIndex:19] intValue] company_name:[columns objectAtIndex:5]];
-			
-			[self insertReportLineForAppID:appID from_date:[columns objectAtIndex:11] to_date:[columns objectAtIndex:12] type_id:[[columns objectAtIndex:8] intValue] units:[[columns objectAtIndex:9] intValue]
-							 royalty_price:[[columns objectAtIndex:10] doubleValue] royalty_currency:[columns objectAtIndex:15] customer_price:[[columns objectAtIndex:20] doubleValue] customer_currency:[columns objectAtIndex:13] country_code:[columns objectAtIndex:14] report_id:report_id];
-			
-		}	
-	}
-	
-} */
-
 // pass in a HTML <select>, returns the options as NSArray 
 - (NSArray *) optionsFromSelect:(NSString *)string
 {
@@ -1349,14 +1306,11 @@ static sqlite3_stmt *reportid_statement = nil;
 	}
 	sqlite3_stmt *statement = nil;
 	
-	// necessary to get ONLY valid Birne countries
-	const char *sql = "SELECT iso3 from country where app_store_id is not null";
-	//const char *sql = "SELECT distinct iso3 from sale, country where country_code = country.iso2";
-	//const char *sql = "SELECT iso3 from country";
+	// we load all countries, because the country icon is only loaded if it is usedInReport
+	const char *sql = "SELECT iso3 from country";
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) 
 	{
 		NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-
 	}
 
 	while (sqlite3_step(statement) == SQLITE_ROW) 
@@ -1369,8 +1323,6 @@ static sqlite3_stmt *reportid_statement = nil;
 	
 	// Finalize the statement, no reuse.
 	sqlite3_finalize(statement);
-	
-
 }
 
 - (NSArray *) salesCurrencies

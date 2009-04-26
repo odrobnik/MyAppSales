@@ -328,6 +328,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		NSString *customer_currency = [NSString stringWithUTF8String:(char *)sqlite3_column_text(hydrate_statement, 7)];
 
 		Country *country = [itts.countries objectForKey:cntry_code];
+		country.usedInReport = YES; // makes sure we have an icon
 		
 		if (!country)
 		{

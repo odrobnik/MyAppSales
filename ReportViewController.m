@@ -161,18 +161,6 @@
     }
     
     // Set up the cell...
-	
-	/*
-	//ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-	// section = report_type_id
-	//NSMutableArray *tmpArray = [[appDelegate.itts reportsByType] objectAtIndex:indexPath.section];
-	
-	NSSortDescriptor *dateDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"fromDate" ascending:NO] autorelease];
-	NSArray *sortDescriptors = [NSArray arrayWithObject:dateDescriptor];
-	NSArray *sortedArray = [tmpArray sortedArrayUsingDescriptors:sortDescriptors];
-	
-	Report *tmpReport = [sortedArray objectAtIndex:indexPath.row];
-	*/
 	Report *tmpReport = [report_array objectAtIndex:indexPath.row];
 	
 	cell.text = [tmpReport listDescription];
