@@ -427,6 +427,23 @@
 			A7EDD3CA0FA4EABA0079FE78 /* PBXTextBookmark */ = A7EDD3CA0FA4EABA0079FE78 /* PBXTextBookmark */;
 			A7EDD3CB0FA4EABA0079FE78 /* PBXTextBookmark */ = A7EDD3CB0FA4EABA0079FE78 /* PBXTextBookmark */;
 			A7EDD3CC0FA4EABA0079FE78 /* PBXTextBookmark */ = A7EDD3CC0FA4EABA0079FE78 /* PBXTextBookmark */;
+			A7EDD3E00FA4EBC60079FE78 /* PBXTextBookmark */ = A7EDD3E00FA4EBC60079FE78 /* PBXTextBookmark */;
+			A7EDD3E50FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3E50FA4EBE20079FE78 /* PBXTextBookmark */;
+			A7EDD3E60FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3E60FA4EBE20079FE78 /* PBXTextBookmark */;
+			A7EDD3E70FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3E70FA4EBE20079FE78 /* PBXTextBookmark */;
+			A7EDD3E80FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3E80FA4EBE20079FE78 /* PBXTextBookmark */;
+			A7EDD3E90FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3E90FA4EBE20079FE78 /* PBXTextBookmark */;
+			A7EDD3EA0FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3EA0FA4EBE20079FE78 /* PBXTextBookmark */;
+			A7EDD3EB0FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3EB0FA4EBE20079FE78 /* PBXTextBookmark */;
+			A7EDD3EC0FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3EC0FA4EBE20079FE78 /* PBXTextBookmark */;
+			A7EDD3ED0FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3ED0FA4EBE20079FE78 /* PBXTextBookmark */;
+			A7EDD3EE0FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3EE0FA4EBE20079FE78 /* PBXTextBookmark */;
+			A7EDD3EF0FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3EF0FA4EBE20079FE78 /* PBXTextBookmark */;
+			A7EDD3F00FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3F00FA4EBE20079FE78 /* PBXTextBookmark */;
+			A7EDD3F10FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3F10FA4EBE20079FE78 /* PBXTextBookmark */;
+			A7EDD3F20FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3F20FA4EBE20079FE78 /* PBXTextBookmark */;
+			A7EDD3F30FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3F30FA4EBE20079FE78 /* PBXTextBookmark */;
+			A7EDD3F40FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3F40FA4EBE20079FE78 /* PBXTextBookmark */;
 		};
 		sourceControlManager = A78E2B3C0EFA1E9E002EB6D9 /* Source Control */;
 		userBuildSettings = {
@@ -745,9 +762,9 @@
 	};
 	A7061AC70F3712A300F605C1 /* ReportAppsController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1350, 5922}}";
+			sepNavIntBoundsRect = "{{0, 0}, {900, 6244}}";
 			sepNavSelRange = "{712, 0}";
-			sepNavVisRange = "{519, 713}";
+			sepNavVisRange = "{519, 647}";
 			sepNavWindowFrame = "{{269, 53}, {1027, 810}}";
 		};
 	};
@@ -3270,36 +3287,36 @@
 	};
 	A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1296, 23338}}";
-			sepNavSelRange = "{208, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {1296, 23184}}";
+			sepNavSelRange = "{191, 0}";
 			sepNavVisRange = "{0, 883}";
 		};
 	};
 	A7EDD37F0FA4E8C40079FE78 /* GenericReportController.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {781, 392}}";
-			sepNavSelRange = "{0, 0}";
+			sepNavSelRange = "{316, 0}";
 			sepNavVisRange = "{0, 414}";
 		};
 	};
 	A7EDD3800FA4E8C40079FE78 /* GenericReportController.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {918, 6524}}";
-			sepNavSelRange = "{3967, 0}";
+			sepNavSelRange = "{1017, 0}";
 			sepNavVisRange = "{731, 630}";
 		};
 	};
 	A7EDD3810FA4E8C40079FE78 /* ReportCell.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {781, 392}}";
-			sepNavSelRange = "{643, 0}";
+			sepNavSelRange = "{331, 0}";
 			sepNavVisRange = "{0, 658}";
 		};
 	};
 	A7EDD3820FA4E8C40079FE78 /* ReportCell.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {781, 1792}}";
-			sepNavSelRange = "{0, 0}";
+			sepNavSelRange = "{384, 0}";
 			sepNavVisRange = "{0, 819}";
 		};
 	};
@@ -3625,6 +3642,183 @@
 		rLoc = 208;
 		rType = 0;
 		vrLen = 883;
+		vrLoc = 0;
+	};
+	A7EDD3D70FA4EB890079FE78 /* NSDataCompression.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {781, 1218}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 687}";
+		};
+	};
+	A7EDD3E00FA4EBC60079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
+		name = "BirneConnect.m: 11";
+		rLen = 0;
+		rLoc = 191;
+		rType = 0;
+		vrLen = 883;
+		vrLoc = 0;
+	};
+	A7EDD3E50FA4EBE20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
+		name = "BirneConnect.m: 11";
+		rLen = 0;
+		rLoc = 208;
+		rType = 0;
+		vrLen = 930;
+		vrLoc = 0;
+	};
+	A7EDD3E60FA4EBE20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3D70FA4EB890079FE78 /* NSDataCompression.m */;
+		name = "NSDataCompression.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 687;
+		vrLoc = 0;
+	};
+	A7EDD3E70FA4EBE20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
+		name = "ReportAppsController.m: 32";
+		rLen = 0;
+		rLoc = 712;
+		rType = 0;
+		vrLen = 647;
+		vrLoc = 519;
+	};
+	A7EDD3E80FA4EBE20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD37F0FA4E8C40079FE78 /* GenericReportController.h */;
+		name = "GenericReportController.h: 17";
+		rLen = 0;
+		rLoc = 316;
+		rType = 0;
+		vrLen = 414;
+		vrLoc = 0;
+	};
+	A7EDD3E90FA4EBE20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3800FA4E8C40079FE78 /* GenericReportController.m */;
+		name = "GenericReportController.m: 49";
+		rLen = 0;
+		rLoc = 1017;
+		rType = 0;
+		vrLen = 630;
+		vrLoc = 731;
+	};
+	A7EDD3EA0FA4EBE20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3810FA4E8C40079FE78 /* ReportCell.h */;
+		name = "ReportCell.h: 16";
+		rLen = 0;
+		rLoc = 331;
+		rType = 0;
+		vrLen = 658;
+		vrLoc = 0;
+	};
+	A7EDD3EB0FA4EBE20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3820FA4E8C40079FE78 /* ReportCell.m */;
+		name = "ReportCell.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 819;
+		vrLoc = 0;
+	};
+	A7EDD3EC0FA4EBE20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
+		name = "BirneConnect.m: 11";
+		rLen = 0;
+		rLoc = 208;
+		rType = 0;
+		vrLen = 930;
+		vrLoc = 0;
+	};
+	A7EDD3ED0FA4EBE20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3D70FA4EB890079FE78 /* NSDataCompression.m */;
+		name = "NSDataCompression.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 687;
+		vrLoc = 0;
+	};
+	A7EDD3EE0FA4EBE20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3810FA4E8C40079FE78 /* ReportCell.h */;
+		name = "ReportCell.h: 25";
+		rLen = 0;
+		rLoc = 643;
+		rType = 0;
+		vrLen = 658;
+		vrLoc = 0;
+	};
+	A7EDD3EF0FA4EBE20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3820FA4E8C40079FE78 /* ReportCell.m */;
+		name = "ReportCell.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 819;
+		vrLoc = 0;
+	};
+	A7EDD3F00FA4EBE20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
+		name = "ReportAppsController.m: 32";
+		rLen = 0;
+		rLoc = 712;
+		rType = 0;
+		vrLen = 647;
+		vrLoc = 519;
+	};
+	A7EDD3F10FA4EBE20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD37F0FA4E8C40079FE78 /* GenericReportController.h */;
+		name = "GenericReportController.h: 17";
+		rLen = 0;
+		rLoc = 316;
+		rType = 0;
+		vrLen = 414;
+		vrLoc = 0;
+	};
+	A7EDD3F20FA4EBE20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3800FA4E8C40079FE78 /* GenericReportController.m */;
+		name = "GenericReportController.m: 49";
+		rLen = 0;
+		rLoc = 1017;
+		rType = 0;
+		vrLen = 630;
+		vrLoc = 731;
+	};
+	A7EDD3F30FA4EBE20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3810FA4E8C40079FE78 /* ReportCell.h */;
+		name = "ReportCell.h: 16";
+		rLen = 0;
+		rLoc = 331;
+		rType = 0;
+		vrLen = 658;
+		vrLoc = 0;
+	};
+	A7EDD3F40FA4EBE20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3820FA4E8C40079FE78 /* ReportCell.m */;
+		name = "ReportCell.m: 17";
+		rLen = 0;
+		rLoc = 384;
+		rType = 0;
+		vrLen = 819;
 		vrLoc = 0;
 	};
 }
