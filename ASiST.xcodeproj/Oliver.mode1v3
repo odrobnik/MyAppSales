@@ -228,6 +228,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -269,21 +271,21 @@
 								<string>080E96DDFE201D6D7F000001</string>
 								<string>A74A71D40EFB0651003B5191</string>
 								<string>A79272500F2D95F9009AF9B2</string>
+								<string>29B97317FDCFA39411CA2CEA</string>
 								<string>19C28FACFE9D520D11CA2CBB</string>
 								<string>1C37FBAC04509CD000000102</string>
 								<string>1C37FAAC04509CD000000102</string>
 								<string>1C37FABC05509CD000000102</string>
+								<string>E2644B35053B69B200211256</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>34</integer>
-									<integer>4</integer>
-									<integer>0</integer>
+									<integer>83</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 430}, {253, 580}}</string>
+							<string>{{0, 0}, {253, 580}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -304,7 +306,7 @@
 							<real>231</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>693 239 1117 639 0 0 1440 878 </string>
+						<string>99 194 1117 639 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -315,8 +317,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -334,7 +334,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>A7EDD2EF0FA4E2250079FE78</string>
+										<string>A7EDD33B0FA4E57C0079FE78</string>
 										<key>history</key>
 										<array>
 											<string>A74A75640EFD99DC003B5191</string>
@@ -448,7 +448,7 @@
 											<string>A716A1130F72718F00476192</string>
 											<string>A716A1140F72718F00476192</string>
 											<string>A716A1150F72718F00476192</string>
-											<string>A716A11A0F72718F00476192</string>
+											<string>A7EDD3200FA4E4100079FE78</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -572,7 +572,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {842, 424}}</string>
 								<key>RubberWindowFrame</key>
-								<string>693 239 1117 639 0 0 1440 878 </string>
+								<string>99 194 1117 639 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -592,7 +592,7 @@
 								<key>Frame</key>
 								<string>{{0, 429}, {842, 169}}</string>
 								<key>RubberWindowFrame</key>
-								<string>693 239 1117 639 0 0 1440 878 </string>
+								<string>99 194 1117 639 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -616,9 +616,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>A7EDD2F00FA4E2250079FE78</string>
+				<string>A7EDD33C0FA4E57C0079FE78</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>A7EDD2F10FA4E2250079FE78</string>
+				<string>A7EDD33D0FA4E57C0079FE78</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -755,7 +755,7 @@
 		<string>/Users/Oliver/Documents/iphone/Projects/ASiST/trunk/ASiST.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>693 239 1117 639 0 0 1440 878 </string>
+	<string>99 194 1117 639 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -793,6 +793,8 @@
 							<string>343pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -832,7 +834,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>A78E2B7C0EFA2263002EB6D9</string>
-				<string>A7A67A810F6D2A44008E474D</string>
+				<string>A7EDD3050FA4E2D60079FE78</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -843,7 +845,7 @@
 			<key>WindowToolGUID</key>
 			<string>A78E2B7C0EFA2263002EB6D9</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
