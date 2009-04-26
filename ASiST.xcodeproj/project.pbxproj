@@ -264,7 +264,6 @@
 		A7EDD38C0FA4E8C40079FE78 /* Country.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EDD3840FA4E8C40079FE78 /* Country.m */; };
 		A7EDD38D0FA4E8C40079FE78 /* Report.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EDD3860FA4E8C40079FE78 /* Report.m */; };
 		A7EDD38E0FA4E8C40079FE78 /* ReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */; };
-		A7EDD3D80FA4EB890079FE78 /* NSDataCompression.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EDD3D70FA4EB890079FE78 /* NSDataCompression.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -576,8 +575,6 @@
 		A7EDD3860FA4E8C40079FE78 /* Report.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Report.m; path = Classes/Report.m; sourceTree = "<group>"; };
 		A7EDD3870FA4E8C40079FE78 /* ReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportViewController.h; sourceTree = "<group>"; };
 		A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportViewController.m; sourceTree = "<group>"; };
-		A7EDD3D60FA4EB890079FE78 /* NSDataCompression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataCompression.h; sourceTree = "<group>"; };
-		A7EDD3D70FA4EB890079FE78 /* NSDataCompression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataCompression.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -933,8 +930,6 @@
 		A79272500F2D95F9009AF9B2 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				A7EDD3D60FA4EB890079FE78 /* NSDataCompression.h */,
-				A7EDD3D70FA4EB890079FE78 /* NSDataCompression.m */,
 				A7B8DD010F1F8E1B00DC09E1 /* KeychainWrapper.h */,
 				A7B8DD020F1F8E1B00DC09E1 /* KeychainWrapper.m */,
 				A7745B350F06F0B30009DD76 /* ImageResizing.h */,
@@ -1347,7 +1342,6 @@
 				A7EDD38C0FA4E8C40079FE78 /* Country.m in Sources */,
 				A7EDD38D0FA4E8C40079FE78 /* Report.m in Sources */,
 				A7EDD38E0FA4E8C40079FE78 /* ReportViewController.m in Sources */,
-				A7EDD3D80FA4EB890079FE78 /* NSDataCompression.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

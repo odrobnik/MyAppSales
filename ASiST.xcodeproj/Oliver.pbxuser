@@ -3315,7 +3315,7 @@
 	};
 	A7EDD3820FA4E8C40079FE78 /* ReportCell.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {781, 1792}}";
+			sepNavIntBoundsRect = "{{0, 0}, {781, 1806}}";
 			sepNavSelRange = "{384, 0}";
 			sepNavVisRange = "{0, 819}";
 		};
@@ -3645,6 +3645,12 @@
 		vrLoc = 0;
 	};
 	A7EDD3D70FA4EB890079FE78 /* NSDataCompression.m */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.objc;
+		name = NSDataCompression.m;
+		path = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/Classes/NSDataCompression.m;
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {781, 1218}}";
 			sepNavSelRange = "{0, 0}";
