@@ -259,6 +259,10 @@
 		A7B8DD200F1F901100DC09E1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7B8DD1F0F1F901100DC09E1 /* Security.framework */; };
 		A7B8DDE10F1FC88100DC09E1 /* TableListView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DDE00F1FC88100DC09E1 /* TableListView.m */; };
 		A7BB984C0F3C13B0008AC1B4 /* Currencies.plist in Resources */ = {isa = PBXBuildFile; fileRef = A7BB984B0F3C13B0008AC1B4 /* Currencies.plist */; };
+		A7EDD2FE0FA4E2C50079FE78 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD2FA0FA4E2C50079FE78 /* SettingsViewController.xib */; };
+		A7EDD2FF0FA4E2C50079FE78 /* ReportRootController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD2FB0FA4E2C50079FE78 /* ReportRootController.xib */; };
+		A7EDD3000FA4E2C50079FE78 /* ChartRootController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD2FC0FA4E2C50079FE78 /* ChartRootController.xib */; };
+		A7EDD3010FA4E2C50079FE78 /* AppViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD2FD0FA4E2C50079FE78 /* AppViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -565,6 +569,10 @@
 		A7B8DDDF0F1FC88100DC09E1 /* TableListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableListView.h; sourceTree = "<group>"; };
 		A7B8DDE00F1FC88100DC09E1 /* TableListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableListView.m; sourceTree = "<group>"; };
 		A7BB984B0F3C13B0008AC1B4 /* Currencies.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Currencies.plist; sourceTree = "<group>"; };
+		A7EDD2FA0FA4E2C50079FE78 /* SettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
+		A7EDD2FB0FA4E2C50079FE78 /* ReportRootController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportRootController.xib; sourceTree = "<group>"; };
+		A7EDD2FC0FA4E2C50079FE78 /* ChartRootController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChartRootController.xib; sourceTree = "<group>"; };
+		A7EDD2FD0FA4E2C50079FE78 /* AppViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -668,6 +676,10 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A7EDD2FA0FA4E2C50079FE78 /* SettingsViewController.xib */,
+				A7EDD2FB0FA4E2C50079FE78 /* ReportRootController.xib */,
+				A7EDD2FC0FA4E2C50079FE78 /* ChartRootController.xib */,
+				A7EDD2FD0FA4E2C50079FE78 /* AppViewController.xib */,
 				2899E55F0DE3E45000AC0155 /* RootViewController.xib */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -1264,6 +1276,10 @@
 				A72B83C80F40D49400297684 /* Graphique_bw.png in Resources */,
 				A72B84900F40F27000297684 /* Default.png in Resources */,
 				A736BF360F4100B300126FD3 /* NIO.png in Resources */,
+				A7EDD2FE0FA4E2C50079FE78 /* SettingsViewController.xib in Resources */,
+				A7EDD2FF0FA4E2C50079FE78 /* ReportRootController.xib in Resources */,
+				A7EDD3000FA4E2C50079FE78 /* ChartRootController.xib in Resources */,
+				A7EDD3010FA4E2C50079FE78 /* AppViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
