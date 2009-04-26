@@ -33,7 +33,7 @@
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeBuildConfigurationName = Release;
 		activeExecutable = A78E2B300EFA1E8C002EB6D9 /* MyAppSales */;
-		activeSDKPreference = iphoneos2.2.1;
+		activeSDKPreference = iphonesimulator2.2.1;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* MyAppSales */;
 		addToTargets = (
 			1D6058900D05DD3D006BFB54 /* MyAppSales */,
@@ -448,6 +448,15 @@
 			A7EDD4010FA4ECFF0079FE78 /* PBXTextBookmark */ = A7EDD4010FA4ECFF0079FE78 /* PBXTextBookmark */;
 			A7EDD40C0FA4EDC90079FE78 /* PBXTextBookmark */ = A7EDD40C0FA4EDC90079FE78 /* PBXTextBookmark */;
 			A7EDD4150FA4EE8B0079FE78 /* PBXTextBookmark */ = A7EDD4150FA4EE8B0079FE78 /* PBXTextBookmark */;
+			A7EDD4300FA4F1B20079FE78 /* PBXTextBookmark */ = A7EDD4300FA4F1B20079FE78 /* PBXTextBookmark */;
+			A7EDD4310FA4F1B20079FE78 /* PBXTextBookmark */ = A7EDD4310FA4F1B20079FE78 /* PBXTextBookmark */;
+			A7EDD4320FA4F1B20079FE78 /* PBXTextBookmark */ = A7EDD4320FA4F1B20079FE78 /* PBXTextBookmark */;
+			A7EDD4340FA4F1B20079FE78 /* PlistBookmark */ = A7EDD4340FA4F1B20079FE78 /* PlistBookmark */;
+			A7EDD4350FA4F1B20079FE78 /* PBXTextBookmark */ = A7EDD4350FA4F1B20079FE78 /* PBXTextBookmark */;
+			A7EDD4360FA4F1B20079FE78 /* PlistBookmark */ = A7EDD4360FA4F1B20079FE78 /* PlistBookmark */;
+			A7EDD4370FA4F1B20079FE78 /* PBXTextBookmark */ = A7EDD4370FA4F1B20079FE78 /* PBXTextBookmark */;
+			A7EDD4380FA4F1B20079FE78 /* PBXTextBookmark */ = A7EDD4380FA4F1B20079FE78 /* PBXTextBookmark */;
+			A7EDD43A0FA4F1B20079FE78 /* PlistBookmark */ = A7EDD43A0FA4F1B20079FE78 /* PlistBookmark */;
 		};
 		sourceControlManager = A78E2B3C0EFA1E9E002EB6D9 /* Source Control */;
 		userBuildSettings = {
@@ -2734,6 +2743,11 @@
 		name = Oliver.pbxuser;
 		path = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/ASiST.xcodeproj/Oliver.pbxuser;
 		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {781, 54670}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 799}";
+		};
 	};
 	A7AB0A290F310DE200085D99 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -3870,5 +3884,114 @@
 		rType = 0;
 		vrLen = 786;
 		vrLoc = 0;
+	};
+	A7EDD4300FA4F1B20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3820FA4E8C40079FE78 /* ReportCell.m */;
+		name = "ReportCell.m: 17";
+		rLen = 0;
+		rLoc = 384;
+		rType = 0;
+		vrLen = 819;
+		vrLoc = 0;
+	};
+	A7EDD4310FA4F1B20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7AB04EC0F3062C600085D99 /* Oliver.pbxuser */;
+		name = "Oliver.pbxuser: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 799;
+		vrLoc = 0;
+	};
+	A7EDD4320FA4F1B20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD4330FA4F1B20079FE78 /* project.pbxproj */;
+		name = "project.pbxproj: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 2869;
+		vrLoc = 0;
+	};
+	A7EDD4330FA4F1B20079FE78 /* project.pbxproj */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.pbxproject;
+		name = project.pbxproj;
+		path = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/ASiST.xcodeproj/project.pbxproj;
+		sourceTree = "<absolute>";
+	};
+	A7EDD4340FA4F1B20079FE78 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleInfoDictionaryVersion,
+		);
+		name = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A7EDD4350FA4F1B20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3820FA4E8C40079FE78 /* ReportCell.m */;
+		name = "ReportCell.m: 17";
+		rLen = 0;
+		rLoc = 384;
+		rType = 0;
+		vrLen = 819;
+		vrLoc = 0;
+	};
+	A7EDD4360FA4F1B20079FE78 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleIconFile,
+		);
+		name = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A7EDD4370FA4F1B20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7AB04EC0F3062C600085D99 /* Oliver.pbxuser */;
+		name = "Oliver.pbxuser: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 799;
+		vrLoc = 0;
+	};
+	A7EDD4380FA4F1B20079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD4390FA4F1B20079FE78 /* project.pbxproj */;
+		name = "project.pbxproj: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 2869;
+		vrLoc = 0;
+	};
+	A7EDD4390FA4F1B20079FE78 /* project.pbxproj */ = {
+		isa = PBXFileReference;
+		name = project.pbxproj;
+		path = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/ASiST.xcodeproj/project.pbxproj;
+		sourceTree = "<absolute>";
+	};
+	A7EDD43A0FA4F1B20079FE78 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleInfoDictionaryVersion,
+		);
+		name = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
 	};
 }
