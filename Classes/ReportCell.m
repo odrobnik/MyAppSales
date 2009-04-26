@@ -11,7 +11,7 @@
 
 @implementation ReportCell
 
-@synthesize unitsSoldLabel, royaltyEarnedLabel, unitsUpdatedLabel, unitsRefundedLabel, backgroundLabel;
+@synthesize unitsSoldLabel, royaltyEarnedLabel, unitsUpdatedLabel, unitsRefundedLabel, countryCodeLabel;
 
 #define LEFT_COLUMN_OFFSET 45.0
 #define MAIN_FONT_SIZE 15.0
@@ -64,6 +64,17 @@
 		unitsRefundedLabel.font = [UIFont systemFontOfSize:MAIN_FONT_SIZE];
 		unitsRefundedLabel.textAlignment = UITextAlignmentCenter;
 		[self.contentView addSubview:unitsRefundedLabel];
+
+		// create label views to contain the various pieces of text that make up the cell.
+		// Add these as subviews.
+		countryCodeLabel = [[UILabel alloc] initWithFrame:CGRectZero];	// layoutSubViews will decide the final frame
+		countryCodeLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
+		countryCodeLabel.font = [UIFont systemFontOfSize:8.0];
+		countryCodeLabel.backgroundColor = [UIColor clearColor];
+		countryCodeLabel.textAlignment = UITextAlignmentCenter;
+		[self.contentView addSubview:countryCodeLabel];
+		
+		
 		
 	}
 	
@@ -92,9 +103,12 @@
 	frame.origin.x += frame.size.width;
 	frame.size.width = 45.0;
 	unitsUpdatedLabel.frame = frame;
-
-
 	
+	frame.origin.x = 9.0;
+	frame.origin.y = 35;
+	frame.size.width = 30.0;
+	frame.size.height = 15.0;
+	countryCodeLabel.frame = frame;
 }
 
 - (void)dealloc

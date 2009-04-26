@@ -239,6 +239,7 @@
 		else
 		{
 			cell.image = sumImage;
+			cell.countryCodeLabel.text = @"";
 			
 			cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", report.sumUnitsSold];
 			cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", report.sumUnitsUpdated];
@@ -270,6 +271,7 @@
 	{ // summary
 		
 		cell.image = sumImage;
+		cell.countryCodeLabel.text = @"";
 		cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForAppId:app_id transactionType:TransactionTypeSale]];
 		cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForAppId:app_id transactionType:TransactionTypeFreeUpdate]];
 		NSInteger refunds = [report  sumRefundsForAppId:app_id];
@@ -318,6 +320,8 @@
 	NSArray *dictKeys = [thisDict keysSortedByValueUsingSelector:@selector(compareBySales:)];  // all countries
 	CountrySummary *tmpSummary = [thisDict objectForKey:[dictKeys objectAtIndex:indexPath.row-2]];
 	cell.image = tmpSummary.country.iconImage;
+	cell.countryCodeLabel.text = tmpSummary.country.iso3;
+
 	
 	if (tmpSummary.sumSales>0)
 	{
@@ -359,6 +363,10 @@
 	{
 		cell.unitsRefundedLabel.text = @"";
 	}
+	
+	
+	
+	
 
     return cell;
 }

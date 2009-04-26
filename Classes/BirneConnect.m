@@ -8,7 +8,7 @@
 
 #import "BirneConnect.h"
 #import "YahooFinance.h"
-#import "NSDataCompression.h"
+#import "DDData.h"
 #import "ASiSTAppDelegate.h"
 
 #import "App.h"

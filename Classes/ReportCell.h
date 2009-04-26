@@ -14,7 +14,7 @@
 	UILabel	*royaltyEarnedLabel;
 	UILabel	*unitsUpdatedLabel;
 	UILabel	*unitsRefundedLabel;
-	UILabel *backgroundLabel;
+	UILabel *countryCodeLabel;
 
 }
 
@@ -22,6 +22,6 @@
 @property (nonatomic, retain) UILabel *royaltyEarnedLabel;
 @property (nonatomic, retain) UILabel *unitsUpdatedLabel;
 @property (nonatomic, retain) UILabel *unitsRefundedLabel;
-@property (nonatomic, retain) UILabel *backgroundLabel;
+@property (nonatomic, retain) UILabel *countryCodeLabel;
 
 @end
