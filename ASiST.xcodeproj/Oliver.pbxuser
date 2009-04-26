@@ -31,9 +31,9 @@
 		};
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
-		activeBuildConfigurationName = Distribution;
+		activeBuildConfigurationName = Release;
 		activeExecutable = A78E2B300EFA1E8C002EB6D9 /* MyAppSales */;
-		activeSDKPreference = iphonesimulator2.2.1;
+		activeSDKPreference = iphoneos2.2.1;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* MyAppSales */;
 		addToTargets = (
 			1D6058900D05DD3D006BFB54 /* MyAppSales */,
@@ -444,6 +444,10 @@
 			A7EDD3F20FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3F20FA4EBE20079FE78 /* PBXTextBookmark */;
 			A7EDD3F30FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3F30FA4EBE20079FE78 /* PBXTextBookmark */;
 			A7EDD3F40FA4EBE20079FE78 /* PBXTextBookmark */ = A7EDD3F40FA4EBE20079FE78 /* PBXTextBookmark */;
+			A7EDD3F80FA4EC6F0079FE78 /* PBXTextBookmark */ = A7EDD3F80FA4EC6F0079FE78 /* PBXTextBookmark */;
+			A7EDD4010FA4ECFF0079FE78 /* PBXTextBookmark */ = A7EDD4010FA4ECFF0079FE78 /* PBXTextBookmark */;
+			A7EDD40C0FA4EDC90079FE78 /* PBXTextBookmark */ = A7EDD40C0FA4EDC90079FE78 /* PBXTextBookmark */;
+			A7EDD4150FA4EE8B0079FE78 /* PBXTextBookmark */ = A7EDD4150FA4EE8B0079FE78 /* PBXTextBookmark */;
 		};
 		sourceControlManager = A78E2B3C0EFA1E9E002EB6D9 /* Source Control */;
 		userBuildSettings = {
@@ -3287,9 +3291,9 @@
 	};
 	A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1296, 23184}}";
+			sepNavIntBoundsRect = "{{0, 0}, {968, 23240}}";
 			sepNavSelRange = "{191, 0}";
-			sepNavVisRange = "{0, 883}";
+			sepNavVisRange = "{0, 786}";
 		};
 	};
 	A7EDD37F0FA4E8C40079FE78 /* GenericReportController.h */ = {
@@ -3315,7 +3319,7 @@
 	};
 	A7EDD3820FA4E8C40079FE78 /* ReportCell.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {781, 1806}}";
+			sepNavIntBoundsRect = "{{0, 0}, {781, 1792}}";
 			sepNavSelRange = "{384, 0}";
 			sepNavVisRange = "{0, 819}";
 		};
@@ -3825,6 +3829,46 @@
 		rLoc = 384;
 		rType = 0;
 		vrLen = 819;
+		vrLoc = 0;
+	};
+	A7EDD3F80FA4EC6F0079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
+		name = "BirneConnect.m: 11";
+		rLen = 0;
+		rLoc = 191;
+		rType = 0;
+		vrLen = 883;
+		vrLoc = 0;
+	};
+	A7EDD4010FA4ECFF0079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
+		name = "BirneConnect.m: 11";
+		rLen = 0;
+		rLoc = 191;
+		rType = 0;
+		vrLen = 883;
+		vrLoc = 0;
+	};
+	A7EDD40C0FA4EDC90079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
+		name = "BirneConnect.m: 11";
+		rLen = 0;
+		rLoc = 191;
+		rType = 0;
+		vrLen = 883;
+		vrLoc = 0;
+	};
+	A7EDD4150FA4EE8B0079FE78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
+		name = "BirneConnect.m: 11";
+		rLen = 0;
+		rLoc = 191;
+		rType = 0;
+		vrLen = 786;
 		vrLoc = 0;
 	};
 }
