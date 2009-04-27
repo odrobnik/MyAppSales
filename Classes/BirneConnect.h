@@ -65,9 +65,8 @@ typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, R
 	// counters for new tags on tab icons
 	int newApps;
 	int newReports;
-	int newDailyReports;
-	int newWeeklyReports;
-	
+
+	NSMutableDictionary *newReportsByType;
 	BOOL syncing;
 	
 	NSDate *lastSuccessfulLoginTime;
@@ -113,7 +112,7 @@ typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, R
 @property (nonatomic, readonly) sqlite3 *database;
 @property (nonatomic, retain) YahooFinance *myYahoo;
 
-@property (nonatomic, retain) 	NSMutableArray *dataToImport;
+@property (nonatomic, retain) NSMutableArray *dataToImport;
 
 
 
@@ -150,6 +149,8 @@ typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, R
 - (NSString *) createZipFromReportsOfType:(ReportType)type;
 
 - (void) newReportRead:(Report *)report;
+
+- (NSUInteger) numberOfNewReportsOfType:(NSUInteger)reportType;
 
 
 @end

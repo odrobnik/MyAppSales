@@ -39,6 +39,7 @@ static sqlite3_stmt *reportid_statement = nil;
 {
 	newApps = 0;
 	newReports = 0;
+	newReportsByType = [[NSMutableDictionary alloc] init];
 	syncing = NO;
 	dataToImport = nil;
 
@@ -940,9 +941,23 @@ static sqlite3_stmt *reportid_statement = nil;
 	
 	NSDictionary *tmpDict = [NSDictionary dictionaryWithObjects:values forKeys:keys];
 
-	//[self calcAvgRoyaltiesForApps]; we have no sales yet!!!
-
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"NewReportAdded" object:nil userInfo:tmpDict];
+	
+	
+	// local number of daily/weekly new Reports tracking
+	NSNumber *typeKey = [NSNumber numberWithInt:report.reportType];
+	NSNumber *theNum = [newReportsByType objectForKey:typeKey];
+	if (!theNum)
+	{
+		theNum = [NSNumber numberWithInt:1];
+		[newReportsByType setObject:theNum forKey:typeKey];
+	}
+	else
+	{
+		NSNumber *newNum = [NSNumber numberWithInt:[theNum intValue]+1];
+		[newReportsByType setObject:newNum forKey:typeKey];
+	}
+	
 }
 
 - (NSIndexPath *) indexforReport:(Report *)report
@@ -1616,6 +1631,9 @@ static sqlite3_stmt *reportid_statement = nil;
 	}
 }
 
+
+
+#pragma mark Notifications and Counters
 - (void) newReportRead:(Report *)report;
 {
 	if (!report.isNew)
@@ -1623,6 +1641,16 @@ static sqlite3_stmt *reportid_statement = nil;
 		return;
 	}
 	
+	// new code for local tracking of number of daily/weekly
+	NSNumber *typeKey = [NSNumber numberWithInt:report.reportType];
+	NSNumber *theNum = [newReportsByType objectForKey:typeKey];
+	if (theNum)
+	{
+		NSNumber *newNum = [NSNumber numberWithInt:[theNum intValue]-1];
+		[newReportsByType setObject:newNum forKey:typeKey];
+	}
+	
+	// old code for notification
 	report.isNew = NO;
 	newReports--;
 	
@@ -1635,6 +1663,12 @@ static sqlite3_stmt *reportid_statement = nil;
 	// refresh Badges
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"NewReportRead" object:nil userInfo:tmpDict];
 
+}
+
+- (NSUInteger) numberOfNewReportsOfType:(NSUInteger)reportType
+{
+	NSNumber *typeKey = [NSNumber numberWithInt:reportType];
+	return [[newReportsByType objectForKey:typeKey] intValue];
 }
 
 @end

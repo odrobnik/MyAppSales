@@ -596,36 +596,17 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				A7248AC60F1BEEEA003DADDD /* Tableview Cells */,
 				A7006B400F3B09EB009BB6A5 /* ZIP Support */,
 				A74A71D40EFB0651003B5191 /* Database */,
 				A79272500F2D95F9009AF9B2 /* Helpers */,
-				A7248AC60F1BEEEA003DADDD /* Tableview Cells */,
-				A7745A610F06E5C00009DD76 /* ImageManipulator.h */,
-				A7745A620F06E5C10009DD76 /* ImageManipulator.m */,
-				28C286DF0D94DF7D0034E888 /* RootViewController.h */,
-				28C286E00D94DF7D0034E888 /* RootViewController.m */,
-				A7EDD3870FA4E8C40079FE78 /* ReportViewController.h */,
-				A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */,
-				1D3623240D0F684500981E51 /* ASiSTAppDelegate.h */,
+				A707A33F0FA61305004060D9 /* View Controllers */,
 				1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */,
-				A79D81F40EFEA913006C37FC /* AppViewController.h */,
-				A79D81F50EFEA913006C37FC /* AppViewController.m */,
-				A7061AC60F3712A300F605C1 /* ReportAppsController.h */,
-				A7061AC70F3712A300F605C1 /* ReportAppsController.m */,
-				A7EDD37F0FA4E8C40079FE78 /* GenericReportController.h */,
-				A7EDD3800FA4E8C40079FE78 /* GenericReportController.m */,
-				A7325B9E0F21C9920053AEB1 /* ReportRootController.h */,
-				A7325B9F0F21C9920053AEB1 /* ReportRootController.m */,
+				1D3623240D0F684500981E51 /* ASiSTAppDelegate.h */,
 				A70D5A7A0F17A66700A6FE9B /* YahooFinance.h */,
 				A70D5A7B0F17A66700A6FE9B /* YahooFinance.m */,
-				A7B8D92C0F1E56A100DC09E1 /* SettingsViewController.h */,
-				A7B8D92D0F1E56A100DC09E1 /* SettingsViewController.m */,
 				A7B8DDDF0F1FC88100DC09E1 /* TableListView.h */,
 				A7B8DDE00F1FC88100DC09E1 /* TableListView.m */,
-				A780D1330F25D1A100C796FB /* ChartRootController.h */,
-				A780D1340F25D1A100C796FB /* ChartRootController.m */,
-				A780D16E0F25D2D400C796FB /* ChartViewController.h */,
-				A780D16F0F25D2D400C796FB /* ChartViewController.m */,
 				A780D1710F25D2F600C796FB /* ChartView.h */,
 				A780D1720F25D2F600C796FB /* ChartView.m */,
 				A780D7660F278EF900C796FB /* AxisView.h */,
@@ -732,6 +713,31 @@
 				A7006B510F3B0A0C009BB6A5 /* zip.h */,
 			);
 			path = minizip;
+			sourceTree = "<group>";
+		};
+		A707A33F0FA61305004060D9 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A79D81F40EFEA913006C37FC /* AppViewController.h */,
+				A79D81F50EFEA913006C37FC /* AppViewController.m */,
+				A7061AC60F3712A300F605C1 /* ReportAppsController.h */,
+				A7061AC70F3712A300F605C1 /* ReportAppsController.m */,
+				A7EDD37F0FA4E8C40079FE78 /* GenericReportController.h */,
+				A7EDD3800FA4E8C40079FE78 /* GenericReportController.m */,
+				A7325B9E0F21C9920053AEB1 /* ReportRootController.h */,
+				A7325B9F0F21C9920053AEB1 /* ReportRootController.m */,
+				28C286DF0D94DF7D0034E888 /* RootViewController.h */,
+				28C286E00D94DF7D0034E888 /* RootViewController.m */,
+				A7EDD3870FA4E8C40079FE78 /* ReportViewController.h */,
+				A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */,
+				A780D1330F25D1A100C796FB /* ChartRootController.h */,
+				A780D1340F25D1A100C796FB /* ChartRootController.m */,
+				A780D16E0F25D2D400C796FB /* ChartViewController.h */,
+				A780D16F0F25D2D400C796FB /* ChartViewController.m */,
+				A7B8D92C0F1E56A100DC09E1 /* SettingsViewController.h */,
+				A7B8D92D0F1E56A100DC09E1 /* SettingsViewController.m */,
+			);
+			name = "View Controllers";
 			sourceTree = "<group>";
 		};
 		A71C26EF0F20851900854ECB /* currencies */ = {
@@ -928,6 +934,8 @@
 		A79272500F2D95F9009AF9B2 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				A7745A610F06E5C00009DD76 /* ImageManipulator.h */,
+				A7745A620F06E5C10009DD76 /* ImageManipulator.m */,
 				A7B8DD010F1F8E1B00DC09E1 /* KeychainWrapper.h */,
 				A7B8DD020F1F8E1B00DC09E1 /* KeychainWrapper.m */,
 				A7745B350F06F0B30009DD76 /* ImageResizing.h */,

@@ -30,12 +30,20 @@
 	
 	report_icon = [UIImage imageNamed:@"Report_Icon.png"];
 	report_icon_new = [UIImage imageNamed:@"Report_Icon_New.png"];
-	
+
+	newReportsByType = [[NSMutableDictionary alloc] init];
+
+	// need to get starting values
+	ASiSTAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+	[newReportsByType setObject:[NSNumber numberWithInt:[appDelegate.itts numberOfNewReportsOfType:0]] forKey:[NSNumber numberWithInt:0]];
+    [newReportsByType setObject:[NSNumber numberWithInt:[appDelegate.itts numberOfNewReportsOfType:1]] forKey:[NSNumber numberWithInt:1]];
+
+	NSLog(@"loaded %@", newReportsByType);
+
+	// after loading we can get the badges updated via notifications
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportNotification:) name:@"NewReportAdded" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportRead:) name:@"NewReportRead" object:nil];
-
 	
-	newReportsByType = [[NSMutableDictionary alloc] init];
 }
 
 
