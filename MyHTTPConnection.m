@@ -111,6 +111,7 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 	[outdata appendString:@"<html><head>"];
 	[outdata appendFormat:@"<title>ASiST</title>", server.name];
     [outdata appendString:@"<style>html {background-color:#eeeeee} body { background-color:#FFFFFF; font-family:Tahoma,Arial,Helvetica,sans-serif; font-size:18x; margin-left:15%; margin-right:15%; border:3px groove #006600; padding:15px; } </style>"];
+	[outdata appendString:@"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>"];
     [outdata appendString:@"</head><body>"];
 	[outdata appendString:@"<img src=\"/app/ASiST.jpg\" style=\"float:right;\"/>"];
 	[outdata appendFormat:@"<h1>%@</h1>", title];
