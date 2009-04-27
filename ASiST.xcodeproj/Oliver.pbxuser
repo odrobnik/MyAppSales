@@ -33,6 +33,7 @@
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeBuildConfigurationName = Debug;
 		activeExecutable = A78E2B300EFA1E8C002EB6D9 /* MyAppSales */;
+		activeSDKPreference = iphonesimulator2.2.1;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* MyAppSales */;
 		addToTargets = (
 			1D6058900D05DD3D006BFB54 /* MyAppSales */,
@@ -77,7 +78,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					603,
+					506,
 					20,
 					48,
 					43,
@@ -206,6 +207,21 @@
 			A7061CB60F3890B300F605C1 = A7061CB60F3890B300F605C1 /* PBXTextBookmark */;
 			A7061D090F38999B00F605C1 = A7061D090F38999B00F605C1 /* PBXTextBookmark */;
 			A7061E1A0F38F18300F605C1 = A7061E1A0F38F18300F605C1 /* PBXTextBookmark */;
+			A707A2C60FA5BCD5004060D9 /* PBXTextBookmark */ = A707A2C60FA5BCD5004060D9 /* PBXTextBookmark */;
+			A707A2C70FA5BCD5004060D9 /* PBXBookmark */ = A707A2C70FA5BCD5004060D9 /* PBXBookmark */;
+			A707A2C80FA5BCD5004060D9 /* PBXBookmark */ = A707A2C80FA5BCD5004060D9 /* PBXBookmark */;
+			A707A2C90FA5BCD5004060D9 /* PBXBookmark */ = A707A2C90FA5BCD5004060D9 /* PBXBookmark */;
+			A707A2CA0FA5BCD5004060D9 /* PBXBookmark */ = A707A2CA0FA5BCD5004060D9 /* PBXBookmark */;
+			A707A2CB0FA5BCD5004060D9 /* PBXBookmark */ = A707A2CB0FA5BCD5004060D9 /* PBXBookmark */;
+			A707A2CC0FA5BCD5004060D9 /* PBXBookmark */ = A707A2CC0FA5BCD5004060D9 /* PBXBookmark */;
+			A707A2CD0FA5BCD5004060D9 /* PBXTextBookmark */ = A707A2CD0FA5BCD5004060D9 /* PBXTextBookmark */;
+			A707A2CE0FA5BCD5004060D9 /* PBXBookmark */ = A707A2CE0FA5BCD5004060D9 /* PBXBookmark */;
+			A707A2CF0FA5BCD5004060D9 /* PBXBookmark */ = A707A2CF0FA5BCD5004060D9 /* PBXBookmark */;
+			A707A2D00FA5BCD5004060D9 /* PBXBookmark */ = A707A2D00FA5BCD5004060D9 /* PBXBookmark */;
+			A707A2D10FA5BCD5004060D9 /* PBXBookmark */ = A707A2D10FA5BCD5004060D9 /* PBXBookmark */;
+			A707A2D20FA5BCD5004060D9 /* PBXBookmark */ = A707A2D20FA5BCD5004060D9 /* PBXBookmark */;
+			A707A2D30FA5BCD5004060D9 /* PBXBookmark */ = A707A2D30FA5BCD5004060D9 /* PBXBookmark */;
+			A707A2D40FA5BCD5004060D9 /* PBXBookmark */ = A707A2D40FA5BCD5004060D9 /* PBXBookmark */;
 			A707FD0E0F46D6EB00BF6DD2 = A707FD0E0F46D6EB00BF6DD2 /* PBXTextBookmark */;
 			A707FD0F0F46D6EB00BF6DD2 = A707FD0F0F46D6EB00BF6DD2 /* PBXTextBookmark */;
 			A707FD110F46D6EB00BF6DD2 = A707FD110F46D6EB00BF6DD2 /* PBXTextBookmark */;
@@ -860,6 +876,78 @@
 		vrLen = 827;
 		vrLoc = 150;
 	};
+	A707A2C60FA5BCD5004060D9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD4390FA4F1B20079FE78 /* project.pbxproj */;
+		name = "project.pbxproj: 1469";
+		rLen = 0;
+		rLoc = 122590;
+		rType = 0;
+		vrLen = 2895;
+		vrLoc = 0;
+	};
+	A707A2C70FA5BCD5004060D9 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = A707A2BB0FA5BBFA004060D9 /* apps_bw.png */;
+	};
+	A707A2C80FA5BCD5004060D9 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = A707A2BC0FA5BBFA004060D9 /* Graphique_bw.png */;
+	};
+	A707A2C90FA5BCD5004060D9 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = A707A2BD0FA5BBFA004060D9 /* Settings_bw.png */;
+	};
+	A707A2CA0FA5BCD5004060D9 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = A7325B250F21B77E0053AEB1 /* Graphique-32.png */;
+	};
+	A707A2CB0FA5BCD5004060D9 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = A74A750D0EFD6652003B5191 /* Empty.png */;
+	};
+	A707A2CC0FA5BCD5004060D9 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = A707A2BE0FA5BBFA004060D9 /* Report_bw.png */;
+	};
+	A707A2CD0FA5BCD5004060D9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD4390FA4F1B20079FE78 /* project.pbxproj */;
+		name = "project.pbxproj: 1469";
+		rLen = 0;
+		rLoc = 122590;
+		rType = 0;
+		vrLen = 2895;
+		vrLoc = 0;
+	};
+	A707A2CE0FA5BCD5004060D9 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = A707A2BB0FA5BBFA004060D9 /* apps_bw.png */;
+	};
+	A707A2CF0FA5BCD5004060D9 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = A707A2BC0FA5BBFA004060D9 /* Graphique_bw.png */;
+	};
+	A707A2D00FA5BCD5004060D9 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = A707A2BE0FA5BBFA004060D9 /* Report_bw.png */;
+	};
+	A707A2D10FA5BCD5004060D9 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = A707A2BD0FA5BBFA004060D9 /* Settings_bw.png */;
+	};
+	A707A2D20FA5BCD5004060D9 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = A7325B250F21B77E0053AEB1 /* Graphique-32.png */;
+	};
+	A707A2D30FA5BCD5004060D9 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = A74A750D0EFD6652003B5191 /* Empty.png */;
+	};
+	A707A2D40FA5BCD5004060D9 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = A707A2BE0FA5BBFA004060D9 /* Report_bw.png */;
+	};
 	A707FD0E0F46D6EB00BF6DD2 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = A7745DD00F08D73C0009DD76 /* localhostAdresses.m */;
@@ -1382,6 +1470,13 @@
 		path = /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator2.1.sdk/System/Library/Frameworks/ApplicationServices.framework/Headers/../Frameworks/CoreGraphics.framework/Headers/CGGeometry.h;
 		sourceTree = "<absolute>";
 	};
+	A72B83C10F40D49400297684 /* apps_bw.png */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = image.png;
+		name = apps_bw.png;
+		path = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/apps_bw.png;
+		sourceTree = "<absolute>";
+	};
 	A72B83E60F40DE5F00297684 /* PBXBookmark */ = {
 		isa = PBXBookmark;
 		fRef = A72482800F1A0BA3003DADDD /* Report_Icon_New.png */;
@@ -1431,6 +1526,13 @@
 	A72B84970F40F4E800297684 /* PBXBookmark */ = {
 		isa = PBXBookmark;
 		fRef = A72B848F0F40F27000297684 /* Default.png */;
+	};
+	A7325B220F21B6F80053AEB1 /* Settings_32.png */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = image.png;
+		name = Settings_32.png;
+		path = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/Settings_32.png;
+		sourceTree = "<absolute>";
 	};
 	A7325B9E0F21C9920053AEB1 /* ReportRootController.h */ = {
 		uiCtxt = {
@@ -3901,6 +4003,11 @@
 		name = project.pbxproj;
 		path = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/ASiST.xcodeproj/project.pbxproj;
 		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1008, 20328}}";
+			sepNavSelRange = "{122590, 0}";
+			sepNavVisRange = "{0, 2895}";
+		};
 	};
 	A7EDD43A0FA4F1B20079FE78 /* PlistBookmark */ = {
 		isa = PlistBookmark;

@@ -65,6 +65,9 @@ typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, R
 	// counters for new tags on tab icons
 	int newApps;
 	int newReports;
+	int newDailyReports;
+	int newWeeklyReports;
+	
 	BOOL syncing;
 	
 	NSDate *lastSuccessfulLoginTime;
