@@ -85,7 +85,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					506,
+					665,
 					20,
 					48,
 					43,
@@ -136,7 +136,7 @@
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
 					20,
-					579,
+					641,
 					20,
 					48,
 					43,
@@ -316,6 +316,17 @@
 			A707A38C0FA61838004060D9 /* PBXTextBookmark */ = A707A38C0FA61838004060D9 /* PBXTextBookmark */;
 			A707A38F0FA61899004060D9 /* PBXTextBookmark */ = A707A38F0FA61899004060D9 /* PBXTextBookmark */;
 			A707A3930FA619E7004060D9 /* PBXTextBookmark */ = A707A3930FA619E7004060D9 /* PBXTextBookmark */;
+			A707A39D0FA620CC004060D9 /* PBXTextBookmark */ = A707A39D0FA620CC004060D9 /* PBXTextBookmark */;
+			A707A39E0FA620CC004060D9 /* PBXTextBookmark */ = A707A39E0FA620CC004060D9 /* PBXTextBookmark */;
+			A707A39F0FA620CC004060D9 /* PBXTextBookmark */ = A707A39F0FA620CC004060D9 /* PBXTextBookmark */;
+			A707A3A00FA620CC004060D9 /* PBXTextBookmark */ = A707A3A00FA620CC004060D9 /* PBXTextBookmark */;
+			A707A3A10FA620CC004060D9 /* PBXTextBookmark */ = A707A3A10FA620CC004060D9 /* PBXTextBookmark */;
+			A707A3A20FA620CC004060D9 /* PBXTextBookmark */ = A707A3A20FA620CC004060D9 /* PBXTextBookmark */;
+			A707A3A30FA620CC004060D9 /* PBXTextBookmark */ = A707A3A30FA620CC004060D9 /* PBXTextBookmark */;
+			A707A3A40FA620CC004060D9 /* PBXTextBookmark */ = A707A3A40FA620CC004060D9 /* PBXTextBookmark */;
+			A707A3A50FA620CC004060D9 /* PBXTextBookmark */ = A707A3A50FA620CC004060D9 /* PBXTextBookmark */;
+			A707A3A60FA620CC004060D9 /* PBXTextBookmark */ = A707A3A60FA620CC004060D9 /* PBXTextBookmark */;
+			A707A3A70FA620CC004060D9 /* PBXTextBookmark */ = A707A3A70FA620CC004060D9 /* PBXTextBookmark */;
 			A707FD0E0F46D6EB00BF6DD2 = A707FD0E0F46D6EB00BF6DD2 /* PBXTextBookmark */;
 			A716A1130F72718F00476192 = A716A1130F72718F00476192 /* PBXTextBookmark */;
 			A71C2AAC0F20AAF500854ECB = A71C2AAC0F20AAF500854ECB /* PBXTextBookmark */;
@@ -1746,6 +1757,116 @@
 		vrLen = 374;
 		vrLoc = 1218;
 	};
+	A707A39D0FA620CC004060D9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7325B9F0F21C9920053AEB1 /* ReportRootController.m */;
+		name = "ReportRootController.m: 44";
+		rLen = 135;
+		rLoc = 1326;
+		rType = 0;
+		vrLen = 1171;
+		vrLoc = 652;
+	};
+	A707A39E0FA620CC004060D9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7B8D9720F1E587F00DC09E1 /* EditableCell.m */;
+		name = "EditableCell.m: 95";
+		rLen = 86;
+		rLoc = 3249;
+		rType = 0;
+		vrLen = 905;
+		vrLoc = 2937;
+	};
+	A707A39F0FA620CC004060D9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
+		name = "BirneConnect.m: 1663";
+		rLen = 0;
+		rLoc = 57061;
+		rType = 0;
+		vrLen = 863;
+		vrLoc = 56390;
+	};
+	A707A3A00FA620CC004060D9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7745DD10F08D73C0009DD76 /* MyHTTPConnection.h */;
+		name = "MyHTTPConnection.h: 20";
+		rLen = 0;
+		rLoc = 418;
+		rType = 0;
+		vrLen = 461;
+		vrLoc = 0;
+	};
+	A707A3A10FA620CC004060D9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7745DD20F08D73C0009DD76 /* MyHTTPConnection.m */;
+		name = "MyHTTPConnection.m: 74";
+		rLen = 51;
+		rLoc = 2886;
+		rType = 0;
+		vrLen = 1036;
+		vrLoc = 2430;
+	};
+	A707A3A20FA620CC004060D9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7325B9F0F21C9920053AEB1 /* ReportRootController.m */;
+		name = "ReportRootController.m: 44";
+		rLen = 135;
+		rLoc = 1326;
+		rType = 0;
+		vrLen = 1171;
+		vrLoc = 652;
+	};
+	A707A3A30FA620CC004060D9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7B8D9720F1E587F00DC09E1 /* EditableCell.m */;
+		name = "EditableCell.m: 95";
+		rLen = 86;
+		rLoc = 3249;
+		rType = 0;
+		vrLen = 905;
+		vrLoc = 2937;
+	};
+	A707A3A40FA620CC004060D9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
+		name = "BirneConnect.m: 1663";
+		rLen = 0;
+		rLoc = 57061;
+		rType = 0;
+		vrLen = 863;
+		vrLoc = 56390;
+	};
+	A707A3A50FA620CC004060D9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7745DD20F08D73C0009DD76 /* MyHTTPConnection.m */;
+		name = "MyHTTPConnection.m: 74";
+		rLen = 51;
+		rLoc = 2886;
+		rType = 0;
+		vrLen = 1036;
+		vrLoc = 2430;
+	};
+	A707A3A60FA620CC004060D9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7745DD10F08D73C0009DD76 /* MyHTTPConnection.h */;
+		name = "MyHTTPConnection.h: 20";
+		rLen = 0;
+		rLoc = 418;
+		rType = 0;
+		vrLen = 461;
+		vrLoc = 0;
+	};
+	A707A3A70FA620CC004060D9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7745DD20F08D73C0009DD76 /* MyHTTPConnection.m */;
+		name = "MyHTTPConnection.m: 114";
+		rLen = 0;
+		rLoc = 4504;
+		rType = 0;
+		vrLen = 2254;
+		vrLoc = 3934;
+	};
 	A707FD0E0F46D6EB00BF6DD2 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = A7745DD00F08D73C0009DD76 /* localhostAdresses.m */;
@@ -2093,7 +2214,7 @@
 		fRef = A7745DD20F08D73C0009DD76 /* MyHTTPConnection.m */;
 		name = "MyHTTPConnection.m: 165";
 		rLen = 0;
-		rLoc = 7571;
+		rLoc = 7672;
 		rType = 0;
 		vrLen = 953;
 		vrLoc = 7090;
@@ -2474,7 +2595,7 @@
 		fRef = A7745DD20F08D73C0009DD76 /* MyHTTPConnection.m */;
 		name = "MyHTTPConnection.m: 116";
 		rLen = 0;
-		rLoc = 4567;
+		rLoc = 4668;
 		rType = 0;
 		vrLen = 1957;
 		vrLoc = 3835;
@@ -2708,17 +2829,29 @@
 		};
 	};
 	A7745DCD0F08D73C0009DD76 /* iPhoneHTTPServerAppDelegate.h */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = iPhoneHTTPServerAppDelegate.h;
+		path = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/iPhoneHTTPServerAppDelegate.h;
+		sourceTree = "<absolute>";
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {781, 392}}";
+			sepNavIntBoundsRect = "{{0, 0}, {684, 392}}";
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRange = "{0, 457}";
 		};
 	};
 	A7745DCE0F08D73C0009DD76 /* iPhoneHTTPServerAppDelegate.m */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.objc;
+		name = iPhoneHTTPServerAppDelegate.m;
+		path = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/iPhoneHTTPServerAppDelegate.m;
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {876, 1078}}";
 			sepNavSelRange = "{945, 761}";
-			sepNavVisRange = "{310, 894}";
+			sepNavVisRange = "{244, 922}";
 			sepNavWindowFrame = "{{525, 184}, {1070, 694}}";
 		};
 	};
@@ -2738,16 +2871,16 @@
 	};
 	A7745DD10F08D73C0009DD76 /* MyHTTPConnection.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1197, 405}}";
-			sepNavSelRange = "{453, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {684, 392}}";
+			sepNavSelRange = "{418, 0}";
 			sepNavVisRange = "{0, 461}";
 		};
 	};
 	A7745DD20F08D73C0009DD76 /* MyHTTPConnection.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {2076, 6706}}";
-			sepNavSelRange = "{4567, 0}";
-			sepNavVisRange = "{3835, 1957}";
+			sepNavIntBoundsRect = "{{0, 0}, {2076, 6454}}";
+			sepNavSelRange = "{4504, 0}";
+			sepNavVisRange = "{3934, 2254}";
 			sepNavWindowFrame = "{{258, 92}, {1591, 694}}";
 		};
 	};
@@ -3704,9 +3837,9 @@
 	};
 	A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1548, 23828}}";
-			sepNavSelRange = "{57205, 0}";
-			sepNavVisRange = "{56602, 777}";
+			sepNavIntBoundsRect = "{{0, 0}, {768, 23996}}";
+			sepNavSelRange = "{57061, 0}";
+			sepNavVisRange = "{56390, 863}";
 		};
 	};
 	A7EDD37F0FA4E8C40079FE78 /* GenericReportController.h */ = {

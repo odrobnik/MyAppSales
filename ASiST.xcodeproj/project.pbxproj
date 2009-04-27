@@ -166,7 +166,6 @@
 		A7745D950F08D49C0009DD76 /* HTTPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = A7745D8C0F08D49C0009DD76 /* HTTPResponse.m */; };
 		A7745D960F08D49C0009DD76 /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = A7745D8E0F08D49C0009DD76 /* HTTPServer.m */; };
 		A7745DC70F08D6740009DD76 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7745DC60F08D6740009DD76 /* CFNetwork.framework */; };
-		A7745DD30F08D73C0009DD76 /* iPhoneHTTPServerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A7745DCE0F08D73C0009DD76 /* iPhoneHTTPServerAppDelegate.m */; };
 		A7745DD40F08D73C0009DD76 /* localhostAdresses.m in Sources */ = {isa = PBXBuildFile; fileRef = A7745DD00F08D73C0009DD76 /* localhostAdresses.m */; };
 		A7745DD50F08D73C0009DD76 /* MyHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A7745DD20F08D73C0009DD76 /* MyHTTPConnection.m */; };
 		A780D1350F25D1A100C796FB /* ChartRootController.m in Sources */ = {isa = PBXBuildFile; fileRef = A780D1340F25D1A100C796FB /* ChartRootController.m */; };
@@ -452,8 +451,6 @@
 		A7745D8D0F08D49C0009DD76 /* HTTPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPServer.h; sourceTree = "<group>"; };
 		A7745D8E0F08D49C0009DD76 /* HTTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPServer.m; sourceTree = "<group>"; };
 		A7745DC60F08D6740009DD76 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		A7745DCD0F08D73C0009DD76 /* iPhoneHTTPServerAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhoneHTTPServerAppDelegate.h; sourceTree = "<group>"; };
-		A7745DCE0F08D73C0009DD76 /* iPhoneHTTPServerAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPhoneHTTPServerAppDelegate.m; sourceTree = "<group>"; };
 		A7745DCF0F08D73C0009DD76 /* localhostAdresses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = localhostAdresses.h; sourceTree = "<group>"; };
 		A7745DD00F08D73C0009DD76 /* localhostAdresses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = localhostAdresses.m; sourceTree = "<group>"; };
 		A7745DD10F08D73C0009DD76 /* MyHTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyHTTPConnection.h; sourceTree = "<group>"; };
@@ -905,8 +902,6 @@
 		A7745D7E0F08D4600009DD76 /* HTTP Server */ = {
 			isa = PBXGroup;
 			children = (
-				A7745DCD0F08D73C0009DD76 /* iPhoneHTTPServerAppDelegate.h */,
-				A7745DCE0F08D73C0009DD76 /* iPhoneHTTPServerAppDelegate.m */,
 				A7745DCF0F08D73C0009DD76 /* localhostAdresses.h */,
 				A7745DD00F08D73C0009DD76 /* localhostAdresses.m */,
 				A7745DD10F08D73C0009DD76 /* MyHTTPConnection.h */,
@@ -1314,7 +1309,6 @@
 				A7745D940F08D49C0009DD76 /* HTTPConnection.m in Sources */,
 				A7745D950F08D49C0009DD76 /* HTTPResponse.m in Sources */,
 				A7745D960F08D49C0009DD76 /* HTTPServer.m in Sources */,
-				A7745DD30F08D73C0009DD76 /* iPhoneHTTPServerAppDelegate.m in Sources */,
 				A7745DD40F08D73C0009DD76 /* localhostAdresses.m in Sources */,
 				A7745DD50F08D73C0009DD76 /* MyHTTPConnection.m in Sources */,
 				A7ACC8370F10F342004EEA7A /* CountrySummary.m in Sources */,
