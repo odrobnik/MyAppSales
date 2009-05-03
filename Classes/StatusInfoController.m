@@ -75,7 +75,7 @@
 - (void)statusMessage:(NSNotification *) notification
 {
 	NSString *msg = (NSString *)[notification userInfo];
-	NSLog(@"statusMessage: %@", msg);
+	//NSLog(@"statusMessage: %@", msg);
 
 	// in any case we cancel the timeout if it is running
 	

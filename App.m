@@ -173,9 +173,9 @@ static sqlite3_stmt *update_statement = nil;
 	receivedData = nil;
 	
  	
-    NSLog(@"Connection failed! Error - %@ %@",
-          [error localizedDescription],
-          [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
+   // NSLog(@"Connection failed! Error - %@ %@",
+   //       [error localizedDescription],
+   //       [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
 	
 	/*	if (myDelegate && [myDelegate respondsToSelector:@selector(sendingDone:)]) {
 	 (void) [myDelegate performSelector:@selector(sendingDone:) 
@@ -221,7 +221,7 @@ static sqlite3_stmt *update_statement = nil;
 		{
 			NSRange httpRange = [sourceSt rangeOfString:@"http://" options:NSBackwardsSearch range:NSMakeRange(0, range.location)];
 			NSString *imgURL = [sourceSt substringWithRange:NSMakeRange(httpRange.location, range.location - httpRange.location + range.length)];
-			NSLog(@"Got Icon URL: %@", imgURL);
+			//NSLog(@"Got Icon URL: %@", imgURL);
 		
 		
 			[receivedData setLength:0];

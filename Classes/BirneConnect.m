@@ -90,7 +90,7 @@ static sqlite3_stmt *reportid_statement = nil;
 {
 	if (syncing)
 	{
-		NSLog(@"Already syncing");
+		//NSLog(@"Already syncing");
 		return;
 	}
 	
@@ -223,9 +223,9 @@ static sqlite3_stmt *reportid_statement = nil;
 	[self setStatus:nil];
 	syncing = NO;
 
-    NSLog(@"Connection failed! Error - %@ %@",
-          [error localizedDescription],
-          [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
+  //  NSLog(@"Connection failed! Error - %@ %@",
+  //        [error localizedDescription],
+  //        [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
 	
 	/*	if (myDelegate && [myDelegate respondsToSelector:@selector(sendingDone:)]) {
 	 (void) [myDelegate performSelector:@selector(sendingDone:) 
@@ -257,7 +257,6 @@ static sqlite3_stmt *reportid_statement = nil;
 				if (quoteRange.length)
 				{
 					URL = [@"https://itts.apple.com" stringByAppendingString:[sourceSt substringWithRange:NSMakeRange(formRange.location+formRange.length, quoteRange.location-formRange.location-formRange.length)]];
-					NSLog(@"URL%@", URL);
 					loginStep = 1;
 					[receivedData setLength:0];
 					theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
@@ -300,7 +299,6 @@ static sqlite3_stmt *reportid_statement = nil;
 				{
 					self.lastSuccessfulLoginTime = [NSDate date];
 					URL = [@"https://itts.apple.com" stringByAppendingString:[sourceSt substringWithRange:NSMakeRange(formRange.location+formRange.length, quoteRange.location-formRange.location-formRange.length)]];
-					NSLog(@"URL%@", URL);
 
 					loginStep = 2;
 					
@@ -362,7 +360,6 @@ static sqlite3_stmt *reportid_statement = nil;
 				if (quoteRange.length==1)
 				{
 					URL = [@"https://itts.apple.com" stringByAppendingString:[sourceSt substringWithRange:NSMakeRange(formRange.location+formRange.length, quoteRange.location-formRange.location-formRange.length)]];
-					NSLog(@"URL%@", URL);
 
 					
 					loginStep = 3;
@@ -493,8 +490,6 @@ static sqlite3_stmt *reportid_statement = nil;
 		{
 			loginStep = 6;
 					NSRange selectRange = [sourceSt rangeOfString:@"<select Id=\"dayorweekdropdown\""];
-					//NSLog(sourceSt);
-			
 					
 					weekOptions = nil;
 					if (selectRange.location!=NSNotFound)
@@ -555,7 +550,7 @@ static sqlite3_stmt *reportid_statement = nil;
 		NSString *formDate = [[dayOptions objectAtIndex:dayOptionsIdx] stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
 		if ([self reportIDForDate:[dayOptions objectAtIndex:dayOptionsIdx] type:ReportTypeDay])
 		{
-			NSLog(@"Already downloaded day %@", [dayOptions objectAtIndex:dayOptionsIdx]);
+			//NSLog(@"Already downloaded day %@", [dayOptions objectAtIndex:dayOptionsIdx]);
 			dayOptionsIdx++;
 			return [self requestDailyReport];
 		}
@@ -585,7 +580,7 @@ static sqlite3_stmt *reportid_statement = nil;
 	}
 	else
 	{
-		NSLog(@"no more days");
+		//NSLog(@"no more days");
 		[self refreshIndexes];   // because at this point we have all reports
 
 
@@ -646,7 +641,7 @@ static sqlite3_stmt *reportid_statement = nil;
 		NSString *formDate = [[weekOptions objectAtIndex:weekOptionsIdx] stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
 		if ([self reportIDForDate:[weekOptions objectAtIndex:weekOptionsIdx] type:ReportTypeWeek])
 		{
-			NSLog(@"Already downloaded week %@", [weekOptions objectAtIndex:weekOptionsIdx]);
+			//NSLog(@"Already downloaded week %@", [weekOptions objectAtIndex:weekOptionsIdx]);
 			weekOptionsIdx++;
 			return [self requestWeeklyReport];
 		}
@@ -668,7 +663,7 @@ static sqlite3_stmt *reportid_statement = nil;
 		[theRequest setHTTPBody:postBody];
 		
 		theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
-		NSLog(@"Step 4 - Request report for week %@", formDate);
+		//NSLog(@"Step 4 - Request report for week %@", formDate);
 		[self setStatus:[NSString stringWithFormat:@"Loading Week Report for %@", [weekOptions objectAtIndex:weekOptionsIdx]]];
 		weekOptionsIdx++;
 		
@@ -676,7 +671,7 @@ static sqlite3_stmt *reportid_statement = nil;
 	}
 	else
 	{
-		NSLog(@"no more weeks");
+		//NSLog(@"no more weeks");
 		[self refreshIndexes];   // because at this point we have all reports
 		
 		[self toggleNetworkIndicator:NO];
@@ -994,7 +989,7 @@ static sqlite3_stmt *reportid_statement = nil;
 
 	if ([self reportIDForDate:until_date type:type])
 	{
-		NSLog(@"Report for until_date %@ type %d already in DB", from_date, type);
+		//NSLog(@"Report for until_date %@ type %d already in DB", from_date, type);
 		return 0;
 	}
 	
@@ -1108,7 +1103,7 @@ static sqlite3_stmt *reportid_statement = nil;
 				
 				if (!report_id)
 				{
-					NSLog(@"Could not get a new report_id, probably already in DB");
+					//NSLog(@"Could not get a new report_id, probably already in DB");
 					return;
 				}
 			}
@@ -1181,7 +1176,7 @@ static sqlite3_stmt *reportid_statement = nil;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:@"apps.db"];
-	NSLog(@"DB: %@", writableDBPath);
+	//NSLog(@"DB: %@", writableDBPath);
     success = [fileManager fileExistsAtPath:writableDBPath];
     if (success) return;
     // The writable database does not exist, so copy the default to the appropriate location.
@@ -1463,7 +1458,6 @@ static sqlite3_stmt *reportid_statement = nil;
 
 - (void) setStatus:(NSString *)message
 {
-	NSLog(message);
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"StatusMessage" object:nil userInfo:(id)message];
 }
 
@@ -1533,7 +1527,7 @@ static sqlite3_stmt *reportid_statement = nil;
 	{
 		if ([[aString lowercaseString] hasSuffix:@".txt"])
 		{
-			NSLog(@"Found report %@", aString);
+			//NSLog(@"Found report %@", aString);
 			NSString *pathOfFile = [documentsDirectory stringByAppendingPathComponent:aString];
 			
 			NSString *string = [NSString stringWithContentsOfFile:pathOfFile];
@@ -1544,7 +1538,7 @@ static sqlite3_stmt *reportid_statement = nil;
 		}
 		else if ([[aString lowercaseString] hasSuffix:@".zip"])
 		{
-			NSLog(@"Found report archive %@", aString);
+			//NSLog(@"Found report archive %@", aString);
 			NSString *pathOfFile = [documentsDirectory stringByAppendingPathComponent:aString];
 			//NSString *unzipDir = [documentsDirectory stringByAppendingPathComponent:@"unzipped"];
 			

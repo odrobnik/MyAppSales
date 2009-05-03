@@ -72,27 +72,6 @@
 		zipInfo.tmz_date.tm_hour = [components hour];
 	}
 	
-
-	/*
-	NSDictionary* attr = [[NSFileManager defaultManager] fileAttributesAtPath:file traverseLink:YES];
-	if( attr )
-	{
-		NSDate* fileDate = (NSDate*)[attr objectForKey:NSFileModificationDate];
-		if( fileDate )
-		{
-			zipInfo.dosDate = [fileDate timeIntervalSinceDate:[self Date1980] ];
-		}
-	}
-	 */
-
-	if (fileDate)
-	{
-	//	zipInfo.dosDate = [fileDate timeIntervalSinceDate:[self Date1980] ];
-	}
-	
-	NSLog(@"%@ - %@", newname, fileDate);
-
-	
 	int ret = zipOpenNewFileInZip( _zipFile,
 								  (const char*) [newname UTF8String],
 								  &zipInfo,
@@ -105,7 +84,7 @@
 	{
 		return NO;
 	}
-	//NSData* data = [ NSData dataWithContentsOfFile:file];
+
 	unsigned int dataLen = [data length];
 	ret = zipWriteInFileInZip( _zipFile, (const void*)[data bytes], dataLen);
 	if( ret!=Z_OK )
@@ -182,7 +161,7 @@
 		unz_global_info  globalInfo = {0};
 		if( unzGetGlobalInfo(_unzFile, &globalInfo )==UNZ_OK )
 		{
-			NSLog([NSString stringWithFormat:@"%d entries in the zip file",globalInfo.number_entry] );
+			//NSLog([NSString stringWithFormat:@"%d entries in the zip file",globalInfo.number_entry] );
 		}
 	}
 	return _unzFile!=NULL;
@@ -281,7 +260,7 @@
 					if( ![[NSFileManager defaultManager] setAttributes:attr ofItemAtPath:fullPath error:nil] )
 					{
 						// cann't set attributes 
-						NSLog(@"Failed to set attributes");
+						//NSLog(@"Failed to set attributes");
 					}
 					
 				}

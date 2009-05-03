@@ -245,7 +245,7 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 	
 	if (postContentLength > 0)		//process POST data
 	{
-		NSLog(@"processing post data: %i", postContentLength);
+		//NSLog(@"processing post data: %i", postContentLength);
 		
 		NSString* postInfo = [[NSString alloc] initWithBytes:[[multipartData objectAtIndex:1] bytes] length:[[multipartData objectAtIndex:1] length] encoding:NSUTF8StringEncoding];
 		NSArray* postInfoComponents = [postInfo componentsSeparatedByString:@"; filename="];
@@ -262,7 +262,6 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 			int count = 2;	//number of times the separator shows up at the end of file data
 			
 			NSFileHandle* dataToTrim = [multipartData lastObject];
-			NSLog(@"data: %@", dataToTrim);
 			
 			for (unsigned long long i = [dataToTrim offsetInFile] - l; i > 0; i--)
 			{
@@ -275,13 +274,13 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 				}
 			}
 			
-			NSLog(@"NewFileUploaded");
+			//NSLog(@"NewFileUploaded");
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"NewFileUploaded" object:nil];
 		}
 		
-		for (int n = 1; n < [multipartData count] - 1; n++)
+	/*	for (int n = 1; n < [multipartData count] - 1; n++)
 			NSLog(@"%@", [[NSString alloc] initWithBytes:[[multipartData objectAtIndex:n] bytes] length:[[multipartData objectAtIndex:n] length] encoding:NSUTF8StringEncoding]);
-		
+	*/	
 		[postInfo release];
 		[multipartData release];
 		postContentLength = 0;
@@ -299,8 +298,6 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 		if ([path hasPrefix:@"/report"])
 		{
 			NSURL *url = [NSURL URLWithString:path];
-			NSLog([url query]);
-			NSLog([url parameterString]);
 			
 			NSUInteger report_id=0;
 			ReportType report_type=ReportTypeDay;
@@ -374,7 +371,6 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 		else if ([path hasPrefix:@"/export"])
 		{
 			NSDictionary *paramDict = [self dictFromUrlParams:path];
-			NSLog([paramDict description]);
 			NSString *type = [paramDict objectForKey:@"type"];
 			
 			

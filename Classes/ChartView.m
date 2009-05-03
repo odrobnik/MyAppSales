@@ -27,7 +27,7 @@
 {
     if (self = [super initWithFrame:CGRectZero]) 
 	{
-		NSLog(@"start chart init");
+	//	NSLog(@"start chart init");
         // Initialization code
 		self.myData = dict;
 	/*	
@@ -75,7 +75,7 @@
 		// find max
     }
 	
-	NSLog(@"End chart init");
+	//NSLog(@"End chart init");
     return self;
 }
 

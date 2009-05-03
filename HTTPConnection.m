@@ -957,7 +957,7 @@ static NSMutableArray *recentNonces;
 	// If you simply want to add a few extra header fields, see the preprocessErrorResponse: method.
 	// You can also use preprocessErrorResponse: to add an optional HTML body.
 	
-	NSLog(@"HTTP Server: Error 505 - Version Not Supported: %@", version);
+	//NSLog(@"HTTP Server: Error 505 - Version Not Supported: %@", version);
 	
 	CFHTTPMessageRef response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 505, NULL, kCFHTTPVersion1_1);
 	CFHTTPMessageSetHeaderFieldValue(response, CFSTR("Content-Length"), CFSTR("0"));
@@ -977,7 +977,7 @@ static NSMutableArray *recentNonces;
 	// If you simply want to add a few extra header fields, see the preprocessErrorResponse: method.
 	// You can also use preprocessErrorResponse: to add an optional HTML body.
 	
-	NSLog(@"HTTP Server: Error 401 - Unauthorized");
+	//NSLog(@"HTTP Server: Error 401 - Unauthorized");
 		
 	// Status Code 401 - Unauthorized
 	CFHTTPMessageRef response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 401, NULL, kCFHTTPVersion1_1);
@@ -1009,7 +1009,7 @@ static NSMutableArray *recentNonces;
 	// If you simply want to add a few extra header fields, see the preprocessErrorResponse: method.
 	// You can also use preprocessErrorResponse: to add an optional HTML body.
 	
-	NSLog(@"HTTP Server: Error 400 - Bad Request");
+	//NSLog(@"HTTP Server: Error 400 - Bad Request");
 	
 	// Status Code 400 - Bad Request
 	CFHTTPMessageRef response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 400, NULL, kCFHTTPVersion1_1);
@@ -1030,7 +1030,7 @@ static NSMutableArray *recentNonces;
 	// If you simply want to add a few extra header fields, see the preprocessErrorResponse: method.
 	// You can also use preprocessErrorResponse: to add an optional HTML body.
 	
-	NSLog(@"HTTP Server: Error 405 - Method Not Allowed: %@", method);
+	//NSLog(@"HTTP Server: Error 405 - Method Not Allowed: %@", method);
 	
 	// Status code 405 - Method Not Allowed
     CFHTTPMessageRef response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 405, NULL, kCFHTTPVersion1_1);
@@ -1052,7 +1052,7 @@ static NSMutableArray *recentNonces;
 	// If you simply want to add a few extra header fields, see the preprocessErrorResponse: method.
 	// You can also use preprocessErrorResponse: to add an optional HTML body.
 	
-	NSLog(@"HTTP Server: Error 404 - Not Found");
+	//NSLog(@"HTTP Server: Error 404 - Not Found");
 	
 	// Status Code 404 - Not Found
 	CFHTTPMessageRef response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 404, NULL, kCFHTTPVersion1_1);
@@ -1139,7 +1139,7 @@ static NSMutableArray *recentNonces;
 		
 		if([certificates count] > 0)
 		{
-			NSLog(@"Securing connection...");
+			//NSLog(@"Securing connection...");
 			
 			// All connections are assumed to be secure. Only secure connections are allowed on this server.
 			NSMutableDictionary *settings = [NSMutableDictionary dictionaryWithCapacity:3];

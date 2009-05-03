@@ -1044,7 +1044,7 @@ Failed:;
 	if (theReadStream == NULL || theWriteStream == NULL)
 	{
 		NSError *err = [self getStreamError];
-		NSLog (@"AsyncSocket %p couldn't create streams from accepted socket: %@", self, err);
+		//NSLog (@"AsyncSocket %p couldn't create streams from accepted socket: %@", self, err);
 		if (errPtr) *errPtr = err;
 		return NO;
 	}
@@ -1090,8 +1090,8 @@ Failed:;
 	{
 		NSError *err = [self getStreamError];
 		
-		NSLog (@"AsyncSocket %p couldn't attach read stream to run-loop,", self);
-		NSLog (@"Error: %@", err);
+		//NSLog (@"AsyncSocket %p couldn't attach read stream to run-loop,", self);
+		//NSLog (@"Error: %@", err);
 		
 		if (errPtr) *errPtr = err;
 		return NO;
@@ -1106,8 +1106,8 @@ Failed:;
 	{
 		NSError *err = [self getStreamError];
 		
-		NSLog (@"AsyncSocket %p couldn't attach write stream to run-loop,", self);
-		NSLog (@"Error: %@", err);
+		//NSLog (@"AsyncSocket %p couldn't attach write stream to run-loop,", self);
+		//NSLog (@"Error: %@", err);
 		
 		if (errPtr) *errPtr = err;
 		return NO;
@@ -1142,13 +1142,13 @@ Failed:;
 	
 	if(pass && !CFReadStreamOpen (theReadStream))
 	{
-		NSLog (@"AsyncSocket %p couldn't open read stream,", self);
+		//NSLog (@"AsyncSocket %p couldn't open read stream,", self);
 		pass = NO;
 	}
 	
 	if(pass && !CFWriteStreamOpen (theWriteStream))
 	{
-		NSLog (@"AsyncSocket %p couldn't open write stream,", self);
+		//NSLog (@"AsyncSocket %p couldn't open write stream,", self);
 		pass = NO;
 	}
 	
@@ -1172,7 +1172,7 @@ Failed:;
 		// Get the socket.
 		if (![self setSocketFromStreamsAndReturnError: &err])
 		{
-			NSLog (@"AsyncSocket %p couldn't get socket from streams, %@. Disconnecting.", self, err);
+			//NSLog (@"AsyncSocket %p couldn't get socket from streams, %@. Disconnecting.", self, err);
 			[self closeWithError:err];
 			return;
 		}
@@ -2328,7 +2328,7 @@ Failed:;
 			[self doAcceptWithSocket: *((CFSocketNativeHandle *)pData)];
 			break;
 		default:
-			NSLog (@"AsyncSocket %p received unexpected CFSocketCallBackType %d.", self, type);
+			//NSLog (@"AsyncSocket %p received unexpected CFSocketCallBackType %d.", self, type);
 			break;
 	}
 }
@@ -2351,8 +2351,8 @@ Failed:;
 			err = CFReadStreamGetError (theReadStream);
 			[self closeWithError: [self errorFromCFStreamError:err]];
 			break;
-		default:
-			NSLog (@"AsyncSocket %p received unexpected CFReadStream callback, CFStreamEventType %d.", self, type);
+	/*	default:
+			NSLog (@"AsyncSocket %p received unexpected CFReadStream callback, CFStreamEventType %d.", self, type); */
 	}
 }
 
@@ -2374,8 +2374,8 @@ Failed:;
 			err = CFWriteStreamGetError (theWriteStream);
 			[self closeWithError: [self errorFromCFStreamError:err]];
 			break;
-		default:
-			NSLog (@"AsyncSocket %p received unexpected CFWriteStream callback, CFStreamEventType %d.", self, type);
+	/*	default:
+			NSLog (@"AsyncSocket %p received unexpected CFWriteStream callback, CFStreamEventType %d.", self, type); */
 	}
 }
 

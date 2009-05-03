@@ -38,7 +38,7 @@
 	[newReportsByType setObject:[NSNumber numberWithInt:[appDelegate.itts numberOfNewReportsOfType:0]] forKey:[NSNumber numberWithInt:0]];
     [newReportsByType setObject:[NSNumber numberWithInt:[appDelegate.itts numberOfNewReportsOfType:1]] forKey:[NSNumber numberWithInt:1]];
 
-	NSLog(@"loaded %@", newReportsByType);
+	//NSLog(@"loaded %@", newReportsByType);
 
 	// after loading we can get the badges updated via notifications
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportNotification:) name:@"NewReportAdded" object:nil];

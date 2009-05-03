@@ -330,12 +330,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		Country *country = [itts.countries objectForKey:cntry_code];
 		country.usedInReport = YES; // makes sure we have an icon
 		
-		if (!country)
-		{
-			NSLog(@"No country found for code %@", cntry_code);
-		}
 		App *app = [itts.apps objectForKey:[NSNumber numberWithInt:app_id]];
-		
 		
 		Sale *tmpSale = [[Sale alloc] initWithCountryCode:country app:app units:units royaltyPrice:royalty_price royaltyCurrency:royalty_currency customerPrice:customer_price customerCurrency:customer_currency transactionType:ttype];
 		[sales addObject:tmpSale];

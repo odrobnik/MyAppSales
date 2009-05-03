@@ -268,9 +268,9 @@
 	receivedData = nil;
 	
  	
-    NSLog(@"Connection failed! Error - %@ %@",
-          [error localizedDescription],
-          [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
+   // NSLog(@"Connection failed! Error - %@ %@",
+   //       [error localizedDescription],
+   //       [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
 	
 	/*	if (myDelegate && [myDelegate respondsToSelector:@selector(sendingDone:)]) {
 	 (void) [myDelegate performSelector:@selector(sendingDone:) 
@@ -322,7 +322,7 @@
 	//NSString *URL;
 	//NSMutableURLRequest *theRequest;
 	
-	NSLog(@"Finish Yahoo");
+	//NSLog(@"Finish Yahoo");
 	
 	NSString *sourceSt = [[NSString alloc] initWithBytes:[receivedData bytes] length:[receivedData length] encoding:NSASCIIStringEncoding];
 	[self parseYahooString:sourceSt];

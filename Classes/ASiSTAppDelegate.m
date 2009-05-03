@@ -183,7 +183,7 @@
 		NSError *error;
 		if(![httpServer start:&error])
 		{
-			NSLog(@"Error starting HTTP Server: %@", error);
+			//NSLog(@"Error starting HTTP Server: %@", error);
 			serverIsRunning = NO;
 		}
 		else
@@ -215,7 +215,7 @@
 		NSError *error;
 		if(![httpServer start:&error])
 		{
-			NSLog(@"Error starting HTTP Server: %@", error);
+			//NSLog(@"Error starting HTTP Server: %@", error);
 			serverIsRunning = NO;
 		}
 		else
@@ -332,7 +332,7 @@
 	{
 		[addresses release];
 		addresses = [[notification object] copy];
-		NSLog(@"addresses: %@", addresses);
+		//NSLog(@"addresses: %@", addresses);
 	}
 	if(addresses == nil)
 	{
@@ -352,8 +352,6 @@
 		info = [info stringByAppendingFormat:@"Web: %@:%d\n", wwwIP, port];
 	else
 		info = [info stringByAppendingString:@"Web: No Connection\n"];
-	
-	NSLog(info);
 }
 
 @end
