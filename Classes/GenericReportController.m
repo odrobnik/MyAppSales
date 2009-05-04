@@ -189,7 +189,7 @@
     
     static NSString *CellIdentifier;
 	
-	if (!indexPath.row)
+	if (!indexPath.row)  // first row is summary row
 	{
 		CellIdentifier =  @"HeaderCell";
 	}
@@ -216,7 +216,7 @@
 	{
 	if (!indexPath.section)   // extra section for totals over all apps
 	{
-		if (!indexPath.row)
+		if (!indexPath.row)  // first row is header row
 		{
 			// headers
 			cell.unitsSoldLabel.text = @"Units";
@@ -253,17 +253,14 @@
 				cell.unitsRefundedLabel.text = @"";
 			}
 			
-			
-			YahooFinance *myYahoo = appDelegate.itts.myYahoo;
-			double convertedRoyalties = [myYahoo convertToCurrency:appDelegate.itts.myYahoo.mainCurrency amount:report.sumRoyaltiesEarned fromCurrency:@"EUR"];
-			cell.royaltyEarnedLabel.text = [appDelegate.itts.myYahoo formatAsCurrency:appDelegate.itts.myYahoo.mainCurrency amount:convertedRoyalties];
-			
-			
-			//cell.contentView.backgroundColor = [UIColor colorWithRed:0.9 green:1.0 blue:0.9 alpha:0.9];
+			cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesEarned]];
 		}
 		return cell;
 	}
 
+		
+	// below this line: detail lines
+		
 	app_id  = [[appDelegate.itts appKeysSortedBySales] objectAtIndex:indexPath.section-1];  // minus one because of totals section
 	}	
 	
@@ -284,10 +281,8 @@
 			cell.unitsRefundedLabel.text = @"";
 		}
 		
-		YahooFinance *myYahoo = appDelegate.itts.myYahoo;
-		double convertedRoyalties = [myYahoo convertToCurrency:appDelegate.itts.myYahoo.mainCurrency amount:[report  sumRoyaltiesForAppId:app_id transactionType:TransactionTypeSale] fromCurrency:@"EUR"];
-		cell.royaltyEarnedLabel.text = [appDelegate.itts.myYahoo formatAsCurrency:appDelegate.itts.myYahoo.mainCurrency amount:convertedRoyalties];
-		//cell.contentView.backgroundColor = [UIColor colorWithRed:0.9 green:1.0 blue:0.9 alpha:0.9];
+		double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesForAppId:app_id transactionType:TransactionTypeSale] fromCurrency:@"EUR"];
+		cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
 		
 		return cell;
 	}
@@ -330,14 +325,13 @@
 		
 		if (appDelegate.convertSalesToMainCurrency)
 		{ 
-			YahooFinance *myYahoo = appDelegate.itts.myYahoo;
-			double convertedRoyalties = [myYahoo convertToCurrency:appDelegate.itts.myYahoo.mainCurrency amount:tmpSummary.sumRoyalites fromCurrency:tmpSummary.royaltyCurrency];
+			double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:tmpSummary.sumRoyalites fromCurrency:tmpSummary.royaltyCurrency];
 			
-			cell.royaltyEarnedLabel.text = [appDelegate.itts.myYahoo formatAsCurrency:appDelegate.itts.myYahoo.mainCurrency amount:convertedRoyalties];
+			cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
 		}
 		else
 		{
-			cell.royaltyEarnedLabel.text = [appDelegate.itts.myYahoo formatAsCurrency:tmpSummary.royaltyCurrency amount:tmpSummary.sumRoyalites];
+			cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:tmpSummary.royaltyCurrency amount:tmpSummary.sumRoyalites];
 		}
 	}
 	else

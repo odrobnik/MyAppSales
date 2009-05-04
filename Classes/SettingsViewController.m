@@ -227,7 +227,7 @@
 					cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 					ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
 					
-					cell.value.text = [appDelegate.itts.myYahoo mainCurrency];
+					cell.value.text = [[YahooFinance sharedInstance] mainCurrency];
 					return cell;		
 				}
 					
@@ -356,13 +356,9 @@
 		
 		// Navigation logic may go here. Create and push another view controller.
 		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-		//NSArray *currencies = [appDelegate.itts.myYahoo currencyList];
-	
-		//NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Currencies.plist"];
-		//NSArray *currencies = [NSArray arrayWithContentsOfFile:path];
-		TableListView *anotherViewController = [[TableListView alloc] initWithYahoo:appDelegate.itts.myYahoo style:UITableViewStylePlain];
+		TableListView *anotherViewController = [[TableListView alloc] initWithYahoo:[YahooFinance sharedInstance] style:UITableViewStylePlain];
 		anotherViewController.title = @"Main Currency";
-		[anotherViewController setSelectedItem:[appDelegate.itts.myYahoo mainCurrency]];
+		[anotherViewController setSelectedItem:[[YahooFinance sharedInstance] mainCurrency]];
 		[self.navigationController pushViewController:anotherViewController animated:YES];
 		[anotherViewController release];
 	}

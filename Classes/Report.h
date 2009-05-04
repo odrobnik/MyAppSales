@@ -43,8 +43,6 @@
 	NSInteger sumUnitsUpdated;
 	NSInteger sumUnitsRefunded;
 	double sumRoyaltiesEarned;
-
-
 }
 
 
@@ -81,11 +79,14 @@
 @property (assign, nonatomic) NSInteger sumUnitsSold;
 @property (assign, nonatomic) NSInteger sumUnitsUpdated;
 @property (assign, nonatomic) NSInteger sumUnitsRefunded;
-@property (assign, nonatomic) double sumRoyaltiesEarned;
+//@property (assign, nonatomic) double sumRoyaltiesEarned;  // replaced with method
 
 - (NSInteger) sumUnitsForAppId:(NSNumber *)app_id transactionType:(TransactionType)ttype;
 - (NSInteger) sumRefundsForAppId:(NSNumber *)app_id;
 - (double) sumRoyaltiesForAppId:(NSNumber *)app_id transactionType:(TransactionType)ttype;
+
+- (double) sumRoyaltiesForAppId:(NSNumber *)app_id inCurrency:(NSString *)curCode;
+- (double) sumRoyaltiesEarned;
 
 - (NSString *) reconstructText;
 

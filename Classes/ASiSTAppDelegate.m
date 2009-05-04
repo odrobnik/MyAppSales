@@ -117,7 +117,7 @@
 		NSString *mainCurrency = [settings objectForKey:@"MainCurrency"];
 		if (mainCurrency)
 		{
-			itts.myYahoo.mainCurrency = mainCurrency;
+			[[YahooFinance sharedInstance] setMainCurrency:mainCurrency];
 		}
 		
 		NSNumber *alwaysMainCurrency = [settings objectForKey:@"AlwaysUseMainCurrency"];
@@ -147,13 +147,12 @@
 }
 
 
-- (void)applicationWillTerminate:(UIApplication *)application {
+- (void)applicationWillTerminate:(UIApplication *)application 
+{
 	// Save data if appropriate
-	//[itts.myYahoo save];
-	
 	NSMutableDictionary *settings = [[NSMutableDictionary alloc] init];
 	
-	[settings setObject:itts.myYahoo.mainCurrency forKey:@"MainCurrency"];
+	[settings setObject:[[YahooFinance sharedInstance] mainCurrency] forKey:@"MainCurrency"];
 	[settings setObject:[NSNumber numberWithBool:convertSalesToMainCurrency] forKey:@"AlwaysUseMainCurrency"];
 	
 	// The settings is stored in the application bundle. 

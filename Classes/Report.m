@@ -35,7 +35,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 
 @synthesize isNew, sales, salesByApp, summariesByApp; //, countrySummaries;
 
-@synthesize sumUnitsSold,sumUnitsUpdated,sumUnitsRefunded,sumRoyaltiesEarned, itts;
+@synthesize sumUnitsSold,sumUnitsUpdated,sumUnitsRefunded, itts;
 
 - (NSDate *) dateFromString:(NSString *)rfc2822String
 {
@@ -109,6 +109,9 @@ static NSDateFormatter *dateFormatterToRead = nil;
 }
 
 - (void)dealloc {
+	// Remove notification observer
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	[itts release];
 	[fromDate release];
 	[untilDate release];
@@ -388,7 +391,10 @@ static NSDateFormatter *dateFormatterToRead = nil;
 					sumUnitsRefunded +=units;
 				}
 				
-				sumRoyaltiesEarned += [itts.myYahoo convertToEuro:(royalty_price*units) fromCurrency:royalty_currency]; 
+				
+				// get's calculated when needed
+				//sumRoyaltiesEarned += [[YahooFinance sharedInstance] convertToEuro:(royalty_price*units) fromCurrency:royalty_currency]; 
+				
 
 				break;
 			}
@@ -407,6 +413,11 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	sqlite3_reset(hydrate_statement);
 	
 	hydrated = YES;
+	
+	// sums are dependent on exchange rates, if they change we need to redo the sums
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exchangeRatesChanged:) name:@"ExchangeRatesChanged" object:nil];
+	
+	
 }
 
 
@@ -437,8 +448,27 @@ static NSDateFormatter *dateFormatterToRead = nil;
 {
 	NSMutableArray *tmpArray = [salesByApp objectForKey:app_id];
 	double ret = 0;
-	
 
+	if (tmpArray)
+	{
+		
+		NSEnumerator *en = [tmpArray objectEnumerator];
+		Sale *aSale;
+		
+		while (aSale = [en nextObject]) 
+		{
+			ret += [[YahooFinance sharedInstance] convertToEuro:(aSale.royaltyPrice * aSale.unitsSold) fromCurrency:aSale.royaltyCurrency]; 
+		}
+	}
+	
+	return ret;
+}
+
+- (double) sumRoyaltiesForAppId:(NSNumber *)app_id inCurrency:(NSString *)curCode
+{
+	NSMutableArray *tmpArray = [salesByApp objectForKey:app_id];
+	double ret = 0;
+	NSLog(@"---");
 	
 	if (tmpArray)
 	{
@@ -448,11 +478,31 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		
 		while (aSale = [en nextObject]) 
 		{
-			ret += [itts.myYahoo convertToEuro:(aSale.royaltyPrice * aSale.unitsSold) fromCurrency:aSale.royaltyCurrency]; 
+			ret += [[YahooFinance sharedInstance] convertToCurrency:curCode amount:(aSale.royaltyPrice * aSale.unitsSold) fromCurrency:aSale.royaltyCurrency];
 		}
 	}
 	
+	return ret;
+}
+
+// override property
+- (double) sumRoyaltiesEarned
+{
+	// if we cached the value then return it, otherwise calculate it
+	if (sumRoyaltiesEarned)
+	{
+		return sumRoyaltiesEarned;
+	}
 	
+	double ret = 0;
+	
+	for (NSNumber *oneKey in [salesByApp allKeys])
+	{
+		ret += [self sumRoyaltiesForAppId:oneKey inCurrency:[[YahooFinance sharedInstance] mainCurrency]];
+	}
+	
+	// cache it
+	sumRoyaltiesEarned = ret;
 	return ret;
 }
 
@@ -536,5 +586,9 @@ static NSDateFormatter *dateFormatterToRead = nil;
     downloadedDate = [aDate copy];
 }
 
+- (void)exchangeRatesChanged:(NSNotification *) notification
+{
+	sumRoyaltiesEarned = 0;
+}
 
 @end

@@ -57,10 +57,7 @@
 
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 
@@ -105,51 +102,8 @@
 		appTitleLabel.text = app.title;
 		[appTitleLabel setNeedsDisplay];
 		
-		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-		
-		double converted = [appDelegate.itts.myYahoo convertToCurrency:appDelegate.itts.myYahoo.mainCurrency amount:app.averageRoyaltiesPerDay fromCurrency:@"EUR"];
-		subTextLabel.text = [NSString stringWithFormat:@"%@/day for past 7 days", [appDelegate.itts.myYahoo formatAsCurrency:appDelegate.itts.myYahoo.mainCurrency amount:converted]];
-
-	/*	
-		Report *lastReportDay = [appDelegate.itts.latestReportsByType objectForKey:[NSNumber numberWithInt:ReportTypeDay]];
-		Report *lastReportWeek = [appDelegate.itts.latestReportsByType objectForKey:[NSNumber numberWithInt:ReportTypeWeek]];
-		
-		NSInteger sumUnitsDay = [lastReportDay sumUnitsForAppId:[NSNumber numberWithInt:app.apple_identifier] transactionType:TransactionTypeSale];
-		NSInteger sumUnitsWeek = [lastReportWeek sumUnitsForAppId:[NSNumber numberWithInt:app.apple_identifier] transactionType:TransactionTypeSale];
-		NSInteger sumRoyaltiesDay = [lastReportDay sumRoyaltiesForAppId:[NSNumber numberWithInt:app.apple_identifier] transactionType:TransactionTypeSale];
-		NSInteger sumRoyaltiesWeek = [lastReportWeek sumRoyaltiesForAppId:[NSNumber numberWithInt:app.apple_identifier] transactionType:TransactionTypeSale];
-		
-		
-		double lastWeekUnitsAvg = sumUnitsWeek/7.0;
-		double percentUnits = sumUnitsDay/lastWeekUnitsAvg;
-		
-		double lastWeekRoyaltiesAvg = sumRoyaltiesWeek/7.0;
-		double percentRoyalties = sumRoyaltiesDay/lastWeekRoyaltiesAvg;
-		
-		NSString *trendUnits;
-		
-		if (percentUnits>1.0)
-		{
-			trendUnits = [NSString stringWithFormat:@"%+0.2f%%", 100.0*(percentUnits-1.0)];
-		}
-		else
-		{
-			trendUnits = [NSString stringWithFormat:@"-%0.2f%%", 100.0*(1.0-percentUnits)];
-		}
-		
-		NSString *trendRoyalties;
-		
-		if (percentRoyalties>1.0)
-		{
-			trendRoyalties = [NSString stringWithFormat:@"%+0.2f%%", 100.0*(percentRoyalties-1.0)];
-		}
-		else
-		{
-			trendRoyalties = [NSString stringWithFormat:@"-%0.2f%%", 100.0*(1.0-percentRoyalties)];
-		}
-		
-	subTextLabel.text = [NSString stringWithFormat:@"# %@, $ %@",trendUnits, trendRoyalties];
-*/		
+		double converted = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:app.averageRoyaltiesPerDay fromCurrency:@"EUR"];
+		subTextLabel.text = [NSString stringWithFormat:@"%@/day for past 7 days", [[YahooFinance sharedInstance]  formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:converted]];
 		
 		if (app.iconImage)
 		{

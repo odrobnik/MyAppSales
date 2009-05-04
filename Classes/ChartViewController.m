@@ -47,8 +47,8 @@
 	
 		if ([axis_type isEqualToString:@"Sum"])
 		{
-			double converted_max = [appDelegate.itts.myYahoo convertToCurrency:appDelegate.itts.myYahoo.mainCurrency amount:myChart.max_chart_value fromCurrency:@"EUR"];
-			self.myAxis = [[AxisView alloc] initWithFrame:axis_size max:converted_max currency:appDelegate.itts.myYahoo.mainCurrency];
+			double converted_max = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:myChart.max_chart_value fromCurrency:@"EUR"];
+			self.myAxis = [[AxisView alloc] initWithFrame:axis_size max:converted_max currency:[[YahooFinance sharedInstance] mainCurrency]];
 		}
 		else
 		{
@@ -124,66 +124,7 @@
 //	[myScroll setContentSize:newSize];
 	
 }
-/*
 
-- (id)initWithDataDict:(NSDictionary *)dataDict apps:(NSArray *)apps appKeys:(NSArray *)appKeys column:(NSString *)column
-{
-	if (self = [super init])
-	{
-		UIView *rootView = [[UIView alloc] init];
-		self.view = rootView;
-
-		ChartView *myChart = [[ChartView alloc] initWithData:dataDict];
-
-		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-
-		double converted_max = [appDelegate.itts.myYahoo convertToCurrency:appDelegate.itts.myYahoo.mainCurrency amount:myChart.max_chart_value fromCurrency:@"EUR"];
-		
-		CGRect axis_size = CGRectMake(0, 0, 30, 367);
-		AxisView *myAxis = [[AxisView alloc] initWithFrame:axis_size max:converted_max currency:appDelegate.itts.myYahoo.mainCurrency];
-		myAxis.opaque = NO;
-		[rootView addSubview:myAxis];
-		[myAxis release];
-		
-		CGRect legend_size = CGRectMake(0, 267.0, 320, 100.0);
-		LegendView *myLegend = [[LegendView alloc] initWithFrame:legend_size Apps:apps Data:dataDict Column:column];
-		myAxis.bottom_inset = myLegend.required_height+10.0;
-		myChart.bottom_inset =  myLegend.required_height+10.0;
-//		myLegend.frame = legend_size;
-		myLegend.opaque = YES;
-		myLegend.backgroundColor = [UIColor clearColor];
-		[rootView insertSubview:myLegend aboveSubview:myAxis];
-		[myLegend release];
-		
-		CGRect chart_size = [myChart chartDimensions];
-		CGRect scroll_size = CGRectMake(0, 0, 320, 367);
-
-		UIScrollView *myScroll = [[UIScrollView alloc] initWithFrame:scroll_size];
-		[rootView insertSubview:myScroll belowSubview:myAxis];
-		[myScroll addSubview:myChart];
-		[myScroll setContentSize:CGSizeMake(chart_size.size.width, chart_size.size.height)];
-		myScroll.showsHorizontalScrollIndicator = YES;
-		[myChart release];
-		
-		
-		
-		
-	
-		ChartView *myChart = [[ChartView alloc] initWithData:dataDict Apps:apps];
-		CGRect chart_size = [myChart chartDimensions];
-		
-		CGRect scroll_size = CGRectMake(100, 100, 100, 100);
-		
-		UIScrollView *myScroll = [[UIScrollView alloc] initWithFrame:scroll_size];
-		self.view = myScroll;
-		[myScroll addSubview:myChart];
-		[myScroll setContentSize:CGSizeMake(chart_size.size.width, chart_size.size.height)];
-		[myChart release];
-	} 
-	return self;
-	
-}
-*/
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {

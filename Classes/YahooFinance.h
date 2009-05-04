@@ -37,6 +37,9 @@
 - (NSArray *)currencyList;
 - (NSString *) formatAsCurrency:(NSString *)cur amount:(double)amount;
 
++ (YahooFinance *)sharedInstance;
+
+
 @property (nonatomic, retain) NSString *mainCurrency;
 @property (nonatomic, retain) NSMutableDictionary *allCurrencies;
 @property (nonatomic, retain) NSMutableDictionary *nameIndex;

@@ -139,12 +139,7 @@
 	NSString *name = [sortedNames objectAtIndex:indexPath.row];
 	NSString *currency = [myYahoo.nameIndex objectForKey:name];
 	
-	//NSDictionary *item = [myYahoo.allCurrencies objectForKey:currency];
-
-	//NSString *title = [item objectForKey:@"name"];
-	
-	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate.itts.myYahoo setMainCurrency:currency];
+	[[YahooFinance sharedInstance] setMainCurrency:currency];
 	[self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -182,7 +182,7 @@
 	// [self.navigationController pushViewController:anotherViewController];
 	// [anotherViewController release];
 	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-	Query *myQuery = [[Query alloc] initWithDatabase:[appDelegate.itts database] yahoo:appDelegate.itts.myYahoo];
+	Query *myQuery = [[Query alloc] initWithDatabase:[appDelegate.itts database] yahoo:[YahooFinance sharedInstance]];
 	
 	NSDictionary *tmpData;
 	NSString *reportTitle;

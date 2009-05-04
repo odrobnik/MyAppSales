@@ -229,10 +229,7 @@
 				cell.unitsRefundedLabel.text = @"";
 			}
 			
-			
-			YahooFinance *myYahoo = appDelegate.itts.myYahoo;
-			double convertedRoyalties = [myYahoo convertToCurrency:appDelegate.itts.myYahoo.mainCurrency amount:report.sumRoyaltiesEarned fromCurrency:@"EUR"];
-			cell.royaltyEarnedLabel.text = [appDelegate.itts.myYahoo formatAsCurrency:appDelegate.itts.myYahoo.mainCurrency amount:convertedRoyalties];
+			cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesEarned]];
 		}
 
 		
@@ -268,34 +265,14 @@
 			cell.unitsRefundedLabel.text = @"";
 		}
 		
-		YahooFinance *myYahoo = appDelegate.itts.myYahoo;
-		double convertedRoyalties = [myYahoo convertToCurrency:appDelegate.itts.myYahoo.mainCurrency amount:[report  sumRoyaltiesForAppId:app_id transactionType:TransactionTypeSale] fromCurrency:@"EUR"];
-		cell.royaltyEarnedLabel.text = [appDelegate.itts.myYahoo formatAsCurrency:appDelegate.itts.myYahoo.mainCurrency amount:convertedRoyalties];
-		
-		//cell.royaltyEarnedLabel.text = [NSString stringWithFormat:@"~ %.2f €", [report  sumRoyaltiesForAppId:app_id transactionType:TransactionTypeSale]];
-		
-		/*	cell.unitsSoldLabel.backgroundColor = [UIColor lightGrayColor];
-		 cell.unitsRefundedLabel.backgroundColor = [UIColor lightGrayColor];
-		 cell.unitsUpdatedLabel.backgroundColor = [UIColor lightGrayColor];
-		 cell.royaltyEarnedLabel.backgroundColor = [UIColor lightGrayColor]; */
-		//		cell.contentView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
-		//cell.contentView.backgroundColor = [UIColor colorWithRed:0.9 green:1.0 blue:0.9 alpha:0.9];
-	//	cell.unitsSoldLabel.text = @"55555";
-	//	cell.unitsUpdatedLabel.text = @"55555";
-	//	cell.unitsRefundedLabel.text = @"55555";
-		
+		double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report  sumRoyaltiesForAppId:app_id transactionType:TransactionTypeSale] fromCurrency:@"EUR"];
+		cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
 		
 		return cell;
 	}
 	
-	//cell.contentView.backgroundColor = [UIColor whiteColor];
-	
-	
 	NSArray *dictKeys = [thisDict keysSortedByValueUsingSelector:@selector(compareBySales:)];  // all countries
 	CountrySummary *tmpSummary = [thisDict objectForKey:[dictKeys objectAtIndex:indexPath.row-1]];
-	
-	
-	//NSLog( [NSString stringWithFormat:@"%@ s: %d = %.2f %@, u: %d, r: %d",  tmpSummary.country.iso3,tmpSummary.sumSales, tmpSummary.sumRoyalites, tmpSummary.royaltyCurrency, tmpSummary.sumUpdates, tmpSummary.sumRefunds]);
 	
 	cell.image = tmpSummary.country.iconImage;
 	
@@ -307,14 +284,13 @@
 		
 		if (appDelegate.convertSalesToMainCurrency)
 		{ 
-			YahooFinance *myYahoo = appDelegate.itts.myYahoo;
-			double convertedRoyalties = [myYahoo convertToCurrency:appDelegate.itts.myYahoo.mainCurrency amount:tmpSummary.sumRoyalites fromCurrency:tmpSummary.royaltyCurrency];
+			double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:tmpSummary.sumRoyalites fromCurrency:tmpSummary.royaltyCurrency];
 			
-			cell.royaltyEarnedLabel.text = [appDelegate.itts.myYahoo formatAsCurrency:appDelegate.itts.myYahoo.mainCurrency amount:convertedRoyalties];
+			cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
 		}
 		else
 		{
-			cell.royaltyEarnedLabel.text = [appDelegate.itts.myYahoo formatAsCurrency:tmpSummary.royaltyCurrency amount:tmpSummary.sumRoyalites];
+			cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:tmpSummary.royaltyCurrency amount:tmpSummary.sumRoyalites];
 		}
 	}
 	else

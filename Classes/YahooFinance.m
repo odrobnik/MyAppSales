@@ -13,6 +13,20 @@
 
 @synthesize mainCurrency, allCurrencies, nameIndex;
 
+static YahooFinance *_sharedInstance = nil;
+
+
+
++ (YahooFinance *)sharedInstance
+{
+	if (!_sharedInstance)
+	{
+		_sharedInstance = [[YahooFinance alloc] initWithAllCurrencies];
+	}
+	
+	return _sharedInstance;
+}
+
 
 - (id) initWithAllCurrencies
 {
@@ -315,6 +329,9 @@
 	
 	//NSLog([curDict description]);
 	[self save];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"ExchangeRatesChanged" object:nil userInfo:nil];
+	
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection

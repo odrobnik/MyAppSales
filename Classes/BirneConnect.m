@@ -61,7 +61,7 @@ static sqlite3_stmt *reportid_statement = nil;
 		
 		//NSArray *currencies = [self salesCurrencies];
 		[self setStatus:@"Updating Currency Exchange Rates"];
-		self.myYahoo = [[YahooFinance alloc] initWithAllCurrencies];
+		self.myYahoo = [YahooFinance sharedInstance]; //[[YahooFinance alloc] initWithAllCurrencies];
 		[self setStatus:nil];
 
 		[self refreshIndexes];
