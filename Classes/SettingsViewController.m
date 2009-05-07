@@ -10,6 +10,7 @@
 #import "EditableCell.h"
 #import "SwitchCell.h"
 #import "TextCell.h"
+#import "YahooFinance.h"
 
 // for the currency selection
 #import "TableListView.h"
@@ -225,7 +226,6 @@
 					
 					cell.title.text = @"Main Currency";
 					cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-					ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
 					
 					cell.value.text = [[YahooFinance sharedInstance] mainCurrency];
 					return cell;		
@@ -355,7 +355,6 @@
 			return;
 		
 		// Navigation logic may go here. Create and push another view controller.
-		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
 		TableListView *anotherViewController = [[TableListView alloc] initWithYahoo:[YahooFinance sharedInstance] style:UITableViewStylePlain];
 		anotherViewController.title = @"Main Currency";
 		[anotherViewController setSelectedItem:[[YahooFinance sharedInstance] mainCurrency]];
