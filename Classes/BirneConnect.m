@@ -943,14 +943,15 @@ static sqlite3_stmt *reportid_statement = nil;
 		// Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
 		// This is a great way to optimize because frequently used queries can be compiled once, then with each
 		// use new variable values can be bound to placeholders.
-		const char *sql = "SELECT [id] from report WHERE until_date = ? AND report_type_id = ?";
+		const char *sql = "SELECT [id] from report WHERE until_date like ? AND report_type_id = ?";
 		if (sqlite3_prepare_v2(database, sql, -1, &reportid_statement, NULL) != SQLITE_OK) {
 			NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
 		}
 	}
 	// For this query, we bind the primary key to the first (and only) placeholder in the statement.
 	// Note that the parameters are numbered from 1, not from 0.
-	sqlite3_bind_text(reportid_statement, 1, [[tmpDate description] UTF8String], -1, SQLITE_TRANSIENT);
+	
+	sqlite3_bind_text(reportid_statement, 1, [[NSString stringWithFormat:@"%@%%", [[tmpDate description] substringToIndex:10]] UTF8String], -1, SQLITE_TRANSIENT);
 	sqlite3_bind_int(reportid_statement, 2, (int)report_type);
 	if (sqlite3_step(reportid_statement) == SQLITE_ROW) 
 	{

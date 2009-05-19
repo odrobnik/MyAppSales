@@ -40,12 +40,12 @@
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeBuildConfigurationName = Debug;
 		activeExecutable = A78E2B300EFA1E8C002EB6D9 /* MyAppSales */;
+		activeSDKPreference = iphoneos2.1;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* MyAppSales */;
 		addToTargets = (
 			1D6058900D05DD3D006BFB54 /* MyAppSales */,
 		);
 		breakpoints = (
-			A7F6FE5B0FC2803D00AD83AF /* BirneConnect.m:1477 */,
 		);
 		codeSenseManager = A78E2B3D0EFA1E9E002EB6D9 /* Code sense */;
 		executables = (
@@ -159,7 +159,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					182,
+					615,
 					60,
 					20,
 					48,
@@ -423,6 +423,11 @@
 			A7F6FDFF0FC150C800AD83AF /* PBXTextBookmark */ = A7F6FDFF0FC150C800AD83AF /* PBXTextBookmark */;
 			A7F6FE5E0FC2805100AD83AF /* PBXTextBookmark */ = A7F6FE5E0FC2805100AD83AF /* PBXTextBookmark */;
 			A7F6FE5F0FC2805100AD83AF /* PBXTextBookmark */ = A7F6FE5F0FC2805100AD83AF /* PBXTextBookmark */;
+			A7F6FE6F0FC2969100AD83AF /* PBXTextBookmark */ = A7F6FE6F0FC2969100AD83AF /* PBXTextBookmark */;
+			A7F6FE7D0FC296BD00AD83AF /* PBXTextBookmark */ = A7F6FE7D0FC296BD00AD83AF /* PBXTextBookmark */;
+			A7F6FE7E0FC296BD00AD83AF /* PlistBookmark */ = A7F6FE7E0FC296BD00AD83AF /* PlistBookmark */;
+			A7F6FE7F0FC296BD00AD83AF /* PBXTextBookmark */ = A7F6FE7F0FC296BD00AD83AF /* PBXTextBookmark */;
+			A7F6FE800FC296BD00AD83AF /* PlistBookmark */ = A7F6FE800FC296BD00AD83AF /* PlistBookmark */;
 		};
 		sourceControlManager = A78E2B3C0EFA1E9E002EB6D9 /* Source Control */;
 		userBuildSettings = {
@@ -1607,7 +1612,7 @@
 		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
 		name = "BirneConnect.m: 1668";
 		rLen = 0;
-		rLoc = 50685;
+		rLoc = 50749;
 		rType = 0;
 		vrLen = 979;
 		vrLoc = 56302;
@@ -2168,7 +2173,7 @@
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
-		breakpointsEnabled = 1;
+		breakpointsEnabled = 0;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
@@ -2754,9 +2759,9 @@
 	};
 	A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1008, 21322}}";
-			sepNavSelRange = "{49265, 0}";
-			sepNavVisRange = "{48603, 907}";
+			sepNavIntBoundsRect = "{{0, 0}, {1554, 21546}}";
+			sepNavSelRange = "{29819, 0}";
+			sepNavVisRange = "{29566, 806}";
 			sepNavWindowFrame = "{{107, 85}, {1216, 704}}";
 		};
 	};
@@ -3322,23 +3327,6 @@
 		vrLen = 1406;
 		vrLoc = 21750;
 	};
-	A7F6FE5B0FC2803D00AD83AF /* BirneConnect.m:1477 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
-		functionName = "-dateFromString:";
-		hitCount = 1;
-		ignoreCount = 0;
-		lineNumber = 1477;
-		location = MyAppSales;
-		modificationTime = 264405084.582104;
-		state = 1;
-	};
 	A7F6FE5E0FC2805100AD83AF /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
@@ -3354,9 +3342,63 @@
 		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
 		name = "BirneConnect.m: 1477";
 		rLen = 0;
-		rLoc = 49265;
+		rLoc = 49329;
 		rType = 0;
 		vrLen = 907;
 		vrLoc = 48603;
+	};
+	A7F6FE6F0FC2969100AD83AF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
+		name = "BirneConnect.m: 881";
+		rLen = 0;
+		rLoc = 29819;
+		rType = 0;
+		vrLen = 979;
+		vrLoc = 29566;
+	};
+	A7F6FE7D0FC296BD00AD83AF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
+		name = "BirneConnect.m: 1456";
+		rLen = 8;
+		rLoc = 48573;
+		rType = 0;
+		vrLen = 952;
+		vrLoc = 48410;
+	};
+	A7F6FE7E0FC296BD00AD83AF /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundlePackageType,
+		);
+		name = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/Info.plist;
+		rLen = 4;
+		rLoc = 0;
+	};
+	A7F6FE7F0FC296BD00AD83AF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
+		name = "BirneConnect.m: 1456";
+		rLen = 8;
+		rLoc = 48573;
+		rType = 0;
+		vrLen = 952;
+		vrLoc = 48410;
+	};
+	A7F6FE800FC296BD00AD83AF /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			LSRequiresIPhoneOS,
+		);
+		name = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
 	};
 }
