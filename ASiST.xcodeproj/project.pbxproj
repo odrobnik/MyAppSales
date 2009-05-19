@@ -558,8 +558,8 @@
 		A7EDD2FC0FA4E2C50079FE78 /* ChartRootController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChartRootController.xib; sourceTree = "<group>"; };
 		A7EDD2FD0FA4E2C50079FE78 /* AppViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppViewController.xib; sourceTree = "<group>"; };
 		A7EDD3790FA4E75B0079FE78 /* MLT.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MLT.png; sourceTree = "<group>"; };
-		A7EDD37D0FA4E8C40079FE78 /* BirneConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BirneConnect.h; path = Classes/BirneConnect.h; sourceTree = "<group>"; };
-		A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BirneConnect.m; path = Classes/BirneConnect.m; sourceTree = "<group>"; };
+		A7EDD37D0FA4E8C40079FE78 /* BirneConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BirneConnect.h; sourceTree = "<group>"; };
+		A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BirneConnect.m; sourceTree = "<group>"; };
 		A7EDD37F0FA4E8C40079FE78 /* GenericReportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericReportController.h; sourceTree = "<group>"; };
 		A7EDD3800FA4E8C40079FE78 /* GenericReportController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericReportController.m; sourceTree = "<group>"; };
 		A7EDD3810FA4E8C40079FE78 /* ReportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportCell.h; sourceTree = "<group>"; };
@@ -602,6 +602,8 @@
 				1D3623240D0F684500981E51 /* ASiSTAppDelegate.h */,
 				A70D5A7A0F17A66700A6FE9B /* YahooFinance.h */,
 				A70D5A7B0F17A66700A6FE9B /* YahooFinance.m */,
+				A7EDD37D0FA4E8C40079FE78 /* BirneConnect.h */,
+				A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */,
 				A7B8DDDF0F1FC88100DC09E1 /* TableListView.h */,
 				A7B8DDE00F1FC88100DC09E1 /* TableListView.m */,
 				A780D1710F25D2F600C796FB /* ChartView.h */,
@@ -882,8 +884,6 @@
 				A7EDD3840FA4E8C40079FE78 /* Country.m */,
 				A7EDD3850FA4E8C40079FE78 /* Report.h */,
 				A7EDD3860FA4E8C40079FE78 /* Report.m */,
-				A7EDD37D0FA4E8C40079FE78 /* BirneConnect.h */,
-				A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */,
 				A74A75070EFD5FA3003B5191 /* apps.db */,
 				A74A71D10EFB0644003B5191 /* schema.sql */,
 				A74A75450EFD7117003B5191 /* App.h */,
@@ -1418,7 +1418,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos2.2.1;
+				SDKROOT = iphoneos2.1;
 			};
 			name = Debug;
 		};

@@ -15,14 +15,11 @@
 
 @implementation Query
 
-@synthesize myYahoo;
-
-- (id)initWithDatabase:(sqlite3 *)db yahoo:(YahooFinance *)yahoo
+- (id)initWithDatabase:(sqlite3 *)db
 {
 	if (self = [super init])
 	{
 		database = db;
-		self.myYahoo = yahoo;
 		return self;
 	}
 	return nil;
@@ -43,10 +40,6 @@
 	return [dateFormatterToRead dateFromString:rfc2822String]; /*e.g. @"Thu, 11 Sep 2008 12:34:12 +0200" */	
 	
 }
-
-/*
-select report.from_date, app_id, sum(royalty_price*units), royalty_currency, sum(units) from sale, report where report_id = report.id and report.report_type_id = 0 group by report.from_date, royalty_currency, app_id;
-*/
 
 - (NSDictionary *) chartDataForReportType:(ReportType)report_type  ShowFree:(BOOL)show_free Axis:(NSString *)axis Itts:(BirneConnect *)itts
 {
@@ -77,7 +70,6 @@ select report.from_date, app_id, sum(royalty_price*units), royalty_currency, sum
 		//NSDictionary *dataRoot = [data objectForKey:@"Data"];
 		NSString *app_key = [NSString stringWithFormat:@"%d",app.apple_identifier]; 
 		
-//		NSNumber *totalRoy = [royaltyTotals objectForKey:[NSNumber numberWithInt:app.apple_identifier]];
 		NSNumber *totalRoy = [royaltyTotals objectForKey:app_key];
 	
 		BOOL isFreeApp = (!totalRoy||([totalRoy doubleValue]==0));
@@ -148,12 +140,9 @@ select report.from_date, app_id, sum(royalty_price*units), royalty_currency, sum
 		NSMutableArray *oneRowData = [NSMutableArray arrayWithArray:[outputArray objectAtIndex:0]];
 		NSMutableArray *mutableRowLabels = [NSMutableArray arrayWithArray:rowLabels];
 		[mutableRowLabels addObject:nextDay];
-		//[nextDay release];
 		rowLabels = mutableRowLabels;
 		[outputArray addObject:oneRowData];
-		//[oneRowData release];
 	}
-	
 	
 	NSArray *objects = [NSArray arrayWithObjects:colLabels, rowLabels, outputArray, [NSNumber numberWithDouble:maximum], [NSNumber numberWithInt:(int)report_type], axis, nil];
 	NSArray *keys = [NSArray arrayWithObjects:@"Columns", @"Rows", @"Data", @"Maximum", @"ReportType", @"Axis", nil];
@@ -171,11 +160,7 @@ select report.from_date, app_id, sum(royalty_price*units), royalty_currency, sum
 {
 	// make it mutable
 	NSMutableDictionary *tmpDict = [NSMutableDictionary dictionaryWithDictionary:report];
-	
-	// add Total column
-	//NSMutableArray *columns = [tmpDict objectForKey:@"Columns"];
-	//[columns addObject:@"Total"];
-	
+		
 	// for all rows: modify data so that each row is stacked on the previous and add total after the last
 	NSMutableArray *data = [tmpDict objectForKey:@"Data"];
 	NSEnumerator *en = [data objectEnumerator];
@@ -189,7 +174,6 @@ select report.from_date, app_id, sum(royalty_price*units), royalty_currency, sum
 		double sumSoFar = 0;
 		int idx = 0;
 		
-		//NSEnumerator *den = [row objectEnumerator];
 		NSNumber *num;
 		
 		
@@ -201,7 +185,6 @@ select report.from_date, app_id, sum(royalty_price*units), royalty_currency, sum
 			sumSoFar += [num doubleValue];
 		}
 		
-		//[row addObject:[NSNumber numberWithDouble:sumSoFar]];
 		
 		if (maximum<sumSoFar)
 		{
@@ -258,14 +241,11 @@ select report.from_date, app_id, sum(royalty_price*units), royalty_currency, sum
 	while (sqlite3_step(statement) == SQLITE_ROW) 
 	{
 
-	//	NSDate *lineDate = [self dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)]];
 		NSDate *lineDate = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
 		
 		NSInteger app_id = sqlite3_column_int(statement, 1);
-		//NSNumber *appKey = [NSNumber numberWithInt:app_id];
 		NSString *appKey = [NSString stringWithFormat:@"%d", app_id];
 
-		
 		double line_royalty = sqlite3_column_double(statement, 2);
 		NSString *line_currency = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 3)];
 		NSInteger line_units = sqlite3_column_int(statement, 4);
@@ -293,7 +273,7 @@ select report.from_date, app_id, sum(royalty_price*units), royalty_currency, sum
 			[appDict release];
 		}
 
-		double convertedRoyalties = [myYahoo convertToEuro:line_royalty fromCurrency:line_currency]; 
+		double convertedRoyalties = [[YahooFinance sharedInstance] convertToEuro:line_royalty fromCurrency:line_currency]; 
 		NSNumber *sumNum;
 		sumNum = [appDict objectForKey:@"Sum"];
 		
@@ -350,7 +330,6 @@ select report.from_date, app_id, sum(royalty_price*units), royalty_currency, sum
 //	[pool release];
 	
 	NSDictionary *retDict = [NSDictionary dictionaryWithDictionary:tmpDict];
-	//[retDict writeToFile:path atomically:YES];
 
 	return retDict;
 }
@@ -359,7 +338,6 @@ select report.from_date, app_id, sum(royalty_price*units), royalty_currency, sum
 
 - (void)dealloc {
 	[dateFormatterToRead release];
-	[myYahoo release];
     [super dealloc];
 }
 
