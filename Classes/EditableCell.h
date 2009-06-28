@@ -3,7 +3,7 @@
 //  ASiST
 //
 //  Created by Oliver Drobnik on 14.01.09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 Drobnik.com. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

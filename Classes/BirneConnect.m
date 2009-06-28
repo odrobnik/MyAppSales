@@ -16,6 +16,7 @@
 #import "Country.h"
 
 #import "ZipArchive.h"
+#import "NSString+Helpers.h"
 
 
 // Static variables for compiled SQL queries. This implementation choice is to be able to share a one time
@@ -461,7 +462,7 @@ static sqlite3_stmt *reportid_statement = nil;
 					if (selectRange.location!=NSNotFound)
 					{
 						NSRange endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
-						dayOptions = [[self optionsFromSelect:[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)]] retain];
+						dayOptions = [[[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect] retain];
 						dayOptionsIdx = 0;
 
 						
@@ -545,7 +546,7 @@ static sqlite3_stmt *reportid_statement = nil;
 					if (selectRange.location!=NSNotFound)
 					{
 						NSRange endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
-						weekOptions = [[self optionsFromSelect:[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)]] retain];
+						weekOptions = [[[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect] retain];
 						weekOptionsIdx = 0;
 						
 						[self requestWeeklyReport];
@@ -771,19 +772,19 @@ static sqlite3_stmt *reportid_statement = nil;
 	
 	while(oneLine = [enu nextObject])
 	{
-		NSString *from_date = [self getValueForNamedColumn:@"Begin Date" fromLine:oneLine headerNames:column_names];
-		NSString *until_date = [self getValueForNamedColumn:@"End Date" fromLine:oneLine headerNames:column_names];
-		NSUInteger appID = [[self getValueForNamedColumn:@"Apple Identifier" fromLine:oneLine headerNames:column_names] intValue];
-		NSString *vendor_identifier = [self getValueForNamedColumn:@"Vendor Identifier" fromLine:oneLine headerNames:column_names];
-		NSString *company_name = [self getValueForNamedColumn:@"Artist / Show" fromLine:oneLine headerNames:column_names];
-		NSString *title	= [self getValueForNamedColumn:@"Title / Episode / Season" fromLine:oneLine headerNames:column_names];
-		NSUInteger type_id = [[self getValueForNamedColumn:@"Product Type Identifier" fromLine:oneLine headerNames:column_names] intValue];
-		NSInteger units = [[self getValueForNamedColumn:@"Units" fromLine:oneLine headerNames:column_names] intValue];
-		double royalty_price = [[self getValueForNamedColumn:@"Royalty Price" fromLine:oneLine headerNames:column_names] doubleValue];
-		NSString *royalty_currency	= [self getValueForNamedColumn:@"Royalty Currency" fromLine:oneLine headerNames:column_names];
-		double customer_price = [[self getValueForNamedColumn:@"Customer Price" fromLine:oneLine headerNames:column_names] doubleValue];
-		NSString *customer_currency	= [self getValueForNamedColumn:@"Customer Currency" fromLine:oneLine headerNames:column_names];
-		NSString *country_code	= [self getValueForNamedColumn:@"Country Code" fromLine:oneLine headerNames:column_names];
+		NSString *from_date = [oneLine getValueForNamedColumn:@"Begin Date" headerNames:column_names];
+		NSString *until_date = [oneLine getValueForNamedColumn:@"End Date" headerNames:column_names];
+		NSUInteger appID = [[oneLine getValueForNamedColumn:@"Apple Identifier" headerNames:column_names] intValue];
+		NSString *vendor_identifier = [oneLine getValueForNamedColumn:@"Vendor Identifier" headerNames:column_names];
+		NSString *company_name = [oneLine getValueForNamedColumn:@"Artist / Show" headerNames:column_names];
+		NSString *title	= [oneLine getValueForNamedColumn:@"Title / Episode / Season" headerNames:column_names];
+		NSUInteger type_id = [[oneLine getValueForNamedColumn:@"Product Type Identifier" headerNames:column_names] intValue];
+		NSInteger units = [[oneLine getValueForNamedColumn:@"Units" headerNames:column_names] intValue];
+		double royalty_price = [[oneLine getValueForNamedColumn:@"Royalty Price" headerNames:column_names] doubleValue];
+		NSString *royalty_currency	= [oneLine getValueForNamedColumn:@"Royalty Currency" headerNames:column_names];
+		double customer_price = [[oneLine getValueForNamedColumn:@"Customer Price" headerNames:column_names] doubleValue];
+		NSString *customer_currency	= [oneLine getValueForNamedColumn:@"Customer Currency" headerNames:column_names];
+		NSString *country_code	= [oneLine getValueForNamedColumn:@"Country Code" headerNames:column_names];
 		
 		if (from_date&&until_date&&appID&&vendor_identifier&&company_name&&title&&type_id&&units&&royalty_currency&&customer_currency&&country_code)
 		{
@@ -835,10 +836,10 @@ static sqlite3_stmt *reportid_statement = nil;
 
 - (NSUInteger)insertReportForDate:(NSString *)from_date UntilDate:(NSString *)until_date type:(ReportType)type
 {
-	NSDate *tmp_from_date = [self dateFromString:from_date];
+	NSDate *tmp_from_date = [from_date dateFromString];
 	
 	
-	NSDate *tmp_until_date = [self dateFromString:until_date];
+	NSDate *tmp_until_date = [until_date dateFromString];
 	NSDate *tmp_downloaded_date = [NSDate date];
 	
 	
@@ -937,7 +938,7 @@ static sqlite3_stmt *reportid_statement = nil;
 - (NSUInteger) reportIDForDate:(NSString *)dayString type:(ReportType)report_type
 {
 	NSUInteger retID = 0;
-	NSDate *tmpDate = [self dateFromString:dayString];
+	NSDate *tmpDate = [dayString dateFromString];
 	// Compile the query for retrieving book data. See insertNewBookIntoDatabase: for more detail.
 	if (reportid_statement == nil) {
 		// Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
@@ -1453,76 +1454,5 @@ static sqlite3_stmt *reportid_statement = nil;
     }
 }
 
-#pragma mark Helpers
-- (NSDate *) dateFromString:(NSString *)dateString
-{
-	NSDate *retDate;
-	
-	switch ([dateString length]) 
-	{
-		case 8:
-		{
-			NSDateFormatter *dateFormatter8 = [[NSDateFormatter alloc] init];
-			[dateFormatter8 setDateFormat:@"yyyyMMdd"]; /* Unicode Locale Data Markup Language */
-			[dateFormatter8 setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
-			retDate = [dateFormatter8 dateFromString:dateString]; 
-			[dateFormatter8 release];
-			return retDate;
-		}
-		case 10:
-		{
-			if (!dateFormatterToRead)
-			{
-				dateFormatterToRead = [[NSDateFormatter alloc] init];
-				[dateFormatterToRead setDateFormat:@"MM/dd/yyyy"]; /* Unicode Locale Data Markup Language */
-				[dateFormatterToRead setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
-			}
-			
-			return [dateFormatterToRead dateFromString:dateString]; 	
-		}
-	}
-	
-	return nil;
-}
-
-// pass in a HTML <select>, returns the options as NSArray 
-- (NSArray *) optionsFromSelect:(NSString *)string
-{
-	//NSLog(@"Analyze %@", string);
-	
-	NSMutableArray *tmpArray = [[NSMutableArray alloc] init];
-	NSString *tmpList = [[string stringByReplacingOccurrencesOfString:@">" withString:@"|"] stringByReplacingOccurrencesOfString:@"<" withString:@"|"];
-	
-	NSArray *listItems = [tmpList componentsSeparatedByString:@"|"];
-	NSEnumerator *myEnum = [listItems objectEnumerator];
-	NSString *aString;
-	
-	while (aString = [myEnum nextObject])
-	{
-		if ([aString rangeOfString:@"value"].location != NSNotFound)
-		{
-			NSArray *optionParts = [aString componentsSeparatedByString:@"="];
-			NSString *tmpString = [[optionParts objectAtIndex:1] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-			[tmpArray addObject:tmpString];
-		}
-	}
-	
-	NSArray *retArray = [NSArray arrayWithArray:tmpArray];
-	[tmpArray release];
-	return retArray;
-}
-
-- (NSString *) getValueForNamedColumn:(NSString *)column_name fromLine:(NSString *)one_line headerNames:(NSArray *)header_names
-{
-	NSArray *columns = [one_line componentsSeparatedByString:@"\t"];
-	NSInteger idx = [header_names indexOfObject:column_name];
-	if (idx>=[columns count])
-	{
-		//NSLog(@"Illegal line: %@", one_line);
-		return nil;
-	}
-	
-	return [columns objectAtIndex:idx];
-}
 
 @end

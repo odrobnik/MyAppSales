@@ -79,7 +79,6 @@ typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, R
 - (id) initWithLogin:(NSString *)user password:(NSString *)pass;
 
 
-- (NSArray *) optionsFromSelect:(NSString *)string;
 
 - (void)createEditableCopyOfDatabaseIfNeeded;
 - (void)initializeDatabase;
@@ -96,7 +95,6 @@ typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, R
 - (BOOL) requestDailyReport;
 - (BOOL) requestWeeklyReport;
 
-- (NSDate *) dateFromString:(NSString *)dateString;
 
 @property (nonatomic, retain) NSMutableDictionary *apps;
 @property (nonatomic, retain) NSMutableDictionary *reports;
@@ -120,8 +118,6 @@ typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, R
 - (void) toggleNetworkIndicator:(BOOL)isON;
 - (void) importReportsFromDocumentsFolder;
 
-// helper function
-- (NSString *) getValueForNamedColumn:(NSString *)column_name fromLine:(NSString *)one_line headerNames:(NSArray *)header_names;
 
 
 - (void) loadCountryList;

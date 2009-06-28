@@ -242,6 +242,7 @@
 		A7AB0B910F3120B500085D99 /* TUR.png in Resources */ = {isa = PBXBuildFile; fileRef = A7AB0B8B0F3120B500085D99 /* TUR.png */; };
 		A7AB0B920F3120B500085D99 /* TWN.png in Resources */ = {isa = PBXBuildFile; fileRef = A7AB0B8C0F3120B500085D99 /* TWN.png */; };
 		A7AB0B930F3120B500085D99 /* VNM.png in Resources */ = {isa = PBXBuildFile; fileRef = A7AB0B8D0F3120B500085D99 /* VNM.png */; };
+		A7ACC3230FE6290E0014DB41 /* NSString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC3220FE6290E0014DB41 /* NSString+Helpers.m */; };
 		A7ACC8370F10F342004EEA7A /* CountrySummary.m in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC8360F10F342004EEA7A /* CountrySummary.m */; };
 		A7B8D92E0F1E56A100DC09E1 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8D92D0F1E56A100DC09E1 /* SettingsViewController.m */; };
 		A7B8D9730F1E587F00DC09E1 /* EditableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8D9720F1E587F00DC09E1 /* EditableCell.m */; };
@@ -537,6 +538,8 @@
 		A7AB0B8B0F3120B500085D99 /* TUR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TUR.png; sourceTree = "<group>"; };
 		A7AB0B8C0F3120B500085D99 /* TWN.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TWN.png; sourceTree = "<group>"; };
 		A7AB0B8D0F3120B500085D99 /* VNM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = VNM.png; sourceTree = "<group>"; };
+		A7ACC3210FE6290E0014DB41 /* NSString+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helpers.h"; sourceTree = "<group>"; };
+		A7ACC3220FE6290E0014DB41 /* NSString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helpers.m"; sourceTree = "<group>"; };
 		A7ACC8350F10F342004EEA7A /* CountrySummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountrySummary.h; sourceTree = "<group>"; };
 		A7ACC8360F10F342004EEA7A /* CountrySummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountrySummary.m; sourceTree = "<group>"; };
 		A7B8D92C0F1E56A100DC09E1 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
@@ -935,6 +938,8 @@
 				A7B8DD020F1F8E1B00DC09E1 /* KeychainWrapper.m */,
 				A7745B350F06F0B30009DD76 /* ImageResizing.h */,
 				A7745B360F06F0B30009DD76 /* ImageResizing.m */,
+				A7ACC3210FE6290E0014DB41 /* NSString+Helpers.h */,
+				A7ACC3220FE6290E0014DB41 /* NSString+Helpers.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -1340,6 +1345,7 @@
 				A7EDD38C0FA4E8C40079FE78 /* Country.m in Sources */,
 				A7EDD38D0FA4E8C40079FE78 /* Report.m in Sources */,
 				A7EDD38E0FA4E8C40079FE78 /* ReportViewController.m in Sources */,
+				A7ACC3230FE6290E0014DB41 /* NSString+Helpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1357,6 +1363,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ASiST_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../Downloads/admob_iphone_sdk/AdMob\"",
+					"\"$(SRCROOT)/Classes\"",
+				);
 				PRODUCT_NAME = MyAppSales;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 			};
@@ -1372,6 +1383,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ASiST_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../Downloads/admob_iphone_sdk/AdMob\"",
+					"\"$(SRCROOT)/Classes\"",
+				);
 				PRODUCT_NAME = MyAppSales;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 			};
@@ -1402,6 +1418,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ASiST_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../Downloads/admob_iphone_sdk/AdMob\"",
+					"\"$(SRCROOT)/Classes\"",
+				);
 				PRODUCT_NAME = MyAppSales;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C2CDE5CD-4BD8-4FF0-B0DA-E49FDEFF8A81";
 			};

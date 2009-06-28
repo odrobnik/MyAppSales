@@ -38,7 +38,7 @@
 		
 		self.myChart = [[ChartView alloc] initWithChartData:dataDict];
 		
-		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
+		//ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
 		
 		NSString *axis_type = [dataDict objectForKey:@"Axis"];
 		
