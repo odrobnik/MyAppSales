@@ -45,7 +45,7 @@
 	
 	double step_size=0.01;
 	
-	while (step_size*one_unit_y<20.0)
+	while ((step_size*one_unit_y<20.0) && (step_size<=1000))
 	{
 		if (step_size==0.01)
 		{
