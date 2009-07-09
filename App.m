@@ -334,7 +334,7 @@ static sqlite3_stmt *update_statement = nil;
 
 - (void)updateInDatabase {
     // Compile the delete statement if needed.
-    if (delete_statement == nil) {
+    if (update_statement == nil) {
         const char *sql = "UPDATE app set title = ? WHERE id=?";
         if (sqlite3_prepare_v2(database, sql, -1, &update_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
