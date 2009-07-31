@@ -113,7 +113,7 @@ static sqlite3_stmt *reportid_statement = nil;
 	
 		//create the body
 		NSMutableData *postBody = [NSMutableData data];
-		[postBody appendData:[@"9.7=Summary&9.9=Daily&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
+		[postBody appendData:[@"11.7=Summary&11.9=Daily&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
 		[theRequest setHTTPBody:postBody];
 	
 		theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
@@ -364,7 +364,7 @@ static sqlite3_stmt *reportid_statement = nil;
 					
 					//create the body
 					postBody = [NSMutableData data];
-					[postBody appendData:[@"9.7=Summary&9.9=Daily&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
+					[postBody appendData:[@"11.7=Summary&11.9=Daily&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
 					
 					//add the body to the post
 					[theRequest setHTTPBody:postBody];
@@ -423,7 +423,7 @@ static sqlite3_stmt *reportid_statement = nil;
 					
 					//create the body
 					NSMutableData *postBody = [NSMutableData data];
-					[postBody appendData:[@"9.7=Summary&9.9=Daily&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
+					[postBody appendData:[@"11.7=Summary&11.9=Daily&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
 					[theRequest setHTTPBody:postBody];
 					
 					theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
@@ -479,7 +479,7 @@ static sqlite3_stmt *reportid_statement = nil;
 								
 								//create the body
 								NSMutableData *postBody = [NSMutableData data];
-								[postBody appendData:[@"9.7=Summary&9.9=Weekly&hiddenDayOrWeekSelection=Weekly&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
+								[postBody appendData:[@"11.7=Summary&11.9=Weekly&hiddenDayOrWeekSelection=Weekly&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
 								[theRequest setHTTPBody:postBody];
 								
 								theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
@@ -525,7 +525,7 @@ static sqlite3_stmt *reportid_statement = nil;
 					 
 					 //create the body
 					 NSMutableData *postBody = [NSMutableData data];
-					 [postBody appendData:[@"9.7=Summary&9.9=Weekly&hiddenDayOrWeekSelection=Weekly&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
+					 [postBody appendData:[@"11.7=Summary&11.9=Weekly&hiddenDayOrWeekSelection=Weekly&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
 					 [theRequest setHTTPBody:postBody];
 					 
 					 theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
@@ -681,7 +681,7 @@ static sqlite3_stmt *reportid_statement = nil;
 		
 		//create the body
 		NSMutableData *postBody = [NSMutableData data];
-		NSString *body = [NSString stringWithFormat:@"9.7=Summary&9.9=Daily&9.11.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download", formDate, formDate];
+		NSString *body = [NSString stringWithFormat:@"11.7=Summary&11.9=Daily&11.11.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download", formDate, formDate];
 		[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
 		
 		//add the body to the post
@@ -727,7 +727,7 @@ static sqlite3_stmt *reportid_statement = nil;
 		
 		//create the body
 		NSMutableData *postBody = [NSMutableData data];
-		NSString *body = [NSString stringWithFormat:@"9.7=Summary&9.9=Weekly&9.13.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download", formDate, formDate];
+		NSString *body = [NSString stringWithFormat:@"11.7=Summary&11.9=Weekly&11.13.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download", formDate, formDate];
 		[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
 		
 		//add the body to the post
