@@ -107,8 +107,8 @@
 
 - (void)dealloc {
 	[keychain release];
-	[titleLabel dealloc];
-	[textField dealloc];
+	[titleLabel release];
+	[textField release];
     [super dealloc];
 }
 
