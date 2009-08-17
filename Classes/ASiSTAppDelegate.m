@@ -3,7 +3,7 @@
 //  ASiST
 //
 //  Created by Oliver Drobnik on 18.12.08.
-//  Copyright __MyCompanyName__ 2008. All rights reserved.
+//  Copyright drobnik.com. 2008. All rights reserved.
 //
 
 #import "ASiSTAppDelegate.h"

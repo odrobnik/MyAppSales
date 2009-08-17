@@ -3,7 +3,7 @@
 //  iWoman
 //
 //  Created by Oliver Drobnik on 18.09.08.
-//  Copyright 2008 __MyCompanyName__. All rights reserved.
+//  Copyright 2008 drobnik.com. All rights reserved.
 //
 
 #import "TextCell.h"

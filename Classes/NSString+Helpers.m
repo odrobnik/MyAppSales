@@ -3,7 +3,7 @@
 //  ASiST
 //
 //  Created by Oliver on 15.06.09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 Drobnik.com. All rights reserved.
 //
 
 #import "NSString+Helpers.h"
@@ -78,7 +78,10 @@
 	return [columns objectAtIndex:idx];
 }
 
-
+- (NSString *) stringByUrlEncoding
+{
+	return (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,  (CFStringRef)self,  NULL,  (CFStringRef)@"!*'();:@&=+$,/?%#[]",  kCFStringEncodingUTF8);
+}
 
 @end
 

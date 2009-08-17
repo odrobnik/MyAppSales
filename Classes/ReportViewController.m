@@ -3,7 +3,7 @@
 //  ASiST
 //
 //  Created by Oliver Drobnik on 26.12.08.
-//  Copyright 2008 __MyCompanyName__. All rights reserved.
+//  Copyright 2008 drobnik.com. All rights reserved.
 //
 
 #import "ReportViewController.h"

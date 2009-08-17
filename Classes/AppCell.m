@@ -3,7 +3,7 @@
 //  ASiST
 //
 //  Created by Oliver Drobnik on 12.01.09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 drobnik.com. All rights reserved.
 //
 
 #import "AppCell.h"

@@ -3,7 +3,7 @@
 //  ASiST
 //
 //  Created by Oliver Drobnik on 19.12.08.
-//  Copyright 2008 __MyCompanyName__. All rights reserved.
+//  Copyright 2008 drobnik.com. All rights reserved.
 //
 
 #import "BirneConnect.h"
@@ -326,7 +326,7 @@ static sqlite3_stmt *reportid_statement = nil;
 					postBody = [NSMutableData data];
 					[postBody appendData:[[NSString stringWithFormat:@"theAccountName=%@&theAccountPW=%@&1.Continue.x=20&1.Continue.y=6&theAuxValue=", 
 										  [username stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-										   [password stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] dataUsingEncoding:NSUTF8StringEncoding]];
+										   [password stringByUrlEncoding]] dataUsingEncoding:NSUTF8StringEncoding]];
 					[theRequest setHTTPBody:postBody];
 					
 					theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
