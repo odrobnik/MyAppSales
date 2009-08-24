@@ -364,10 +364,13 @@
 	{
 		[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 		
+		UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Do you really want to empty the cache?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Empty Cache", nil];
 		
+		[actionSheet showInView:self.view];
+		[actionSheet release];
 	}
-	
 }
+
 
 
 #pragma mark Other Stuff
@@ -544,12 +547,20 @@
 		}
 }
 
-#pragma mark Actions
 
-- (void) emptyCache
+#pragma mark Actions
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-	
+	if (buttonIndex==0)
+	{
+		// hit ok, really do empty cache
+		
+		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
+		
+		[appDelegate.itts emptyCache];
+	}
 }
+
 
 @end
 

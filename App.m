@@ -196,11 +196,10 @@ static sqlite3_stmt *update_statement = nil;
 	NSString *sourceSt = [[NSString alloc] initWithBytes:[receivedData bytes] length:[receivedData length] encoding:NSUTF8StringEncoding];
 	if ([sourceSt hasPrefix:@"<"])
 	{	// HTML
-		
-		NSRange range = [sourceSt rangeOfString:@"<Birne>"];
+		NSRange range = [sourceSt rangeOfString:@"<iTunes>"];
 		if (range.location!=NSNotFound)
 		{
-			NSRange BirneRange = [sourceSt rangeOfString:@"</Birne>" options:NSLiteralSearch range:NSMakeRange(range.location+range.length, 100)];
+			NSRange BirneRange = [sourceSt rangeOfString:@"</iTunes>" options:NSLiteralSearch range:NSMakeRange(range.location+range.length, 100)];
 
 			NSRange tempRange = NSMakeRange(range.location + range.length, BirneRange.location - range.location - range.length);
 				

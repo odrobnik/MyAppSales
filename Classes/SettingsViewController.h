@@ -10,7 +10,7 @@
 
 @class KeychainWrapper;
 
-@interface SettingsViewController : UITableViewController {
+@interface SettingsViewController : UITableViewController <UIActionSheetDelegate> {
 	KeychainWrapper *keychainWrapper;
 	
 	BOOL showAddress;

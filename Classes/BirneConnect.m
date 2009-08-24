@@ -1487,8 +1487,6 @@ static sqlite3_stmt *reportid_statement = nil;
 		}
 		// "Finalize" the statement - releases the resources associated with the statement.
 		sqlite3_finalize(statement);
-		
-		
     } 
 	else 
 	{
@@ -1499,5 +1497,43 @@ static sqlite3_stmt *reportid_statement = nil;
     }
 }
 
+
+- (void) emptyCache
+{
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	// NSError *error;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+	
+	// get list of all files in document directory
+	NSArray *docs = [fileManager directoryContentsAtPath:documentsDirectory];
+	NSEnumerator *enu = [docs objectEnumerator];
+	NSString *aString;
+	
+	NSError *error;
+	
+	while (aString = [enu nextObject])
+	{
+		NSString *pathOfFile = [documentsDirectory stringByAppendingPathComponent:aString];
+
+		if ([aString isEqualToString:@"apps.db"]||[aString isEqualToString:@"settings.plist"]
+			||[aString isEqualToString:@"Currencies.plist"])
+		{
+			// excepted
+		}
+		else
+		{
+			// all others removed
+			[fileManager removeItemAtPath:pathOfFile error:&error];
+		}
+	}
+	
+	// reload app icons
+	for (NSNumber *oneAppID in apps)
+	{
+		App *oneApp = [apps objectForKey:oneAppID];
+		[oneApp loadImageFromBirne];
+	}
+}
 
 @end
