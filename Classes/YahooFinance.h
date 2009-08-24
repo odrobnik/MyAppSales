@@ -32,6 +32,7 @@
 // conversion functions
 - (double) convertToEuro:(double)amount fromCurrency:(NSString *)fromCurrency;
 - (double) convertToCurrency:(NSString *)toCurrency amount:(double)amount fromCurrency:(NSString *)fromCurrency;
+- (double) convertToMainCurrencyAmount:(double)amount fromCurrency:(NSString *)fromCurrency;
 
 
 - (NSArray *)currencyList;

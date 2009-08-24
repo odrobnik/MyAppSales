@@ -384,6 +384,12 @@ static YahooFinance *_sharedInstance = nil;
 	}
 }
 
+- (double) convertToMainCurrencyAmount:(double)amount fromCurrency:(NSString *)fromCurrency
+{
+	return [self convertToCurrency:mainCurrency amount:amount fromCurrency:fromCurrency];
+}
+
+
 
 - (double) convertToEuro:(double)amount fromCurrency:(NSString *)fromCurrency
 {
