@@ -118,8 +118,6 @@ typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, R
 - (void) toggleNetworkIndicator:(BOOL)isON;
 - (void) importReportsFromDocumentsFolder;
 
-
-
 - (void) loadCountryList;
 - (NSArray *) salesCurrencies;
 

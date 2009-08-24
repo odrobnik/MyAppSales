@@ -10,6 +10,7 @@
 #import "EditableCell.h"
 #import "SwitchCell.h"
 #import "TextCell.h"
+#import "ButtonCell.h"
 #import "YahooFinance.h"
 
 // for the currency selection
@@ -105,7 +106,7 @@
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 4;
 }
 
 /*
@@ -127,8 +128,8 @@
 		{
 			return showAddress?2:1;
 		}
-		case 3:  // test
-			return 5;
+		case 3:  // actions
+			return 1;
 		default:
 			break;
 	}
@@ -312,21 +313,19 @@
 
 		}
 			
-		case 3:
+		case 3:  // action
 		{
-			NSString *CellIdentifier = @"testSection";
-	
-			TextCell *cell = (TextCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+			NSString *CellIdentifier = @"ActionsSection";
+			
+			ButtonCell *cell = (ButtonCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 			if (cell == nil) 
 			{
-				cell = [[[TextCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
+				cell = [[[ButtonCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
 			}
-			
-			cell.title.text = @"test";
-			
-			cell.value.text = @"test";
-			return cell;		
-			
+
+			cell.centerLabel.text = @"Empty Cache";
+
+			return cell;
 		}
 			
 	}
@@ -361,8 +360,17 @@
 		[self.navigationController pushViewController:anotherViewController animated:YES];
 		[anotherViewController release];
 	}
+	else if (indexPath.section == 3)
+	{
+		[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+		
+		
+	}
+	
 }
 
+
+#pragma mark Other Stuff
 - (IBAction) showAppInfo:(id)sender
 {
 	// a convenient method to get to the Info.plist in the app bundle
@@ -409,6 +417,8 @@
 			return @"Reports";
 		case 2:
 			return @"Import/Export Server";
+		case 3:
+			return @"Maintenance";
 		default:
 			break;
 	}
@@ -532,6 +542,13 @@
 			[self.tableView deleteRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationTop];
 			
 		}
+}
+
+#pragma mark Actions
+
+- (void) emptyCache
+{
+	
 }
 
 @end

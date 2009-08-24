@@ -120,13 +120,13 @@
 		double royalties_converted = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:app.totalRoyalties fromCurrency:@"EUR"];
 		if (royalties_converted)
 		{
-			royaltiesLabel.text = @"free";
-			totalUnitsLabel.text = [NSString stringWithFormat:@"%d downloaded", app.totalUnitsSold];
+			royaltiesLabel.text = [NSString stringWithFormat:@"%0@", [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:royalties_converted]];
+			totalUnitsLabel.text = [NSString stringWithFormat:@"%d sold", app.totalUnitsSold];
 		}
 		else
 		{
-			royaltiesLabel.text = [NSString stringWithFormat:@"%0@", [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:royalties_converted]];
-			totalUnitsLabel.text = [NSString stringWithFormat:@"%d sold", app.totalUnitsSold];
+			royaltiesLabel.text = @"free";
+			totalUnitsLabel.text = [NSString stringWithFormat:@"%d downloaded", app.totalUnitsSold];
 		}
 		
 		

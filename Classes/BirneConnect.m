@@ -30,6 +30,14 @@ static sqlite3_stmt *insert_statement_sale = nil;
 static sqlite3_stmt *reportid_statement = nil;
 //static sqlite3_stmt *insertreport_statement = nil;
 
+// private methods
+@interface BirneConnect ()
+- (BOOL) shouldAutoSync;
+@end
+
+
+
+
 
 
 @implementation BirneConnect
@@ -71,7 +79,7 @@ static sqlite3_stmt *reportid_statement = nil;
 		[self setStatus:nil];
 
 		[self refreshIndexes];
-		[self calcAvgRoyaltiesForApps];
+		//[self calcAvgRoyaltiesForApps];  done at end of refresh
 		
 		return self;
 	}
@@ -85,7 +93,11 @@ static sqlite3_stmt *reportid_statement = nil;
 		self.username = user;
 		self.password = pass;
 
-		[self loginAndSync];
+		// only auto-sync if we did not already download a daily report today
+		if ([self shouldAutoSync])
+		{
+			[self loginAndSync];
+		}
 		
 		return self;
 	}
@@ -176,6 +188,18 @@ static sqlite3_stmt *reportid_statement = nil;
 		// inform the user that the download could not be made
 	}
 }
+
+- (BOOL) shouldAutoSync
+{
+	// only auto-sync if we did not already download a daily report today
+	Report *lastDailyReport = [latestReportsByType objectForKey:[NSNumber numberWithInt:ReportTypeDay]];
+	NSCalendar *gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	
+	NSDateComponents *lastComps = [gregorian components:NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit fromDate:lastDailyReport.downloadedDate];
+	NSDateComponents *todayComps = [gregorian components:NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit fromDate:[NSDate date]];
+	
+	return !((lastComps.day == todayComps.day)&&(lastComps.month == todayComps.month)&&(lastComps.year == todayComps.year));
+	}
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -1064,6 +1088,8 @@ static sqlite3_stmt *reportid_statement = nil;
 
 # pragma mark Post Synchronization
 
+
+// finds the latest daily and weekly report and saves it in lookup dictionary
 - (void)refreshIndexes
 {
 	NSEnumerator *e = [reports objectEnumerator];
