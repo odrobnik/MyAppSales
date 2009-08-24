@@ -40,6 +40,7 @@
 		A736BF360F4100B300126FD3 /* NIO.png in Resources */ = {isa = PBXBuildFile; fileRef = A736BF350F4100B300126FD3 /* NIO.png */; };
 		A73CE851104271CC008778BF /* BirneConnect+Totals.m in Sources */ = {isa = PBXBuildFile; fileRef = A73CE850104271CC008778BF /* BirneConnect+Totals.m */; };
 		A73CEA021042E517008778BF /* ButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A73CEA011042E517008778BF /* ButtonCell.m */; };
+		A73CEB38104340A5008778BF /* EmptyNano.png in Resources */ = {isa = PBXBuildFile; fileRef = A73CEB37104340A5008778BF /* EmptyNano.png */; };
 		A74A71D30EFB0644003B5191 /* schema.sql in Resources */ = {isa = PBXBuildFile; fileRef = A74A71D10EFB0644003B5191 /* schema.sql */; };
 		A74A71EA0EFB0806003B5191 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A74A71E90EFB0806003B5191 /* libsqlite3.dylib */; };
 		A74A75080EFD5FA3003B5191 /* apps.db in Resources */ = {isa = PBXBuildFile; fileRef = A74A75070EFD5FA3003B5191 /* apps.db */; };
@@ -319,6 +320,7 @@
 		A73CE850104271CC008778BF /* BirneConnect+Totals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "BirneConnect+Totals.m"; path = "../BirneConnect+Totals.m"; sourceTree = "<group>"; };
 		A73CEA001042E517008778BF /* ButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonCell.h; sourceTree = "<group>"; };
 		A73CEA011042E517008778BF /* ButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonCell.m; sourceTree = "<group>"; };
+		A73CEB37104340A5008778BF /* EmptyNano.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EmptyNano.png; sourceTree = "<group>"; };
 		A74A71D10EFB0644003B5191 /* schema.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = schema.sql; sourceTree = "<group>"; };
 		A74A71E90EFB0806003B5191 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A74A75070EFD5FA3003B5191 /* apps.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = apps.db; sourceTree = "<group>"; };
@@ -957,6 +959,7 @@
 		A7B3B4030F169C9100D211A0 /* artwork */ = {
 			isa = PBXGroup;
 			children = (
+				A73CEB37104340A5008778BF /* EmptyNano.png */,
 				A707A3380FA61238004060D9 /* Default.png */,
 				A707A2BB0FA5BBFA004060D9 /* apps_bw.png */,
 				A707A2BC0FA5BBFA004060D9 /* Graphique_bw.png */,
@@ -1298,6 +1301,7 @@
 				A707A2C10FA5BBFA004060D9 /* Settings_bw.png in Resources */,
 				A707A2C20FA5BBFA004060D9 /* Report_bw.png in Resources */,
 				A707A3390FA61238004060D9 /* Default.png in Resources */,
+				A73CEB38104340A5008778BF /* EmptyNano.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

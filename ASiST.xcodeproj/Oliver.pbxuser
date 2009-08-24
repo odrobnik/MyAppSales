@@ -473,6 +473,7 @@
 			A73CEB3210433F74008778BF /* PBXTextBookmark */ = A73CEB3210433F74008778BF /* PBXTextBookmark */;
 			A73CEB3310433F74008778BF /* PBXTextBookmark */ = A73CEB3310433F74008778BF /* PBXTextBookmark */;
 			A73CEB3410433F74008778BF /* PBXTextBookmark */ = A73CEB3410433F74008778BF /* PBXTextBookmark */;
+			A73CEB3610433F92008778BF /* PBXTextBookmark */ = A73CEB3610433F92008778BF /* PBXTextBookmark */;
 			A74A73E20EFC1CC6003B5191 = A74A73E20EFC1CC6003B5191 /* PBXTextBookmark */;
 			A74A75640EFD99DC003B5191 = A74A75640EFD99DC003B5191 /* PBXTextBookmark */;
 			A74A756C0EFD99DC003B5191 = A74A756C0EFD99DC003B5191 /* PBXTextBookmark */;
@@ -794,9 +795,9 @@
 	};
 	A7061AC70F3712A300F605C1 /* ReportAppsController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1404, 5572}}";
-			sepNavSelRange = "{473, 39}";
-			sepNavVisRange = "{1160, 932}";
+			sepNavIntBoundsRect = "{{0, 0}, {1404, 5502}}";
+			sepNavSelRange = "{6721, 0}";
+			sepNavVisRange = "{6175, 1213}";
 			sepNavWindowFrame = "{{269, 89}, {1027, 789}}";
 		};
 	};
@@ -1089,7 +1090,7 @@
 	A7248AC40F1BEEC9003DADDD /* AppCell.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1278, 2198}}";
-			sepNavSelRange = "{2012, 0}";
+			sepNavSelRange = "{5834, 125}";
 			sepNavVisRange = "{4776, 1195}";
 			sepNavWindowFrame = "{{202, 119}, {1051, 694}}";
 		};
@@ -2927,7 +2928,7 @@
 		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
 		name = "BirneConnect.m: 1533";
 		rLen = 0;
-		rLoc = 51115;
+		rLoc = 50936;
 		rType = 0;
 		vrLen = 879;
 		vrLoc = 49873;
@@ -2947,7 +2948,7 @@
 		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
 		name = "BirneConnect.m: 1537";
 		rLen = 0;
-		rLoc = 51117;
+		rLoc = 50937;
 		rType = 0;
 		vrLen = 835;
 		vrLoc = 49961;
@@ -3315,7 +3316,7 @@
 		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
 		name = "BirneConnect.m: 1539";
 		rLen = 0;
-		rLoc = 51112;
+		rLoc = 50936;
 		rType = 0;
 		vrLen = 928;
 		vrLoc = 50139;
@@ -3375,7 +3376,7 @@
 		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
 		name = "BirneConnect.m: 1539";
 		rLen = 0;
-		rLoc = 51080;
+		rLoc = 50936;
 		rType = 0;
 		vrLen = 879;
 		vrLoc = 50187;
@@ -3385,7 +3386,7 @@
 		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
 		name = "BirneConnect.m: 1539";
 		rLen = 0;
-		rLoc = 51112;
+		rLoc = 50936;
 		rType = 0;
 		vrLen = 928;
 		vrLoc = 50139;
@@ -3425,7 +3426,7 @@
 		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
 		name = "BirneConnect.m: 1539";
 		rLen = 0;
-		rLoc = 51080;
+		rLoc = 50936;
 		rType = 0;
 		vrLen = 879;
 		vrLoc = 50187;
@@ -3475,7 +3476,7 @@
 		fRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */;
 		name = "BirneConnect.m: 1541";
 		rLen = 0;
-		rLoc = 51011;
+		rLoc = 50936;
 		rType = 0;
 		vrLen = 857;
 		vrLoc = 50262;
@@ -3520,6 +3521,16 @@
 		vrLen = 1364;
 		vrLoc = 7110;
 	};
+	A73CEB3610433F92008778BF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A74A75460EFD7117003B5191 /* App.m */;
+		name = "App.m: 219";
+		rLen = 0;
+		rLoc = 7763;
+		rType = 0;
+		vrLen = 1364;
+		vrLoc = 7110;
+	};
 	A74A71D10EFB0644003B5191 /* schema.sql */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1224, 4718}}";
@@ -3553,7 +3564,7 @@
 	};
 	A74A75460EFD7117003B5191 /* App.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {954, 6398}}";
+			sepNavIntBoundsRect = "{{0, 0}, {954, 6426}}";
 			sepNavSelRange = "{7763, 0}";
 			sepNavVisRange = "{7110, 1364}";
 			sepNavWindowFrame = "{{790, 181}, {819, 694}}";
@@ -4269,9 +4280,9 @@
 	};
 	A79D81F50EFEA913006C37FC /* AppViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {918, 3052}}";
+			sepNavIntBoundsRect = "{{0, 0}, {918, 2940}}";
 			sepNavSelRange = "{3640, 94}";
-			sepNavVisRange = "{3249, 1361}";
+			sepNavVisRange = "{3344, 1285}";
 			sepNavWindowFrame = "{{219, 85}, {1042, 694}}";
 		};
 	};

@@ -250,7 +250,16 @@
 	{ // summary
 		
 		//cell.image = sumImage;
-		cell.image = rowApp.iconImageNano;
+	//	cell.image = rowApp.iconImageNano;
+		
+		if (rowApp.iconImageNano)
+		{
+			cell.image = rowApp.iconImageNano;
+		}
+		else
+		{
+			cell.image = [UIImage imageNamed:@"EmptyNano.png"];
+		}
 		
 		//NSNumber *app_id = [keys objectAtIndex:indexPath.section-1]; 
 		cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", [report  sumUnitsForAppId:app_id transactionType:TransactionTypeSale]];
