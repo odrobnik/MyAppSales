@@ -216,7 +216,6 @@ static sqlite3_stmt *update_statement = nil;
 		
 		}
 		
-		
 		range = [sourceSt rangeOfString:@"100x100-75.jpg"];
 	
 		if (range.location!=NSNotFound)

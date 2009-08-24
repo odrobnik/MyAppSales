@@ -141,6 +141,19 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if (indexPath.row%2)
+	{
+		// light
+		cell.backgroundColor=[UIColor colorWithRed:173.0/256.0 green:173.0/256.0 blue:176.0/256.0 alpha:1.0];
+	}
+	else
+	{
+		// dark
+		cell.backgroundColor=[UIColor colorWithRed:152.0/256.0 green:152.0/256.0 blue:156.0/256.0 alpha:1.0];
+	}
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Navigation logic may go here. Create and push another view controller.

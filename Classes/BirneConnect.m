@@ -1532,6 +1532,8 @@ static sqlite3_stmt *reportid_statement = nil;
 	for (NSNumber *oneAppID in apps)
 	{
 		App *oneApp = [apps objectForKey:oneAppID];
+		oneApp.iconImage = nil;
+		oneApp.iconImageNano = nil;
 		[oneApp loadImageFromBirne];
 	}
 }
