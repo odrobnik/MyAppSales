@@ -7,6 +7,7 @@
 //
 
 #import "BirneConnect.h"
+#import "BirneConnect+Totals.h"
 #import "YahooFinance.h"
 #import "DDData.h"
 #import "ASiSTAppDelegate.h"
@@ -59,8 +60,12 @@ static sqlite3_stmt *reportid_statement = nil;
 		[self createEditableCopyOfDatabaseIfNeeded];
 		[self initializeDatabase];
 		[self loadCountryList];
+		[self getTotals];
 		
-		//NSArray *currencies = [self salesCurrencies];
+		// subscribe to change of exchange rates
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exchangeRatesChanged:) name:@"ExchangeRatesChanged" object:nil];
+
+		
 		[self setStatus:@"Updating Currency Exchange Rates"];
 		self.myYahoo = [YahooFinance sharedInstance]; 
 		[self setStatus:nil];
@@ -173,6 +178,8 @@ static sqlite3_stmt *reportid_statement = nil;
 }
 
 - (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	[dataToImport release];
 	[myYahoo release];
 	[lastSuccessfulLoginTime release];
@@ -750,6 +757,9 @@ static sqlite3_stmt *reportid_statement = nil;
 		[self setStatus:nil];
 		
 		syncing = NO;
+		
+		// need to redo totals now
+		[self getTotals];
 
 		return NO;
 	}
@@ -1072,6 +1082,8 @@ static sqlite3_stmt *reportid_statement = nil;
 	}
 	
 	[self calcAvgRoyaltiesForApps];
+	
+	// this gets called after EACH report, so not a good place to do totals
 }
 
 - (void)calcAvgRoyaltiesForApps
@@ -1340,6 +1352,13 @@ static sqlite3_stmt *reportid_statement = nil;
 	NSNumber *typeKey = [NSNumber numberWithInt:reportType];
 	return [[newReportsByType objectForKey:typeKey] intValue];
 }
+
+- (void)exchangeRatesChanged:(NSNotification *) notification
+{
+	// different exchange rates require that we redo the totals
+	[self getTotals]; 
+}
+
 
 
 #pragma mark Database

@@ -37,6 +37,10 @@
 	// for sorting by average daily sales
 	double averageRoyaltiesPerDay;
 	
+	// sums
+	double totalRoyalties;
+	int totalUnitsSold;
+	
 }
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db;
@@ -63,6 +67,8 @@
 @property (assign, nonatomic) BOOL isNew;
 
 @property (assign, nonatomic) double averageRoyaltiesPerDay;
+@property (assign, readonly, nonatomic) double totalRoyalties;
+@property (assign, readonly, nonatomic) int totalUnitsSold;
 
 - (NSComparisonResult)compareBySales:(App *)otherApp;
 

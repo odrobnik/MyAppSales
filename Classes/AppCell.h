@@ -13,6 +13,8 @@
 @interface AppCell : UITableViewCell {
 	UILabel *appTitleLabel;
 	UILabel *subTextLabel;
+	UILabel *royaltiesLabel;
+	UILabel *totalUnitsLabel;
 	
 	App* app;
 }

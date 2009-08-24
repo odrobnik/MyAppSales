@@ -29,7 +29,7 @@ static sqlite3_stmt *update_statement = nil;
 
 @implementation App
 
-@synthesize iconImage, iconImageNano, isNew, averageRoyaltiesPerDay, apple_identifier;
+@synthesize iconImage, iconImageNano, isNew, averageRoyaltiesPerDay, apple_identifier, totalRoyalties, totalUnitsSold;
 
 
 - (id)init
@@ -40,6 +40,9 @@ static sqlite3_stmt *update_statement = nil;
 		self.iconImage = [UIImage imageNamed:@"Empty.png"];
 		UIImage *tmpImageNanoResized = [self.iconImage scaleImageToSize:CGSizeMake(32.0,32.0)];
 		self.iconImageNano = tmpImageNanoResized;
+		
+		// subscribe to total update notifications
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appTotalsUpdated:) name:@"AppTotalsUpdated" object:nil];
 	}
 	
 	return self;
@@ -270,6 +273,9 @@ static sqlite3_stmt *update_statement = nil;
 
 - (void)dealloc 
 {
+	// Remove notification observer
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	[iconImage release];
 	[title release];
 	[vendor_identifier release];
@@ -399,6 +405,7 @@ static sqlite3_stmt *update_statement = nil;
     vendor_identifier = [aString copy];
 }
 
+#pragma mark Sorting
 - (NSComparisonResult)compareBySales:(App *)otherApp
 {
 	if (self.averageRoyaltiesPerDay < otherApp.averageRoyaltiesPerDay)
@@ -414,5 +421,20 @@ static sqlite3_stmt *update_statement = nil;
 	return [self.title compare:otherApp.title];  // if sales equal (maybe 0), sort by name
 	//return NSOrderedSame;
 }	
+
+#pragma mark Notifications
+- (void)appTotalsUpdated:(NSNotification *) notification
+{
+	if(notification)
+	{
+		NSDictionary *tmpDict = [notification userInfo];
+		
+		NSDictionary *appDict = [tmpDict objectForKey:[NSNumber numberWithInt:apple_identifier]];
+		
+		totalRoyalties = [[appDict objectForKey:@"Royalties"] doubleValue];
+		totalUnitsSold = [[appDict objectForKey:@"Units"] intValue];
+	} 
+}
+
 
 @end

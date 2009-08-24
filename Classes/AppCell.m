@@ -19,6 +19,8 @@
 @synthesize app;
 
 #define LEFT_COLUMN_OFFSET 75.0
+#define RIGHT_MARGIN 10.0
+#define VERTICAL_MARGIN 8.0
 #define MAIN_FONT_SIZE 14.0
 
 
@@ -33,24 +35,36 @@
 		// Add these as subviews.
 		appTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];	// layoutSubViews will decide the final frame
 		appTitleLabel.backgroundColor = [UIColor clearColor];  // otherwise it's in a white box
-		//unitsSoldLabel.opaque = NO;
-		//unitsSoldLabel.textColor = [UIColor blackColor];
-		//unitsSoldLabel.highlightedTextColor = [UIColor whiteColor];
-		//unitsSoldLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
-		//appTitleLabel.textAlignment = UITextAlignmentCenter;
 		appTitleLabel.font = [UIFont boldSystemFontOfSize:MAIN_FONT_SIZE + 4.0];
 		[self.contentView addSubview:appTitleLabel];
+
+		UIFont *smallerFont = [UIFont systemFontOfSize:14.0];
 		
-		// create label views to contain the various pieces of text that make up the cell.
-		// Add these as subviews.
 		subTextLabel = [[UILabel alloc] initWithFrame:CGRectZero];	// layoutSubViews will decide the final frame
 		subTextLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
 		subTextLabel.backgroundColor = [UIColor clearColor];
 		subTextLabel.textColor = [UIColor colorWithWhite:0.3 alpha:1.0];
-		//royaltyEarnedLabel.font = [UIFont systemFontOfSize:MAIN_FONT_SIZE];
 		subTextLabel.adjustsFontSizeToFitWidth = YES;
-		//subTextLabel.textAlignment = UITextAlignmentCenter;
+		subTextLabel.font = smallerFont;
 		[self.contentView addSubview:subTextLabel];
+		
+		
+		royaltiesLabel = [[UILabel alloc] initWithFrame:CGRectZero];	// layoutSubViews will decide the final frame
+		royaltiesLabel.baselineAdjustment = UIBaselineAdjustmentAlignBaselines;
+		royaltiesLabel.backgroundColor = [UIColor clearColor];
+		royaltiesLabel.textColor = [UIColor colorWithWhite:0.3 alpha:1.0];
+		royaltiesLabel.adjustsFontSizeToFitWidth = YES;
+		royaltiesLabel.textAlignment = UITextAlignmentRight;
+		royaltiesLabel.font = smallerFont;
+		[self.contentView addSubview:royaltiesLabel];
+		
+		totalUnitsLabel = [[UILabel alloc] initWithFrame:CGRectZero];	// layoutSubViews will decide the final frame
+		totalUnitsLabel.baselineAdjustment = UIBaselineAdjustmentAlignBaselines;
+		totalUnitsLabel.backgroundColor = [UIColor clearColor];
+		totalUnitsLabel.textColor = [UIColor colorWithWhite:0.3 alpha:1.0];
+		totalUnitsLabel.adjustsFontSizeToFitWidth = YES;
+		totalUnitsLabel.font = smallerFont;
+		[self.contentView addSubview:totalUnitsLabel];
     }
     return self;
 }
@@ -66,19 +80,18 @@
 	[super layoutSubviews];
     CGRect contentRect = [self.contentView bounds];
 	
-	//double column_width = (contentRect.size.width - LEFT_COLUMN_OFFSET - 10.0)/4.0;
+	CGFloat lineHeight = (contentRect.size.height - VERTICAL_MARGIN*2.0)/3.0;
 	
-	// In this example we will never be editing, but this illustrates the appropriate pattern
-    CGRect frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET, contentRect.origin.y+10.0, contentRect.size.width -  LEFT_COLUMN_OFFSET,  contentRect.size.height/2.0);
-	appTitleLabel.frame = frame;
-	
-    frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET, contentRect.size.height/2.0, contentRect.size.width -  LEFT_COLUMN_OFFSET,  contentRect.size.height/2.0-10.0);
-	
-	subTextLabel.frame = frame;
+	appTitleLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET, contentRect.origin.y + VERTICAL_MARGIN,  contentRect.size.width -  LEFT_COLUMN_OFFSET - RIGHT_MARGIN, lineHeight);
+	subTextLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET, contentRect.origin.y+lineHeight + VERTICAL_MARGIN,  contentRect.size.width -  LEFT_COLUMN_OFFSET - RIGHT_MARGIN, lineHeight);
+	royaltiesLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET, contentRect.origin.y+2.0*lineHeight + VERTICAL_MARGIN,  contentRect.size.width -  LEFT_COLUMN_OFFSET - RIGHT_MARGIN, lineHeight);
+	totalUnitsLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET, contentRect.origin.y+2.0*lineHeight + VERTICAL_MARGIN,  contentRect.size.width -  LEFT_COLUMN_OFFSET - RIGHT_MARGIN, lineHeight);
 }
 
 - (void)dealloc
 {
+	[royaltiesLabel release];
+	[totalUnitsLabel release];
 	[appTitleLabel release];
 	[subTextLabel release];
 	[app release];
@@ -100,10 +113,23 @@
 		app = [inApp retain];
 		
 		appTitleLabel.text = app.title;
-		[appTitleLabel setNeedsDisplay];
 		
 		double converted = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:app.averageRoyaltiesPerDay fromCurrency:@"EUR"];
-		subTextLabel.text = [NSString stringWithFormat:@"%@/day for past 7 days", [[YahooFinance sharedInstance]  formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:converted]];
+		subTextLabel.text = [NSString stringWithFormat:@"%@ per day", [[YahooFinance sharedInstance]  formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:converted]];
+
+		double royalties_converted = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:app.totalRoyalties fromCurrency:@"EUR"];
+		if (royalties_converted)
+		{
+			royaltiesLabel.text = @"free";
+			totalUnitsLabel.text = [NSString stringWithFormat:@"%d downloaded", app.totalUnitsSold];
+		}
+		else
+		{
+			royaltiesLabel.text = [NSString stringWithFormat:@"%0@", [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:royalties_converted]];
+			totalUnitsLabel.text = [NSString stringWithFormat:@"%d sold", app.totalUnitsSold];
+		}
+		
+		
 		
 		if (app.iconImage)
 		{

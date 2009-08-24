@@ -329,7 +329,6 @@ static YahooFinance *_sharedInstance = nil;
 	
 	//NSLog([curDict description]);
 	[self save];
-	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"ExchangeRatesChanged" object:nil userInfo:nil];
 	
 }

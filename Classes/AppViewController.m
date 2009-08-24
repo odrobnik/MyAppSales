@@ -30,6 +30,7 @@
     [super viewDidLoad];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newAppNotification:) name:@"NewAppAdded" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appTotalsUpdated:) name:@"AppTotalsUpdated" object:nil];
 
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -71,10 +72,9 @@
     // Release anything that's not essential, such as cached data
 }
 
+#pragma mark Notifications
 - (void)newAppNotification:(NSNotification *) notification
 {
-	
-	
 	if(notification)
 	{
 		NSDictionary *tmpDict = [notification userInfo];
@@ -94,6 +94,13 @@
 
 	} 
 }
+
+- (void)appTotalsUpdated:(NSNotification *) notification
+{
+	// need to update entire table to reflect new totals
+	[self.tableView reloadData];
+}
+
 
 
 #pragma mark Table view methods

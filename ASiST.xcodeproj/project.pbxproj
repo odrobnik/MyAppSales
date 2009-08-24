@@ -38,6 +38,7 @@
 		A7325BA00F21C9920053AEB1 /* ReportRootController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7325B9F0F21C9920053AEB1 /* ReportRootController.m */; };
 		A7357AF80F3348C900502F15 /* StatusInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7357AF70F3348C900502F15 /* StatusInfoController.m */; };
 		A736BF360F4100B300126FD3 /* NIO.png in Resources */ = {isa = PBXBuildFile; fileRef = A736BF350F4100B300126FD3 /* NIO.png */; };
+		A73CE851104271CC008778BF /* BirneConnect+Totals.m in Sources */ = {isa = PBXBuildFile; fileRef = A73CE850104271CC008778BF /* BirneConnect+Totals.m */; };
 		A74A71D30EFB0644003B5191 /* schema.sql in Resources */ = {isa = PBXBuildFile; fileRef = A74A71D10EFB0644003B5191 /* schema.sql */; };
 		A74A71EA0EFB0806003B5191 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A74A71E90EFB0806003B5191 /* libsqlite3.dylib */; };
 		A74A75080EFD5FA3003B5191 /* apps.db in Resources */ = {isa = PBXBuildFile; fileRef = A74A75070EFD5FA3003B5191 /* apps.db */; };
@@ -313,6 +314,8 @@
 		A7357AF60F3348C900502F15 /* StatusInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusInfoController.h; sourceTree = "<group>"; };
 		A7357AF70F3348C900502F15 /* StatusInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusInfoController.m; sourceTree = "<group>"; };
 		A736BF350F4100B300126FD3 /* NIO.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NIO.png; sourceTree = "<group>"; };
+		A73CE84F104271CC008778BF /* BirneConnect+Totals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "BirneConnect+Totals.h"; path = "../BirneConnect+Totals.h"; sourceTree = "<group>"; };
+		A73CE850104271CC008778BF /* BirneConnect+Totals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "BirneConnect+Totals.m"; path = "../BirneConnect+Totals.m"; sourceTree = "<group>"; };
 		A74A71D10EFB0644003B5191 /* schema.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = schema.sql; sourceTree = "<group>"; };
 		A74A71E90EFB0806003B5191 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A74A75070EFD5FA3003B5191 /* apps.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = apps.db; sourceTree = "<group>"; };
@@ -601,10 +604,12 @@
 				A74A71D40EFB0651003B5191 /* Database */,
 				A79272500F2D95F9009AF9B2 /* Helpers */,
 				A707A33F0FA61305004060D9 /* View Controllers */,
-				1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */,
 				1D3623240D0F684500981E51 /* ASiSTAppDelegate.h */,
+				1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */,
 				A70D5A7A0F17A66700A6FE9B /* YahooFinance.h */,
 				A70D5A7B0F17A66700A6FE9B /* YahooFinance.m */,
+				A73CE84F104271CC008778BF /* BirneConnect+Totals.h */,
+				A73CE850104271CC008778BF /* BirneConnect+Totals.m */,
 				A7EDD37D0FA4E8C40079FE78 /* BirneConnect.h */,
 				A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */,
 				A7B8DDDF0F1FC88100DC09E1 /* TableListView.h */,
@@ -1346,6 +1351,7 @@
 				A7EDD38D0FA4E8C40079FE78 /* Report.m in Sources */,
 				A7EDD38E0FA4E8C40079FE78 /* ReportViewController.m in Sources */,
 				A7ACC3230FE6290E0014DB41 /* NSString+Helpers.m in Sources */,
+				A73CE851104271CC008778BF /* BirneConnect+Totals.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

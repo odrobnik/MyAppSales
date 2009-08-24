@@ -14,6 +14,7 @@
 
 //#import "NSDataCompression.h"
 #import "BirneConnect.h"
+#import "BirneConnect+Totals.h"
 
 // for the HTTP server
 #import "HTTPServer.h"
@@ -241,6 +242,8 @@
 	[itts sync];
 }
 
+
+#pragma mark Notifications
 - (void)newReportNotification:(NSNotification *) notification
 {
 	
@@ -301,8 +304,6 @@
 }
 
 
-
-
 - (void)newAppNotification:(NSNotification *) notification
 {
 	
@@ -324,6 +325,9 @@
 	} 
 }
 
+
+
+#pragma mark Internal Server
 - (void)displayInfoUpdate:(NSNotification *) notification
 {
 	
