@@ -31,7 +31,7 @@ static sqlite3_stmt *total_statement = nil;
 		// Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
 		// This is a great way to optimize because frequently used queries can be compiled once, then with each
 		// use new variable values can be bound to placeholders.
-		const char *sql = "SELECT app_id, royalty_currency, sum(units), sum(royalty_price) FROM report r, sale s WHERE r.id = s.report_id and report_type_id = 0 and type_id=1 group by app_id, royalty_currency";
+		const char *sql = "SELECT app_id, royalty_currency, sum(units), sum(units*royalty_price) FROM report r, sale s WHERE r.id = s.report_id and report_type_id = 0 and type_id=1 group by app_id, royalty_currency";
 		if (sqlite3_prepare_v2(database, sql, -1, &total_statement, NULL) != SQLITE_OK) {
 			NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
 		}
