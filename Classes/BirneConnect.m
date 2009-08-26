@@ -330,7 +330,7 @@ static sqlite3_stmt *reportid_statement = nil;
 
 	
 	NSString *sourceSt = [[[NSString alloc] initWithBytes:[receivedData bytes] length:[receivedData length] encoding:NSASCIIStringEncoding] autorelease];
-	NSLog(sourceSt);
+	//NSLog(sourceSt);
 	
 	switch (loginStep) {
 		case 0:   // open Login page
@@ -441,8 +441,6 @@ static sqlite3_stmt *reportid_statement = nil;
 			}
 			else
 			{
-				NSLog(@"%@", sourceSt);
-
 				// Login Failed
 				loginPostURL = @"";
 				syncing = NO;
