@@ -164,9 +164,9 @@ static sqlite3_stmt *reportid_statement = nil;
 	
 	// open login page
 	loginStep = 0;
-	NSString *URL=[NSString stringWithFormat:@"https://itts.apple.com/cgi-bin/WebObjects/Piano.woa"];
+	NSString *URL=[NSString stringWithFormat:@"https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa"];
 	NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-															cachePolicy:NSURLRequestUseProtocolCachePolicy
+															cachePolicy:NSURLRequestReloadIgnoringCacheData
 														timeoutInterval:30.0];
 	[self toggleNetworkIndicator:YES];
 	[self setStatus:@"Opening HTTPS Connection"];
@@ -330,24 +330,24 @@ static sqlite3_stmt *reportid_statement = nil;
 
 	
 	NSString *sourceSt = [[[NSString alloc] initWithBytes:[receivedData bytes] length:[receivedData length] encoding:NSASCIIStringEncoding] autorelease];
-	//NSLog(sourceSt);
+	NSLog(sourceSt);
 	
 	switch (loginStep) {
 		case 0:   // open Login page
 		{
 			// search for outer post url
-			NSRange formRange = [sourceSt rangeOfString:@"<form method=\"post\" action=\""];
+			NSRange formRange = [sourceSt rangeOfString:@"method=\"post\" action=\""];
 			
 			if (formRange.location!=NSNotFound)
 			{
 				NSRange quoteRange = [sourceSt rangeOfString:@"\"" options:NSLiteralSearch range:NSMakeRange(formRange.location+formRange.length, 100)];
 				if (quoteRange.length)
 				{
-					URL = [@"https://itts.apple.com" stringByAppendingString:[sourceSt substringWithRange:NSMakeRange(formRange.location+formRange.length, quoteRange.location-formRange.location-formRange.length)]];
-					loginStep = 1;
+					URL = [@"https://itunesconnect.apple.com" stringByAppendingString:[sourceSt substringWithRange:NSMakeRange(formRange.location+formRange.length, quoteRange.location-formRange.location-formRange.length)]];
+					loginStep = 7;
 					[receivedData setLength:0];
 					theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-																			cachePolicy:NSURLRequestUseProtocolCachePolicy
+																			cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
 																		timeoutInterval:30.0];
 					
 					[theRequest setHTTPMethod:@"POST"];
@@ -368,6 +368,35 @@ static sqlite3_stmt *reportid_statement = nil;
 			
 			break;
 		}
+		case 7: // Logged into iTunes Connect
+		{
+			URL = @"http://itts.apple.com/cgi-bin/WebObjects/Piano.woa";
+			
+			loginStep = 2;
+			
+			[receivedData setLength:0];
+			
+			theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
+											   cachePolicy:NSURLRequestUseProtocolCachePolicy
+										   timeoutInterval:30.0];
+			
+			[theRequest setHTTPMethod:@"GET"];
+			//[theRequest addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
+			
+			//create the body
+			//postBody = [NSMutableData data];
+			//[postBody appendData:[@"11.7=Summary&11.9=Daily&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
+			
+			//add the body to the post
+			//[theRequest setHTTPBody:postBody];
+			
+			theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
+			[self setStatus:@"Accessing Sales Reports"];
+			break;
+		}
+			
+			
+			
 		case 1: // Received Answer to Login
 		{
 			// search for frmVendorPage URL
@@ -412,6 +441,8 @@ static sqlite3_stmt *reportid_statement = nil;
 			}
 			else
 			{
+				NSLog(@"%@", sourceSt);
+
 				// Login Failed
 				loginPostURL = @"";
 				syncing = NO;
@@ -1523,6 +1554,7 @@ static sqlite3_stmt *reportid_statement = nil;
 		}
 		else
 		{
+			NSLog(@"removed %@", pathOfFile);
 			// all others removed
 			[fileManager removeItemAtPath:pathOfFile error:&error];
 		}
