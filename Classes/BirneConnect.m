@@ -1517,7 +1517,7 @@ static sqlite3_stmt *reportid_statement = nil;
 		NSString *pathOfFile = [documentsDirectory stringByAppendingPathComponent:aString];
 
 		if ([aString isEqualToString:@"apps.db"]||[aString isEqualToString:@"settings.plist"]
-			||[aString isEqualToString:@"Currencies.plist"])
+			||[aString isEqualToString:@"Currencies.plist"]||[aString isEqualToString:@"simkeychain.plist"])
 		{
 			// excepted
 		}
