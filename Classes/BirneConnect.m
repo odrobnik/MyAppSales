@@ -333,7 +333,7 @@ static sqlite3_stmt *reportid_statement = nil;
 	//NSLog(sourceSt);
 	
 	switch (loginStep) {
-		case 0:   // open Login page
+		case 0:   // received Login page
 		{
 			// search for outer post url
 			NSRange formRange = [sourceSt rangeOfString:@"method=\"post\" action=\""];
@@ -363,6 +363,21 @@ static sqlite3_stmt *reportid_statement = nil;
 					theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
 					[self setStatus:@"Sending Login Information"];
 				}
+			}
+			else
+			{
+				syncing = NO;
+				[self toggleNetworkIndicator:NO];
+				self.lastSuccessfulLoginTime = nil;
+				
+				UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Cannot access Login"
+																 message:@"iTunes Connect is probably down for maintenance. Please try again later."
+																delegate:self
+													   cancelButtonTitle:@"Ok"
+													   otherButtonTitles:nil, nil];
+				[alert show];
+				[alert release];
+				[self setStatus:nil];
 			}
 			
 			
