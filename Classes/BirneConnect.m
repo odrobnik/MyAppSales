@@ -9,6 +9,7 @@
 #import "BirneConnect.h"
 #import "BirneConnect+Totals.h"
 #import "YahooFinance.h"
+#import "Database.h"
 #import "DDData.h"
 #import "ASiSTAppDelegate.h"
 
@@ -57,16 +58,18 @@ static sqlite3_stmt *reportid_statement = nil;
 	if (self = [super init])
 	{
 		// set up local indexes
-		reportsDaily = [[NSMutableArray alloc] init];
-		reportsWeekly = [[NSMutableArray alloc] init];
-		reportsByType = [[NSMutableArray alloc] initWithObjects:reportsDaily, reportsWeekly, nil];
+		reportsDaily = [NSMutableArray array];
+		reportsWeekly = [NSMutableArray array];
+		reportsFinancial = [NSMutableArray array];
+		
+		reportsByType = [[NSMutableArray alloc] initWithObjects:reportsDaily, reportsWeekly, reportsFinancial, nil];
 		
 		latestReportsByType = [[NSMutableDictionary alloc] init];
 
-		
-		// connect with database
-		[self createEditableCopyOfDatabaseIfNeeded];
+		database = [[Database sharedInstance] database];
 		[self initializeDatabase];
+		
+		
 		[self loadCountryList];
 		[self getTotals];
 		
@@ -772,7 +775,6 @@ static sqlite3_stmt *reportid_statement = nil;
 	{
 		[self refreshIndexes];   // because at this point we have all reports
 
-
 		return NO;
 	}
 }
@@ -864,12 +866,36 @@ static sqlite3_stmt *reportid_statement = nil;
 		NSString *customer_currency	= [oneLine getValueForNamedColumn:@"Customer Currency" headerNames:column_names];
 		NSString *country_code	= [oneLine getValueForNamedColumn:@"Country Code" headerNames:column_names];
 		
+		BOOL financial_report = NO;
+		
+		if ((!from_date)&&(!company_name)&&(!title)&&(!royalty_currency)&&(!royalty_price)&&(!country_code))
+		{
+			// probably monthly report
+			from_date = [oneLine getValueForNamedColumn:@"Start Date" headerNames:column_names];
+			
+			units = [[oneLine getValueForNamedColumn:@"Quantity" headerNames:column_names] intValue];
+			company_name = [oneLine getValueForNamedColumn:@"Artist/Show/Developer" headerNames:column_names];
+			title	= [oneLine getValueForNamedColumn:@"Title" headerNames:column_names];
+			royalty_currency	= [oneLine getValueForNamedColumn:@"Partner Share Currency" headerNames:column_names];
+			royalty_price = [[oneLine getValueForNamedColumn:@"Partner Share" headerNames:column_names] doubleValue];
+			country_code	= [oneLine getValueForNamedColumn:@"Country Of Sale" headerNames:column_names];
+			
+			financial_report = YES;
+		}
+			
+		
+		
 		if (from_date&&until_date&&appID&&vendor_identifier&&company_name&&title&&type_id&&units&&royalty_currency&&customer_currency&&country_code)
 		{
 			if ((!report_id)||(![prev_until_date isEqualToString:until_date]))   // added: possibly multiple different rows from different reports
 			{  // detect report type from first line
 				
-				if ([from_date isEqualToString:until_date])
+				if (financial_report)
+				{
+					// is a monthly report
+					report_id=[self insertReportForDate:from_date UntilDate:until_date type:ReportTypeFinancial];
+				}
+				else if ([from_date isEqualToString:until_date])
 				{	// day report
 					report_id=[self insertReportForDate:from_date UntilDate:until_date type:ReportTypeDay];
 				}
@@ -932,7 +958,6 @@ static sqlite3_stmt *reportid_statement = nil;
 		return 0;
 	}
 	
-	
 	NSUInteger primaryKey = 0;
 	Report *tmp_report = [[Report alloc] initWithType:type from_date:tmp_from_date until_date:tmp_until_date downloaded_date:tmp_downloaded_date database:database];
 	tmp_report.itts = self;
@@ -949,6 +974,9 @@ static sqlite3_stmt *reportid_statement = nil;
 			break;
 		case ReportTypeWeek:
 			[reportsWeekly addObject:tmp_report];
+			break;
+		case ReportTypeFinancial:
+			[reportsFinancial addObject:tmp_report];
 			break;
 		default:
 			break;
@@ -1148,7 +1176,6 @@ static sqlite3_stmt *reportid_statement = nil;
 			[latestReportsByType setObject:r forKey:[NSNumber numberWithInt:r.reportType]];
 			
 		}
-		
 	}
 	
 	[self calcAvgRoyaltiesForApps];
@@ -1431,42 +1458,57 @@ static sqlite3_stmt *reportid_statement = nil;
 
 
 
-#pragma mark Database
-// Creates a writable copy of the bundled default database in the application Documents directory.
-- (void)createEditableCopyOfDatabaseIfNeeded {
-    // First, test for existence.
-    BOOL success;
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSError *error;
+
+
+- (void) emptyCache
+{
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	// NSError *error;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:@"apps.db"];
-	//NSLog(@"DB: %@", writableDBPath);
-    success = [fileManager fileExistsAtPath:writableDBPath];
-    if (success) return;
-    // The writable database does not exist, so copy the default to the appropriate location.
-    NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"apps.db"];
-    success = [fileManager copyItemAtPath:defaultDBPath toPath:writableDBPath error:&error];
-    if (!success) {
-        NSAssert1(0, @"Failed to create writable database file with message '%@'.", [error localizedDescription]);
-    }
+	
+	// get list of all files in document directory
+	NSArray *docs = [fileManager directoryContentsAtPath:documentsDirectory];
+	NSEnumerator *enu = [docs objectEnumerator];
+	NSString *aString;
+	
+	NSError *error;
+	
+	while (aString = [enu nextObject])
+	{
+		NSString *pathOfFile = [documentsDirectory stringByAppendingPathComponent:aString];
+
+		if ([aString isEqualToString:@"apps.db"]||[aString isEqualToString:@"settings.plist"]
+			||[aString isEqualToString:@"Currencies.plist"]||[aString isEqualToString:@"simkeychain.plist"])
+		{
+			// excepted
+		}
+		else
+		{
+			NSLog(@"removed %@", pathOfFile);
+			// all others removed
+			[fileManager removeItemAtPath:pathOfFile error:&error];
+		}
+	}
+	
+	// reload app icons
+	for (NSNumber *oneAppID in apps)
+	{
+		App *oneApp = [apps objectForKey:oneAppID];
+		oneApp.iconImage = nil;
+		oneApp.iconImageNano = nil;
+		[oneApp loadImageFromBirne];
+	}
 }
 
 
-// Open the database connection and retrieve minimal information for all objects.
+#pragma mark Database
+// Load all apps and reports
 - (void)initializeDatabase {
     self.apps = [[NSMutableDictionary alloc] init];
     self.reports = [[NSMutableDictionary alloc] init];
 	
-	
-    // The database is stored in the application bundle. 
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"apps.db"];
-    // Open the database. The database was prepared outside the application.
-    if (sqlite3_open([path UTF8String], &database) == SQLITE_OK) 
-	{
-        // Get the primary key for all books.
+        // Get the primary key for all apps.
 		char *sql = "SELECT id FROM app";
 		sqlite3_stmt *statement;
 		// Preparing a statement compiles the SQL query into a byte-code program in the SQLite library.
@@ -1523,6 +1565,9 @@ static sqlite3_stmt *reportid_statement = nil;
 					case ReportTypeWeek:
 						[reportsWeekly addObject:report];
 						break;
+					case ReportTypeFinancial:
+						[reportsFinancial addObject:report];
+						break;
 					default:
 						break;
 				}
@@ -1531,56 +1576,8 @@ static sqlite3_stmt *reportid_statement = nil;
 		}
 		// "Finalize" the statement - releases the resources associated with the statement.
 		sqlite3_finalize(statement);
-    } 
-	else 
-	{
-        // Even though the open failed, call close to properly clean up resources.
-        sqlite3_close(database);
-        NSAssert1(0, @"Failed to open database with message '%s'.", sqlite3_errmsg(database));
-        // Additional error handling, as appropriate...
-    }
+
 }
 
-
-- (void) emptyCache
-{
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	// NSError *error;
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-	
-	// get list of all files in document directory
-	NSArray *docs = [fileManager directoryContentsAtPath:documentsDirectory];
-	NSEnumerator *enu = [docs objectEnumerator];
-	NSString *aString;
-	
-	NSError *error;
-	
-	while (aString = [enu nextObject])
-	{
-		NSString *pathOfFile = [documentsDirectory stringByAppendingPathComponent:aString];
-
-		if ([aString isEqualToString:@"apps.db"]||[aString isEqualToString:@"settings.plist"]
-			||[aString isEqualToString:@"Currencies.plist"]||[aString isEqualToString:@"simkeychain.plist"])
-		{
-			// excepted
-		}
-		else
-		{
-			NSLog(@"removed %@", pathOfFile);
-			// all others removed
-			[fileManager removeItemAtPath:pathOfFile error:&error];
-		}
-	}
-	
-	// reload app icons
-	for (NSNumber *oneAppID in apps)
-	{
-		App *oneApp = [apps objectForKey:oneAppID];
-		oneApp.iconImage = nil;
-		oneApp.iconImageNano = nil;
-		[oneApp loadImageFromBirne];
-	}
-}
 
 @end

@@ -25,8 +25,6 @@
     if (self = [super initWithStyle:style]) 
 	{
 		self.myYahoo = yahoo;
-		
-		//[self.myYahoo.allCurrencies keysSortedByValueUsingSelector:<#(SEL)comparator#>
     }
     return self;
 }
@@ -46,11 +44,13 @@
     [super viewWillAppear:animated];
 }
 */
-/*
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+	[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+
 }
-*/
+
 /*
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];

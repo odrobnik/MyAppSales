@@ -41,6 +41,7 @@
 		A73CE851104271CC008778BF /* BirneConnect+Totals.m in Sources */ = {isa = PBXBuildFile; fileRef = A73CE850104271CC008778BF /* BirneConnect+Totals.m */; };
 		A73CEA021042E517008778BF /* ButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A73CEA011042E517008778BF /* ButtonCell.m */; };
 		A73CEB38104340A5008778BF /* EmptyNano.png in Resources */ = {isa = PBXBuildFile; fileRef = A73CEB37104340A5008778BF /* EmptyNano.png */; };
+		A73CEBC81044444D008778BF /* CalendarDayView.m in Sources */ = {isa = PBXBuildFile; fileRef = A73CEBC71044444D008778BF /* CalendarDayView.m */; };
 		A74A71D30EFB0644003B5191 /* schema.sql in Resources */ = {isa = PBXBuildFile; fileRef = A74A71D10EFB0644003B5191 /* schema.sql */; };
 		A74A71EA0EFB0806003B5191 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A74A71E90EFB0806003B5191 /* libsqlite3.dylib */; };
 		A74A75080EFD5FA3003B5191 /* apps.db in Resources */ = {isa = PBXBuildFile; fileRef = A74A75070EFD5FA3003B5191 /* apps.db */; };
@@ -255,6 +256,9 @@
 		A7B8DD200F1F901100DC09E1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7B8DD1F0F1F901100DC09E1 /* Security.framework */; };
 		A7B8DDE10F1FC88100DC09E1 /* TableListView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DDE00F1FC88100DC09E1 /* TableListView.m */; };
 		A7BB984C0F3C13B0008AC1B4 /* Currencies.plist in Resources */ = {isa = PBXBuildFile; fileRef = A7BB984B0F3C13B0008AC1B4 /* Currencies.plist */; };
+		A7C7E92B10459E3000D413D0 /* DayReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C7E92A10459E3000D413D0 /* DayReportCell.m */; };
+		A7EB519410481BE6005452BE /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EB519310481BE6005452BE /* Database.m */; };
+		A7EB5259104825F9005452BE /* update_0_to_1.sql in Resources */ = {isa = PBXBuildFile; fileRef = A7EB5258104825F9005452BE /* update_0_to_1.sql */; };
 		A7EDD2FE0FA4E2C50079FE78 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD2FA0FA4E2C50079FE78 /* SettingsViewController.xib */; };
 		A7EDD2FF0FA4E2C50079FE78 /* ReportRootController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD2FB0FA4E2C50079FE78 /* ReportRootController.xib */; };
 		A7EDD3000FA4E2C50079FE78 /* ChartRootController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD2FC0FA4E2C50079FE78 /* ChartRootController.xib */; };
@@ -321,6 +325,8 @@
 		A73CEA001042E517008778BF /* ButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonCell.h; sourceTree = "<group>"; };
 		A73CEA011042E517008778BF /* ButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonCell.m; sourceTree = "<group>"; };
 		A73CEB37104340A5008778BF /* EmptyNano.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EmptyNano.png; sourceTree = "<group>"; };
+		A73CEBC61044444D008778BF /* CalendarDayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarDayView.h; sourceTree = "<group>"; };
+		A73CEBC71044444D008778BF /* CalendarDayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarDayView.m; sourceTree = "<group>"; };
 		A74A71D10EFB0644003B5191 /* schema.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = schema.sql; sourceTree = "<group>"; };
 		A74A71E90EFB0806003B5191 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A74A75070EFD5FA3003B5191 /* apps.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = apps.db; sourceTree = "<group>"; };
@@ -564,6 +570,11 @@
 		A7B8DDDF0F1FC88100DC09E1 /* TableListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableListView.h; sourceTree = "<group>"; };
 		A7B8DDE00F1FC88100DC09E1 /* TableListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableListView.m; sourceTree = "<group>"; };
 		A7BB984B0F3C13B0008AC1B4 /* Currencies.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Currencies.plist; sourceTree = "<group>"; };
+		A7C7E92910459E3000D413D0 /* DayReportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DayReportCell.h; sourceTree = "<group>"; };
+		A7C7E92A10459E3000D413D0 /* DayReportCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DayReportCell.m; sourceTree = "<group>"; };
+		A7EB519210481BE6005452BE /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
+		A7EB519310481BE6005452BE /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
+		A7EB5258104825F9005452BE /* update_0_to_1.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = update_0_to_1.sql; sourceTree = "<group>"; };
 		A7EDD2FA0FA4E2C50079FE78 /* SettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		A7EDD2FB0FA4E2C50079FE78 /* ReportRootController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportRootController.xib; sourceTree = "<group>"; };
 		A7EDD2FC0FA4E2C50079FE78 /* ChartRootController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChartRootController.xib; sourceTree = "<group>"; };
@@ -604,6 +615,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				A73CEBC510444425008778BF /* Views */,
 				A7248AC60F1BEEEA003DADDD /* Tableview Cells */,
 				A7006B400F3B09EB009BB6A5 /* ZIP Support */,
 				A74A71D40EFB0651003B5191 /* Database */,
@@ -617,8 +629,6 @@
 				A73CE850104271CC008778BF /* BirneConnect+Totals.m */,
 				A7EDD37D0FA4E8C40079FE78 /* BirneConnect.h */,
 				A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */,
-				A7B8DDDF0F1FC88100DC09E1 /* TableListView.h */,
-				A7B8DDE00F1FC88100DC09E1 /* TableListView.m */,
 				A780D1710F25D2F600C796FB /* ChartView.h */,
 				A780D1720F25D2F600C796FB /* ChartView.m */,
 				A780D7660F278EF900C796FB /* AxisView.h */,
@@ -658,6 +668,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				A7EB524F104825E3005452BE /* SQL Scripts */,
 				28A0AAE50D9B0CCF005BE974 /* ASiST_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
@@ -748,6 +759,8 @@
 				A780D16F0F25D2D400C796FB /* ChartViewController.m */,
 				A7B8D92C0F1E56A100DC09E1 /* SettingsViewController.h */,
 				A7B8D92D0F1E56A100DC09E1 /* SettingsViewController.m */,
+				A7B8DDDF0F1FC88100DC09E1 /* TableListView.h */,
+				A7B8DDE00F1FC88100DC09E1 /* TableListView.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -888,8 +901,19 @@
 				A7B8DBAE0F1F1F5900DC09E1 /* SwitchCell.m */,
 				A73CEA001042E517008778BF /* ButtonCell.h */,
 				A73CEA011042E517008778BF /* ButtonCell.m */,
+				A7C7E92910459E3000D413D0 /* DayReportCell.h */,
+				A7C7E92A10459E3000D413D0 /* DayReportCell.m */,
 			);
 			name = "Tableview Cells";
+			sourceTree = "<group>";
+		};
+		A73CEBC510444425008778BF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A73CEBC61044444D008778BF /* CalendarDayView.h */,
+				A73CEBC71044444D008778BF /* CalendarDayView.m */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		A74A71D40EFB0651003B5191 /* Database */ = {
@@ -897,18 +921,20 @@
 			children = (
 				A7EDD3830FA4E8C40079FE78 /* Country.h */,
 				A7EDD3840FA4E8C40079FE78 /* Country.m */,
-				A7EDD3850FA4E8C40079FE78 /* Report.h */,
-				A7EDD3860FA4E8C40079FE78 /* Report.m */,
 				A74A75070EFD5FA3003B5191 /* apps.db */,
 				A74A71D10EFB0644003B5191 /* schema.sql */,
 				A74A75450EFD7117003B5191 /* App.h */,
 				A74A75460EFD7117003B5191 /* App.m */,
+				A7EDD3850FA4E8C40079FE78 /* Report.h */,
+				A7EDD3860FA4E8C40079FE78 /* Report.m */,
 				A79D88FE0F029628006C37FC /* Sale.h */,
 				A79D88FF0F029628006C37FC /* Sale.m */,
 				A7ACC8350F10F342004EEA7A /* CountrySummary.h */,
 				A7ACC8360F10F342004EEA7A /* CountrySummary.m */,
 				A780D1C50F26219800C796FB /* Query.h */,
 				A780D1C60F26219800C796FB /* Query.m */,
+				A7EB519210481BE6005452BE /* Database.h */,
+				A7EB519310481BE6005452BE /* Database.m */,
 			);
 			name = Database;
 			path = ..;
@@ -1049,6 +1075,14 @@
 			);
 			name = countries;
 			path = images/countries;
+			sourceTree = "<group>";
+		};
+		A7EB524F104825E3005452BE /* SQL Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				A7EB5258104825F9005452BE /* update_0_to_1.sql */,
+			);
+			name = "SQL Scripts";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1302,6 +1336,7 @@
 				A707A2C20FA5BBFA004060D9 /* Report_bw.png in Resources */,
 				A707A3390FA61238004060D9 /* Default.png in Resources */,
 				A73CEB38104340A5008778BF /* EmptyNano.png in Resources */,
+				A7EB5259104825F9005452BE /* update_0_to_1.sql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1362,6 +1397,9 @@
 				A7ACC3230FE6290E0014DB41 /* NSString+Helpers.m in Sources */,
 				A73CE851104271CC008778BF /* BirneConnect+Totals.m in Sources */,
 				A73CEA021042E517008778BF /* ButtonCell.m in Sources */,
+				A73CEBC81044444D008778BF /* CalendarDayView.m in Sources */,
+				A7C7E92B10459E3000D413D0 /* DayReportCell.m in Sources */,
+				A7EB519410481BE6005452BE /* Database.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

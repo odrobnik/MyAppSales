@@ -78,12 +78,8 @@
 	if(notification)
 	{
 		NSDictionary *tmpDict = [notification userInfo];
-		//App *app = [tmpDict objectForKey:@"App"];
-		
 
 		NSInteger insertionIndex = [[tmpDict objectForKey:@"InsertionIndex"] intValue];
-			
-		//[report_array insertObject:report atIndex:insertionIndex];
 			
 		NSIndexPath *tmpIndex = [NSIndexPath indexPathForRow:insertionIndex inSection:0];
 		NSArray *insertIndexPaths = [NSArray arrayWithObjects:

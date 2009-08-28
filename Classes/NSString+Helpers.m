@@ -83,5 +83,10 @@
 	return (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,  (CFStringRef)self,  NULL,  (CFStringRef)@"!*'();:@&=+$,/?%#[]",  kCFStringEncodingUTF8);
 }
 
+- (NSComparisonResult)compareDesc:(NSString *)aString
+{
+	return -[self compare:aString];
+}
+
 @end
 

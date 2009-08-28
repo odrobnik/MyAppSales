@@ -388,10 +388,37 @@ static YahooFinance *_sharedInstance = nil;
 	return [self convertToCurrency:mainCurrency amount:amount fromCurrency:fromCurrency];
 }
 
+- (double) convertToEuroFromDictionary:(NSDictionary *)amountDict
+{
+	double ret = 0;
+	// root is a dictionary, we get the codes first
+	for (NSString *currency_code in [amountDict allKeys])
+	{
+		double original_amount = [[amountDict objectForKey:currency_code] doubleValue];
+		double converted_amount = [self convertToEuro:original_amount fromCurrency:currency_code];
+		ret += converted_amount;
+	}
+	
+	return ret;
+}
 
+- (double) convertToMainCurrencyFromDictionary:(NSDictionary *)amountDict
+{
+	double ret = 0;
+	// root is a dictionary, we get the codes first
+	for (NSString *currency_code in [amountDict allKeys])
+	{
+		double original_amount = [[amountDict objectForKey:currency_code] doubleValue];
+		double converted_amount = [self convertToMainCurrencyAmount:original_amount fromCurrency:currency_code];
+		ret += converted_amount;
+	}
+	
+	return ret;
+}
 
 - (double) convertToEuro:(double)amount fromCurrency:(NSString *)fromCurrency
 {
+	
 	NSNumber *rate = [[self.allCurrencies objectForKey:[fromCurrency uppercaseString]] objectForKey:@"Rate"];
 	
 	if (rate)
@@ -428,5 +455,22 @@ static YahooFinance *_sharedInstance = nil;
 	[self save];
 	[super dealloc];
 }
+
+#pragma mark Custom Properties
+- (void) setMainCurrency:(NSString *)cur
+{
+	if (mainCurrency==cur)
+	{
+		return;
+	}
+	
+	[mainCurrency release];
+	mainCurrency = [cur retain];
+	
+	// we want all parts of the app to know if there is a new main currency, might be some table updating necessary
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"MainCurrencyChanged" object:nil userInfo:(id)mainCurrency];
+}
+
+
 
 @end

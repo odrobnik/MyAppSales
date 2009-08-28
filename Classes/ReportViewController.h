@@ -22,6 +22,13 @@
 	ReportType report_type;
 	
 	UITabBarItem *tabBarItem;
+	
+	
+	// index by year/month
+	
+	NSMutableDictionary *indexByYearMonth;
+	NSArray *indexByYearMonthSortedKeys;
+	
 }
 
 - (id)initWithReportArray:(NSArray *)array reportType:(ReportType)type style:(UITableViewStyle)style;

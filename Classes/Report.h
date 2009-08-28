@@ -38,11 +38,18 @@
 	NSMutableDictionary *salesByApp;
 	NSMutableDictionary *summariesByApp;
 	
+	NSDictionary *sumsByCurrency; // this dictionary is passed from the totals notification
+	
 	// sums
 	NSInteger sumUnitsSold;
 	NSInteger sumUnitsUpdated;
 	NSInteger sumUnitsRefunded;
+	
+	NSInteger sumUnitsFree;
 	double sumRoyaltiesEarned;
+	
+	// for financial reports we need region
+	ReportRegion region;
 }
 
 
@@ -79,6 +86,8 @@
 @property (assign, nonatomic) NSInteger sumUnitsSold;
 @property (assign, nonatomic) NSInteger sumUnitsUpdated;
 @property (assign, nonatomic) NSInteger sumUnitsRefunded;
+@property (assign, nonatomic) NSInteger sumUnitsFree;
+
 //@property (assign, nonatomic) double sumRoyaltiesEarned;  // replaced with method
 
 - (NSInteger) sumUnitsForAppId:(NSNumber *)app_id transactionType:(TransactionType)ttype;
@@ -91,6 +100,9 @@
 - (NSString *) reconstructText;
 
 - (void) hydrate;
+
+- (NSComparisonResult)compareByReportDateDesc:(Report *)otherObject;
+- (NSUInteger) day;
 
 
 @end

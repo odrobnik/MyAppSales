@@ -40,6 +40,10 @@
 	// sums
 	double totalRoyalties;
 	int totalUnitsSold;
+	int totalUnitsFree;
+	
+	
+	NSDictionary *sumsByCurrency; // this dictionary is passed from the totals notification
 	
 }
 
@@ -69,6 +73,7 @@
 @property (assign, nonatomic) double averageRoyaltiesPerDay;
 @property (assign, readonly, nonatomic) double totalRoyalties;
 @property (assign, readonly, nonatomic) int totalUnitsSold;
+@property (assign, readonly, nonatomic) int totalUnitsFree;
 
 - (NSComparisonResult)compareBySales:(App *)otherApp;
 

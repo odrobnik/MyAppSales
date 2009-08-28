@@ -10,6 +10,7 @@
 #import "ImageManipulator.h"
 #import "ImageResizing.h"
 #import "ASiSTAppDelegate.h"
+#import "YahooFinance.h"
 
 
 // Static variables for compiled SQL queries. This implementation choice is to be able to share a one time
@@ -29,7 +30,7 @@ static sqlite3_stmt *update_statement = nil;
 
 @implementation App
 
-@synthesize iconImage, iconImageNano, isNew, averageRoyaltiesPerDay, apple_identifier, totalRoyalties, totalUnitsSold;
+@synthesize iconImage, iconImageNano, isNew, averageRoyaltiesPerDay, apple_identifier, totalRoyalties, totalUnitsSold, totalUnitsFree;
 
 
 - (id)init
@@ -274,6 +275,7 @@ static sqlite3_stmt *update_statement = nil;
 	// Remove notification observer
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
+	[sumsByCurrency release];
 	[iconImage release];
 	[title release];
 	[vendor_identifier release];
@@ -425,12 +427,15 @@ static sqlite3_stmt *update_statement = nil;
 {
 	if(notification)
 	{
-		NSDictionary *tmpDict = [notification userInfo];
+		NSDictionary *tmpDict = [[notification userInfo] objectForKey:@"ByApp"];
 		
 		NSDictionary *appDict = [tmpDict objectForKey:[NSNumber numberWithInt:apple_identifier]];
 		
-		totalRoyalties = [[appDict objectForKey:@"Royalties"] doubleValue];
-		totalUnitsSold = [[appDict objectForKey:@"Units"] intValue];
+		totalUnitsSold = [[appDict objectForKey:@"UnitsPaid"] intValue];
+		totalUnitsFree = [[appDict objectForKey:@"UnitsFree"] intValue];
+		
+		sumsByCurrency = [[appDict objectForKey:@"SumsByCurrency"] retain];
+		totalRoyalties = [[YahooFinance sharedInstance] convertToEuroFromDictionary:sumsByCurrency];
 	} 
 }
 

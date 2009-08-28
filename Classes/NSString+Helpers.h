@@ -17,5 +17,7 @@
 - (NSArray *) optionsFromSelect;
 - (NSString *) stringByUrlEncoding;
 
+- (NSComparisonResult)compareDesc:(NSString *)aString;
+
 
 @end

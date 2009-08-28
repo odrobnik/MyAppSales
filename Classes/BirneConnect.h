@@ -11,6 +11,7 @@
 #import <sqlite3.h>
 
 typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, ReportTypeFree = 3 } ReportType;
+typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope = 2, ReportRegionCanada = 3, ReportRegionAustralia = 4, ReportRegionUK = 5, ReportRegionJapan = 6, ReportRegionRestOfWorld} ReportRegion;
 
 @class Report, App, YahooFinance;
 
@@ -56,6 +57,8 @@ typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, R
 	NSMutableArray *reportsByType;
 	NSMutableArray *reportsDaily;
 	NSMutableArray *reportsWeekly;
+	NSMutableArray *reportsFinancial;
+	
 
 	NSMutableDictionary *latestReportsByType;
 	
@@ -80,8 +83,7 @@ typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, R
 
 
 
-- (void)createEditableCopyOfDatabaseIfNeeded;
-- (void)initializeDatabase;
+
 - (void)refreshIndexes;
 
 
@@ -146,5 +148,7 @@ typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, R
 
 - (NSUInteger) numberOfNewReportsOfType:(NSUInteger)reportType;
 - (void) emptyCache;
+
+- (void) initializeDatabase;
 
 @end

@@ -35,7 +35,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 
 @synthesize isNew, sales, salesByApp, summariesByApp; //, countrySummaries;
 
-@synthesize sumUnitsSold,sumUnitsUpdated,sumUnitsRefunded, itts;
+@synthesize sumUnitsSold,sumUnitsUpdated,sumUnitsRefunded, sumUnitsFree, itts;
 
 - (NSDate *) dateFromString:(NSString *)rfc2822String
 {
@@ -82,6 +82,12 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		hydrated = NO;
 		
 		isNew = NO;
+		
+		// subscribe to total update notifications
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appTotalsUpdated:) name:@"AppTotalsUpdated" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainCurrencyNotification:) name:@"MainCurrencyChanged" object:nil];
+
+
     }
     return self;
 }
@@ -100,6 +106,12 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		
 		hydrated = NO;
 		dirty = NO;
+		
+		// subscribe to total update notifications
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appTotalsUpdated:) name:@"AppTotalsUpdated" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainCurrencyNotification:) name:@"MainCurrencyChanged" object:nil];
+
+
 		return self;
 	}
 	else
@@ -111,6 +123,8 @@ static NSDateFormatter *dateFormatterToRead = nil;
 - (void)dealloc {
 	// Remove notification observer
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	[sumsByCurrency release];
 	
 	[itts release];
 	[fromDate release];
@@ -197,6 +211,43 @@ static NSDateFormatter *dateFormatterToRead = nil;
 				return [NSString stringWithFormat:@"%@ until %@",[formatter stringFromDate:fromDate], [formatter stringFromDate:untilDate]];
 				break;
 			}
+			case ReportTypeFinancial:
+			{
+				NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+				[formatter setDateFormat:@"MMMM"];
+				//[formatter setDateStyle:NSDateFormatterNoStyle];
+				//[formatter setTimeStyle:NSDateFormatterNoStyle];
+				
+				NSString *region_name;
+				
+				[self hydrate];  // to estimate the region until there is a table for it
+				
+				switch (region) {
+					case ReportRegionUK:
+						region_name = @"United Kingdom";
+						break;
+					case ReportRegionUSA:
+						region_name = @"USA";
+						break;
+					case ReportRegionEurope:
+						region_name = @"Europe";
+						break;
+					case ReportRegionJapan:
+						region_name = @"Japan";
+						break;
+					case ReportRegionCanada:
+						region_name = @"Canada";
+						break;
+					case ReportRegionRestOfWorld:
+						region_name = @"Rest of World";
+						break;
+				}
+				
+				return [NSString stringWithFormat:@"%@ %@", [formatter stringFromDate:untilDate], region_name];
+				break;
+			}
+				
+				
 			default:
 				return [fromDate description];
 				break;
@@ -204,6 +255,12 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	
 }
 
+- (NSUInteger) day
+{
+	NSCalendar *gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSDateComponents *comps = [gregorian components:NSDayCalendarUnit fromDate:self.fromDate];
+	return comps.day;
+}
 
 
 - (NSString *) reconstructText
@@ -275,6 +332,24 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	
 }
 
++ (ReportRegion) reportRegionFromCountry:(NSString *)cntry_code
+{
+	ReportRegion region = ReportRegionUnknown;
+	
+	if ([cntry_code isEqualToString:@"US"]) region=ReportRegionUSA;
+	else if ([cntry_code isEqualToString:@"DE"]||
+			 [cntry_code isEqualToString:@"IT"]||
+			 [cntry_code isEqualToString:@"FR"]||
+			 [cntry_code isEqualToString:@"ES"]) region=ReportRegionEurope;
+	else if ([cntry_code isEqualToString:@"CA"]) region=ReportRegionCanada;
+	else if ([cntry_code isEqualToString:@"AU"]) region=ReportRegionAustralia;
+	else if ([cntry_code isEqualToString:@"JP"]) region=ReportRegionJapan;
+	else if ([cntry_code isEqualToString:@"UK"]) region=ReportRegionUK;
+	else region=ReportRegionRestOfWorld;
+	
+	return region;
+}
+
 
 - (void) hydrate
 {
@@ -333,6 +408,12 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		Country *country = [itts.countries objectForKey:cntry_code];
 		country.usedInReport = YES; // makes sure we have an icon
 		
+		// detect region for financial reports
+		if ((reportType == ReportTypeFinancial)&&(!region))
+		{
+			region = [Report reportRegionFromCountry:cntry_code];
+		}
+		
 		App *app = [itts.apps objectForKey:[NSNumber numberWithInt:app_id]];
 		
 		Sale *tmpSale = [[Sale alloc] initWithCountryCode:country app:app units:units royaltyPrice:royalty_price royaltyCurrency:royalty_currency customerPrice:customer_price customerCurrency:customer_currency transactionType:ttype];
@@ -382,7 +463,15 @@ static NSDateFormatter *dateFormatterToRead = nil;
 					tmpSummary.sumSales+=units;
 					tmpSummary.sumRoyalites+= royalty_price*units;
 					tmpSummary.royaltyCurrency = royalty_currency;
-					sumUnitsSold+=units;
+					
+					if (royalty_price)
+					{
+						sumUnitsSold+=units;
+					}
+					else
+					{
+						sumUnitsFree+=units;
+					}
 					
 				}
 				else
@@ -498,7 +587,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	
 	for (NSNumber *oneKey in [salesByApp allKeys])
 	{
-		ret += [self sumRoyaltiesForAppId:oneKey inCurrency:[[YahooFinance sharedInstance] mainCurrency]];
+		ret += [self sumRoyaltiesForAppId:oneKey inCurrency:@"EUR"];   // internally all is Euro
 	}
 	
 	// cache it
@@ -586,9 +675,54 @@ static NSDateFormatter *dateFormatterToRead = nil;
     downloadedDate = [aDate copy];
 }
 
+
+
+#pragma mark Sorting
+- (NSComparisonResult)compareByReportDateDesc:(Report *)otherObject
+{
+	NSTimeInterval diff = [fromDate timeIntervalSinceDate:otherObject.fromDate];
+	if (diff<0)
+	{
+		return NSOrderedDescending;
+	}
+	
+	if (diff>0)
+	{
+		return NSOrderedAscending;
+	}
+	
+	return NSOrderedSame;
+}
+
+#pragma mark Notifications
+- (void)appTotalsUpdated:(NSNotification *) notification
+{
+	if(notification)
+	{
+		NSDictionary *tmpDict = [[notification userInfo] objectForKey:@"ByReport"];
+		
+		NSDictionary *reportDict = [tmpDict objectForKey:[NSNumber numberWithInt:primaryKey]];
+		
+		sumUnitsSold = [[reportDict objectForKey:@"UnitsPaid"] intValue];
+		sumUnitsFree = [[reportDict objectForKey:@"UnitsFree"] intValue];
+		
+		sumsByCurrency = [[reportDict objectForKey:@"SumsByCurrency"] retain];
+		
+		sumRoyaltiesEarned = [[YahooFinance sharedInstance] convertToEuroFromDictionary:sumsByCurrency];	
+	}
+}
+
+- (void)mainCurrencyNotification:(NSNotification *) notification
+{
+	// don't need to do anything
+}
+
 - (void)exchangeRatesChanged:(NSNotification *) notification
 {
-	sumRoyaltiesEarned = 0;
+	sumRoyaltiesEarned = 0;  // forces recalculation of this sum on next call
 }
+
+
+
 
 @end

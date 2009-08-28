@@ -33,6 +33,8 @@
 - (double) convertToEuro:(double)amount fromCurrency:(NSString *)fromCurrency;
 - (double) convertToCurrency:(NSString *)toCurrency amount:(double)amount fromCurrency:(NSString *)fromCurrency;
 - (double) convertToMainCurrencyAmount:(double)amount fromCurrency:(NSString *)fromCurrency;
+- (double) convertToEuroFromDictionary:(NSDictionary *)amountDict;
+- (double) convertToMainCurrencyFromDictionary:(NSDictionary *)amountDict;
 
 
 - (NSArray *)currencyList;

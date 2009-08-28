@@ -253,7 +253,8 @@
 				cell.unitsRefundedLabel.text = @"";
 			}
 			
-			cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesEarned]];
+			double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesEarned] fromCurrency:@"EUR"];
+			cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
 		}
 		return cell;
 	}

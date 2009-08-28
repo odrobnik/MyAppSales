@@ -159,6 +159,9 @@
 		case 1:
 			cell.text = @"Weeks";
 			break;
+		case 2:
+			cell.text = @"Month (Financial)";
+			break;
 		default:
 			break;
 	}
@@ -180,10 +183,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Navigation logic may go here. Create and push another view controller.
-	
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
 	 ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
 	 // row = report_type_id
+	if ([[appDelegate.itts reportsByType] count] <= indexPath.row)
+	{
+		return;
+	}
+	
+	
 	 NSMutableArray *tmpArray = [[appDelegate.itts reportsByType] objectAtIndex:indexPath.row];
 	 
 	 NSSortDescriptor *dateDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"fromDate" ascending:NO] autorelease];
@@ -197,8 +206,17 @@
 
 // The accessory type is the image displayed on the far right of each table cell. In order for the delegate method
 // tableView:accessoryButtonClickedForRowWithIndexPath: to be called, you must return the "Detail Disclosure Button" type.
-- (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewCellAccessoryDisclosureIndicator;
+- (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath 
+{
+	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
+	if ([[appDelegate.itts reportsByType] count] > indexPath.row)
+	{
+		return UITableViewCellAccessoryDisclosureIndicator;
+	}
+	else
+	{
+		return UITableViewCellAccessoryNone;
+	}
 }
 
 /*
