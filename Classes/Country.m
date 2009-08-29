@@ -7,6 +7,7 @@
 //
 
 #import "Country.h"
+#import "Database.h"
 
 
 // Static variables for compiled SQL queries. This implementation choice is to be able to share a one time
@@ -25,6 +26,8 @@ static sqlite3_stmt *init_statement = nil;
 @implementation Country
 
 @synthesize iconImage, name, iso2, iso3, usedInReport;
+
+
 
 // Creates the object with primary key and title is brought into memory.
 - (id)initWithISO3:(NSString *)pk database:(sqlite3 *)db 
@@ -69,6 +72,42 @@ static sqlite3_stmt *init_statement = nil;
 	[iso2 release];
     [iso3 release];
     [super dealloc];
+}
+
+- (ReportRegion) reportRegion
+{
+	ReportRegion region = ReportRegionUnknown;
+	NSString *cntry_code = self.iso2;
+	
+	if ([cntry_code isEqualToString:@"US"]) region=ReportRegionUSA;
+	else if ([cntry_code isEqualToString:@"DE"]||
+			 [cntry_code isEqualToString:@"IT"]||
+			 [cntry_code isEqualToString:@"FR"]||
+			 [cntry_code isEqualToString:@"ES"]||
+			 [cntry_code isEqualToString:@"AT"]||
+			 [cntry_code isEqualToString:@"NL"]||
+			 [cntry_code isEqualToString:@"NO"]||
+			 [cntry_code isEqualToString:@"SI"]||
+			 [cntry_code isEqualToString:@"DK"]||
+			 [cntry_code isEqualToString:@"HU"]||
+			 [cntry_code isEqualToString:@"LU"]||
+			 [cntry_code isEqualToString:@"GR"]||
+			 [cntry_code isEqualToString:@"PL"]||
+			 [cntry_code isEqualToString:@"LV"]||
+			 [cntry_code isEqualToString:@"RO"]||
+			 [cntry_code isEqualToString:@"EE"]||
+			 [cntry_code isEqualToString:@"IE"]||
+			 [cntry_code isEqualToString:@"BE"]||
+			 [cntry_code isEqualToString:@"CH"]||
+			 [cntry_code isEqualToString:@"SE"]) region=ReportRegionEurope;
+	else if ([cntry_code isEqualToString:@"CA"]) region=ReportRegionCanada;
+	else if ([cntry_code isEqualToString:@"AU"]||
+			 [cntry_code isEqualToString:@"NZ"]) region=ReportRegionAustralia;
+	else if ([cntry_code isEqualToString:@"JP"]) region=ReportRegionJapan;
+	else if ([cntry_code isEqualToString:@"GB"]) region=ReportRegionUK;
+	else region=ReportRegionRestOfWorld;
+	
+	return region;
 }
 
 

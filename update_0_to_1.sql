@@ -1,6 +1,6 @@
 /* Script to update apps.db from schema version 0 to 1 */
 
-begin transaction;
+begin exclusive transaction;
 
 /* Add the meta table to keep the schema_version */ 
 
@@ -18,7 +18,7 @@ CREATE TABLE report (id INTEGER PRIMARY KEY, report_type_id INTEGER, report_regi
 
 /* copy previous reports back to table */
 
-insert into report (id, report_type_id, from_date, until_date, downloaded_date) select * from update_report;
+insert into report (id, report_type_id, report_region_id, from_date, until_date, downloaded_date) select id, report_type_id, 0, from_date, until_date, downloaded_date from update_report;
 
 /* clean up temp table */
 

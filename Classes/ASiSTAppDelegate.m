@@ -12,9 +12,8 @@
 #import "ReportViewController.h"
 #import "StatusInfoController.h"
 
-//#import "NSDataCompression.h"
 #import "BirneConnect.h"
-#import "BirneConnect+Totals.h"
+#import "Database.h"
 
 // for the HTTP server
 #import "HTTPServer.h"
@@ -144,7 +143,7 @@
 - (void)newFileInDocuments:(NSNotification *) notification
 {
 	NSLog(@"New File");
-	[self.itts importReportsFromDocumentsFolder];
+	[DB importReportsFromDocumentsFolder];
 }
 
 
@@ -252,7 +251,7 @@
 	{
 		NSDictionary *tmpDict = [notification userInfo];
 
-		newReports = [[tmpDict objectForKey:@"NewReports"] intValue];
+		int newReports = [[tmpDict objectForKey:@"NewReports"] intValue];
 			
 		if (newReports)
 		{
@@ -287,7 +286,7 @@
 	{
 		NSDictionary *tmpDict = [notification userInfo];
 		
-		newReports = [[tmpDict objectForKey:@"NewReports"] intValue];
+		int newReports = [[tmpDict objectForKey:@"NewReports"] intValue];
 		
 		if (newReports)
 		{
@@ -312,7 +311,7 @@
 	{
 		NSDictionary *tmpDict = [notification userInfo];
 		
-		newApps = [[tmpDict objectForKey:@"NewApps"] intValue];
+		int newApps = [[tmpDict objectForKey:@"NewApps"] intValue];
 		
 		if (newApps)
 		{
@@ -356,5 +355,44 @@
 	else
 		info = [info stringByAppendingString:@"Web: No Connection\n"];
 }
+
+#pragma mark Misc
+
+- (void) emptyCache
+{
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	// NSError *error;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+	
+	// get list of all files in document directory
+	NSArray *docs = [fileManager directoryContentsAtPath:documentsDirectory];
+	NSEnumerator *enu = [docs objectEnumerator];
+	NSString *aString;
+	
+	NSError *error;
+	
+	while (aString = [enu nextObject])
+	{
+		NSString *pathOfFile = [documentsDirectory stringByAppendingPathComponent:aString];
+		
+		if ([aString isEqualToString:@"apps.db"]||[aString isEqualToString:@"settings.plist"]
+			||[aString isEqualToString:@"Currencies.plist"]||[aString isEqualToString:@"simkeychain.plist"])
+		{
+			// excepted
+		}
+		else
+		{
+			NSLog(@"removed %@", pathOfFile);
+			// all others removed
+			[fileManager removeItemAtPath:pathOfFile error:&error];
+		}
+	}
+	
+	// reload app icons
+	[DB reloadAllAppIcons];
+	
+}
+
 
 @end

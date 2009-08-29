@@ -29,31 +29,31 @@
 		self.title = [aReport listDescription];
 		sumImage = [UIImage imageNamed:@"Sum.png"];
 		filteredApp = nil;
-
-    }
-    return self;
-}
-
-
 		
-
-/*
-- (id)initWithStyle:(UITableViewStyle)style {
-    // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if (self = [super initWithStyle:style]) {
     }
     return self;
 }
-*/
+
+
+
 
 /*
-- (void)viewDidLoad {
-    [super viewDidLoad];
+ - (id)initWithStyle:(UITableViewStyle)style {
+ // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
+ if (self = [super initWithStyle:style]) {
+ }
+ return self;
+ }
+ */
 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-*/
+/*
+ - (void)viewDidLoad {
+ [super viewDidLoad];
+ 
+ // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+ // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+ }
+ */
 
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -62,28 +62,28 @@
 }
 
 /*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
+ - (void)viewDidAppear:(BOOL)animated {
+ [super viewDidAppear:animated];
+ }
+ */
 /*
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-}
-*/
+ - (void)viewWillDisappear:(BOOL)animated {
+ [super viewWillDisappear:animated];
+ }
+ */
 /*
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-}
-*/
+ - (void)viewDidDisappear:(BOOL)animated {
+ [super viewDidDisappear:animated];
+ }
+ */
 
 /*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
+ // Override to allow orientations other than the default portrait orientation.
+ - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+ // Return YES for supported orientations
+ return (interfaceOrientation == UIInterfaceOrientationPortrait);
+ }
+ */
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
@@ -99,8 +99,7 @@
 	}
 	else
 	{
-		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-		return [appDelegate.itts.apps count]+1;   // one extra section for totals over all apps
+		return [DB countOfApps] + 1; // one extra section for totals over all apps
 	}
 }
 
@@ -113,15 +112,15 @@
 		return nil;
 	}
 	
-	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
+	//ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	// section 0 = totals
 	if (section)
 	{
+		NSArray *sortedApps = [DB appsSortedBySales];
+		App *tmpApp = [sortedApps objectAtIndex:section - 1];  // minus one because of totals section
+		//NSNumber *app_id = [NSNumber numberWithInt:tmpApp.apple_identifier];  // minus one because of totals section
 		
-		NSNumber *app_id = [[appDelegate.itts appKeysSortedBySales] objectAtIndex:section-1];  // minus one because of totals section
-		App *tmpApp = [appDelegate.itts.apps objectForKey:app_id];
-
 		if (tmpApp)
 		{
 			return tmpApp.title;
@@ -134,7 +133,7 @@
 	else
 	{
 		return @"Total Summary";
-
+		
 	}
 }
 
@@ -155,9 +154,11 @@
 	// we don't filter
 	if (section)
 	{
-		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-		NSNumber *app_id = [[appDelegate.itts appKeysSortedBySales] objectAtIndex:section-1];  // minus one because of totals section
-
+		NSArray *sortedApps = [DB appsSortedBySales];
+		App *tmpApp = [sortedApps objectAtIndex:section - 1];  // minus one because of totals section
+		NSNumber *app_id = [NSNumber numberWithInt:tmpApp.apple_identifier];  // minus one because of totals section
+		
+		
 		NSArray *thisArray = [report.summariesByApp objectForKey:app_id];
 		return [thisArray count]+1+1;  // add one for app summary and one header
 		
@@ -198,71 +199,76 @@
 		CellIdentifier =  @"Cell";
 	}
     
-   ReportCell *cell = (ReportCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	ReportCell *cell = (ReportCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[ReportCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
     }
     
     // Set up the cell...
 	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-
+	
 	NSNumber *app_id;
+	App *rowApp = nil;
 	
 	if (filteredApp)
 	{
 		app_id = [NSNumber numberWithInt:filteredApp.apple_identifier];
+		rowApp = filteredApp;
 	}
 	else
 	{
-	if (!indexPath.section)   // extra section for totals over all apps
-	{
-		if (!indexPath.row)  // first row is header row
+		if (!indexPath.section)   // extra section for totals over all apps
 		{
-			// headers
-			cell.unitsSoldLabel.text = @"Units";
-			cell.unitsSoldLabel.font = [UIFont systemFontOfSize:8.0];
-			cell.unitsSoldLabel.textAlignment = UITextAlignmentCenter;
-			
-			cell.unitsRefundedLabel.text = @"Refunds";
-			cell.unitsRefundedLabel.font = [UIFont systemFontOfSize:8.0];
-			cell.unitsRefundedLabel.textAlignment = UITextAlignmentCenter;
-			
-			cell.unitsUpdatedLabel.text = @"Updates";
-			cell.unitsUpdatedLabel.font = [UIFont systemFontOfSize:8.0];
-			cell.unitsUpdatedLabel.textAlignment = UITextAlignmentCenter;
-			
-			
-			cell.royaltyEarnedLabel.text = @"Royalties";
-			cell.royaltyEarnedLabel.font = [UIFont systemFontOfSize:8.0];
-			cell.royaltyEarnedLabel.textAlignment = UITextAlignmentRight;
-		}
-		else
-		{
-			cell.image = sumImage;
-			cell.countryCodeLabel.text = @"";
-			
-			cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", report.sumUnitsSold];
-			cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", report.sumUnitsUpdated];
-			NSInteger refunds = report.sumUnitsRefunded;
-			if (refunds)
+			if (!indexPath.row)  // first row is header row
 			{
-				cell.unitsRefundedLabel.text = [NSString stringWithFormat:@"%d", refunds];
+				// headers
+				cell.unitsSoldLabel.text = @"Units";
+				cell.unitsSoldLabel.font = [UIFont systemFontOfSize:8.0];
+				cell.unitsSoldLabel.textAlignment = UITextAlignmentCenter;
+				
+				cell.unitsRefundedLabel.text = @"Refunds";
+				cell.unitsRefundedLabel.font = [UIFont systemFontOfSize:8.0];
+				cell.unitsRefundedLabel.textAlignment = UITextAlignmentCenter;
+				
+				cell.unitsUpdatedLabel.text = @"Updates";
+				cell.unitsUpdatedLabel.font = [UIFont systemFontOfSize:8.0];
+				cell.unitsUpdatedLabel.textAlignment = UITextAlignmentCenter;
+				
+				
+				cell.royaltyEarnedLabel.text = @"Royalties";
+				cell.royaltyEarnedLabel.font = [UIFont systemFontOfSize:8.0];
+				cell.royaltyEarnedLabel.textAlignment = UITextAlignmentRight;
 			}
 			else
 			{
-				cell.unitsRefundedLabel.text = @"";
+				cell.image = sumImage;
+				cell.countryCodeLabel.text = @"";
+				
+				cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", report.sumUnitsSold];
+				cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", report.sumUnitsUpdated];
+				NSInteger refunds = report.sumUnitsRefunded;
+				if (refunds)
+				{
+					cell.unitsRefundedLabel.text = [NSString stringWithFormat:@"%d", refunds];
+				}
+				else
+				{
+					cell.unitsRefundedLabel.text = @"";
+				}
+				
+				double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesEarned] fromCurrency:@"EUR"];
+				cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
 			}
-			
-			double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesEarned] fromCurrency:@"EUR"];
-			cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
+			return cell;
 		}
-		return cell;
-	}
-
 		
-	// below this line: detail lines
 		
-	app_id  = [[appDelegate.itts appKeysSortedBySales] objectAtIndex:indexPath.section-1];  // minus one because of totals section
+		// below this line: detail lines
+		
+		NSArray *sortedApps = [DB appsSortedBySales];
+		rowApp = [sortedApps objectAtIndex:indexPath.section - 1];  // minus one because of totals section
+		app_id = [NSNumber numberWithInt:rowApp.apple_identifier];  // minus one because of totals section
+		
 	}	
 	
 	if (indexPath.row==1)
@@ -270,9 +276,9 @@
 		
 		cell.image = sumImage;
 		cell.countryCodeLabel.text = @"";
-		cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForAppId:app_id transactionType:TransactionTypeSale]];
-		cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForAppId:app_id transactionType:TransactionTypeFreeUpdate]];
-		NSInteger refunds = [report  sumRefundsForAppId:app_id];
+		cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForAppId:rowApp.apple_identifier transactionType:TransactionTypeSale]];
+		cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForAppId:rowApp.apple_identifier transactionType:TransactionTypeFreeUpdate]];
+		NSInteger refunds = [report  sumRefundsForAppId:rowApp.apple_identifier];
 		if (refunds)
 		{
 			cell.unitsRefundedLabel.text = [NSString stringWithFormat:@"%d", refunds];
@@ -282,7 +288,7 @@
 			cell.unitsRefundedLabel.text = @"";
 		}
 		
-		double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesForAppId:app_id transactionType:TransactionTypeSale] fromCurrency:@"EUR"];
+		double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesForAppId:rowApp.apple_identifier transactionType:TransactionTypeSale] fromCurrency:@"EUR"];
 		cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
 		
 		return cell;
@@ -309,20 +315,20 @@
 		
 		return cell;
 	}
-
+	
 	//cell.contentView.backgroundColor = [UIColor whiteColor];
-
+	
 	NSMutableDictionary *thisDict = [report.summariesByApp objectForKey:app_id];
 	NSArray *dictKeys = [thisDict keysSortedByValueUsingSelector:@selector(compareBySales:)];  // all countries
 	CountrySummary *tmpSummary = [thisDict objectForKey:[dictKeys objectAtIndex:indexPath.row-2]];
 	cell.image = tmpSummary.country.iconImage;
 	cell.countryCodeLabel.text = tmpSummary.country.iso3;
-
+	
 	
 	if (tmpSummary.sumSales>0)
 	{
 		cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", tmpSummary.sumSales];
-
+		
 		
 		if (appDelegate.convertSalesToMainCurrency)
 		{ 
@@ -362,7 +368,7 @@
 	
 	
 	
-
+	
     return cell;
 }
 
@@ -376,43 +382,43 @@
 
 
 /*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
 
 
 /*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+ 
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source
+ [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+ }   
+ else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }   
+ }
+ */
 
 
 /*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+ }
+ */
 
 
 /*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
 
 
 

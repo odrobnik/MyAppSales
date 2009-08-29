@@ -35,6 +35,7 @@
 - (id)initWithISO3:(NSString *)pk database:(sqlite3 *)db;
 
 - (void) loadImageFromBirne;
+- (ReportRegion) reportRegion;
 
 
 @end

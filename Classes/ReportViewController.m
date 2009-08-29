@@ -10,6 +10,7 @@
 #import "ASiSTAppDelegate.h"
 #import "BirneConnect.h"
 #import "Report.h"
+#import "Database.h"
 //#import "GenericReportController.h"
 #import "ReportAppsController.h"
 
@@ -159,7 +160,7 @@
 		
 		if (report.reportType == report_type)
 		{	
-			if (report_type == ReportTypeWeek)
+			if ((report_type == ReportTypeWeek) ||(report_type == ReportTypeFinancial))
 			{
 				NSInteger insertionIndex = [[tmpDict objectForKey:@"InsertionIndex"] intValue];
 				
@@ -376,7 +377,18 @@
 			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
 		}
 		
-		tmpReport = [report_array objectAtIndex:indexPath.row];
+		if (report_type==ReportTypeDay)
+		{
+			NSString *key = [indexByYearMonthSortedKeys objectAtIndex:indexPath.section];
+			NSArray *monthArray = [indexByYearMonth objectForKey:key];
+			
+			tmpReport = [monthArray objectAtIndex:indexPath.row];
+		}
+		else
+		{
+			tmpReport = [report_array objectAtIndex:indexPath.row];
+		}
+		
 		cell.text = [tmpReport listDescription];
 		if (tmpReport.isNew)
 		{
@@ -413,7 +425,7 @@
 {
 	Report *tmpReport;
 	
-	if (report_type==0)
+	if (report_type==ReportTypeDay)
 	{
 		NSString *key = [indexByYearMonthSortedKeys objectAtIndex:indexPath.section];
 		NSArray *monthArray = [indexByYearMonth objectForKey:key];
@@ -432,8 +444,8 @@
 	// if this was a new report, now it ain't any longer
 	if (tmpReport.isNew)
 	{
-		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-		[appDelegate.itts newReportRead:tmpReport];
+		[DB newReportRead:tmpReport];
+		
 		[self.tableView reloadData];  // only way to remove the red stars
 	}
 	

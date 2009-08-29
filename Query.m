@@ -41,7 +41,7 @@
 	
 }
 
-- (NSDictionary *) chartDataForReportType:(ReportType)report_type  ShowFree:(BOOL)show_free Axis:(NSString *)axis Itts:(BirneConnect *)itts
+- (NSDictionary *) chartDataForReportType:(ReportType)report_type  ShowFree:(BOOL)show_free Axis:(NSString *)axis
 {
 	// get a full sales report
 	NSDictionary *report = [self salesReportForReportType:report_type];
@@ -56,8 +56,7 @@
 	// column names
 	
 	NSMutableArray *colLabels = [[NSMutableArray alloc] init];
-	NSArray *sortedApps = [itts appsSortedBySales];
-	//NSArray *sortedAppKeys = [itts appKeysSortedBySales];
+	NSArray *sortedApps = [DB appsSortedBySales];
 	NSEnumerator *enu = [sortedApps objectEnumerator];
 	App *app;
 

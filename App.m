@@ -97,6 +97,8 @@ static sqlite3_stmt *update_statement = nil;
 		apple_identifier = a_apple_identifier;
 		self.company_name = a_company_name;
 		
+		isNew = YES;
+		
 		[self insertIntoDatabase:database];
 		[self loadImageFromBirne];
 

@@ -9,6 +9,7 @@
 #import "ChartRootController.h"
 #import "ChartViewController.h"
 #import "Query.h"
+#import "Database.h"
 
 #import "ASiSTAppDelegate.h"
 #import "BirneConnect.h"
@@ -176,13 +177,9 @@
 }
 
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here. Create and push another view controller.
-	// AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
-	// [self.navigationController pushViewController:anotherViewController];
-	// [anotherViewController release];
-	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-	Query *myQuery = [[Query alloc] initWithDatabase:[appDelegate.itts database]];
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+	Query *myQuery = [[Query alloc] initWithDatabase:[DB database]];
 	
 	NSDictionary *tmpData;
 	NSString *reportTitle;
@@ -195,29 +192,29 @@
 			switch (indexPath.row) 
 			{
 				case 0:
-					tmpData = [myQuery chartDataForReportType:ReportTypeDay ShowFree:NO Axis:@"Sum" Itts:appDelegate.itts];
+					tmpData = [myQuery chartDataForReportType:ReportTypeDay ShowFree:NO Axis:@"Sum"];
 					reportTitle = @"Daily Sales";
 					break;
 				case 1:
-					tmpData = [myQuery chartDataForReportType:ReportTypeWeek ShowFree:NO Axis:@"Sum" Itts:appDelegate.itts];
+					tmpData = [myQuery chartDataForReportType:ReportTypeWeek ShowFree:NO Axis:@"Sum"];
 					reportTitle = @"Weekly Sales";
 					break;
 				case 2:
-					tmpData = [myQuery chartDataForReportType:ReportTypeDay ShowFree:NO Axis:@"Sum" Itts:appDelegate.itts];
+					tmpData = [myQuery chartDataForReportType:ReportTypeDay ShowFree:NO Axis:@"Sum"];
 					tmpData = [myQuery stackAndTotalReport:tmpData];
 					reportTitle = @"Daily Sales Total";
 					break;
 				case 3:
-					tmpData = [myQuery chartDataForReportType:ReportTypeWeek ShowFree:NO Axis:@"Sum" Itts:appDelegate.itts];
+					tmpData = [myQuery chartDataForReportType:ReportTypeWeek ShowFree:NO Axis:@"Sum"];
 					tmpData = [myQuery stackAndTotalReport:tmpData];
 					reportTitle = @"Weekly Sales Total";
 					break;
 				case 4:
-					tmpData = [myQuery chartDataForReportType:ReportTypeDay ShowFree:NO Axis:@"Units" Itts:appDelegate.itts];
+					tmpData = [myQuery chartDataForReportType:ReportTypeDay ShowFree:NO Axis:@"Units"];
 					reportTitle = @"Daily Sold Downloads";
 					break;
 				case 5:
-					tmpData = [myQuery chartDataForReportType:ReportTypeWeek ShowFree:NO Axis:@"Units" Itts:appDelegate.itts];
+					tmpData = [myQuery chartDataForReportType:ReportTypeWeek ShowFree:NO Axis:@"Units"];
 					reportTitle = @"Weekly Sold Downloads";
 					break;
 				default:
@@ -230,11 +227,11 @@
 			columnToShow = @"Units";
 			switch (indexPath.row) {
 				case 0:
-					tmpData = [myQuery chartDataForReportType:ReportTypeDay ShowFree:YES Axis:@"Units" Itts:appDelegate.itts];
+					tmpData = [myQuery chartDataForReportType:ReportTypeDay ShowFree:YES Axis:@"Units"];
 					reportTitle = @"Daily Downloads";
 					break;
 				case 1:
-					tmpData = [myQuery chartDataForReportType:ReportTypeWeek ShowFree:YES Axis:@"Units" Itts:appDelegate.itts];
+					tmpData = [myQuery chartDataForReportType:ReportTypeWeek ShowFree:YES Axis:@"Units"];
 					reportTitle = @"Weekly Downloads";
 					break;
 				default:

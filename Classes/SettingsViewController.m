@@ -555,7 +555,7 @@
 		
 		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
 		
-		[appDelegate.itts emptyCache];
+		[appDelegate emptyCache];
 	}
 }
 

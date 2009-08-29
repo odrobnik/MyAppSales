@@ -38,9 +38,6 @@
 	// preferences
 	BOOL convertSalesToMainCurrency;
 	
-	NSUInteger newApps;
-	NSUInteger newReports;
-	
 	IBOutlet UITabBarItem* appBadgeItem;
 	IBOutlet UITabBarItem* reportBadgeItem;
 	
@@ -78,9 +75,8 @@
 - (void)newAppNotification:(NSNotification *) notification;
 - (void)newReportNotification:(NSNotification *) notification;
 
-
-
 - (void) refreshButton:(id)sender;
+- (void) emptyCache;
 
 
 @end

@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BirneConnect.h"
 #import "Sale.h"
+#import "Database.h"
 
-
-@interface Report : NSObject {
+@interface Report : NSObject 
+{
 	NSUInteger primaryKey;
 	ReportType reportType;
 	NSDate *fromDate;
@@ -29,11 +29,7 @@
 	// Opaque reference to the underlying database.
     sqlite3 *database;
 	
-	// we need a link to this for referring to apps and countries
-	BirneConnect *itts;
-	
 	// Array with sales, empty before hydrated
-	//NSMutableArray *reportsByApps;
 	NSMutableArray *sales;
 	NSMutableDictionary *salesByApp;
 	NSMutableDictionary *summariesByApp;
@@ -54,7 +50,12 @@
 
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db;
-- (id)initWithType:(ReportType)type from_date:(NSDate *)from_date until_date:(NSDate *)until_date downloaded_date:(NSDate *)downloaded_date database:(sqlite3 *)db;
+- (id)initWithType:(ReportType)type from_date:(NSDate *)from_date until_date:(NSDate *)until_date downloaded_date:(NSDate *)downloaded_date region:(ReportRegion)report_region database:(sqlite3 *)db;
+
+- (Sale *) insertSaleForAppID:(NSUInteger)app_id type_id:(NSUInteger)type_id units:(NSUInteger)units
+			  royalty_price:(double)royalty_price royalty_currency:(NSString *)royalty_currency 
+			 customer_price:(double)customer_price customer_currency:(NSString *)customer_currency 
+			   country_code:(NSString *)country_code;
 
 
 - (void)insertIntoDatabase:(sqlite3 *)db;
@@ -62,9 +63,6 @@
 - (void)hydrate;
 
 - (NSString *)listDescription;
-
-@property(nonatomic, retain) 	BirneConnect *itts;
-
 
 // Property exposure for primary key and other attributes. The primary key is 'assign' because it is not an object, 
 // nonatomic because there is no need for concurrent access, and readonly because it cannot be changed without 
@@ -90,16 +88,18 @@
 
 //@property (assign, nonatomic) double sumRoyaltiesEarned;  // replaced with method
 
-- (NSInteger) sumUnitsForAppId:(NSNumber *)app_id transactionType:(TransactionType)ttype;
-- (NSInteger) sumRefundsForAppId:(NSNumber *)app_id;
-- (double) sumRoyaltiesForAppId:(NSNumber *)app_id transactionType:(TransactionType)ttype;
+- (NSInteger) sumUnitsForAppId:(NSUInteger)app_id transactionType:(TransactionType)ttype;
+- (NSInteger) sumRefundsForAppId:(NSUInteger)app_id;
+- (double) sumRoyaltiesForAppId:(NSUInteger)app_id transactionType:(TransactionType)ttype;
 
-- (double) sumRoyaltiesForAppId:(NSNumber *)app_id inCurrency:(NSString *)curCode;
+- (double) sumRoyaltiesForAppId:(NSUInteger)app_id inCurrency:(NSString *)curCode;
 - (double) sumRoyaltiesEarned;
 
 - (NSString *) reconstructText;
 
+- (void) makeSummariesFromSales;
 - (void) hydrate;
+
 
 - (NSComparisonResult)compareByReportDateDesc:(Report *)otherObject;
 - (NSUInteger) day;

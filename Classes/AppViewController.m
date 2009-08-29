@@ -112,10 +112,9 @@
 }
 
 // Customize the number of rows in the table view.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-	int c = [[appDelegate.itts apps] count];
-	return c;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+{
+	return [DB countOfApps];
 }
 
 
@@ -130,10 +129,9 @@
     }
     
     // Set up the cell...
-	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-	NSNumber *app_id = [[appDelegate.itts appKeysSortedBySales] objectAtIndex:indexPath.row];
-	App *myApp = [appDelegate.itts.apps objectForKey:app_id];
-	cell.app = myApp;
+	NSArray *sortedApps = [DB appsSortedBySales];
+	cell.app = [sortedApps objectAtIndex:indexPath.row];
+	
     return cell;
 }
 

@@ -106,21 +106,18 @@
 	}
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-	return [appDelegate.itts.apps count]+1;   // one extra section for totals over all apps
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
+{
+	return [DB countOfApps] + 1; // one extra section for totals over all apps
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-	
 	// section 0 = totals
 	if (section)
 	{
-		
-		NSNumber *app_id = [[appDelegate.itts appKeysSortedBySales] objectAtIndex:section-1];  // minus one because of totals section
-		App *tmpApp = [appDelegate.itts.apps objectForKey:app_id];
+		NSArray *sortedApps = [DB appsSortedBySales];
+		App *tmpApp = [sortedApps objectAtIndex:section - 1];  // minus one because of totals section
 		
 		if (tmpApp)
 		{
@@ -238,11 +235,12 @@
 		return cell;
 	}
 	
-	NSNumber *app_id  = [[appDelegate.itts appKeysSortedBySales] objectAtIndex:indexPath.section-1];  // minus one because of totals section
-	App *rowApp = [[appDelegate.itts appsSortedBySales] objectAtIndex:indexPath.section-1];  // minus one because of totals section
+	
+	NSArray *sortedApps = [DB appsSortedBySales];
+	App *rowApp = [sortedApps objectAtIndex:indexPath.section-1];  // minus one because of totals section
 	
 	
-	NSMutableDictionary *thisDict = [report.summariesByApp objectForKey:app_id];
+	NSMutableDictionary *thisDict = [report.summariesByApp objectForKey:[NSNumber numberWithInt:rowApp.apple_identifier]];
 
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 
@@ -263,9 +261,9 @@
 		}
 		
 		//NSNumber *app_id = [keys objectAtIndex:indexPath.section-1]; 
-		cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", [report  sumUnitsForAppId:app_id transactionType:TransactionTypeSale]];
-		cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForAppId:app_id transactionType:TransactionTypeFreeUpdate]];
-		NSInteger refunds = [report  sumRefundsForAppId:app_id];
+		cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", [report  sumUnitsForAppId:rowApp.apple_identifier transactionType:TransactionTypeSale]];
+		cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForAppId:rowApp.apple_identifier transactionType:TransactionTypeFreeUpdate]];
+		NSInteger refunds = [report  sumRefundsForAppId:rowApp.apple_identifier];
 		if (refunds)
 		{
 			cell.unitsRefundedLabel.text = [NSString stringWithFormat:@"%d", refunds];
@@ -275,7 +273,7 @@
 			cell.unitsRefundedLabel.text = @"";
 		}
 		
-		double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report  sumRoyaltiesForAppId:app_id transactionType:TransactionTypeSale] fromCurrency:@"EUR"];
+		double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report  sumRoyaltiesForAppId:rowApp.apple_identifier transactionType:TransactionTypeSale] fromCurrency:@"EUR"];
 		cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
 		
 		return cell;
@@ -341,8 +339,6 @@
 {
 	if (!indexPath.row) return;
 	
-	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-
 	GenericReportController *genericReportController = [[GenericReportController alloc] initWithReport:self.report];
 
 	switch (indexPath.section) {
@@ -353,7 +349,8 @@
 		}
 		default:
 		{
-			App *app =  [[appDelegate.itts appsSortedBySales] objectAtIndex:indexPath.section-1];
+			NSArray *sortedApps = [DB appsSortedBySales];
+			App *app =  [sortedApps objectAtIndex:indexPath.section-1];
 			genericReportController.title = app.title;
 			genericReportController.filteredApp = app;
 			break;

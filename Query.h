@@ -25,7 +25,7 @@
 
 - (id)initWithDatabase:(sqlite3 *)db;
 - (NSDictionary *) salesReportForReportType:(ReportType)report_type;
-- (NSDictionary *) chartDataForReportType:(ReportType)report_type ShowFree:(BOOL)show_free Axis:(NSString *)axis Itts:(BirneConnect *)itts;
+- (NSDictionary *) chartDataForReportType:(ReportType)report_type ShowFree:(BOOL)show_free Axis:(NSString *)axis;
 - (NSDictionary *) stackAndTotalReport:(NSDictionary *)report;
 
 - (NSDate *) dateFromString:(NSString *)rfc2822String;

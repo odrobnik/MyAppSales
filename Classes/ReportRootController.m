@@ -31,14 +31,6 @@
 	report_icon = [UIImage imageNamed:@"Report_Icon.png"];
 	report_icon_new = [UIImage imageNamed:@"Report_Icon_New.png"];
 
-	newReportsByType = [[NSMutableDictionary alloc] init];
-
-	// need to get starting values
-	ASiSTAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-	[newReportsByType setObject:[NSNumber numberWithInt:[appDelegate.itts numberOfNewReportsOfType:0]] forKey:[NSNumber numberWithInt:0]];
-    [newReportsByType setObject:[NSNumber numberWithInt:[appDelegate.itts numberOfNewReportsOfType:1]] forKey:[NSNumber numberWithInt:1]];
-
-	//NSLog(@"loaded %@", newReportsByType);
 
 	// after loading we can get the badges updated via notifications
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportNotification:) name:@"NewReportAdded" object:nil];
@@ -51,46 +43,13 @@
 // new Reports cause update of badges
 - (void)newReportNotification:(NSNotification *) notification
 {
-	
-	if(notification)
-	{
-		NSDictionary *tmpDict = [notification userInfo];
-		Report *report = [tmpDict objectForKey:@"Report"];
-		NSNumber *typeKey = [NSNumber numberWithInt:report.reportType];
-		NSNumber *theNum = [newReportsByType objectForKey:typeKey];
-		if (!theNum)
-		{
-			theNum = [NSNumber numberWithInt:1];
-			[newReportsByType setObject:theNum forKey:typeKey];
-		}
-		else
-		{
-			NSNumber *newNum = [NSNumber numberWithInt:[theNum intValue]+1];
-			[newReportsByType setObject:newNum forKey:typeKey];
-		}
-
-		[self.tableView reloadData];  // to change icon where there are new reports
-	} 
+	[self.tableView reloadData];  // to change icon where there are new reports
 }
 
 // new Reports cause update of badges
 - (void)newReportRead:(NSNotification *) notification
 {
-	
-	if(notification)
-	{
-		NSDictionary *tmpDict = [notification userInfo];
-		Report *report = [tmpDict objectForKey:@"Report"];
-		NSNumber *typeKey = [NSNumber numberWithInt:report.reportType];
-		NSNumber *theNum = [newReportsByType objectForKey:typeKey];
-		if (theNum)
-		{
-			NSNumber *newNum = [NSNumber numberWithInt:[theNum intValue]-1];
-			[newReportsByType setObject:newNum forKey:typeKey];
-		}
-		
-		[self.tableView reloadData];  // to change icon where there are new reports
-	} 
+	[self.tableView reloadData];  // to change icon where there are new reports
 }
 
 /*
@@ -135,8 +94,9 @@
 
 
 // Customize the number of rows in the table view.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+{
+    return 3;
 }
 
 
@@ -166,10 +126,7 @@
 			break;
 	}
 
-	NSNumber *typeKey = [NSNumber numberWithInt:indexPath.row];
-	NSNumber *theNum = [newReportsByType objectForKey:typeKey];
-	
-	if (theNum&&[theNum intValue]>0)
+	if ([DB hasNewReportsOfType:(ReportType)indexPath.row])
 	{
 		cell.image = report_icon_new;
 	}
@@ -181,25 +138,21 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+{
     // Navigation logic may go here. Create and push another view controller.
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	 ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-	 // row = report_type_id
-	if ([[appDelegate.itts reportsByType] count] <= indexPath.row)
+	if (![DB countOfReportsForType:indexPath.row])
 	{
 		return;
 	}
 	
 	
-	 NSMutableArray *tmpArray = [[appDelegate.itts reportsByType] objectAtIndex:indexPath.row];
+	NSArray *tmpArray = [DB sortedReportsOfType:indexPath.row];
 	 
-	 NSSortDescriptor *dateDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"fromDate" ascending:NO] autorelease];
-	 NSArray *sortDescriptors = [NSArray arrayWithObject:dateDescriptor];
-	 NSArray *sortedArray = [tmpArray sortedArrayUsingDescriptors:sortDescriptors];
 	
-	ReportViewController *reportViewController = [[ReportViewController alloc] initWithReportArray:sortedArray reportType:indexPath.row style:UITableViewStylePlain];
+	ReportViewController *reportViewController = [[ReportViewController alloc] initWithReportArray:tmpArray reportType:indexPath.row style:UITableViewStylePlain];
 	[self.navigationController pushViewController:reportViewController animated:YES];
 	[reportViewController release];
 }
@@ -208,8 +161,7 @@
 // tableView:accessoryButtonClickedForRowWithIndexPath: to be called, you must return the "Detail Disclosure Button" type.
 - (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath 
 {
-	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-	if ([[appDelegate.itts reportsByType] count] > indexPath.row)
+	if ([DB countOfReportsForType:indexPath.row])
 	{
 		return UITableViewCellAccessoryDisclosureIndicator;
 	}
@@ -263,7 +215,6 @@
 	// Remove notification observer
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-	[newReportsByType release];
 	[report_icon_new release];
 	[report_icon release];
     [super dealloc];

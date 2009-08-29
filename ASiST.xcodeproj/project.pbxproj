@@ -38,7 +38,6 @@
 		A7325BA00F21C9920053AEB1 /* ReportRootController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7325B9F0F21C9920053AEB1 /* ReportRootController.m */; };
 		A7357AF80F3348C900502F15 /* StatusInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7357AF70F3348C900502F15 /* StatusInfoController.m */; };
 		A736BF360F4100B300126FD3 /* NIO.png in Resources */ = {isa = PBXBuildFile; fileRef = A736BF350F4100B300126FD3 /* NIO.png */; };
-		A73CE851104271CC008778BF /* BirneConnect+Totals.m in Sources */ = {isa = PBXBuildFile; fileRef = A73CE850104271CC008778BF /* BirneConnect+Totals.m */; };
 		A73CEA021042E517008778BF /* ButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A73CEA011042E517008778BF /* ButtonCell.m */; };
 		A73CEB38104340A5008778BF /* EmptyNano.png in Resources */ = {isa = PBXBuildFile; fileRef = A73CEB37104340A5008778BF /* EmptyNano.png */; };
 		A73CEBC81044444D008778BF /* CalendarDayView.m in Sources */ = {isa = PBXBuildFile; fileRef = A73CEBC71044444D008778BF /* CalendarDayView.m */; };
@@ -320,8 +319,6 @@
 		A7357AF60F3348C900502F15 /* StatusInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusInfoController.h; sourceTree = "<group>"; };
 		A7357AF70F3348C900502F15 /* StatusInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusInfoController.m; sourceTree = "<group>"; };
 		A736BF350F4100B300126FD3 /* NIO.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NIO.png; sourceTree = "<group>"; };
-		A73CE84F104271CC008778BF /* BirneConnect+Totals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "BirneConnect+Totals.h"; path = "../BirneConnect+Totals.h"; sourceTree = "<group>"; };
-		A73CE850104271CC008778BF /* BirneConnect+Totals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "BirneConnect+Totals.m"; path = "../BirneConnect+Totals.m"; sourceTree = "<group>"; };
 		A73CEA001042E517008778BF /* ButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonCell.h; sourceTree = "<group>"; };
 		A73CEA011042E517008778BF /* ButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonCell.m; sourceTree = "<group>"; };
 		A73CEB37104340A5008778BF /* EmptyNano.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EmptyNano.png; sourceTree = "<group>"; };
@@ -625,8 +622,6 @@
 				1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */,
 				A70D5A7A0F17A66700A6FE9B /* YahooFinance.h */,
 				A70D5A7B0F17A66700A6FE9B /* YahooFinance.m */,
-				A73CE84F104271CC008778BF /* BirneConnect+Totals.h */,
-				A73CE850104271CC008778BF /* BirneConnect+Totals.m */,
 				A7EDD37D0FA4E8C40079FE78 /* BirneConnect.h */,
 				A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */,
 				A780D1710F25D2F600C796FB /* ChartView.h */,
@@ -922,7 +917,6 @@
 				A7EDD3830FA4E8C40079FE78 /* Country.h */,
 				A7EDD3840FA4E8C40079FE78 /* Country.m */,
 				A74A75070EFD5FA3003B5191 /* apps.db */,
-				A74A71D10EFB0644003B5191 /* schema.sql */,
 				A74A75450EFD7117003B5191 /* App.h */,
 				A74A75460EFD7117003B5191 /* App.m */,
 				A7EDD3850FA4E8C40079FE78 /* Report.h */,
@@ -1080,6 +1074,7 @@
 		A7EB524F104825E3005452BE /* SQL Scripts */ = {
 			isa = PBXGroup;
 			children = (
+				A74A71D10EFB0644003B5191 /* schema.sql */,
 				A7EB5258104825F9005452BE /* update_0_to_1.sql */,
 			);
 			name = "SQL Scripts";
@@ -1395,7 +1390,6 @@
 				A7EDD38D0FA4E8C40079FE78 /* Report.m in Sources */,
 				A7EDD38E0FA4E8C40079FE78 /* ReportViewController.m in Sources */,
 				A7ACC3230FE6290E0014DB41 /* NSString+Helpers.m in Sources */,
-				A73CE851104271CC008778BF /* BirneConnect+Totals.m in Sources */,
 				A73CEA021042E517008778BF /* ButtonCell.m in Sources */,
 				A73CEBC81044444D008778BF /* CalendarDayView.m in Sources */,
 				A7C7E92B10459E3000D413D0 /* DayReportCell.m in Sources */,
@@ -1453,6 +1447,9 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
+				GCC_TREAT_NONCONFORMANT_CODE_ERRORS_AS_WARNINGS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1488,6 +1485,9 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
+				GCC_TREAT_NONCONFORMANT_CODE_ERRORS_AS_WARNINGS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1503,6 +1503,9 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
+				GCC_TREAT_NONCONFORMANT_CODE_ERRORS_AS_WARNINGS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;

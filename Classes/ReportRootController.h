@@ -12,7 +12,6 @@
 @interface ReportRootController : UITableViewController {
 	UIImage *report_icon;
 	UIImage *report_icon_new;
-	NSMutableDictionary *newReportsByType;
 
 }
 

@@ -8,8 +8,7 @@
 #import "HTTPResponse.h"
 
 // these two necessary to get report texts
-#import "ASiSTAppDelegate.h"
-#import "BirneConnect.h"
+#import "Database.h"
 #import "Report.h"
 
 
@@ -141,9 +140,7 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 	
 
 	// Daily Reports
-	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-	
-	NSMutableArray *tmpArray = [[appDelegate.itts reportsByType] objectAtIndex:0];
+	NSArray *tmpArray = [DB sortedReportsOfType:ReportTypeDay];
 	
 	NSSortDescriptor *dateDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"fromDate" ascending:NO] autorelease];
 	NSArray *sortDescriptors = [NSArray arrayWithObject:dateDescriptor];
@@ -163,7 +160,7 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
     [outdata appendString:@"<ul>"];
 
 	// Weekly Reports
-	tmpArray = [[appDelegate.itts reportsByType] objectAtIndex:1];
+	tmpArray = [DB sortedReportsOfType:ReportTypeDay];
 	
 	sortedArray = [tmpArray sortedArrayUsingDescriptors:sortDescriptors];
 	
@@ -342,17 +339,20 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 				}
 			}
 
-			ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
+			
+			/*
 			
 			if (!report_id && from_date)
 			{
-				report_id = [appDelegate.itts reportIDForDate:from_date type:report_type];
+				report_id = [DB reportIDForDateString:from_date type:report_type region:];
 			}
-			
+			*/
+			 
 			NSString *reportText;
 			if (report_id)
 			{
-				reportText = [appDelegate.itts reportTextForID:report_id];
+				Report *tmpReport = [DB reportForID:report_id];
+				reportText = [tmpReport reconstructText];
 			}
 			else
 			{
@@ -377,9 +377,8 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 			if (type)
 			{
 				ReportType rt = (ReportType)[type intValue];
-				ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
 
-				NSString *zipFilePath = [appDelegate.itts createZipFromReportsOfType:rt];
+				NSString *zipFilePath = [DB createZipFromReportsOfType:rt];
 				
 				return [[[HTTPFileResponse alloc] initWithFilePath:zipFilePath] autorelease];
 	

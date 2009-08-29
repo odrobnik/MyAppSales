@@ -91,7 +91,7 @@
 		statusLabel.text = msg;
 		[statusLabel setNeedsDisplay];
 		[self showStatus:YES];
-		myTimer = [NSTimer scheduledTimerWithTimeInterval: 15.0
+		myTimer = [NSTimer scheduledTimerWithTimeInterval: 30.0
 												   target: self
 												 selector: @selector(statusExpired:)
 												 userInfo: nil
