@@ -25,7 +25,7 @@
 
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier]) {
+    if (self = [super initWithStyle:UITableViewStylePlain reuseIdentifier:reuseIdentifier]) {
         // Initialization code
 		// you can do this here specifically or at the table level for all cells
 		self.accessoryType = UITableViewCellAccessoryNone;
@@ -137,18 +137,18 @@
 		else
 		{
 			royaltiesLabel.text = @"free";
-			totalUnitsLabel.text = [NSString stringWithFormat:@"%d downloaded", app.totalUnitsSold];
+			totalUnitsLabel.text = [NSString stringWithFormat:@"%d downloaded", app.totalUnitsFree];
 		}
 		
 		
 		
 		if (app.iconImage)
 		{
-			self.image = app.iconImage;
+			self.CELL_IMAGE = app.iconImage;
 		}
 		else
 		{
-			self.image = [UIImage imageNamed:@"Empty.png"];
+			self.CELL_IMAGE = [UIImage imageNamed:@"Empty.png"];
 		}
 	}
 }

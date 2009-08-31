@@ -185,7 +185,7 @@
 
 // Customize the appearance of table view cells.
 
-- (ReportCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     
     static NSString *CellIdentifier;
@@ -241,7 +241,7 @@
 			}
 			else
 			{
-				cell.image = sumImage;
+				cell.CELL_IMAGE = sumImage;
 				cell.countryCodeLabel.text = @"";
 				
 				cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", report.sumUnitsSold];
@@ -274,7 +274,7 @@
 	if (indexPath.row==1)
 	{ // summary
 		
-		cell.image = sumImage;
+		cell.CELL_IMAGE = sumImage;
 		cell.countryCodeLabel.text = @"";
 		cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForAppId:rowApp.apple_identifier transactionType:TransactionTypeSale]];
 		cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForAppId:rowApp.apple_identifier transactionType:TransactionTypeFreeUpdate]];
@@ -321,7 +321,7 @@
 	NSMutableDictionary *thisDict = [report.summariesByApp objectForKey:app_id];
 	NSArray *dictKeys = [thisDict keysSortedByValueUsingSelector:@selector(compareBySales:)];  // all countries
 	CountrySummary *tmpSummary = [thisDict objectForKey:[dictKeys objectAtIndex:indexPath.row-2]];
-	cell.image = tmpSummary.country.iconImage;
+	cell.CELL_IMAGE = tmpSummary.country.iconImage;
 	cell.countryCodeLabel.text = tmpSummary.country.iso3;
 	
 	

@@ -114,13 +114,13 @@
 	switch (indexPath.row) 
 	{
 		case 0:
-			cell.text = @"Days";
+			cell.CELL_LABEL = @"Days";
 			break;
 		case 1:
-			cell.text = @"Weeks";
+			cell.CELL_LABEL = @"Weeks";
 			break;
 		case 2:
-			cell.text = @"Month (Financial)";
+			cell.CELL_LABEL = @"Month (Financial)";
 			break;
 		default:
 			break;
@@ -128,11 +128,11 @@
 
 	if ([DB hasNewReportsOfType:(ReportType)indexPath.row])
 	{
-		cell.image = report_icon_new;
+		cell.CELL_IMAGE = report_icon_new;
 	}
 	else
 	{
-		cell.image = report_icon;
+		cell.CELL_IMAGE = report_icon;
 	}
 	
     return cell;

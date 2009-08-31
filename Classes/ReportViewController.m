@@ -389,14 +389,14 @@
 			tmpReport = [report_array objectAtIndex:indexPath.row];
 		}
 		
-		cell.text = [tmpReport listDescription];
+		cell.CELL_LABEL = [tmpReport listDescription];
 		if (tmpReport.isNew)
 		{
-			cell.image = report_icon_new;
+			cell.CELL_IMAGE = report_icon_new;
 		}
 		else
 		{
-			cell.image = report_icon;
+			cell.CELL_IMAGE = report_icon;
 		}
 		
 		return cell;

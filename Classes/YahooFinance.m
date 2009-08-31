@@ -322,7 +322,7 @@ static YahooFinance *_sharedInstance = nil;
 			}
 			else
 			{
-				NSLog(oneLine);
+				//NSLog(oneLine);
 			}
 		}
 	}

@@ -120,32 +120,32 @@
 			switch (indexPath.row) {
 				case 0:
 				{
-					cell.text = @"Daily Sales";
+					cell.CELL_LABEL = @"Daily Sales";
 					break;
 				}
 				case 1:
 				{
-					cell.text = @"Weekly Sales";
+					cell.CELL_LABEL = @"Weekly Sales";
 					break;
 				}
 				case 2:
 				{
-					cell.text = @"Daily Sales Total";
+					cell.CELL_LABEL = @"Daily Sales Total";
 					break;
 				}
 				case 3:
 				{
-					cell.text = @"Weekly Sales Total";
+					cell.CELL_LABEL = @"Weekly Sales Total";
 					break;
 				}
 				case 4:
 				{
-					cell.text = @"Daily Sold Downloads";
+					cell.CELL_LABEL = @"Daily Sold Downloads";
 					break;
 				}
 				case 5:
 				{
-					cell.text = @"Weekly Sold Downloads";
+					cell.CELL_LABEL = @"Weekly Sold Downloads";
 					break;
 				}
 				default:
@@ -156,12 +156,12 @@
 			switch (indexPath.row) {
 				case 0:
 				{
-					cell.text = @"Daily Downloads";
+					cell.CELL_LABEL = @"Daily Downloads";
 					break;
 				}
 				case 1:
 				{
-					cell.text = @"Weekly Downloads";
+					cell.CELL_LABEL = @"Weekly Downloads";
 					break;
 				}
 				default:
@@ -172,7 +172,7 @@
 			break;
 	}
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	cell.image = [UIImage imageNamed:@"Graphique-32.png"];
+	cell.CELL_IMAGE = [UIImage imageNamed:@"Graphique-32.png"];
     return cell;
 }
 

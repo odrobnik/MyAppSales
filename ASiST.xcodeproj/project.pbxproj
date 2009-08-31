@@ -32,6 +32,7 @@
 		A72482810F1A0BA3003DADDD /* Report_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A724827F0F1A0BA3003DADDD /* Report_Icon.png */; };
 		A72482820F1A0BA3003DADDD /* Report_Icon_New.png in Resources */ = {isa = PBXBuildFile; fileRef = A72482800F1A0BA3003DADDD /* Report_Icon_New.png */; };
 		A7248AC50F1BEEC9003DADDD /* AppCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */; };
+		A72B1960104C2D3500D72FDE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A72B195F104C2D3500D72FDE /* Security.framework */; };
 		A72B83A20F40B5B400297684 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A72B83A00F40B5B400297684 /* Icon.png */; };
 		A72B83A30F40B5B400297684 /* ASiST.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A72B83A10F40B5B400297684 /* ASiST.jpg */; };
 		A7325B260F21B77E0053AEB1 /* Graphique-32.png in Resources */ = {isa = PBXBuildFile; fileRef = A7325B250F21B77E0053AEB1 /* Graphique-32.png */; };
@@ -252,7 +253,6 @@
 		A7B8DBAF0F1F1F5900DC09E1 /* SwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DBAE0F1F1F5900DC09E1 /* SwitchCell.m */; };
 		A7B8DC290F1F247E00DC09E1 /* TextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DC280F1F247E00DC09E1 /* TextCell.m */; };
 		A7B8DD030F1F8E1B00DC09E1 /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DD020F1F8E1B00DC09E1 /* KeychainWrapper.m */; };
-		A7B8DD200F1F901100DC09E1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7B8DD1F0F1F901100DC09E1 /* Security.framework */; };
 		A7B8DDE10F1FC88100DC09E1 /* TableListView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DDE00F1FC88100DC09E1 /* TableListView.m */; };
 		A7BB984C0F3C13B0008AC1B4 /* Currencies.plist in Resources */ = {isa = PBXBuildFile; fileRef = A7BB984B0F3C13B0008AC1B4 /* Currencies.plist */; };
 		A7C7E92B10459E3000D413D0 /* DayReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C7E92A10459E3000D413D0 /* DayReportCell.m */; };
@@ -311,6 +311,7 @@
 		A72482800F1A0BA3003DADDD /* Report_Icon_New.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Report_Icon_New.png; sourceTree = "<group>"; };
 		A7248AC30F1BEEC9003DADDD /* AppCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppCell.h; sourceTree = "<group>"; };
 		A7248AC40F1BEEC9003DADDD /* AppCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppCell.m; sourceTree = "<group>"; };
+		A72B195F104C2D3500D72FDE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A72B83A00F40B5B400297684 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		A72B83A10F40B5B400297684 /* ASiST.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ASiST.jpg; sourceTree = "<group>"; };
 		A7325B250F21B77E0053AEB1 /* Graphique-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Graphique-32.png"; sourceTree = "<group>"; };
@@ -563,7 +564,6 @@
 		A7B8DC280F1F247E00DC09E1 /* TextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextCell.m; sourceTree = "<group>"; };
 		A7B8DD010F1F8E1B00DC09E1 /* KeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeychainWrapper.h; path = ../KeychainWrapper.h; sourceTree = "<group>"; };
 		A7B8DD020F1F8E1B00DC09E1 /* KeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeychainWrapper.m; path = ../KeychainWrapper.m; sourceTree = "<group>"; };
-		A7B8DD1F0F1F901100DC09E1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A7B8DDDF0F1FC88100DC09E1 /* TableListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableListView.h; sourceTree = "<group>"; };
 		A7B8DDE00F1FC88100DC09E1 /* TableListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableListView.m; sourceTree = "<group>"; };
 		A7BB984B0F3C13B0008AC1B4 /* Currencies.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Currencies.plist; sourceTree = "<group>"; };
@@ -602,7 +602,7 @@
 				A78E2C3D0EFA7EB3002EB6D9 /* libz.dylib in Frameworks */,
 				A74A71EA0EFB0806003B5191 /* libsqlite3.dylib in Frameworks */,
 				A7745DC70F08D6740009DD76 /* CFNetwork.framework in Frameworks */,
-				A7B8DD200F1F901100DC09E1 /* Security.framework in Frameworks */,
+				A72B1960104C2D3500D72FDE /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -687,13 +687,13 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A7B8DD1F0F1F901100DC09E1 /* Security.framework */,
 				A7745DC60F08D6740009DD76 /* CFNetwork.framework */,
 				A74A71E90EFB0806003B5191 /* libsqlite3.dylib */,
 				A78E2C3C0EFA7EB3002EB6D9 /* libz.dylib */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
+				A72B195F104C2D3500D72FDE /* Security.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1452,10 +1452,10 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos2.2.1;
+				SDKROOT = iphoneos2.0;
 			};
 			name = Distribution;
 		};
@@ -1490,10 +1490,10 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos2.1;
+				SDKROOT = iphoneos2.0;
 			};
 			name = Debug;
 		};
@@ -1508,10 +1508,10 @@
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos2.2.1;
+				SDKROOT = iphoneos2.0;
 			};
 			name = Release;
 		};

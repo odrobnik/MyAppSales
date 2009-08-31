@@ -155,7 +155,7 @@ static Database *_sharedInstance;
 	// scripts are in the app bundle
 	NSString *scriptPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:scriptName];
 	
-	NSString *script = [NSString stringWithContentsOfFile:scriptPath];
+	NSString *script = [NSString stringWithContentsOfFile:scriptPath encoding:NSUTF8StringEncoding error:NULL];
 	char *errmsg;
 	
 	if (sqlite3_exec(database, [script UTF8String], NULL, NULL, &errmsg)!=SQLITE_OK)
@@ -686,7 +686,7 @@ static Database *_sharedInstance;
 			NSLog(@"Found report %@", aString);
 			NSString *pathOfFile = [documentsDirectory stringByAppendingPathComponent:aString];
 			
-			NSString *string = [NSString stringWithContentsOfFile:pathOfFile];
+			NSString *string = [NSString stringWithContentsOfFile: pathOfFile encoding:NSUTF8StringEncoding error:NULL];
 			[self insertReportFromText:string];
 			[fileManager removeItemAtPath:pathOfFile error:NULL];
 		}

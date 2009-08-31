@@ -16,9 +16,9 @@
 #define LEFT_COLUMN_OFFSET 45.0
 #define MAIN_FONT_SIZE 15.0
 
-- (id)initWithFrame:(CGRect)aRect reuseIdentifier:identifier
+- (id)initWithFrame:(CGRect)aRect reuseIdentifier:reuseIdentifier
 {
-	self = [super initWithFrame:aRect reuseIdentifier:identifier];
+	self = TABLEVIEWCELL_PLAIN_INIT;
 	if (self)
 	{
 		// you can do this here specifically or at the table level for all cells

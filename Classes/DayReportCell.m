@@ -17,7 +17,7 @@
 @synthesize unitsSoldLabel, royaltyEarnedLabel, unitsUpdatedLabel;
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier]) {
+    if (self = TABLEVIEWCELL_PLAIN_INIT) {
         // Initialization code
 		
 		dayView = [[CalendarDayView alloc] initWithFrame:CGRectZero];

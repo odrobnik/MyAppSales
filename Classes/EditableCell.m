@@ -21,7 +21,7 @@
 @synthesize titleLabel, textField;
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier]) {
+    if (self = TABLEVIEWCELL_PLAIN_INIT) {
         // Initialization code
 		self.accessoryType = UITableViewCellAccessoryNone;
 		self.selectionStyle = UITableViewCellSelectionStyleNone;

@@ -163,7 +163,7 @@
 
 // Customize the appearance of table view cells.
 
-- (ReportCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     static NSString *CellIdentifier;
 	
@@ -211,7 +211,7 @@
 	{
 		if (indexPath.row)
 		{
-			cell.image = sumImage;
+			cell.CELL_IMAGE = sumImage;
 			
 			cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", report.sumUnitsSold];
 			cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", report.sumUnitsUpdated];
@@ -248,16 +248,16 @@
 	if (indexPath.row==1)
 	{ // summary
 		
-		//cell.image = sumImage;
-	//	cell.image = rowApp.iconImageNano;
+		//cell.CELL_IMAGE = sumImage;
+	//	cell.CELL_IMAGE = rowApp.iconImageNano;
 		
 		if (rowApp.iconImageNano)
 		{
-			cell.image = rowApp.iconImageNano;
+			cell.CELL_IMAGE = rowApp.iconImageNano;
 		}
 		else
 		{
-			cell.image = [UIImage imageNamed:@"EmptyNano.png"];
+			cell.CELL_IMAGE = [UIImage imageNamed:@"EmptyNano.png"];
 		}
 		
 		//NSNumber *app_id = [keys objectAtIndex:indexPath.section-1]; 
@@ -282,7 +282,7 @@
 	NSArray *dictKeys = [thisDict keysSortedByValueUsingSelector:@selector(compareBySales:)];  // all countries
 	CountrySummary *tmpSummary = [thisDict objectForKey:[dictKeys objectAtIndex:indexPath.row-1]];
 	
-	cell.image = tmpSummary.country.iconImage;
+	cell.CELL_IMAGE = tmpSummary.country.iconImage;
 	
 	
 	if (tmpSummary.sumSales>0)
@@ -327,7 +327,7 @@
 	
 	
 	//Sale *tmpSale = [thisArray objectAtIndex:indexPath.row];
-	//cell.image = tmpSale.country.iconImage;
+	//cell.CELL_IMAGE = tmpSale.country.iconImage;
 	
 	//NSLog( [NSString stringWithFormat:@"%@ s: %d = %.2f %@, u: %d, r: %d",  tmpSummary.country.iso3,tmpSummary.sumSales, tmpSummary.sumRoyalites, tmpSummary.royaltyCurrency, tmpSummary.sumUpdates, tmpSummary.sumRefunds]);
 	//NSLog(@"ok");

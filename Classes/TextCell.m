@@ -21,9 +21,9 @@
 #define MAIN_FONT_SIZE 16.0
 
 
-- (id)initWithFrame:(CGRect)aRect reuseIdentifier:identifier
+- (id)initWithFrame:(CGRect)aRect reuseIdentifier:reuseIdentifier
 {
-	self = [super initWithFrame:aRect reuseIdentifier:identifier];
+	self = TABLEVIEWCELL_PLAIN_INIT;
 	if (self)
 	{
 		// you can do this here specifically or at the table level for all cells
@@ -62,10 +62,10 @@
 	
 	// In this example we will never be editing, but this illustrates the appropriate pattern
     CGRect frame =  CGRectMake(contentRect.origin.x+LEFT_COLUMN_OFFSET,  contentRect.origin.y, LEFT_COLUMN_WIDTH, contentRect.size.height);
-	if (self.image)
+	if (self.CELL_IMAGE)
 	{
-		frame.origin.x += self.image.size.width + LEFT_COLUMN_OFFSET;
-		frame.size.width -= self.image.size.width + LEFT_COLUMN_OFFSET;
+		frame.origin.x += self.CELL_IMAGE.size.width + LEFT_COLUMN_OFFSET;
+		frame.size.width -= self.CELL_IMAGE.size.width + LEFT_COLUMN_OFFSET;
 	}
 	title.frame = frame;
 	

@@ -107,7 +107,7 @@
 	NSString *currency = [myYahoo.nameIndex objectForKey:name];
 	
 	cell.title.text = name;
-	cell.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", currency]];
+	cell.CELL_IMAGE = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", currency]];
 
     return cell;
 }
