@@ -58,7 +58,7 @@ static sqlite3_stmt *insert_statement_sale = nil;
     // variable is used to store the SQLite compiled byte-code for the query, which is generated one time - the first
     // time the method is executed by any Book object.
     if (insert_statement_sale == nil) {
-        static char *sql = "REPLACE INTO sale(app_id, type_id, units, royalty_price, royalty_currency, customer_price , customer_currency , country_code, report_id) VALUES(?, ?, ?, ?, ?, ?, ?,?,?)";
+        static char *sql = "INSERT INTO sale(app_id, type_id, units, royalty_price, royalty_currency, customer_price , customer_currency , country_code, report_id) VALUES(?, ?, ?, ?, ?, ?, ?,?,?)";
         if (sqlite3_prepare_v2(database, sql, -1, &insert_statement_sale, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
