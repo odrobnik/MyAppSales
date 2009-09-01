@@ -43,20 +43,14 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
-	// The database is stored in the application bundle. 
-	// The settings is stored in the application bundle. 
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-	
+ 	
 	KeychainWrapper *wrapper= [[KeychainWrapper alloc] init];
     self.keychainWrapper = wrapper;
     [wrapper release];
-
+	
 	// Configure and show the window
 	[window addSubview:[tabBarController view]];
 	[window addSubview:statusViewController.view];
-
-	
 	[window makeKeyAndVisible];
 	
 	[statusViewController showStatus:NO];
@@ -68,26 +62,26 @@
 	[httpServer setType:@"_http._tcp."];
 	[httpServer setConnectionClass:[MyHTTPConnection class]];
 	[httpServer setDocumentRoot:[NSURL fileURLWithPath:root]];
-
+	
 	/*
-#if TARGET_IPHONE_SIMULATOR
+	 #if TARGET_IPHONE_SIMULATOR
+	 [httpServer setPort:8080];
+	 #else
+	 [httpServer setPort:80];
+	 #endif
+	 */	
+	
 	[httpServer setPort:8080];
-#else
-	[httpServer setPort:80];
-#endif
-*/	
-
-	[httpServer setPort:8080];
-
+	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayInfoUpdate:) name:@"LocalhostAdressesResolved" object:nil];
 	[localhostAdresses performSelectorInBackground:@selector(list) withObject:nil];
 	
 	/*
-	NSError *error;
-	if(![httpServer start:&error])
-	{
-		NSLog(@"Error starting HTTP Server: %@", error);
-	} */
+	 NSError *error;
+	 if(![httpServer start:&error])
+	 {
+	 NSLog(@"Error starting HTTP Server: %@", error);
+	 } */
 	
 	serverIsRunning = NO;
 	convertSalesToMainCurrency = YES;
@@ -97,35 +91,24 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newAppNotification:) name:@"NewAppAdded" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportNotification:) name:@"NewReportAdded" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportRead:) name:@"NewReportRead" object:nil];
-
+	
 	
 	NSString *user = [keychainWrapper objectForKey:(id)kSecAttrAccount];
 	NSString *pass = [keychainWrapper objectForKey:(id)kSecValueData];
 	
 	itts = [[BirneConnect alloc] initWithLogin:user password:pass];
-//	NSArray *currencies = [itts salesCurrencies];
-//	myYahoo = [[YahooFinance alloc] initWithCurrencyList:currencies];
 	
 	// load settings
 	
-    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"settings.plist"];
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
-	NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:path];
-	
-	if (settings)
+	NSString *mainCurrency = [defaults objectForKey:@"MainCurrency"];
+	if (mainCurrency)
 	{
-		NSString *mainCurrency = [settings objectForKey:@"MainCurrency"];
-		if (mainCurrency)
-		{
-			[[YahooFinance sharedInstance] setMainCurrency:mainCurrency];
-		}
-		
-		NSNumber *alwaysMainCurrency = [settings objectForKey:@"AlwaysUseMainCurrency"];
-		if (alwaysMainCurrency)
-		{
-			convertSalesToMainCurrency = [alwaysMainCurrency boolValue];
-		}
+		[[YahooFinance sharedInstance] setMainCurrency:mainCurrency];
 	}
+	
+	convertSalesToMainCurrency = [defaults boolForKey:@"AlwaysUseMainCurrency"];
 }
 
 
@@ -142,31 +125,18 @@
 
 - (void)newFileInDocuments:(NSNotification *) notification
 {
-	NSLog(@"New File");
 	[DB importReportsFromDocumentsFolder];
 }
 
-
 - (void)applicationWillTerminate:(UIApplication *)application 
 {
-	// Save data if appropriate
-	NSMutableDictionary *settings = [NSMutableDictionary dictionary];
+	// Save settings
 	
-	[settings setObject:[[YahooFinance sharedInstance] mainCurrency] forKey:@"MainCurrency"];
-	[settings setObject:[NSNumber numberWithBool:convertSalesToMainCurrency] forKey:@"AlwaysUseMainCurrency"];
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
-	// The settings is stored in the application bundle. 
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *path = [documentsDirectory stringByAppendingPathComponent:@"settings.plist"];
-	
-	[settings writeToFile:path atomically:YES];
+	[defaults setObject:[[YahooFinance sharedInstance] mainCurrency] forKey:@"MainCurrency"];
+	[defaults setObject:[NSNumber numberWithBool:convertSalesToMainCurrency] forKey:@"AlwaysUseMainCurrency"];
 }
-
-
-
-
-
 
 - (void) toggleNetworkIndicator:(BOOL)isON
 {
@@ -190,7 +160,7 @@
 			//[self displayInfoUpdate:nil];
 			serverIsRunning = YES;
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"ServerStatusChanged" object:nil userInfo:(id)[NSNumber numberWithBool:YES]];
-
+			
 		}
 	}
 	else
@@ -198,7 +168,7 @@
 		[httpServer stop];
 		serverIsRunning = NO;
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"ServerStatusChanged" object:nil userInfo:(id)[NSNumber numberWithBool:NO]];
-
+		
 	}
 }
 
@@ -250,9 +220,9 @@
 	if(notification)
 	{
 		NSDictionary *tmpDict = [notification userInfo];
-
+		
 		int newReports = [[tmpDict objectForKey:@"NewReports"] intValue];
-			
+		
 		if (newReports)
 		{
 			[reportBadgeItem setBadgeValue:[NSString stringWithFormat:@"%d", newReports]];
@@ -263,7 +233,7 @@
 		}
 		
 	} 
-
+	
 	[appViewController.tableView reloadData];  // royalites could have changed
 	
 	// also remove cached chart data
@@ -274,7 +244,7 @@
 	for (i=0;i<2; i++)
 	{
 		NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"cache_data_%d.plist",i]];
-	
+		
 		NSFileManager *fileManager = [NSFileManager defaultManager];
 		[fileManager removeItemAtPath:path error:NULL];
 	}
@@ -343,19 +313,19 @@
 	
 	/*
 	 // not used according to Analyze
-	NSString *info;
-	UInt16 port = [httpServer port];
-	
-	NSString *localIP = [addresses objectForKey:@"en0"];
-	if (!localIP)
-		info = @"Wifi: No Connection !\n";
-	else
-		info = [NSString stringWithFormat:@"http://iphone.local:%d		http://%@:%d\n", port, localIP, port];
-	NSString *wwwIP = [addresses objectForKey:@"www"];
-	if (wwwIP)
-		info = [info stringByAppendingFormat:@"Web: %@:%d\n", wwwIP, port];
-	else
-		info = [info stringByAppendingString:@"Web: No Connection\n"];
+	 NSString *info;
+	 UInt16 port = [httpServer port];
+	 
+	 NSString *localIP = [addresses objectForKey:@"en0"];
+	 if (!localIP)
+	 info = @"Wifi: No Connection !\n";
+	 else
+	 info = [NSString stringWithFormat:@"http://iphone.local:%d		http://%@:%d\n", port, localIP, port];
+	 NSString *wwwIP = [addresses objectForKey:@"www"];
+	 if (wwwIP)
+	 info = [info stringByAppendingFormat:@"Web: %@:%d\n", wwwIP, port];
+	 else
+	 info = [info stringByAppendingString:@"Web: No Connection\n"];
 	 */
 }
 
@@ -394,7 +364,7 @@
 	
 	// notify all objects
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"EmptyCache" object:nil userInfo:nil];
-
+	
 	
 	// reload app icons
 	[DB reloadAllAppIcons];
