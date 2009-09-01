@@ -139,12 +139,14 @@ static NSCalendar *gregorian;
 		255.0/255.0,255.0/255.0, 255.0/255.0, GRADIENT_ALPHA
 	}; // End color
 	
-	myGradient = CGGradientCreateWithColorComponents (CGColorSpaceCreateDeviceRGB(), components,
+	CGColorSpaceRef myColorSpace = CGColorSpaceCreateDeviceRGB();
+	myGradient = CGGradientCreateWithColorComponents (myColorSpace, components,
 													  locations, num_locations);
 	
 	
 	CGContextDrawLinearGradient (myContext, myGradient, myStartPoint, myEndPoint, 0);
 	CGGradientRelease(myGradient);
+	CGColorSpaceRelease(myColorSpace);
 	
 	
 	//CGContextBeginPath(myContext);
@@ -152,7 +154,6 @@ static NSCalendar *gregorian;
 	CGContextMoveToPoint(myContext, myRect.size.width, 0);
 	CGContextAddLineToPoint(myContext, myRect.size.width, myRect.size.height);
 	CGContextStrokePath(myContext);
-	
 }
 
 - (CGSize)sizeThatFits:(CGSize)size
