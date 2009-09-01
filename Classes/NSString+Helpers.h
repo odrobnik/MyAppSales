@@ -20,4 +20,6 @@
 - (NSComparisonResult)compareDesc:(NSString *)aString;
 
 
+// md5 maker
+- (NSString * )md5;
 @end
