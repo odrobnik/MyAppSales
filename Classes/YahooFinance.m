@@ -104,7 +104,7 @@ static YahooFinance *_sharedInstance = nil;
 		}
 		*/
 		// make query string
-		NSMutableString *string = [[NSMutableString alloc] init];
+		NSMutableString *string = [NSMutableString string];
 		
 		NSArray *currencies = [self.allCurrencies allKeys];
 		

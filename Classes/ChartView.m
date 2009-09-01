@@ -299,7 +299,7 @@
 	
 
 	// one more for rightmost week
-	{
+	//{
 		
 		CGRect backRect = CGRectMake(pos_x-(double)last_week_length*one_unit_x, 0, one_unit_x*(double)last_week_length, size.height);
 
@@ -342,8 +342,8 @@
 			
 			[label drawInRect:labelRect withFont:[UIFont systemFontOfSize:9.0] lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
 		}
-		last_week_length=1;
-	}
+		//last_week_length=1;
+	//}
 	
 	
 	// do it for all apps

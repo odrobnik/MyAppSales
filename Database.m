@@ -548,9 +548,8 @@ static Database *_sharedInstance;
 				if (![DB appForID:appID])
 				{
 					
-					App *app = [DB insertAppWithTitle:title vendor_identifier:vendor_identifier apple_identifier:appID company_name:company_name];
+					[DB insertAppWithTitle:title vendor_identifier:vendor_identifier apple_identifier:appID company_name:company_name];
 					
-					[app release];
 				}
 				
 				[insertedReport insertSaleForAppID:appID type_id:type_id units:units royalty_price:royalty_price royalty_currency:royalty_currency customer_price:customer_price customer_currency:customer_currency country_code:country_code];
@@ -637,9 +636,13 @@ static Database *_sharedInstance;
 			file_prefix = @"S_W_";
 			break;
 		default:
+			// need to set a case for different types, because otherwise Analyze complains
+			type_string = nil;
+			file_prefix = nil;
+			
 			break;
 	}
-	NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"reports_%@.zip", type_string]];
+	NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"reports_%@.zip", (NSString *)type_string]];
 	
 	ZipArchive *zip = [[ZipArchive alloc] init];
 	

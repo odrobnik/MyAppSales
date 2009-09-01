@@ -21,7 +21,7 @@
 #define MAIN_FONT_SIZE 16.0
 
 
-- (id)initWithFrame:(CGRect)aRect reuseIdentifier:reuseIdentifier
+- (id)initWithFrame:(CGRect)frame reuseIdentifier:reuseIdentifier
 {
 	self = TABLEVIEWCELL_PLAIN_INIT;
 	if (self)

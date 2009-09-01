@@ -1,16 +1,4 @@
-//
-//  ImageManipulator.m
-//
-//  Class for manipulating images.
-//
-//  Created by Björn Sållarp on 2008-09-11.
-//  Copyright 2008 Björn Sållarp. All rights reserved.
-//
-//  Read my blog @ http://jsus.is-a-geek.org/blog
-//
-
 #import "ImageManipulator.h"
-
 
 @implementation ImageManipulator
 
@@ -37,26 +25,36 @@ static void addRoundedRectToPath(CGContextRef context, CGRect rect, float ovalWi
 
 +(UIImage *)makeRoundCornerImage:(UIImage*)img cornerWidth:(int) cornerWidth cornerHeight:(int) cornerHeight
 {
-    int w = img.size.width;
-    int h = img.size.height;
-    
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context = CGBitmapContextCreate(NULL, w, h, 8, 4 * w, colorSpace, kCGImageAlphaPremultipliedFirst);
-    
-    CGContextBeginPath(context);
-    CGRect rect = CGRectMake(0, 0, img.size.width, img.size.height);
-    addRoundedRectToPath(context, rect, cornerWidth, cornerHeight);
-    CGContextClosePath(context);
-    CGContextClip(context);
-    
-    CGContextDrawImage(context, CGRectMake(0, 0, w, h), img.CGImage);
-    
-    CGImageRef imageMasked = CGBitmapContextCreateImage(context);
-    CGContextRelease(context);
-    CGColorSpaceRelease(colorSpace);
-    [img release];
-    
-    return [UIImage imageWithCGImage:imageMasked];
+	UIImage * newImage = nil;
+	
+	if( nil != img)
+	{
+		NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+		int w = img.size.width;
+		int h = img.size.height;
+		
+		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+		CGContextRef context = CGBitmapContextCreate(NULL, w, h, 8, 4 * w, colorSpace, kCGImageAlphaPremultipliedFirst);
+		
+		CGContextBeginPath(context);
+		CGRect rect = CGRectMake(0, 0, img.size.width, img.size.height);
+		addRoundedRectToPath(context, rect, cornerWidth, cornerHeight);
+		CGContextClosePath(context);
+		CGContextClip(context);
+		
+		CGContextDrawImage(context, CGRectMake(0, 0, w, h), img.CGImage);
+		
+		CGImageRef imageMasked = CGBitmapContextCreateImage(context);
+		CGContextRelease(context);
+		CGColorSpaceRelease(colorSpace);
+		
+		newImage = [[UIImage imageWithCGImage:imageMasked] retain];
+		CGImageRelease(imageMasked);
+		
+		[pool release];
+	}
+	
+    return [newImage autorelease];
 }
 
 @end

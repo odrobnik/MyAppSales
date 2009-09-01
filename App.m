@@ -44,6 +44,8 @@ static sqlite3_stmt *update_statement = nil;
 		
 		// subscribe to total update notifications
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appTotalsUpdated:) name:@"AppTotalsUpdated" object:nil];
+		// subscribe to change of exchange rates
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(emptyCache:) name:@"EmptyCache" object:nil];
 	}
 	
 	return self;
@@ -196,7 +198,7 @@ static sqlite3_stmt *update_statement = nil;
 	NSMutableURLRequest *theRequest;
 	
 	
-	NSString *sourceSt = [[NSString alloc] initWithBytes:[receivedData bytes] length:[receivedData length] encoding:NSUTF8StringEncoding];
+	NSString *sourceSt = [[[NSString alloc] initWithBytes:[receivedData bytes] length:[receivedData length] encoding:NSUTF8StringEncoding] autorelease];
 	if ([sourceSt hasPrefix:@"<"])
 	{	// HTML
 		NSRange range = [sourceSt rangeOfString:@"<iTunes>"];
@@ -239,7 +241,7 @@ static sqlite3_stmt *update_statement = nil;
 	}
 	else
 	{   // JPG
-		UIImage *tmpImage = [[UIImage alloc] initWithData:receivedData];
+		UIImage *tmpImage = [UIImage imageWithData:receivedData];
 		UIImage *tmpImageRounded = [ImageManipulator makeRoundCornerImage:tmpImage cornerWidth:20 cornerHeight:20];
 		UIImage *tmpImageResized = [tmpImageRounded scaleImageToSize:CGSizeMake(57.0,57.0)];
 		self.iconImage = tmpImageResized;
@@ -279,6 +281,7 @@ static sqlite3_stmt *update_statement = nil;
 	
 	[sumsByCurrency release];
 	[iconImage release];
+	[iconImageNano release];
 	[title release];
 	[vendor_identifier release];
     [company_name release];
@@ -441,5 +444,12 @@ static sqlite3_stmt *update_statement = nil;
 	} 
 }
 
+- (void)emptyCache:(NSNotification *) notification
+{
+	[iconImage release];
+	iconImage = nil;
+	[iconImageNano release];
+	iconImageNano = nil;
+}
 
 @end

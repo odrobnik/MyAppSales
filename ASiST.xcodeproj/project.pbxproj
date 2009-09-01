@@ -32,7 +32,6 @@
 		A72482810F1A0BA3003DADDD /* Report_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A724827F0F1A0BA3003DADDD /* Report_Icon.png */; };
 		A72482820F1A0BA3003DADDD /* Report_Icon_New.png in Resources */ = {isa = PBXBuildFile; fileRef = A72482800F1A0BA3003DADDD /* Report_Icon_New.png */; };
 		A7248AC50F1BEEC9003DADDD /* AppCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */; };
-		A72B1960104C2D3500D72FDE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A72B195F104C2D3500D72FDE /* Security.framework */; };
 		A72B83A20F40B5B400297684 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A72B83A00F40B5B400297684 /* Icon.png */; };
 		A72B83A30F40B5B400297684 /* ASiST.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A72B83A10F40B5B400297684 /* ASiST.jpg */; };
 		A7325B260F21B77E0053AEB1 /* Graphique-32.png in Resources */ = {isa = PBXBuildFile; fileRef = A7325B250F21B77E0053AEB1 /* Graphique-32.png */; };
@@ -311,7 +310,6 @@
 		A72482800F1A0BA3003DADDD /* Report_Icon_New.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Report_Icon_New.png; sourceTree = "<group>"; };
 		A7248AC30F1BEEC9003DADDD /* AppCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppCell.h; sourceTree = "<group>"; };
 		A7248AC40F1BEEC9003DADDD /* AppCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppCell.m; sourceTree = "<group>"; };
-		A72B195F104C2D3500D72FDE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A72B83A00F40B5B400297684 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		A72B83A10F40B5B400297684 /* ASiST.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ASiST.jpg; sourceTree = "<group>"; };
 		A7325B250F21B77E0053AEB1 /* Graphique-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Graphique-32.png"; sourceTree = "<group>"; };
@@ -602,7 +600,6 @@
 				A78E2C3D0EFA7EB3002EB6D9 /* libz.dylib in Frameworks */,
 				A74A71EA0EFB0806003B5191 /* libsqlite3.dylib in Frameworks */,
 				A7745DC70F08D6740009DD76 /* CFNetwork.framework in Frameworks */,
-				A72B1960104C2D3500D72FDE /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -693,7 +690,6 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
-				A72B195F104C2D3500D72FDE /* Security.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1449,7 +1445,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
 				GCC_TREAT_NONCONFORMANT_CODE_ERRORS_AS_WARNINGS = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = NO;
@@ -1487,7 +1483,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
 				GCC_TREAT_NONCONFORMANT_CODE_ERRORS_AS_WARNINGS = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = NO;
@@ -1505,7 +1501,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
 				GCC_TREAT_NONCONFORMANT_CODE_ERRORS_AS_WARNINGS = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = NO;

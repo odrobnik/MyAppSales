@@ -150,7 +150,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application 
 {
 	// Save data if appropriate
-	NSMutableDictionary *settings = [[NSMutableDictionary alloc] init];
+	NSMutableDictionary *settings = [NSMutableDictionary dictionary];
 	
 	[settings setObject:[[YahooFinance sharedInstance] mainCurrency] forKey:@"MainCurrency"];
 	[settings setObject:[NSNumber numberWithBool:convertSalesToMainCurrency] forKey:@"AlwaysUseMainCurrency"];
@@ -341,6 +341,8 @@
 		return;
 	}
 	
+	/*
+	 // not used according to Analyze
 	NSString *info;
 	UInt16 port = [httpServer port];
 	
@@ -354,6 +356,7 @@
 		info = [info stringByAppendingFormat:@"Web: %@:%d\n", wwwIP, port];
 	else
 		info = [info stringByAppendingString:@"Web: No Connection\n"];
+	 */
 }
 
 #pragma mark Misc
@@ -388,6 +391,10 @@
 			[fileManager removeItemAtPath:pathOfFile error:&error];
 		}
 	}
+	
+	// notify all objects
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"EmptyCache" object:nil userInfo:nil];
+
 	
 	// reload app icons
 	[DB reloadAllAppIcons];

@@ -181,14 +181,14 @@
 {
 	Query *myQuery = [[Query alloc] initWithDatabase:[DB database]];
 	
-	NSDictionary *tmpData;
-	NSString *reportTitle;
-	NSString *columnToShow;
+	NSDictionary *tmpData = nil;
+	NSString *reportTitle = nil;
+	//NSString *columnToShow;
 	
 	switch (indexPath.section) {
 		case 0:
 		{
-			columnToShow = @"Sum";
+			//columnToShow = @"Sum";
 			switch (indexPath.row) 
 			{
 				case 0:
@@ -224,7 +224,7 @@
 		}
 		case 1:
 		{
-			columnToShow = @"Units";
+			//columnToShow = @"Units";
 			switch (indexPath.row) {
 				case 0:
 					tmpData = [myQuery chartDataForReportType:ReportTypeDay ShowFree:YES Axis:@"Units"];

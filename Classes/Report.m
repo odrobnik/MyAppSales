@@ -293,6 +293,8 @@ static NSDateFormatter *dateFormatterToRead = nil;
 				case ReportRegionRestOfWorld:
 					region_name = @"Rest of World";
 					break;
+				default:
+					region_name = @"Invalid Region";
 			}
 			
 			return [NSString stringWithFormat:@"%@ %@", [formatter stringFromDate:untilDate], region_name];

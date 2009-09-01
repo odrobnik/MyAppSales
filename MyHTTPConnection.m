@@ -297,8 +297,8 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 			NSURL *url = [NSURL URLWithString:path];
 			
 			NSUInteger report_id=0;
-			ReportType report_type=ReportTypeDay;
-			NSString *from_date = nil;
+			//ReportType report_type=ReportTypeDay;
+			//NSString *from_date = nil;
 			
 			NSArray *queryParts = [[url query] componentsSeparatedByString:@"&"];
 			NSEnumerator *enu = [queryParts objectEnumerator];
@@ -319,6 +319,8 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 					}
 					else if([paramName isEqualToString:@"type"])
 					{
+						/*
+						 // not used according to Analyzer
 						if ([paramValue isEqualToString:@"day"])
 						{
 							report_type = ReportTypeDay;
@@ -326,6 +328,7 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 						else if ([paramValue isEqualToString:@"week"]) {
 							report_type = ReportTypeWeek;
 						}
+						 */
 					}
 					else if([paramName isEqualToString:@"from_date"])
 					{
@@ -334,7 +337,10 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 						//from_date = [dateFormatterToRead dateFromString:paramValue];
 						//[dateFormatterToRead release];
 						
+						/*
+						 // not used according to Analyze
 						from_date = paramValue;
+						 */
 					}
 				}
 			}
@@ -459,7 +465,7 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 					NSRange fileDataRange = {dataStartIndex, [postDataChunk length] - dataStartIndex};
 					
 					[[NSFileManager defaultManager] createFileAtPath:filename contents:[postDataChunk subdataWithRange:fileDataRange] attributes:nil];
-					NSFileHandle *file = [[NSFileHandle fileHandleForUpdatingAtPath:filename] retain];
+					NSFileHandle *file = [NSFileHandle fileHandleForUpdatingAtPath:filename];
 					if (file)
 					{
 						[file seekToEndOfFile];

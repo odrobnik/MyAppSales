@@ -25,7 +25,7 @@
 
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithStyle:UITableViewStylePlain reuseIdentifier:reuseIdentifier]) {
+    if (self = TABLEVIEWCELL_PLAIN_INIT) {
         // Initialization code
 		// you can do this here specifically or at the table level for all cells
 		self.accessoryType = UITableViewCellAccessoryNone;
@@ -76,6 +76,11 @@
 		totalUnitsLabel.adjustsFontSizeToFitWidth = YES;
 		totalUnitsLabel.font = smallerFont;
 		[self.contentView addSubview:totalUnitsLabel];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(emptyCache:) name:@"EmptyCache" object:nil];
+
+		
+		
     }
     return self;
 }
@@ -101,6 +106,7 @@
 
 - (void)dealloc
 {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[royaltiesLabel release];
 	[totalUnitsLabel release];
 	[appTitleLabel release];
@@ -151,6 +157,11 @@
 			self.CELL_IMAGE = [UIImage imageNamed:@"Empty.png"];
 		}
 	}
+}
+
+- (void)emptyCache:(NSNotification *) notification
+{
+	self.CELL_IMAGE = nil;
 }
 
 @end
