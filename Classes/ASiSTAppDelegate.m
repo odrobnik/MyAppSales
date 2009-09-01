@@ -349,7 +349,7 @@
 	{
 		NSString *pathOfFile = [documentsDirectory stringByAppendingPathComponent:aString];
 		
-		if ([aString isEqualToString:@"apps.db"]||[aString isEqualToString:@"settings.plist"]
+		if ([aString isEqualToString:@"apps.db"]
 			||[aString isEqualToString:@"Currencies.plist"]||[aString isEqualToString:@"simkeychain.plist"])
 		{
 			// excepted
