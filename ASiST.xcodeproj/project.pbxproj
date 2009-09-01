@@ -247,6 +247,7 @@
 		A7AB0B930F3120B500085D99 /* VNM.png in Resources */ = {isa = PBXBuildFile; fileRef = A7AB0B8D0F3120B500085D99 /* VNM.png */; };
 		A7ACC3230FE6290E0014DB41 /* NSString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC3220FE6290E0014DB41 /* NSString+Helpers.m */; };
 		A7ACC8370F10F342004EEA7A /* CountrySummary.m in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC8360F10F342004EEA7A /* CountrySummary.m */; };
+		A7B12CEE104D2EAA004639C9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7B12CED104D2EAA004639C9 /* Security.framework */; };
 		A7B8D92E0F1E56A100DC09E1 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8D92D0F1E56A100DC09E1 /* SettingsViewController.m */; };
 		A7B8D9730F1E587F00DC09E1 /* EditableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8D9720F1E587F00DC09E1 /* EditableCell.m */; };
 		A7B8DBAF0F1F1F5900DC09E1 /* SwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DBAE0F1F1F5900DC09E1 /* SwitchCell.m */; };
@@ -552,6 +553,7 @@
 		A7ACC3220FE6290E0014DB41 /* NSString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helpers.m"; sourceTree = "<group>"; };
 		A7ACC8350F10F342004EEA7A /* CountrySummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountrySummary.h; sourceTree = "<group>"; };
 		A7ACC8360F10F342004EEA7A /* CountrySummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountrySummary.m; sourceTree = "<group>"; };
+		A7B12CED104D2EAA004639C9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A7B8D92C0F1E56A100DC09E1 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		A7B8D92D0F1E56A100DC09E1 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		A7B8D9710F1E587F00DC09E1 /* EditableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditableCell.h; sourceTree = "<group>"; };
@@ -600,6 +602,7 @@
 				A78E2C3D0EFA7EB3002EB6D9 /* libz.dylib in Frameworks */,
 				A74A71EA0EFB0806003B5191 /* libsqlite3.dylib in Frameworks */,
 				A7745DC70F08D6740009DD76 /* CFNetwork.framework in Frameworks */,
+				A7B12CEE104D2EAA004639C9 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -690,6 +693,7 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
+				A7B12CED104D2EAA004639C9 /* Security.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
