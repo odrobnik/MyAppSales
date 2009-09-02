@@ -78,6 +78,7 @@
 - (NSComparisonResult)compareBySales:(App *)otherApp;
 
 
+- (void) updateTotalsFromDict:(NSDictionary *)totalsDict;
 
 
 @end

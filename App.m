@@ -43,8 +43,8 @@ static sqlite3_stmt *update_statement = nil;
 		self.iconImageNano = tmpImageNanoResized;
 		
 		// subscribe to total update notifications
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appTotalsUpdated:) name:@"AppTotalsUpdated" object:nil];
-		// subscribe to change of exchange rates
+		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appTotalsUpdated:) name:@"AppTotalsUpdated" object:nil];
+		// subscribe to cache emptying
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(emptyCache:) name:@"EmptyCache" object:nil];
 	}
 	
@@ -103,7 +103,7 @@ static sqlite3_stmt *update_statement = nil;
 		
 		[self insertIntoDatabase:database];
 		[self loadImageFromBirne];
-
+		
 		return self;
 	}
 	else
@@ -126,7 +126,7 @@ static sqlite3_stmt *update_statement = nil;
 		self.iconImage = tmpImage;
 		UIImage *tmpImageNanoResized = [tmpImage scaleImageToSize:CGSizeMake(32.0,32.0)];
 		self.iconImageNano = tmpImageNanoResized;
-
+		
 		return;
 	}
 	
@@ -181,9 +181,9 @@ static sqlite3_stmt *update_statement = nil;
 	receivedData = nil;
 	
  	
-   // NSLog(@"Connection failed! Error - %@ %@",
-   //       [error localizedDescription],
-   //       [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
+	// NSLog(@"Connection failed! Error - %@ %@",
+	//       [error localizedDescription],
+	//       [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
 	
 	/*	if (myDelegate && [myDelegate respondsToSelector:@selector(sendingDone:)]) {
 	 (void) [myDelegate performSelector:@selector(sendingDone:) 
@@ -205,12 +205,12 @@ static sqlite3_stmt *update_statement = nil;
 		if (range.location!=NSNotFound)
 		{
 			NSRange BirneRange = [sourceSt rangeOfString:@"</iTunes>" options:NSLiteralSearch range:NSMakeRange(range.location+range.length, 100)];
-
+			
 			NSRange tempRange = NSMakeRange(range.location + range.length, BirneRange.location - range.location - range.length);
-				
+			
 			
 			NSString *UTF8Name = [[sourceSt substringWithRange:tempRange] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-		
+			
 			// if the title is different then we prefer the one from Birne
 			if (![self.title isEqualToString:UTF8Name])
 			{
@@ -218,24 +218,24 @@ static sqlite3_stmt *update_statement = nil;
 				self.title = UTF8Name;
 				[self updateInDatabase];
 			}
-		
+			
 		}
 		
 		range = [sourceSt rangeOfString:@"100x100-75.jpg"];
-	
+		
 		if (range.location!=NSNotFound)
 		{
 			NSRange httpRange = [sourceSt rangeOfString:@"http://" options:NSBackwardsSearch range:NSMakeRange(0, range.location)];
 			NSString *imgURL = [sourceSt substringWithRange:NSMakeRange(httpRange.location, range.location - httpRange.location + range.length)];
 			//NSLog(@"Got Icon URL: %@", imgURL);
-		
-		
+			
+			
 			[receivedData setLength:0];
 			theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:imgURL]
-										   cachePolicy:NSURLRequestUseProtocolCachePolicy
-									   timeoutInterval:600.0];
-		
-	
+											   cachePolicy:NSURLRequestUseProtocolCachePolicy
+										   timeoutInterval:600.0];
+			
+			
 			theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
 		}
 	}
@@ -248,7 +248,7 @@ static sqlite3_stmt *update_statement = nil;
 		
 		UIImage *tmpImageNanoResized = [tmpImageRounded scaleImageToSize:CGSizeMake(32.0,32.0)];
 		self.iconImageNano = tmpImageNanoResized;
-
+		
 		
 		NSData *tmpData = UIImagePNGRepresentation (tmpImageResized);
 		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -256,19 +256,19 @@ static sqlite3_stmt *update_statement = nil;
 		NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%d.png", apple_identifier]];
 		
 		[tmpData writeToFile:path atomically:YES];
-	//	NSLog(@"Written Icon to %@", path);
-
-	//	tmpData = UIImagePNGRepresentation (tmpImageNanoResized);
-	//	path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%d_small.png", apple_identifier]];
-	//	[tmpData writeToFile:path atomically:YES];
-	//	NSLog(@"Written Nano Icon to %@", path);
-
+		//	NSLog(@"Written Icon to %@", path);
+		
+		//	tmpData = UIImagePNGRepresentation (tmpImageNanoResized);
+		//	path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%d_small.png", apple_identifier]];
+		//	[tmpData writeToFile:path atomically:YES];
+		//	NSLog(@"Written Nano Icon to %@", path);
+		
 		//[tmpImage release];
 		
 		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
 		[[[appDelegate appViewController] tableView] reloadData];
 		
-
+		
 		
 		
 	}
@@ -428,20 +428,18 @@ static sqlite3_stmt *update_statement = nil;
 }	
 
 #pragma mark Notifications
-- (void)appTotalsUpdated:(NSNotification *) notification
+- (void) updateTotalsFromDict:(NSDictionary *)totalsDict
 {
-	if(notification)
-	{
-		NSDictionary *tmpDict = [[notification userInfo] objectForKey:@"ByApp"];
-		
-		NSDictionary *appDict = [tmpDict objectForKey:[NSNumber numberWithInt:apple_identifier]];
-		
-		totalUnitsSold = [[appDict objectForKey:@"UnitsPaid"] intValue];
-		totalUnitsFree = [[appDict objectForKey:@"UnitsFree"] intValue];
-		
-		sumsByCurrency = [[appDict objectForKey:@"SumsByCurrency"] retain];
-		totalRoyalties = [[YahooFinance sharedInstance] convertToEuroFromDictionary:sumsByCurrency];
-	} 
+	NSDictionary *tmpDict = [totalsDict objectForKey:@"ByApp"];
+	
+	NSDictionary *appDict = [tmpDict objectForKey:[NSNumber numberWithInt:apple_identifier]];
+	
+	totalUnitsSold = [[appDict objectForKey:@"UnitsPaid"] intValue];
+	totalUnitsFree = [[appDict objectForKey:@"UnitsFree"] intValue];
+	
+	sumsByCurrency = [[appDict objectForKey:@"SumsByCurrency"] retain];
+	totalRoyalties = [[YahooFinance sharedInstance] convertToEuroFromDictionary:sumsByCurrency];
+	
 }
 
 - (void)emptyCache:(NSNotification *) notification

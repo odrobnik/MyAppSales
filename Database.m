@@ -73,7 +73,8 @@ static Database *_sharedInstance;
 		[self updateSchemaIfNeeded];
 		[self initializeDatabase];
 		
-		[self calcAvgRoyaltiesForApps];  
+		[self calcAvgRoyaltiesForApps];
+		[self getTotals];
 		
 		// subscribe to change of exchange rates
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exchangeRatesChanged:) name:@"ExchangeRatesChanged" object:nil];
@@ -991,7 +992,15 @@ static Database *_sharedInstance;
 	
 	NSDictionary *retDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:byAppDict, byReportDict, nil] forKeys:[NSArray arrayWithObjects:@"ByApp", @"ByReport", nil]];
 	
-	//NSLog([retDict description]);
+
+	// sometimes the notifications come in the wrong order, i.e. first the view then the apps
+	// so we update directly
+	for (NSNumber *oneAppKey in [apps allKeys])
+	{
+		App *oneApp = [apps objectForKey:oneAppKey];
+		[oneApp updateTotalsFromDict:retDict];
+	}
+	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"AppTotalsUpdated" object:nil userInfo:(id)retDict];
 }
 
