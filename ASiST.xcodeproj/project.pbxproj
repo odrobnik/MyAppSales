@@ -248,6 +248,8 @@
 		A7ACC3230FE6290E0014DB41 /* NSString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC3220FE6290E0014DB41 /* NSString+Helpers.m */; };
 		A7ACC8370F10F342004EEA7A /* CountrySummary.m in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC8360F10F342004EEA7A /* CountrySummary.m */; };
 		A7B12CEE104D2EAA004639C9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7B12CED104D2EAA004639C9 /* Security.framework */; };
+		A7B424BD10553718007BC954 /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B424BC10553718007BC954 /* AccountManager.m */; };
+		A7B424F310553E8F007BC954 /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B424F210553E8F007BC954 /* Account.m */; };
 		A7B8D92E0F1E56A100DC09E1 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8D92D0F1E56A100DC09E1 /* SettingsViewController.m */; };
 		A7B8D9730F1E587F00DC09E1 /* EditableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8D9720F1E587F00DC09E1 /* EditableCell.m */; };
 		A7B8DBAF0F1F1F5900DC09E1 /* SwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DBAE0F1F1F5900DC09E1 /* SwitchCell.m */; };
@@ -554,6 +556,10 @@
 		A7ACC8350F10F342004EEA7A /* CountrySummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountrySummary.h; sourceTree = "<group>"; };
 		A7ACC8360F10F342004EEA7A /* CountrySummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountrySummary.m; sourceTree = "<group>"; };
 		A7B12CED104D2EAA004639C9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		A7B424BB10553718007BC954 /* AccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManager.h; sourceTree = "<group>"; };
+		A7B424BC10553718007BC954 /* AccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManager.m; sourceTree = "<group>"; };
+		A7B424F110553E8F007BC954 /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
+		A7B424F210553E8F007BC954 /* Account.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Account.m; sourceTree = "<group>"; };
 		A7B8D92C0F1E56A100DC09E1 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		A7B8D92D0F1E56A100DC09E1 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		A7B8D9710F1E587F00DC09E1 /* EditableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditableCell.h; sourceTree = "<group>"; };
@@ -612,6 +618,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				A7B42AF910564D53007BC954 /* Account Manager */,
 				A73CEBC510444425008778BF /* Views */,
 				A7248AC60F1BEEEA003DADDD /* Tableview Cells */,
 				A7006B400F3B09EB009BB6A5 /* ZIP Support */,
@@ -966,8 +973,6 @@
 			children = (
 				A7745A610F06E5C00009DD76 /* ImageManipulator.h */,
 				A7745A620F06E5C10009DD76 /* ImageManipulator.m */,
-				A7B8DD010F1F8E1B00DC09E1 /* KeychainWrapper.h */,
-				A7B8DD020F1F8E1B00DC09E1 /* KeychainWrapper.m */,
 				A7745B350F06F0B30009DD76 /* ImageResizing.h */,
 				A7745B360F06F0B30009DD76 /* ImageResizing.m */,
 				A7ACC3210FE6290E0014DB41 /* NSString+Helpers.h */,
@@ -1069,6 +1074,19 @@
 			);
 			name = countries;
 			path = images/countries;
+			sourceTree = "<group>";
+		};
+		A7B42AF910564D53007BC954 /* Account Manager */ = {
+			isa = PBXGroup;
+			children = (
+				A7B8DD010F1F8E1B00DC09E1 /* KeychainWrapper.h */,
+				A7B8DD020F1F8E1B00DC09E1 /* KeychainWrapper.m */,
+				A7B424BB10553718007BC954 /* AccountManager.h */,
+				A7B424BC10553718007BC954 /* AccountManager.m */,
+				A7B424F110553E8F007BC954 /* Account.h */,
+				A7B424F210553E8F007BC954 /* Account.m */,
+			);
+			name = "Account Manager";
 			sourceTree = "<group>";
 		};
 		A7EB524F104825E3005452BE /* SQL Scripts */ = {
@@ -1394,6 +1412,8 @@
 				A73CEBC81044444D008778BF /* CalendarDayView.m in Sources */,
 				A7C7E92B10459E3000D413D0 /* DayReportCell.m in Sources */,
 				A7EB519410481BE6005452BE /* Database.m in Sources */,
+				A7B424BD10553718007BC954 /* AccountManager.m in Sources */,
+				A7B424F310553E8F007BC954 /* Account.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
