@@ -250,6 +250,9 @@
 		A7B12CEE104D2EAA004639C9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7B12CED104D2EAA004639C9 /* Security.framework */; };
 		A7B424BD10553718007BC954 /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B424BC10553718007BC954 /* AccountManager.m */; };
 		A7B424F310553E8F007BC954 /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B424F210553E8F007BC954 /* Account.m */; };
+		A7B42C2010567F2C007BC954 /* EditAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B42C1F10567F2C007BC954 /* EditAccountController.m */; };
+		A7B42DA210569AFB007BC954 /* PushButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B42DA110569AFB007BC954 /* PushButtonCell.m */; };
+		A7B42E351056A190007BC954 /* button_red.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B42E341056A190007BC954 /* button_red.png */; };
 		A7B8D92E0F1E56A100DC09E1 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8D92D0F1E56A100DC09E1 /* SettingsViewController.m */; };
 		A7B8D9730F1E587F00DC09E1 /* EditableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8D9720F1E587F00DC09E1 /* EditableCell.m */; };
 		A7B8DBAF0F1F1F5900DC09E1 /* SwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DBAE0F1F1F5900DC09E1 /* SwitchCell.m */; };
@@ -560,6 +563,11 @@
 		A7B424BC10553718007BC954 /* AccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManager.m; sourceTree = "<group>"; };
 		A7B424F110553E8F007BC954 /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
 		A7B424F210553E8F007BC954 /* Account.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Account.m; sourceTree = "<group>"; };
+		A7B42C1E10567F2C007BC954 /* EditAccountController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAccountController.h; sourceTree = "<group>"; };
+		A7B42C1F10567F2C007BC954 /* EditAccountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAccountController.m; sourceTree = "<group>"; };
+		A7B42DA010569AFB007BC954 /* PushButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushButtonCell.h; sourceTree = "<group>"; };
+		A7B42DA110569AFB007BC954 /* PushButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushButtonCell.m; sourceTree = "<group>"; };
+		A7B42E341056A190007BC954 /* button_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_red.png; sourceTree = "<group>"; };
 		A7B8D92C0F1E56A100DC09E1 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		A7B8D92D0F1E56A100DC09E1 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		A7B8D9710F1E587F00DC09E1 /* EditableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditableCell.h; sourceTree = "<group>"; };
@@ -763,6 +771,8 @@
 				A7B8D92D0F1E56A100DC09E1 /* SettingsViewController.m */,
 				A7B8DDDF0F1FC88100DC09E1 /* TableListView.h */,
 				A7B8DDE00F1FC88100DC09E1 /* TableListView.m */,
+				A7B42C1E10567F2C007BC954 /* EditAccountController.h */,
+				A7B42C1F10567F2C007BC954 /* EditAccountController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -905,6 +915,8 @@
 				A73CEA011042E517008778BF /* ButtonCell.m */,
 				A7C7E92910459E3000D413D0 /* DayReportCell.h */,
 				A7C7E92A10459E3000D413D0 /* DayReportCell.m */,
+				A7B42DA010569AFB007BC954 /* PushButtonCell.h */,
+				A7B42DA110569AFB007BC954 /* PushButtonCell.m */,
 			);
 			name = "Tableview Cells";
 			sourceTree = "<group>";
@@ -984,6 +996,7 @@
 		A7B3B4030F169C9100D211A0 /* artwork */ = {
 			isa = PBXGroup;
 			children = (
+				A7B42E341056A190007BC954 /* button_red.png */,
 				A73CEB37104340A5008778BF /* EmptyNano.png */,
 				A707A3380FA61238004060D9 /* Default.png */,
 				A707A2BB0FA5BBFA004060D9 /* apps_bw.png */,
@@ -1350,6 +1363,7 @@
 				A707A3390FA61238004060D9 /* Default.png in Resources */,
 				A73CEB38104340A5008778BF /* EmptyNano.png in Resources */,
 				A7EB5259104825F9005452BE /* update_0_to_1.sql in Resources */,
+				A7B42E351056A190007BC954 /* button_red.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1414,6 +1428,8 @@
 				A7EB519410481BE6005452BE /* Database.m in Sources */,
 				A7B424BD10553718007BC954 /* AccountManager.m in Sources */,
 				A7B424F310553E8F007BC954 /* Account.m in Sources */,
+				A7B42C2010567F2C007BC954 /* EditAccountController.m in Sources */,
+				A7B42DA210569AFB007BC954 /* PushButtonCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

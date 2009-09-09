@@ -29,6 +29,9 @@
 
 #import "ZipArchive.h"
 
+#import "AccountManager.h"
+#import "Account.h"
+
 
 @implementation ASiSTAppDelegate
 
@@ -43,7 +46,18 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
- 	
+ 	AccountManager *acc = [AccountManager sharedAccountManager];
+	
+	
+	for (int i=[acc.accounts count]-1;i>0;i--)
+	{
+		Account *one = [acc.accounts objectAtIndex:i];
+		[acc removeAccount:one];
+	}
+	
+	//Account *neu = [acc addAccountForService:@"itunes" user:@"drops"];
+	
+	
 	KeychainWrapper *wrapper= [[KeychainWrapper alloc] init];
     self.keychainWrapper = wrapper;
     [wrapper release];

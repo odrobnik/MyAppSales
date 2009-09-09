@@ -149,8 +149,8 @@ static const UInt8 kKeychainIdentifier[]    = "com.drobnik.asist.KeychainUI\0";
  		
 		// we copy the class, service and account as search values
         [updateItem setObject:[uniqueSearchQuery objectForKey:(id)kSecClass] forKey:(id)kSecClass];
-		[updateItem setObject:[uniqueSearchQuery objectForKey:(id)kSecAttrAccount] forKey:(id)kSecAttrAccount];
-		[updateItem setObject:[uniqueSearchQuery objectForKey:(id)kSecAttrService] forKey:(id)kSecAttrService];
+		[updateItem setObject:pk_account forKey:(id)kSecAttrAccount];
+		[updateItem setObject:pk_service forKey:(id)kSecAttrService];
 
         
         // Lastly, we need to set up the updated attribute list being careful to remove the class.
@@ -176,8 +176,13 @@ static const UInt8 kKeychainIdentifier[]    = "com.drobnik.asist.KeychainUI\0";
 		 
 		 -----> update item has the agrp extra, without it the request fails
 		 */
+				
+#ifdef TARGET_IPHONE_SIMULATOR
+		// this causes the SecItemUpdate to crash because on simulator it's "test"
+		[tempCheck removeObjectForKey:@"agrp"];
+#endif
 		
-		
+		//[tempCheck setObject:@"6P2Z3HB85N.com.drobnik.MyAppSales" forKey:@"agrp"];
 		
         // An implicit assumption is that you can only update a single item at a time.
         NSAssert( SecItemUpdate((CFDictionaryRef)updateItem, (CFDictionaryRef)tempCheck) == noErr, 
@@ -314,7 +319,7 @@ static const UInt8 kKeychainIdentifier[]    = "com.drobnik.asist.KeychainUI\0";
 
 - (void) setDescription:(NSString *)newDescription
 {
-	if (account != newDescription) 
+	if (description != newDescription) 
 	{
 		[description release];
 		description = [newDescription retain];
@@ -331,7 +336,7 @@ static const UInt8 kKeychainIdentifier[]    = "com.drobnik.asist.KeychainUI\0";
 		[label release];
 		label = [newLabel retain];
 		
-		[self setObject:account forKey:(id)kSecAttrLabel];
+		[self setObject:label forKey:(id)kSecAttrLabel];
 		dirty = YES;
 	}
 }

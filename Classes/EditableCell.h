@@ -8,9 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
-@class KeychainWrapper;
+@class KeychainWrapper, EditableCell;
+
+@protocol EditableCellDelegate <NSObject>
+
+@optional
+
+- (void) editableCell:(EditableCell *)editableCell textChangedTo:(NSString *)newText;
+
+@end
+
+
+
 
 @interface EditableCell : UITableViewCell <UITextFieldDelegate> {
+	
+	id<EditableCellDelegate> delegate;
 	UILabel *titleLabel;
 	UITextField *textField;
 	KeychainWrapper *keychain;
@@ -19,7 +32,10 @@
 
 @property (nonatomic, retain) UILabel *titleLabel;
 @property (nonatomic, retain) UITextField *textField;
+@property (nonatomic, assign) id<EditableCellDelegate> delegate;
 
+
+- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier;
 - (void) hideKeyboard;
 
 - (void) setSecKey:(id)key forKeychain:(KeychainWrapper *) chain;

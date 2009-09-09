@@ -8,7 +8,6 @@
 
 #import "EditableCell.h"
 #import "KeychainWrapper.h"
-#import "ASiSTAppDelegate.h"
 #import "SettingsViewController.h"
 
 
@@ -18,14 +17,15 @@
 
 @implementation EditableCell
 
-@synthesize titleLabel, textField;
+@synthesize titleLabel, textField, delegate;
 
-- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = TABLEVIEWCELL_PLAIN_INIT) {
+- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier]) {
         // Initialization code
 		self.accessoryType = UITableViewCellAccessoryNone;
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
-
+		
 		// these are set if the contents need to be saved to keychain
 		secKey = nil;
 		keychain = nil;
@@ -33,33 +33,9 @@
 		// create label views to contain the various pieces of text that make up the cell.
 		// Add these as subviews.
 		titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];	// layoutSubViews will decide the final frame
-		//titleLabel.backgroundColor = [UIColor clearColor];
-		//titleLabel.opaque = NO;
-		//titleLabel.textColor = [UIColor blackColor];
-		//titleLabel.highlightedTextColor = [UIColor whiteColor];
 		titleLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
 		titleLabel.font = [UIFont boldSystemFontOfSize:MAIN_FONT_SIZE];
 		[self.contentView addSubview:titleLabel];
-		
-		/*
-		CGRect frame = CGRectMake(0.0, 0.0, kTextFieldWidth, kTextFieldHeight);
-		UITextField *returnTextField = [[UITextField alloc] initWithFrame:frame];
-		
-		returnTextField.borderStyle = UITextBorderStyleBezel;
-		returnTextField.textColor = [UIColor blackColor];
-		returnTextField.font = [UIFont systemFontOfSize:17.0];
-		returnTextField.placeholder = @"<enter text>";
-		returnTextField.backgroundColor = [UIColor whiteColor];
-		returnTextField.autocorrectionType = UITextAutocorrectionTypeNo;	// no auto correction support
-		
-		returnTextField.keyboardType = UIKeyboardTypeDefault;	// use the default type input method (entire keyboard)
-		returnTextField.returnKeyType = UIReturnKeyDone;
-		
-		returnTextField.clearButtonMode = UITextFieldViewModeWhileEditing;	// has a clear 'x' button to the right
-		
-		return returnTextField;
-		*/
-
 		
 		textField = [[UITextField alloc] initWithFrame:CGRectZero];
 		textField.textColor = [UIColor colorWithRed:12850./65535 green:20303./65535 blue:34181./65535 alpha:1.0];
@@ -67,24 +43,12 @@
 		textField.autocorrectionType = UITextAutocorrectionTypeNo;
 		textField.keyboardType = UIKeyboardTypeDefault;	// use the default type input method (entire keyboard)
 		textField.returnKeyType = UIReturnKeyDone;
-		//textField.exclusiveTouch = YES;
-		//self.exclusiveTouch = YES;
 		
-		//textField.clearButtonMode = UITextFieldViewModeWhileEditing;	// has a clear 'x' button to the right
 		textField.delegate = self;
 		[self.contentView addSubview:textField];
     }
     return self;
 }
-
-/*
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-*/
 
 - (void)layoutSubviews
 {
@@ -96,6 +60,11 @@
 	
     CGRect frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET , contentRect.origin.y,  sizeNecessary.width+20.0,  contentRect.size.height);
 	titleLabel.frame = frame;
+	
+	if (!sizeNecessary.height)
+	{
+		sizeNecessary.height = 20.0;
+	}
 	
 	frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET + sizeNecessary.width + 20.0 ,contentRect.origin.y+(contentRect.size.height-sizeNecessary.height)/2.0, 
 					   contentRect.size.width -  sizeNecessary.width - 2.0*LEFT_COLUMN_OFFSET - 20.0, sizeNecessary.height);
@@ -136,23 +105,39 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
 	((UITableView*)[self superview]).scrollEnabled = NO;
-	//ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-	//appDelegate.settingsViewController.tableView.scrollEnabled = NO;	
 }
 
 // saving here occurs both on return key and changing away
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-	//ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-	//appDelegate.settingsViewController.tableView.scrollEnabled = YES;	
 	((UITableView*)[self superview]).scrollEnabled = YES;
 	if (keychain&&secKey)
 	{
 		if (self.textField.text)
 		{
-			[keychain setObject:self.textField.text forKey:secKey];
+			NSString *oldValue = [keychain objectForKey:secKey];
+			
+			if (![oldValue isEqualToString:self.textField.text])
+			{
+				[keychain setObject:self.textField.text forKey:secKey];
+				
+				if (delegate && [delegate respondsToSelector:@selector(editableCell:textChangedTo:)])
+				{
+					[delegate editableCell:self textChangedTo:self.textField.text];
+				}
+				
+			}
 		}
 	}
+	else 
+	{
+		if (delegate && [delegate respondsToSelector:@selector(editableCell:textChangedTo:)])
+		{
+			[delegate editableCell:self textChangedTo:self.textField.text];
+		}
+	}
+	
+	
 }	
 
 

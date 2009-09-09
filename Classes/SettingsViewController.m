@@ -25,6 +25,10 @@
 #import "KeychainWrapper.h"
 #import <Security/Security.h>
 
+#import "AccountManager.h"
+#import "Account.h"
+
+#import "EditAccountController.h"
 
 
 
@@ -107,6 +111,7 @@
     return 4;
 }
 
+
 /*
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -119,7 +124,7 @@
 {
 	switch (section) {
 		case 0:  // password
-			return 2;
+			return [[[AccountManager sharedAccountManager] accounts] count]+1;
 		case 1:  // reports
 			return 2;
 		case 2:  // web server
@@ -134,7 +139,7 @@
     return 0;
 }
 
-
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
 	if (!section)
@@ -159,7 +164,7 @@
 	else
 		return nil;
 }
-
+*/
  
 
 // Customize the appearance of table view cells.
@@ -169,8 +174,50 @@
 
 	switch (indexPath.section) 
 	{
-		case 0:  // password
+		case 0:  // accounts
 		{
+			NSArray *accounts = [[AccountManager sharedAccountManager] accounts];
+			
+			if (indexPath.row<([accounts count]))
+			{
+				// account line
+				
+				Account *rowAccount = [accounts objectAtIndex:indexPath.row];
+
+				NSString *CellIdentifier = @"AccountCell";
+				
+				UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+				if (cell == nil) 
+				{
+					cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+					cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+					cell.textLabel.font = [UIFont boldSystemFontOfSize:15.0];
+					cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
+				}
+
+				cell.textLabel.text = [rowAccount.description length]?rowAccount.description:rowAccount.account;
+				cell.detailTextLabel.text = rowAccount.service;
+				
+				return cell;
+				
+			}
+			else 
+			{
+				// Add account
+				UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:@"AddCell"] autorelease];
+				cell.textLabel.text = @"Add Account...";
+				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+				
+				return cell;
+			}
+
+			
+					
+			
+			/*
+			
+			
+			
 			NSString *CellIdentifier = @"PasswordSection";
 			
 			EditableCell *cell = (EditableCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -208,6 +255,8 @@
 					break;
 			}
 			return cell;
+			 
+			 */
 		}
 		case 1:   // general
 		{
@@ -335,6 +384,48 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
+	switch (indexPath.section) 
+	{
+		case 0:  // accounts
+		{
+			NSArray *accounts = [[AccountManager sharedAccountManager] accounts];
+			
+			if (indexPath.row<([accounts count]))
+			{
+				// account line
+				
+				Account *rowAccount = [accounts objectAtIndex:indexPath.row];
+				
+				EditAccountController *controller = [[EditAccountController alloc] initWithAccount:rowAccount];
+				controller.title = @"Edit Account";
+				controller.delegate = self;
+				[self.navigationController pushViewController:controller animated:YES];
+				[controller release];
+				
+			}
+			else 
+			{
+				// Add account
+				EditAccountController *controller = [[EditAccountController alloc] initWithAccount:nil];
+				controller.title = @"Add Account";
+				controller.delegate = self;
+				
+				UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+				navController.navigationBar.barStyle = UIBarStyleBlack;
+				[controller release];
+				
+				[self presentModalViewController:navController animated:YES];
+				[navController release];
+			}
+			
+
+			
+			break;
+		}
+	}
+	
+	
+	/*
 	if (indexPath.section)
 	{
 		NSIndexPath *targetPath = [NSIndexPath indexPathForRow:0 inSection:0];
@@ -344,7 +435,7 @@
 		targetCell = (EditableCell *)[self.tableView cellForRowAtIndexPath:targetPath];
 		[targetCell hideKeyboard];
 	}
-	
+	*/
 	
 	if (indexPath.section == 1)
 	{
@@ -413,7 +504,7 @@
 {
 	switch (section) {
 		case 0:
-			return @"Login";
+			return @"Accounts";
 		case 1:
 			return @"Reports";
 		case 2:
@@ -557,6 +648,26 @@
 		
 		[appDelegate emptyCache];
 	}
+}
+
+#pragma mark EditAccount Delegate
+- (void) deleteAccount:(Account *)deletedAccount
+{
+	AccountManager *am = [AccountManager sharedAccountManager];
+	NSUInteger row = [am.accounts indexOfObject:deletedAccount];
+	[am removeAccount:deletedAccount];
+	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+	
+	[self.tableView	deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
+}
+
+- (void) insertedAccount:(Account *)insertedAccount
+{
+	AccountManager *am = [AccountManager sharedAccountManager];
+	NSUInteger row = [am.accounts indexOfObject:insertedAccount];
+	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+	
+	[self.tableView	insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
 }
 
 
