@@ -12,7 +12,7 @@
 #import "ReportViewController.h"
 #import "StatusInfoController.h"
 
-#import "BirneConnect.h"
+#import "iTunesConnect.h"
 #import "Database.h"
 
 // for the HTTP server
@@ -22,8 +22,8 @@
 
 #import "Report.h"
 #import "YahooFinance.h"
-#import "BirneConnect.h"
-#import "KeychainWrapper.h"
+#import "iTunesConnect.h"
+//#import "KeychainWrapper.h"
 
 #import "Query.h"
 
@@ -39,29 +39,18 @@
 @synthesize navigationController;
 @synthesize tabBarController;
 @synthesize appViewController, reportRootController, settingsViewController, statusViewController;
-@synthesize itts, keychainWrapper, serverIsRunning, convertSalesToMainCurrency;
+@synthesize itts, /*keychainWrapper,*/ serverIsRunning, convertSalesToMainCurrency;
 @synthesize addresses, httpServer;
 @synthesize appBadgeItem, reportBadgeItem;
 
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
- 	AccountManager *acc = [AccountManager sharedAccountManager];
 	
-	
-	for (int i=[acc.accounts count]-1;i>0;i--)
-	{
-		Account *one = [acc.accounts objectAtIndex:i];
-		[acc removeAccount:one];
-	}
-	
-	//Account *neu = [acc addAccountForService:@"itunes" user:@"drops"];
-	
-	
-	KeychainWrapper *wrapper= [[KeychainWrapper alloc] init];
+/*	KeychainWrapper *wrapper= [[KeychainWrapper alloc] init];
     self.keychainWrapper = wrapper;
     [wrapper release];
-	
+*/	
 	// Configure and show the window
 	[window addSubview:[tabBarController view]];
 	[window addSubview:statusViewController.view];
@@ -107,10 +96,26 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportRead:) name:@"NewReportRead" object:nil];
 	
 	
-	NSString *user = [keychainWrapper objectForKey:(id)kSecAttrAccount];
-	NSString *pass = [keychainWrapper objectForKey:(id)kSecValueData];
+	//NSString *user = [keychainWrapper objectForKey:(id)kSecAttrAccount];
+	//NSString *pass = [keychainWrapper objectForKey:(id)kSecValueData];
 	
-	itts = [[BirneConnect alloc] initWithLogin:user password:pass];
+	AccountManager *acc = [AccountManager sharedAccountManager];
+	
+	if ([acc.accounts count]>0)
+	{
+		itts = [[iTunesConnect alloc] initWithAccount:[acc.accounts objectAtIndex:0]];
+	}
+	else 
+	{
+		itts = [[iTunesConnect alloc] init];
+
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Welcome to My App Sales" message:@"To start downloading your reports please enter your login information.\nSales/Trend reports are for directional purposes only, do not use for financial statement purpose. Money amounts may vary due to changes in exchange rates." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+		[alert show];
+		[alert release];
+		[tabBarController setSelectedIndex:3];
+		return;
+	}
+
 	
 	// load settings
 	
@@ -130,7 +135,7 @@
 	// Remove notification observer
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	[keychainWrapper release];
+	//[keychainWrapper release];
 	[itts release];
 	[navigationController release];
 	[window release];
@@ -219,10 +224,20 @@
 
 - (void) refreshButton:(id)sender
 {
-	itts.username = [keychainWrapper objectForKey:(id)kSecAttrAccount];
-	itts.password = [keychainWrapper objectForKey:(id)kSecValueData];
+	//itts.username = [keychainWrapper objectForKey:(id)kSecAttrAccount];
+	//itts.password = [keychainWrapper objectForKey:(id)kSecValueData];
 	
-	[itts sync];
+	
+	// currently we always set the first account to be used
+	
+	AccountManager *acc = [AccountManager sharedAccountManager];
+	
+	if ([acc.accounts count]>0)
+	{
+		itts.account = [acc.accounts objectAtIndex:0];
+		[itts sync];
+	}
+	
 }
 
 

@@ -9,15 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "EditAccountController.h"
 
-@class KeychainWrapper;
+//@class KeychainWrapper;
 
 @interface SettingsViewController : UITableViewController <UIActionSheetDelegate, EditAccountDelegate> {
-	KeychainWrapper *keychainWrapper;
+	//KeychainWrapper *keychainWrapper;
 	
 	BOOL showAddress;
 }
 
-@property (nonatomic, retain) KeychainWrapper *keychainWrapper;
+//@property (nonatomic, retain) KeychainWrapper *keychainWrapper;
 
 - (void) selectionChanged:(NSString *)newSel;
 

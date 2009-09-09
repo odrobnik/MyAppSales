@@ -9,7 +9,7 @@
 #import "Query.h"
 #import "Report.h"
 #import "YahooFinance.h"
-#import "BirneConnect.h"
+#import "iTunesConnect.h"
 #import "App.h"
 
 

@@ -268,7 +268,7 @@
 		A7EDD3000FA4E2C50079FE78 /* ChartRootController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD2FC0FA4E2C50079FE78 /* ChartRootController.xib */; };
 		A7EDD3010FA4E2C50079FE78 /* AppViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD2FD0FA4E2C50079FE78 /* AppViewController.xib */; };
 		A7EDD37A0FA4E75B0079FE78 /* MLT.png in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD3790FA4E75B0079FE78 /* MLT.png */; };
-		A7EDD3890FA4E8C40079FE78 /* BirneConnect.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */; };
+		A7EDD3890FA4E8C40079FE78 /* iTunesConnect.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EDD37E0FA4E8C40079FE78 /* iTunesConnect.m */; };
 		A7EDD38A0FA4E8C40079FE78 /* GenericReportController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EDD3800FA4E8C40079FE78 /* GenericReportController.m */; };
 		A7EDD38B0FA4E8C40079FE78 /* ReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EDD3820FA4E8C40079FE78 /* ReportCell.m */; };
 		A7EDD38C0FA4E8C40079FE78 /* Country.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EDD3840FA4E8C40079FE78 /* Country.m */; };
@@ -591,8 +591,8 @@
 		A7EDD2FC0FA4E2C50079FE78 /* ChartRootController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChartRootController.xib; sourceTree = "<group>"; };
 		A7EDD2FD0FA4E2C50079FE78 /* AppViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppViewController.xib; sourceTree = "<group>"; };
 		A7EDD3790FA4E75B0079FE78 /* MLT.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MLT.png; sourceTree = "<group>"; };
-		A7EDD37D0FA4E8C40079FE78 /* BirneConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BirneConnect.h; sourceTree = "<group>"; };
-		A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BirneConnect.m; sourceTree = "<group>"; };
+		A7EDD37D0FA4E8C40079FE78 /* iTunesConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTunesConnect.h; sourceTree = "<group>"; };
+		A7EDD37E0FA4E8C40079FE78 /* iTunesConnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTunesConnect.m; sourceTree = "<group>"; };
 		A7EDD37F0FA4E8C40079FE78 /* GenericReportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericReportController.h; sourceTree = "<group>"; };
 		A7EDD3800FA4E8C40079FE78 /* GenericReportController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericReportController.m; sourceTree = "<group>"; };
 		A7EDD3810FA4E8C40079FE78 /* ReportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportCell.h; sourceTree = "<group>"; };
@@ -626,19 +626,17 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				A7B4331F1057F11A007BC954 /* Report Server Connectors */,
 				A7B42AF910564D53007BC954 /* Account Manager */,
 				A73CEBC510444425008778BF /* Views */,
 				A7248AC60F1BEEEA003DADDD /* Tableview Cells */,
 				A7006B400F3B09EB009BB6A5 /* ZIP Support */,
 				A74A71D40EFB0651003B5191 /* Database */,
 				A79272500F2D95F9009AF9B2 /* Helpers */,
-				A707A33F0FA61305004060D9 /* View Controllers */,
 				1D3623240D0F684500981E51 /* ASiSTAppDelegate.h */,
 				1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */,
 				A70D5A7A0F17A66700A6FE9B /* YahooFinance.h */,
 				A70D5A7B0F17A66700A6FE9B /* YahooFinance.m */,
-				A7EDD37D0FA4E8C40079FE78 /* BirneConnect.h */,
-				A7EDD37E0FA4E8C40079FE78 /* BirneConnect.m */,
 				A780D1710F25D2F600C796FB /* ChartView.h */,
 				A780D1720F25D2F600C796FB /* ChartView.m */,
 				A780D7660F278EF900C796FB /* AxisView.h */,
@@ -924,6 +922,7 @@
 		A73CEBC510444425008778BF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A707A33F0FA61305004060D9 /* View Controllers */,
 				A73CEBC61044444D008778BF /* CalendarDayView.h */,
 				A73CEBC71044444D008778BF /* CalendarDayView.m */,
 			);
@@ -1100,6 +1099,15 @@
 				A7B424F210553E8F007BC954 /* Account.m */,
 			);
 			name = "Account Manager";
+			sourceTree = "<group>";
+		};
+		A7B4331F1057F11A007BC954 /* Report Server Connectors */ = {
+			isa = PBXGroup;
+			children = (
+				A7EDD37D0FA4E8C40079FE78 /* iTunesConnect.h */,
+				A7EDD37E0FA4E8C40079FE78 /* iTunesConnect.m */,
+			);
+			name = "Report Server Connectors";
 			sourceTree = "<group>";
 		};
 		A7EB524F104825E3005452BE /* SQL Scripts */ = {
@@ -1415,7 +1423,7 @@
 				A7006B5B0F3B0A0D009BB6A5 /* unzip.c in Sources */,
 				A7006B5C0F3B0A0D009BB6A5 /* zip.c in Sources */,
 				A7006B5D0F3B0A0D009BB6A5 /* ZipArchive.mm in Sources */,
-				A7EDD3890FA4E8C40079FE78 /* BirneConnect.m in Sources */,
+				A7EDD3890FA4E8C40079FE78 /* iTunesConnect.m in Sources */,
 				A7EDD38A0FA4E8C40079FE78 /* GenericReportController.m in Sources */,
 				A7EDD38B0FA4E8C40079FE78 /* ReportCell.m in Sources */,
 				A7EDD38C0FA4E8C40079FE78 /* Country.m in Sources */,

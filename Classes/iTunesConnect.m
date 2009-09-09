@@ -1,12 +1,12 @@
 //
-//  BirneConnect.m
+//  iTunesConnect.m
 //  ASiST
 //
 //  Created by Oliver Drobnik on 19.12.08.
 //  Copyright 2008 drobnik.com. All rights reserved.
 //
 
-#import "BirneConnect.h"
+#import "iTunesConnect.h"
 #import "Database.h"
 #import "DDData.h"
 #import "ASiSTAppDelegate.h"
@@ -29,7 +29,7 @@
 //static sqlite3_stmt *insertreport_statement = nil;
 
 // private methods
-@interface BirneConnect ()
+@interface iTunesConnect ()
 - (BOOL) shouldAutoSync;
 @end
 
@@ -38,14 +38,14 @@
 
 
 
-@implementation BirneConnect
+@implementation iTunesConnect
 
-@synthesize username, password, lastSuccessfulLoginTime;
+@synthesize /*username, password, */lastSuccessfulLoginTime, account;
 
 - (id) init
 {
 	syncing = NO;
-
+	
 	
 	if (self = [super init])
 	{
@@ -54,13 +54,12 @@
 	return nil;
 }
 
-- (id) initWithLogin:(NSString *)user password:(NSString *)pass
+- (id) initWithAccount:(Account *)itcAccount
 {
 	if (self = [self init])
 	{
-		self.username = user;
-		self.password = pass;
-
+		account = [itcAccount retain];
+		
 		// only auto-sync if we did not already download a daily report today
 		if ([self shouldAutoSync])
 		{
@@ -82,32 +81,37 @@
 	
 	syncing = YES;
 	
-	if (loginPostURL&&![loginPostURL isEqualToString:@""])
-	{
-		[self toggleNetworkIndicator:YES];
-
-		loginStep = 3;
-		[receivedData setLength:0];
-
-		NSMutableURLRequest *theRequest;
-		theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:loginPostURL]
-									   cachePolicy:NSURLRequestUseProtocolCachePolicy
-								   timeoutInterval:30.0];
-		[theRequest setHTTPMethod:@"POST"];
-		[theRequest addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
+	/*
+	 if (loginPostURL&&![loginPostURL isEqualToString:@""])
+	 {
+	 [self toggleNetworkIndicator:YES];
+	 
+	 loginStep = 3;
+	 [receivedData setLength:0];
+	 
+	 NSMutableURLRequest *theRequest;
+	 theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:loginPostURL]
+	 cachePolicy:NSURLRequestUseProtocolCachePolicy
+	 timeoutInterval:30.0];
+	 [theRequest setHTTPMethod:@"POST"];
+	 [theRequest addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
+	 
+	 //create the body
+	 NSMutableData *postBody = [NSMutableData data];
+	 [postBody appendData:[@"11.7=Summary&11.9=Daily&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
+	 [theRequest setHTTPBody:postBody];
+	 
+	 theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
+	 [self setStatus:@"Retrieving Day Options"];
+	 }
+	 else
+	 {
+	 [self loginAndSync];
+	 }
+	 
+	 */
 	
-		//create the body
-		NSMutableData *postBody = [NSMutableData data];
-		[postBody appendData:[@"11.7=Summary&11.9=Daily&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
-		[theRequest setHTTPBody:postBody];
-	
-		theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
-		[self setStatus:@"Retrieving Day Options"];
-	}
-	else
-	{
-		[self loginAndSync];
-	}
+	[self loginAndSync];  // since we remove the cookie we always login fully
 }
 
 
@@ -117,7 +121,7 @@
 	//[self importReportsFromDocumentsFolder];
 	//return self;
 	
-	if (!(self.username&&self.password&&![username isEqualToString:@""]&&![password isEqualToString:@""]))
+	if (!(account.account&&account.password&&![account.account isEqualToString:@""]&&![account.password isEqualToString:@""]))
 	{
 		//[self setStatus:@"Username or password empty!"];
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Welcome to My App Sales" message:@"To start downloading your reports please enter your login information.\nSales/Trend reports are for directional purposes only, do not use for financial statement purpose. Money amounts may vary due to changes in exchange rates." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
@@ -129,6 +133,15 @@
 	}
 	
 	syncing = YES;
+	
+	// remove all previous cookies
+	NSHTTPCookieStorage *cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+	
+	for (NSHTTPCookie *oneCookie in [cookies cookies])
+	{
+		NSLog(@"Remove Cookie: %@", oneCookie);
+		[cookies deleteCookie:oneCookie];
+	}
 	
 	// open login page
 	loginStep = 0;
@@ -167,11 +180,11 @@
 	NSDateComponents *todayComps = [gregorian components:NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit fromDate:[NSDate date]];
 	
 	return !((lastComps.day == todayComps.day)&&(lastComps.month == todayComps.month)&&(lastComps.year == todayComps.year));
-	}
+}
 
 - (void)dealloc {
 	[lastSuccessfulLoginTime release];
-
+	
 	[dateFormatterToRead release];
 	[weekOptions release];
 	[dayOptions release];
@@ -179,6 +192,27 @@
 	[receivedData release];
 	[super dealloc];
 }
+
+
+
+- (void) failLogin
+{
+	loginPostURL = @"";
+	syncing = NO;
+	[self toggleNetworkIndicator:NO];
+	self.lastSuccessfulLoginTime = nil;
+	
+	UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Login Failed"
+													 message:@"Your login or password was entered incorrectly."
+													delegate:self
+										   cancelButtonTitle:@"Ok"
+										   otherButtonTitles:nil, nil];
+	[alert show];
+	[alert release];
+	[self setStatus:nil];
+}
+
+
 
 #pragma mark HTTP call back methods
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response
@@ -190,7 +224,7 @@
     // redirect, so each time we reset the data.
     // receivedData is declared as a method instance elsewhere
     [receivedData setLength:0];
-	NSLog(@"%d %@", [response statusCode], [[response allHeaderFields] objectForKey:@"Content-Type"]);
+	NSLog(@"%d %@", [response statusCode], [response allHeaderFields]);
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -238,8 +272,8 @@
 					loginStep = 7;
 					[receivedData setLength:0];
 					theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-																			cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-																		timeoutInterval:30.0];
+													   cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+												   timeoutInterval:30.0];
 					
 					[theRequest setHTTPMethod:@"POST"];
 					[theRequest addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
@@ -247,8 +281,8 @@
 					//create the body
 					postBody = [NSMutableData data];
 					[postBody appendData:[[NSString stringWithFormat:@"theAccountName=%@&theAccountPW=%@&1.Continue.x=20&1.Continue.y=6&theAuxValue=", 
-										  [username stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-										   [password stringByUrlEncoding]] dataUsingEncoding:NSUTF8StringEncoding]];
+										   [account.account stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+										   [account.password stringByUrlEncoding]] dataUsingEncoding:NSUTF8StringEncoding]];
 					[theRequest setHTTPBody:postBody];
 					
 					theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
@@ -276,28 +310,41 @@
 		}
 		case 7: // Logged into iTunes Connect
 		{
-			URL = @"http://itts.apple.com/cgi-bin/WebObjects/Piano.woa";
 			
-			loginStep = 2;
+			/*
+			 //successful login sets three cookies: 
+			 
+			 <NSHTTPCookie version:0 name:@"DefaultAppleID" value:@"oliver%40drobnik.com" expiresDate:@"2009-09-30 08:41:06 +0200" created:@"274196465.998941" sessionOnly:FALSE domain:@".apple.com" path:@"/" secure:FALSE comment:@"(null)" commentURL:@"(null)" portList:(null)>
+			 <NSHTTPCookie version:0 name:@"ds01" value:@"A19278AA7C76801EDD26613A7ECCD163DFC3D9F65EBF6811032F6C3AE96B9300FCCF4A934B47B42BE51D346953899F58B0AFB0803BCD287571400E548000BD63" expiresDate:@"2010-09-09 08:41:06 +0200" created:@"274196465.998917" sessionOnly:FALSE domain:@".apple.com" path:@"/" secure:FALSE comment:@"(null)" commentURL:@"(null)" portList:(null)>
+			 <NSHTTPCookie version:0 name:@"myacinfo" value:@"NTY7aykMTLfvowkz3o7O1~FLudkwrRH7noBBMdBzH5gIfngERJlXHQ2LQIU5f0m0vVypuylDwTZbeX4@" expiresDate:@"(null)" created:@"274196465.998954" sessionOnly:TRUE domain:@".apple.com" path:@"/" secure:FALSE comment:@"(null)" commentURL:@"(null)" portList:(null)>
+			 */
 			
-			[receivedData setLength:0];
+			// check if we received a login session cookies
+			NSArray *sessionCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://www.apple.com"]];
 			
-			theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-											   cachePolicy:NSURLRequestUseProtocolCachePolicy
-										   timeoutInterval:60.0];  // might take long
+			if ([sessionCookies count])
+			{
+				
+				URL = @"http://itts.apple.com/cgi-bin/WebObjects/Piano.woa";
+				
+				loginStep = 2;
+				
+				[receivedData setLength:0];
+				
+				theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
+												   cachePolicy:NSURLRequestUseProtocolCachePolicy
+											   timeoutInterval:60.0];  // might take long
+				
+				[theRequest setHTTPMethod:@"GET"];
+				
+				theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
+				[self setStatus:@"Accessing Sales Reports"];
+			}
+			else
+			{
+				[self failLogin];
+			}
 			
-			[theRequest setHTTPMethod:@"GET"];
-			//[theRequest addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
-			
-			//create the body
-			//postBody = [NSMutableData data];
-			//[postBody appendData:[@"11.7=Summary&11.9=Daily&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
-			
-			//add the body to the post
-			//[theRequest setHTTPBody:postBody];
-			
-			theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
-			[self setStatus:@"Accessing Sales Reports"];
 			break;
 		}
 			
@@ -316,14 +363,14 @@
 				{
 					self.lastSuccessfulLoginTime = [NSDate date];
 					URL = [@"https://itts.apple.com" stringByAppendingString:[sourceSt substringWithRange:NSMakeRange(formRange.location+formRange.length, quoteRange.location-formRange.location-formRange.length)]];
-
+					
 					loginStep = 2;
 					
 					[receivedData setLength:0];
 					
 					theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-																			cachePolicy:NSURLRequestUseProtocolCachePolicy
-																		timeoutInterval:30.0];
+													   cachePolicy:NSURLRequestUseProtocolCachePolicy
+												   timeoutInterval:30.0];
 					
 					[theRequest setHTTPMethod:@"POST"];
 					[theRequest addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
@@ -348,19 +395,7 @@
 			else
 			{
 				// Login Failed
-				loginPostURL = @"";
-				syncing = NO;
-				[self toggleNetworkIndicator:NO];
-				self.lastSuccessfulLoginTime = nil;
-
-				UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Login Failed"
-																 message:@"Your login or password was entered incorrectly."
-																delegate:self
-													   cancelButtonTitle:@"Ok"
-													   otherButtonTitles:nil, nil];
-				[alert show];
-				[alert release];
-				[self setStatus:nil];
+				[self failLogin];
 				
 			}
 			break;
@@ -377,13 +412,13 @@
 				if (quoteRange.length==1)
 				{
 					URL = [@"https://itts.apple.com" stringByAppendingString:[sourceSt substringWithRange:NSMakeRange(formRange.location+formRange.length, quoteRange.location-formRange.location-formRange.length)]];
-
+					
 					
 					loginStep = 3;
 					[receivedData setLength:0];
 					theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-																			cachePolicy:NSURLRequestUseProtocolCachePolicy
-																		timeoutInterval:30.0];
+													   cachePolicy:NSURLRequestUseProtocolCachePolicy
+												   timeoutInterval:30.0];
 					[theRequest setHTTPMethod:@"POST"];
 					[theRequest addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
 					
@@ -430,27 +465,27 @@
 						NSRange endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
 						dayOptions = [[[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect] retain];
 						dayOptionsIdx = 0;
-
+						
 						
 						if (![self requestDailyReport])
 						{
-								loginStep = 5;
-								
-								[receivedData setLength:0];
-								theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:loginPostURL]
-																   cachePolicy:NSURLRequestUseProtocolCachePolicy
-															   timeoutInterval:30.0];
-								[theRequest setHTTPMethod:@"POST"];
-								[theRequest addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
-								
-								//create the body
-								NSMutableData *postBody = [NSMutableData data];
-								[postBody appendData:[@"11.7=Summary&11.9=Weekly&hiddenDayOrWeekSelection=Weekly&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
-								[theRequest setHTTPBody:postBody];
-								
-								theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
-								[self setStatus:@"Retrieving Week Options"];
-								
+							loginStep = 5;
+							
+							[receivedData setLength:0];
+							theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:loginPostURL]
+															   cachePolicy:NSURLRequestUseProtocolCachePolicy
+														   timeoutInterval:30.0];
+							[theRequest setHTTPMethod:@"POST"];
+							[theRequest addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
+							
+							//create the body
+							NSMutableData *postBody = [NSMutableData data];
+							[postBody appendData:[@"11.7=Summary&11.9=Weekly&hiddenDayOrWeekSelection=Weekly&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
+							[theRequest setHTTPBody:postBody];
+							
+							theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
+							[self setStatus:@"Retrieving Week Options"];
+							
 							
 						}
 					}
@@ -470,7 +505,7 @@
 			{
 				NSData *decompressed = [receivedData gzipInflate];
 				NSString *decompStr = [[NSString alloc] initWithBytes:[decompressed bytes] length:[decompressed length] encoding:NSASCIIStringEncoding];
-
+				
 				[DB insertReportFromText:decompStr];
 				[decompStr release];
 				
@@ -479,19 +514,19 @@
 					
 					loginStep = 5;
 					
-					 [receivedData setLength:0];
-					 theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:loginPostURL]
-					 cachePolicy:NSURLRequestUseProtocolCachePolicy
-					 timeoutInterval:30.0];
-					 [theRequest setHTTPMethod:@"POST"];
-					 [theRequest addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
-					 
-					 //create the body
-					 NSMutableData *postBody = [NSMutableData data];
-					 [postBody appendData:[@"11.7=Summary&11.9=Weekly&hiddenDayOrWeekSelection=Weekly&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
-					 [theRequest setHTTPBody:postBody];
-					 
-					 theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
+					[receivedData setLength:0];
+					theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:loginPostURL]
+													   cachePolicy:NSURLRequestUseProtocolCachePolicy
+												   timeoutInterval:30.0];
+					[theRequest setHTTPMethod:@"POST"];
+					[theRequest addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
+					
+					//create the body
+					NSMutableData *postBody = [NSMutableData data];
+					[postBody appendData:[@"11.7=Summary&11.9=Weekly&hiddenDayOrWeekSelection=Weekly&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
+					[theRequest setHTTPBody:postBody];
+					
+					theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
 					[self setStatus:@"Retrieving Week Options"];
 					
 				}
@@ -503,18 +538,18 @@
 		case 5:
 		{
 			loginStep = 6;
-					NSRange selectRange = [sourceSt rangeOfString:@"<select Id=\"dayorweekdropdown\""];
-					
-					weekOptions = nil;
-					if (selectRange.location!=NSNotFound)
-					{
-						NSRange endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
-						weekOptions = [[[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect] retain];
-						weekOptionsIdx = 0;
-						
-						[self requestWeeklyReport];
-						//[self syncReports];
-					}
+			NSRange selectRange = [sourceSt rangeOfString:@"<select Id=\"dayorweekdropdown\""];
+			
+			weekOptions = nil;
+			if (selectRange.location!=NSNotFound)
+			{
+				NSRange endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
+				weekOptions = [[[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect] retain];
+				weekOptionsIdx = 0;
+				
+				[self requestWeeklyReport];
+				//[self syncReports];
+			}
 			break;
 		}
 			
@@ -533,20 +568,20 @@
 			break;
 		}
 			
-	/*	default:  // any other step means report data
-		{
-			if (![sourceSt hasPrefix:@"<"])
-			{
-				NSData *decompressed = [receivedData gzipInflate];
-				NSString *decompStr = [[NSString alloc] initWithBytes:[decompressed bytes] length:[decompressed length] encoding:NSASCIIStringEncoding];
-			
-				[self addReportToDBfromString:decompStr forDay:[dayOptions objectAtIndex:dayOptionsIdx]];
-			
-				[decompStr release];
-			
-				[self syncReports];
-			}
-		}*/
+			/*	default:  // any other step means report data
+			 {
+			 if (![sourceSt hasPrefix:@"<"])
+			 {
+			 NSData *decompressed = [receivedData gzipInflate];
+			 NSString *decompStr = [[NSString alloc] initWithBytes:[decompressed bytes] length:[decompressed length] encoding:NSASCIIStringEncoding];
+			 
+			 [self addReportToDBfromString:decompStr forDay:[dayOptions objectAtIndex:dayOptionsIdx]];
+			 
+			 [decompStr release];
+			 
+			 [self syncReports];
+			 }
+			 }*/
 	}
 }
 
@@ -573,7 +608,7 @@
 - (BOOL) requestDailyReport
 {
 	NSMutableURLRequest *theRequest;
-
+	
 	if ([dayOptions count]>dayOptionsIdx)
 	{
 		NSString *formDate = [[dayOptions objectAtIndex:dayOptionsIdx] stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
@@ -602,7 +637,7 @@
 		
 		theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
 		[self setStatus:[NSString stringWithFormat:@"Loading Day Report for %@", [dayOptions objectAtIndex:dayOptionsIdx]]];
-
+		
 		dayOptionsIdx ++;
 		return YES;
 	}
@@ -660,7 +695,7 @@
 		
 		// need to redo totals now
 		[DB getTotals];
-
+		
 		return NO;
 	}
 }

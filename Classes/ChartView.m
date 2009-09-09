@@ -7,7 +7,7 @@
 //
 
 #import "ChartView.h"
-#import "BirneConnect.h"
+#import "iTunesConnect.h"
 //#import <QuartzCore/CoreAnimation.h>
 
 

@@ -32,12 +32,13 @@
 																								  target:self action:@selector(cancel:)];
 			self.navigationItem.prompt = @"Enter your iTunes Connect account information";
 			self.navigationItem.rightBarButtonItem.enabled = NO;
-		}
 			
-		
-		
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(somethingTyped:) name:UITextFieldTextDidChangeNotification object:nil];
+
+		}
 	}
-	
+
+
 	return self;
 }
 
@@ -257,6 +258,7 @@
 
 
 - (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
 
@@ -330,6 +332,14 @@
 	
 	self.navigationItem.rightBarButtonItem.enabled = ([accountField.text length]&&[passwordField.text length]);
 }
+
+
+- (void) somethingTyped:(NSNotification *)notification
+{
+	self.navigationItem.rightBarButtonItem.enabled = ([accountField.text length]&&[passwordField.text length]);	
+}
+
+//UITextFieldTextDidChangeNotification
 
 @end
 

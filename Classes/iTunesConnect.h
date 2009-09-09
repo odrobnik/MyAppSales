@@ -1,5 +1,5 @@
 //
-//  BirneConnect.h
+//  iTunesConnect.h
 //  ASiST
 //
 //  Created by Oliver Drobnik on 19.12.08.
@@ -8,18 +8,19 @@
 
 #import <Foundation/Foundation.h>
 #import "Database.h"
+#import "Account.h"
 
 //typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, ReportTypeFree = 3 } ReportType;
 //typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope = 2, ReportRegionCanada = 3, ReportRegionAustralia = 4, ReportRegionUK = 5, ReportRegionJapan = 6, ReportRegionRestOfWorld} ReportRegion;
 
-@class Report, App, YahooFinance;
+@class Report, App, YahooFinance, Account;
 
-@interface BirneConnect : NSObject 
+@interface iTunesConnect : NSObject 
 {
 	// login
-	NSString *username;
-	NSString *password;
-	
+	//NSString *username;
+	//NSString *password;
+	Account *account;
 	
 	// for HTTP
 	NSMutableData *receivedData;
@@ -48,16 +49,20 @@
 }
 
 
-- (id) initWithLogin:(NSString *)user password:(NSString *)pass;
+- (id) initWithAccount:(Account *)itcAccount;
+
+//- (id) initWithLogin:(NSString *)user password:(NSString *)pass;
+ 
 
 - (BOOL) requestDailyReport;
 - (BOOL) requestWeeklyReport;
 
 // login
-@property (nonatomic, retain) NSString *username;
-@property (nonatomic, retain) NSString *password;
+//@property (nonatomic, retain) NSString *username;
+//@property (nonatomic, retain) NSString *password;
 
 @property (nonatomic, retain) NSDate *lastSuccessfulLoginTime;
+@property (nonatomic, retain) Account *account;
 
 
 - (void) setStatus:(NSString *)message;

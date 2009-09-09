@@ -21,8 +21,8 @@
 #import "YahooFinance.h"
 
 // for login data
-#import "BirneConnect.h"
-#import "KeychainWrapper.h"
+#import "iTunesConnect.h"
+//#import "KeychainWrapper.h"
 #import <Security/Security.h>
 
 #import "AccountManager.h"
@@ -34,7 +34,7 @@
 
 @implementation SettingsViewController
 
-@synthesize keychainWrapper;
+//@synthesize keychainWrapper;
 
 /*
 - (id)initWithStyle:(UITableViewStyle)style {
@@ -56,8 +56,8 @@
 
 
 - (void)viewWillAppear:(BOOL)animated {
-	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-	self.keychainWrapper = appDelegate.keychainWrapper;
+	//ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
+	//self.keychainWrapper = appDelegate.keychainWrapper;
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(serverStatusChanged:) name:@"ServerStatusChanged" object:nil];
 	//[self.tableView setEditing:YES animated:NO];
 
@@ -166,6 +166,16 @@
 }
 */
  
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+	if (!section)
+	{
+		return @"Only first account is currencly used.";
+	}
+	else {
+		return nil;
+	}
+}
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
@@ -569,7 +579,7 @@
 
 
 - (void)dealloc {
-	[KeychainWrapper release];
+	//[KeychainWrapper release];
     [super dealloc];
 }
 

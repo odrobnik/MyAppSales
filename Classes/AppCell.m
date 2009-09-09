@@ -9,7 +9,7 @@
 #import "AppCell.h"
 #import "App.h"
 #import "ASiSTAppDelegate.h"
-#import "BirneConnect.h"
+#import "iTunesConnect.h"
 #import "Report.h"
 #import "YahooFinance.h"
 

@@ -71,7 +71,7 @@ typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope 
 - (NSString *) createZipFromReportsOfType:(ReportType)type;
 - (void) getTotals; 
 
-// used by BirneConnect to check if report has been downloaded already
+// used by iTunesConnect to check if report has been downloaded already
 - (NSUInteger) reportIDForDateString:(NSString *)dayString type:(ReportType)report_type region:(ReportRegion)report_region;
 
 

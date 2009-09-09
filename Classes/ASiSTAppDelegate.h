@@ -10,9 +10,11 @@
 // This includes the header for the SQLite library.
 #import <sqlite3.h>
 
+
+
 @class   HTTPServer, YahooFinance;
 
-@class BirneConnect, AppViewController, ReportRootController, SettingsViewController, Report, KeychainWrapper, App, StatusInfoController;
+@class iTunesConnect, AppViewController, ReportRootController, SettingsViewController, Report, KeychainWrapper, App, StatusInfoController, Account;
 
 @interface ASiSTAppDelegate : NSObject <UIApplicationDelegate> {
     
@@ -20,7 +22,7 @@
     UINavigationController *navigationController;
 	UITabBarController *tabBarController;
 	
-	BirneConnect *itts;
+	iTunesConnect *itts;
 	AppViewController *appViewController;
 	ReportRootController *reportRootController;
 	SettingsViewController *settingsViewController;
@@ -33,7 +35,7 @@
 	
 	
 	// keychain services
-	KeychainWrapper *keychainWrapper;
+	//KeychainWrapper *keychainWrapper;
 	
 	// preferences
 	BOOL convertSalesToMainCurrency;
@@ -48,7 +50,7 @@
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 @property (nonatomic, retain) IBOutlet UITabBarItem* appBadgeItem;
 @property (nonatomic, retain) IBOutlet UITabBarItem* reportBadgeItem;
-@property (nonatomic, retain) BirneConnect *itts;
+@property (nonatomic, retain) iTunesConnect *itts;
 
 @property (nonatomic, readonly, assign) BOOL serverIsRunning;
 @property (nonatomic, assign) BOOL convertSalesToMainCurrency;
@@ -64,7 +66,7 @@
 @property (nonatomic, retain) IBOutlet SettingsViewController *settingsViewController;
 @property (nonatomic, retain) IBOutlet StatusInfoController *statusViewController;
 
-@property (nonatomic, retain) KeychainWrapper *keychainWrapper;
+//@property (nonatomic, retain) KeychainWrapper *keychainWrapper;
 
 
 - (void) toggleNetworkIndicator:(BOOL)isON;

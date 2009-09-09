@@ -10,7 +10,7 @@
 #import "TextCell.h"
 #import "ASiSTAppDelegate.h"
 #import "YahooFinance.h"
-#import "BirneConnect.h"
+#import "iTunesConnect.h"
 #import "SettingsViewController.h"
 
 

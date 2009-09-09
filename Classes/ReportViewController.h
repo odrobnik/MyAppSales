@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "BirneConnect.h"  // for ReportType
+#import "iTunesConnect.h"  // for ReportType
 
 @interface ReportViewController : UITableViewController {
 
