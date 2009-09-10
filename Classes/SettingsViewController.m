@@ -491,7 +491,7 @@
 		
 		UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Do you really want to empty the cache?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Empty Cache", nil];
 		
-		[actionSheet showInView:self.view];
+		[actionSheet showInView:self.view.window];
 		[actionSheet release];
 	}
 	
