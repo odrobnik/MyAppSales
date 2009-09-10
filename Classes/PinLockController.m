@@ -316,6 +316,7 @@
 			else
 			{
 				// 2nd pin does not match
+				subMessage.text = @"Wrong Passcode. Try again.";
 				[self performSelector:@selector(switchToConfirm:)  withObject:[NSNumber numberWithBool:NO] afterDelay:0.2]; 
 //				[self switchToConfirm:NO];
 				return NO;

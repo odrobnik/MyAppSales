@@ -462,7 +462,6 @@
 	}
 	else if (indexPath.section == 3)
 	{
-		// Add account
 		PinLockControllerMode mode;
 		
 		if ([[NSUserDefaults standardUserDefaults] objectForKey:@"PIN"])
