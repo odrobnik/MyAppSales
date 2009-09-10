@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 // This includes the header for the SQLite library.
 #import <sqlite3.h>
+#import "PinLockController.h"
 
 
 
@@ -16,7 +17,7 @@
 
 @class iTunesConnect, AppViewController, ReportRootController, SettingsViewController, Report, KeychainWrapper, App, StatusInfoController, Account;
 
-@interface ASiSTAppDelegate : NSObject <UIApplicationDelegate> {
+@interface ASiSTAppDelegate : NSObject <UIApplicationDelegate, PinLockDelegate> {
     
     UIWindow *window;
     UINavigationController *navigationController;

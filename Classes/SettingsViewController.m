@@ -29,6 +29,7 @@
 #import "Account.h"
 
 #import "EditAccountController.h"
+#import "PinLockController.h"
 
 
 
@@ -108,7 +109,7 @@
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4;
+    return 5;
 }
 
 
@@ -131,7 +132,9 @@
 		{
 			return showAddress?2:1;
 		}
-		case 3:  // actions
+		case 3:  // pin lock
+			return 1;
+		case 4:  // maintenance
 			return 1;
 		default:
 			break;
@@ -166,11 +169,30 @@
 }
 */
  
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+	switch (section) {
+		case 0:
+			return @"Accounts";
+		case 1:
+			return @"Reports";
+		case 2:
+			return @"Import/Export Server";
+		case 3:
+			return @"Security";
+		case 4:
+			return @"Maintenance";
+		default:
+			break;
+	}
+	return nil;
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
 	if (!section)
 	{
-		return @"Only first account is currencly used.";
+		return @"Only first account is currently used.";
 	}
 	else {
 		return nil;
@@ -220,53 +242,6 @@
 				
 				return cell;
 			}
-
-			
-					
-			
-			/*
-			
-			
-			
-			NSString *CellIdentifier = @"PasswordSection";
-			
-			EditableCell *cell = (EditableCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-			if (cell == nil) 
-			{
-				cell = [[[EditableCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
-			}
-			
-			switch (indexPath.row) 
-			{
-				case 0:
-				{
-					cell.titleLabel.text = @"Username";
-					//cell.textField.text = [appDelegate.itts username];
-//					cell.textField.text = [keychainWrapper objectForKey:(id)kSecAttrAccount];
-					[cell setSecKey:(id)kSecAttrAccount forKeychain:keychainWrapper];
-					cell.textField.secureTextEntry = NO;
-					cell.textField.placeholder = @"mail@example.com";
-					cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
-					break;
-				}
-				case 1:
-				{
-					cell.titleLabel.text = @"Password";
-					//cell.textField.text = [appDelegate.itts password];
-//					cell.textField.text = [keychainWrapper objectForKey:(id)kSecValueData];
-					[cell setSecKey:(id)kSecValueData forKeychain:keychainWrapper];
-
-					cell.textField.placeholder = @"Mandadory";
-					cell.textField.secureTextEntry = YES;
-					cell.textField.keyboardType = UIKeyboardTypeDefault;
-					break;
-				}
-				default:
-					break;
-			}
-			return cell;
-			 
-			 */
 		}
 		case 1:   // general
 		{
@@ -370,7 +345,33 @@
 
 		}
 			
-		case 3:  // action
+		case 3:   // pin lock
+		{
+			NSString *CellIdentifier = @"LockSection";
+			
+			UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+			if (cell == nil) 
+			{
+				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+			}
+			
+			cell.textLabel.text = @"Passcode Lock";
+			
+			if ([[NSUserDefaults standardUserDefaults] objectForKey:@"PIN"])
+			{
+				cell.detailTextLabel.text = @"On";
+			}
+			else 
+			{
+				cell.detailTextLabel.text = @"Off";
+			}
+
+			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			
+			return cell;
+		}
+			
+		case 4:  // action
 		{
 			NSString *CellIdentifier = @"ActionsSection";
 			
@@ -461,6 +462,31 @@
 	}
 	else if (indexPath.section == 3)
 	{
+		// Add account
+		PinLockControllerMode mode;
+		
+		if ([[NSUserDefaults standardUserDefaults] objectForKey:@"PIN"])
+		{
+			mode = PinLockControllerModeRemovePin;
+		}
+		else
+		{
+			mode = PinLockControllerModeSetPin;
+		}
+
+		PinLockController *controller = [[PinLockController alloc] initWithMode:mode];
+		controller.delegate = self;
+		controller.pin = [[NSUserDefaults standardUserDefaults] objectForKey:@"PIN"];
+		
+		UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+		navController.navigationBar.barStyle = UIBarStyleBlack;
+		[controller release];
+		
+		[self presentModalViewController:navController animated:YES];
+		[navController release];
+	}
+	else if (indexPath.section == 4)
+	{
 		[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 		
 		UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Do you really want to empty the cache?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Empty Cache", nil];
@@ -468,6 +494,7 @@
 		[actionSheet showInView:self.view];
 		[actionSheet release];
 	}
+	
 }
 
 
@@ -510,22 +537,7 @@
 }
 
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-	switch (section) {
-		case 0:
-			return @"Accounts";
-		case 1:
-			return @"Reports";
-		case 2:
-			return @"Import/Export Server";
-		case 3:
-			return @"Maintenance";
-		default:
-			break;
-	}
-	return nil;
-}
+
 
 - (IBAction)toggleConvert:(id)sender
 {
@@ -678,6 +690,22 @@
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
 	
 	[self.tableView	insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
+}
+
+
+#pragma mark PinLock Delegate
+- (void) didFinishSelectingNewPin:(NSString *)newPin
+{
+	[[NSUserDefaults standardUserDefaults] setObject:newPin forKey:@"PIN"];
+	[self.navigationController dismissModalViewControllerAnimated:YES];
+	[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:3]] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+- (void) didFinishRemovingPin
+{
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"PIN"];
+	[self.navigationController dismissModalViewControllerAnimated:YES];
+	[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:3]] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 

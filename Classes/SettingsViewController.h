@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "EditAccountController.h"
+#import "PinLockController.h"
 
 //@class KeychainWrapper;
 
-@interface SettingsViewController : UITableViewController <UIActionSheetDelegate, EditAccountDelegate> {
+@interface SettingsViewController : UITableViewController <UIActionSheetDelegate, EditAccountDelegate, PinLockDelegate> {
 	//KeychainWrapper *keychainWrapper;
 	
 	BOOL showAddress;

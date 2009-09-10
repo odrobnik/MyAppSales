@@ -160,7 +160,7 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
     [outdata appendString:@"<ul>"];
 
 	// Weekly Reports
-	tmpArray = [DB sortedReportsOfType:ReportTypeDay];
+	tmpArray = [DB sortedReportsOfType:ReportTypeWeek];
 	
 	sortedArray = [tmpArray sortedArrayUsingDescriptors:sortDescriptors];
 	

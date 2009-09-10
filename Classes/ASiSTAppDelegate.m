@@ -11,6 +11,7 @@
 #import "AppViewController.h"
 #import "ReportViewController.h"
 #import "StatusInfoController.h"
+#import	"PinLockController.h"
 
 #import "iTunesConnect.h"
 #import "Database.h"
@@ -55,6 +56,26 @@
 	[window addSubview:[tabBarController view]];
 	[window addSubview:statusViewController.view];
 	[window makeKeyAndVisible];
+	
+	
+	BOOL locked = NO;
+	NSString *pin =  [[NSUserDefaults standardUserDefaults] objectForKey:@"PIN"];
+	if (pin)
+	{	
+		PinLockController *controller = [[PinLockController alloc] initWithMode:PinLockControllerModeUnlock];
+		controller.delegate = self;
+		controller.pin = pin;
+	
+		UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+		navController.navigationBar.barStyle = UIBarStyleBlack;
+		[controller release];
+	
+		[tabBarController presentModalViewController:navController animated:NO];
+		[navController release];
+		locked = YES;
+	}
+	
+	
 	
 	[statusViewController showStatus:NO];
 	
@@ -109,10 +130,15 @@
 	{
 		itts = [[iTunesConnect alloc] init];
 
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Welcome to My App Sales" message:@"To start downloading your reports please enter your login information.\nSales/Trend reports are for directional purposes only, do not use for financial statement purpose. Money amounts may vary due to changes in exchange rates." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-		[alert show];
-		[alert release];
-		[tabBarController setSelectedIndex:3];
+		// don't show alert on lock
+		
+		if (!locked)
+		{
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Welcome to My App Sales" message:@"To start downloading your reports please enter your login information.\nSales/Trend reports are for directional purposes only, do not use for financial statement purpose. Money amounts may vary due to changes in exchange rates." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+			[alert show];
+			[alert release];
+			[tabBarController setSelectedIndex:3];
+		}
 		return;
 	}
 
@@ -400,5 +426,11 @@
 	
 }
 
+
+#pragma mark PinLock Delegate
+- (void) didFinishUnlocking
+{
+	[tabBarController dismissModalViewControllerAnimated:YES];
+}
 
 @end

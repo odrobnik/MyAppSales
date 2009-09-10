@@ -253,6 +253,9 @@
 		A7B42C2010567F2C007BC954 /* EditAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B42C1F10567F2C007BC954 /* EditAccountController.m */; };
 		A7B42DA210569AFB007BC954 /* PushButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B42DA110569AFB007BC954 /* PushButtonCell.m */; };
 		A7B42E351056A190007BC954 /* button_red.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B42E341056A190007BC954 /* button_red.png */; };
+		A7B434E21058C9AC007BC954 /* PinLockController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B434E11058C9AC007BC954 /* PinLockController.m */; };
+		A7B434ED1058D1BF007BC954 /* Pin_Set.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B434EB1058D1BF007BC954 /* Pin_Set.png */; };
+		A7B434EE1058D1BF007BC954 /* Pin_Free.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B434EC1058D1BF007BC954 /* Pin_Free.png */; };
 		A7B8D92E0F1E56A100DC09E1 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8D92D0F1E56A100DC09E1 /* SettingsViewController.m */; };
 		A7B8D9730F1E587F00DC09E1 /* EditableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8D9720F1E587F00DC09E1 /* EditableCell.m */; };
 		A7B8DBAF0F1F1F5900DC09E1 /* SwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DBAE0F1F1F5900DC09E1 /* SwitchCell.m */; };
@@ -568,6 +571,10 @@
 		A7B42DA010569AFB007BC954 /* PushButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushButtonCell.h; sourceTree = "<group>"; };
 		A7B42DA110569AFB007BC954 /* PushButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushButtonCell.m; sourceTree = "<group>"; };
 		A7B42E341056A190007BC954 /* button_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_red.png; sourceTree = "<group>"; };
+		A7B434E01058C9AC007BC954 /* PinLockController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinLockController.h; sourceTree = "<group>"; };
+		A7B434E11058C9AC007BC954 /* PinLockController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PinLockController.m; sourceTree = "<group>"; };
+		A7B434EB1058D1BF007BC954 /* Pin_Set.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pin_Set.png; sourceTree = "<group>"; };
+		A7B434EC1058D1BF007BC954 /* Pin_Free.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pin_Free.png; sourceTree = "<group>"; };
 		A7B8D92C0F1E56A100DC09E1 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		A7B8D92D0F1E56A100DC09E1 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		A7B8D9710F1E587F00DC09E1 /* EditableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditableCell.h; sourceTree = "<group>"; };
@@ -749,6 +756,7 @@
 		A707A33F0FA61305004060D9 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				A7B434DF1058C98E007BC954 /* PIN Lock */,
 				A79D81F40EFEA913006C37FC /* AppViewController.h */,
 				A79D81F50EFEA913006C37FC /* AppViewController.m */,
 				A7061AC60F3712A300F605C1 /* ReportAppsController.h */,
@@ -1110,6 +1118,17 @@
 			name = "Report Server Connectors";
 			sourceTree = "<group>";
 		};
+		A7B434DF1058C98E007BC954 /* PIN Lock */ = {
+			isa = PBXGroup;
+			children = (
+				A7B434EB1058D1BF007BC954 /* Pin_Set.png */,
+				A7B434EC1058D1BF007BC954 /* Pin_Free.png */,
+				A7B434E01058C9AC007BC954 /* PinLockController.h */,
+				A7B434E11058C9AC007BC954 /* PinLockController.m */,
+			);
+			name = "PIN Lock";
+			sourceTree = "<group>";
+		};
 		A7EB524F104825E3005452BE /* SQL Scripts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1372,6 +1391,8 @@
 				A73CEB38104340A5008778BF /* EmptyNano.png in Resources */,
 				A7EB5259104825F9005452BE /* update_0_to_1.sql in Resources */,
 				A7B42E351056A190007BC954 /* button_red.png in Resources */,
+				A7B434ED1058D1BF007BC954 /* Pin_Set.png in Resources */,
+				A7B434EE1058D1BF007BC954 /* Pin_Free.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1438,6 +1459,7 @@
 				A7B424F310553E8F007BC954 /* Account.m in Sources */,
 				A7B42C2010567F2C007BC954 /* EditAccountController.m in Sources */,
 				A7B42DA210569AFB007BC954 /* PushButtonCell.m in Sources */,
+				A7B434E21058C9AC007BC954 /* PinLockController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
