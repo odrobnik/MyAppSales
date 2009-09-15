@@ -14,6 +14,8 @@
 #import "Report.h"
 #import "AppCell.h"
 
+#import "AppDetailViewController.h"
+
 @implementation AppViewController
 
 /*
@@ -107,9 +109,11 @@
 
 // The accessory type is the image displayed on the far right of each table cell. In order for the delegate method
 // tableView:accessoryButtonClickedForRowWithIndexPath: to be called, you must return the "Detail Disclosure Button" type.
+/*
 - (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath {
     return UITableViewCellAccessoryNone;
 }
+*/
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
@@ -126,6 +130,7 @@
     AppCell *cell = (AppCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[AppCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
+		cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     }
     
     // Set up the cell...
@@ -149,11 +154,15 @@
 	}
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+	NSArray *sortedApps = [DB appsSortedBySales];
+	App *rowApp = [sortedApps objectAtIndex:indexPath.row];
+	
     // Navigation logic may go here. Create and push another view controller.
-	// AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
-	// [self.navigationController pushViewController:anotherViewController];
-	// [anotherViewController release];
+	AppDetailViewController *anotherViewController = [[AppDetailViewController alloc] initForApp:rowApp];
+	[self.navigationController pushViewController:anotherViewController animated:YES];
+	 [anotherViewController release];
 }
 
 

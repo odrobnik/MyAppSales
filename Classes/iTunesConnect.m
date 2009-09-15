@@ -63,7 +63,7 @@
 		// only auto-sync if we did not already download a daily report today
 		if ([self shouldAutoSync])
 		{
-			[self loginAndSync];
+			//[self loginAndSync];
 		}
 		
 		return self;
@@ -218,7 +218,7 @@
     // redirect, so each time we reset the data.
     // receivedData is declared as a method instance elsewhere
     [receivedData setLength:0];
-	NSLog(@"%d %@", [response statusCode], [response allHeaderFields]);
+	//NSLog(@"%d %@", [response statusCode], [response allHeaderFields]);
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data

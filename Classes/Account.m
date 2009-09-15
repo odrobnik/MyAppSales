@@ -60,8 +60,6 @@ static const UInt8 kKeychainIdentifier[]    = "com.drobnik.asist.KeychainUI\0";
 
 		[keychainData setObject:(id)kSecClassGenericPassword forKey:(id)kSecClass]; 
 
-		NSLog(@"keychain after load %@", keychainData);
-
 		
 		dirty = NO;
 	}

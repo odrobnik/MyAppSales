@@ -16,6 +16,8 @@
 	NSTimer *myTimer;
 }
 
+@property (nonatomic, retain) IBOutlet UIView *backgroundView;
+
 - (void) showStatus:(BOOL)visible;
 
 @end

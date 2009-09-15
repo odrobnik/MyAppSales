@@ -25,7 +25,7 @@ static sqlite3_stmt *init_statement = nil;
 
 @implementation Country
 
-@synthesize iconImage, name, iso2, iso3, usedInReport;
+@synthesize iconImage, name, iso2, iso3, appStoreID, usedInReport;
 
 
 
@@ -42,7 +42,7 @@ static sqlite3_stmt *init_statement = nil;
             // Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
             // This is a great way to optimize because frequently used queries can be compiled once, then with each
             // use new variable values can be bound to placeholders.
-            const char *sql = "SELECT iso2, name FROM country WHERE iso3=?";
+            const char *sql = "SELECT iso2, name, app_store_id FROM country WHERE iso3=?";
             if (sqlite3_prepare_v2(database, sql, -1, &init_statement, NULL) != SQLITE_OK) {
                 NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
             }
@@ -55,6 +55,13 @@ static sqlite3_stmt *init_statement = nil;
 		{
 			self.iso2 = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 0)];
 			self.name = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 1)];
+			
+			int app_store_id = sqlite3_column_int(init_statement, 2);
+			
+			if (app_store_id)
+			{
+				self.appStoreID = app_store_id;
+			}
 			
 			// [self loadImageFromBirne]; // that's done on demand
         }

@@ -7,10 +7,14 @@
 //
 
 #import "App.h"
-#import "ImageManipulator.h"
-#import "ImageResizing.h"
+#import "UIImage+Helpers.h"
 #import "ASiSTAppDelegate.h"
 #import "YahooFinance.h"
+#import "ReviewDownloaderOperation.h"
+#import "Review.h"
+#import "Database.h"
+#import "Country.h"
+#import "SynchingManager.h"
 
 
 // Static variables for compiled SQL queries. This implementation choice is to be able to share a one time
@@ -22,15 +26,39 @@ static sqlite3_stmt *insert_statement = nil;
 static sqlite3_stmt *init_statement = nil;
 static sqlite3_stmt *delete_statement = nil;
 static sqlite3_stmt *update_statement = nil;
+static sqlite3_stmt *reviews_statement = nil;
 
 //static sqlite3_stmt *delete_points_statement = nil;
 
 //static sqlite3_stmt *hydrate_statement = nil;
 //static sqlite3_stmt *dehydrate_statement = nil;
 
+// Date formatter for XML files
+static NSDateFormatter *dateFormatterToRead = nil;
+
+
 @implementation App
 
 @synthesize iconImage, iconImageNano, isNew, averageRoyaltiesPerDay, apple_identifier, totalRoyalties, totalUnitsSold, totalUnitsFree;
+@synthesize reviews;
+
+- (void) getAllReviews
+{
+	
+	NSMutableDictionary *countries = [[Database sharedInstance] countries];
+	NSArray *allKeys = [countries allKeys];
+	
+	for (NSString *oneKey in allKeys)
+	{
+		Country *oneCountry = [countries objectForKey:oneKey];
+		if (oneCountry.appStoreID)
+		{
+			[[SynchingManager sharedInstance] scrapeForApp:self country:oneCountry delegate:self];
+		}
+	}
+}
+
+
 
 
 - (id)init
@@ -42,6 +70,8 @@ static sqlite3_stmt *update_statement = nil;
 		UIImage *tmpImageNanoResized = [self.iconImage scaleImageToSize:CGSizeMake(32.0,32.0)];
 		self.iconImageNano = tmpImageNanoResized;
 		
+		reviews = [[NSMutableArray array] retain];
+		
 		// subscribe to total update notifications
 		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appTotalsUpdated:) name:@"AppTotalsUpdated" object:nil];
 		// subscribe to cache emptying
@@ -50,6 +80,19 @@ static sqlite3_stmt *update_statement = nil;
 	
 	return self;
 }
+
+
+
+- (NSDate *) dateFromString:(NSString *)rfc2822String
+{
+	if (!dateFormatterToRead)
+	{
+		dateFormatterToRead = [[NSDateFormatter alloc] init];
+		[dateFormatterToRead setDateFormat:@"yyyy-MM-dd HH:mm:ss ZZ"]; /* Unicode Locale Data Markup Language */
+	}
+	return [dateFormatterToRead dateFromString:rfc2822String]; /*e.g. @"Thu, 11 Sep 2008 12:34:12 +0200" */	
+}
+
 
 // Creates the object with primary key and title is brought into memory.
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db {
@@ -80,6 +123,50 @@ static sqlite3_stmt *update_statement = nil;
         // Reset the statement for future reuse.
         sqlite3_reset(init_statement);
         dirty = NO;
+		
+		
+        if (reviews_statement == nil) {
+            // Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
+            // This is a great way to optimize because frequently used queries can be compiled once, then with each
+            // use new variable values can be bound to placeholders.
+            const char *sql = "SELECT id, country_code, review_date, version, title, name, review, stars REAL FROM review WHERE app_id=? ORDER BY review_date DESC";
+            if (sqlite3_prepare_v2(database, sql, -1, &reviews_statement, NULL) != SQLITE_OK) {
+                NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+            }
+        }
+        // For this query, we bind the primary key to the first (and only) placeholder in the statement.
+        // Note that the parameters are numbered from 1, not from 0.
+        sqlite3_bind_int(reviews_statement, 1, apple_identifier);
+		
+        while (sqlite3_step(reviews_statement) == SQLITE_ROW) {
+			//NSUInteger review_id = sqlite3_column_int(reviews_statement, 0);
+			NSString *country_code = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 1)];
+			Country *reviewCountry = [DB countryForCode:country_code];
+			
+			char *date_text = (char *)sqlite3_column_text(reviews_statement, 2);
+			
+			NSDate *review_date;
+			
+			if (date_text)
+			{
+				review_date = [self dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 2)]];
+			}
+			NSString *version = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 3)];			
+			NSString *review_title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 4)];			
+			NSString *review_name = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 5)];			
+			NSString *review_text = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 6)];			
+			double review_stars = sqlite3_column_double(reviews_statement, 7);
+														
+			Review *loadedReview = [[Review alloc] initWithApp:self country:reviewCountry title:review_title name:review_name version:version date:review_date review:review_text stars:review_stars];
+				
+			[reviews addObject:loadedReview];
+			[loadedReview release];
+        }
+        // Reset the statement for future reuse.
+        sqlite3_reset(reviews_statement);
+		
+		
+		
     }
 	
 	[self loadImageFromBirne];
@@ -192,6 +279,8 @@ static sqlite3_stmt *update_statement = nil;
 	 */	
 }
 
+
+
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
 	//NSString *URL;
@@ -242,8 +331,14 @@ static sqlite3_stmt *update_statement = nil;
 	else
 	{   // JPG
 		UIImage *tmpImage = [UIImage imageWithData:receivedData];
-		UIImage *tmpImageRounded = [ImageManipulator makeRoundCornerImage:tmpImage cornerWidth:20 cornerHeight:20];
-		UIImage *tmpImageResized = [tmpImageRounded scaleImageToSize:CGSizeMake(57.0,57.0)];
+		
+		// use original iTunes mask
+		UIImage *mask = [UIImage imageNamed:@"cover_mask_rounded_100x100.png"];
+		UIImage *tmpImageRounded = [tmpImage imageByMaskingWithImage:mask];
+		
+		//UIImage *tmpImageRounded = [ImageManipulator makeRoundCornerImage:tmpImage cornerWidth:20 cornerHeight:20];
+ 
+		UIImage *tmpImageResized = [tmpImageRounded scaleImageToSize:CGSizeMake(56.0,56.0)];
 		self.iconImage = tmpImageResized;
 		
 		UIImage *tmpImageNanoResized = [tmpImageRounded scaleImageToSize:CGSizeMake(32.0,32.0)];
@@ -285,6 +380,8 @@ static sqlite3_stmt *update_statement = nil;
 	[title release];
 	[vendor_identifier release];
     [company_name release];
+	
+	[reviews release];
     [super dealloc];
 }
 
@@ -448,6 +545,24 @@ static sqlite3_stmt *update_statement = nil;
 	iconImage = nil;
 	[iconImageNano release];
 	iconImageNano = nil;
+}
+
+
+
+#pragma mark ReviewScraper
+
+- (void) didFinishRetrievingReviews:(NSArray *)scrapedReviews;
+{
+	for (Review *oneReview in scrapedReviews)
+	{
+		[oneReview insertIntoDatabase:database];
+		if (oneReview.isNew)
+		{
+			[reviews insertObject:oneReview atIndex:0];
+		}
+	}
+
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"AppReviewsUpdated" object:nil userInfo:(id)self];
 }
 
 @end

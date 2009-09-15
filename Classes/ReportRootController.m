@@ -96,7 +96,7 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-    return 3;
+    return 4;
 }
 
 
@@ -122,6 +122,9 @@
 		case 2:
 			cell.CELL_LABEL = @"Month (Financial)";
 			break;
+		case 3:
+			cell.CELL_LABEL = @"Month (Free)";
+			break;
 		default:
 			break;
 	}
@@ -135,6 +138,14 @@
 		cell.CELL_IMAGE = report_icon;
 	}
 	
+	if ([DB countOfReportsForType:indexPath.row])
+	{
+		cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+	}
+	else
+	{
+		cell.accessoryType=UITableViewCellAccessoryNone;
+	}
     return cell;
 }
 
@@ -159,6 +170,7 @@
 
 // The accessory type is the image displayed on the far right of each table cell. In order for the delegate method
 // tableView:accessoryButtonClickedForRowWithIndexPath: to be called, you must return the "Detail Disclosure Button" type.
+/*
 - (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath 
 {
 	if ([DB countOfReportsForType:indexPath.row])
@@ -170,7 +182,7 @@
 		return UITableViewCellAccessoryNone;
 	}
 }
-
+*/
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

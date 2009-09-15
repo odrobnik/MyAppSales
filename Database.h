@@ -48,6 +48,9 @@ typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope 
 
 - (NSArray *) sortedReportsOfType:(ReportType)type;
 - (Report *) latestReportOfType:(ReportType)type;
+- (Report *) reportNewerThan:(Report *)aReport;
+- (Report *) reportOlderThan:(Report *)aReport;
+- (NSArray *) allReports;
 
 - (App *) appForID:(NSUInteger)appID;
 - (Report *) reportForID:(NSUInteger)reportID;
@@ -59,7 +62,11 @@ typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope 
 
 - (App *) insertAppWithTitle:(NSString *)title vendor_identifier:(NSString *)vendor_identifier apple_identifier:(NSUInteger)apple_identifier company_name:(NSString *)company_name;
 - (Report *) insertReportWithType:(ReportType)type from_date:(NSDate *)from_date until_date:(NSDate *)until_date downloaded_date:(NSDate *)downloaded_date region:(ReportRegion)region;
+
+
+- (Report *) insertMonthlyFreeReportFromFromDict:(NSDictionary *)dict;
 - (Report *) insertReportFromText:(NSString *)string;
+
 
 - (BOOL) hasNewReportsOfType:(ReportType)type;
 

@@ -11,6 +11,8 @@
 
 @implementation StatusInfoController
 
+@synthesize backgroundView;
+
 /*
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -74,10 +76,33 @@
 
 - (void)statusMessage:(NSNotification *) notification
 {
-	NSString *msg = (NSString *)[notification userInfo];
-	//NSLog(@"statusMessage: %@", msg);
+	NSString *msg;
+	NSInteger type=0;  // standard is only status
+	
+	id userInfo = [notification userInfo];
+	
+	if ([userInfo isKindOfClass:[NSString class]])
+	{
+		msg = (NSString *)[notification userInfo];
+		type = 0;
+	}
+	else if ([userInfo isKindOfClass:[NSDictionary class]])
+	{
+		NSLog(@"%@", userInfo);
+			msg = [userInfo objectForKey:@"message"];
+		if ([[userInfo objectForKey:@"type"] isEqualToString:@"Error"])
+		{
+			type = 1;
+		}
+		else if ([[userInfo objectForKey:@"type"] isEqualToString:@"Success"])
+		{
+			type = 2;
+		}
+	}
+	else {
+		msg = nil;
+	}
 
-	// in any case we cancel the timeout if it is running
 	
 	if (myTimer)
 	{
@@ -88,10 +113,24 @@
 	
 	if (msg)
 	{
+		if (type==0)
+		{
+			backgroundView.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:204.0/255.0 blue:102.0/255.0 alpha:1.0];
+		}
+		else if (type==1)
+		{
+			backgroundView.backgroundColor = [UIColor colorWithRed:251.0/255.0 green:81.0/255.0 blue:84.0/255.0 alpha:1.0];
+		}
+		else if (type==2)
+		{
+			backgroundView.backgroundColor = [UIColor colorWithRed:81.0/255.0 green:251.0/255.0 blue:84.0/255.0 alpha:1.0];
+		}
+		
+		
 		statusLabel.text = msg;
 		[statusLabel setNeedsDisplay];
 		[self showStatus:YES];
-		myTimer = [NSTimer scheduledTimerWithTimeInterval: 30.0
+		myTimer = [NSTimer scheduledTimerWithTimeInterval: (type==0)?30.0:3.0
 												   target: self
 												 selector: @selector(statusExpired:)
 												 userInfo: nil

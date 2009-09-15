@@ -69,6 +69,8 @@
 // corrupting the database.
 @property (assign, nonatomic, readonly) NSUInteger primaryKey;
 @property (assign, nonatomic) ReportType reportType;
+@property (assign, nonatomic) ReportRegion region;
+
 // The remaining attributes are copied rather than retained because they are value objects.
 
 @property (copy, nonatomic) NSDate *fromDate;

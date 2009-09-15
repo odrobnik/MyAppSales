@@ -107,7 +107,7 @@ static AccountManager *_sharedInstance = nil;
 	accounts = [[NSMutableArray alloc] init];
 	
 	NSMutableDictionary *genericPasswordQuery;    // A placeholder for a generic Keychain Item query.
-	genericPasswordQuery = [[NSMutableDictionary alloc] init];
+	genericPasswordQuery = [[[NSMutableDictionary alloc] init] autorelease];
 	[genericPasswordQuery setObject:(id)kSecClassGenericPassword forKey:(id)kSecClass];
 	NSData *keychainType = [NSData dataWithBytes:kKeychainIdentifier length:strlen((const char *)kKeychainIdentifier)];
 	[genericPasswordQuery setObject:keychainType forKey:(id)kSecAttrGeneric];

@@ -13,6 +13,8 @@
 @interface ReportAppsController : UITableViewController {
 	Report *report;
 	UIImage *sumImage;
+	
+	UISegmentedControl *segmentedControl;
 }
 
 @property (nonatomic, retain) Report *report;

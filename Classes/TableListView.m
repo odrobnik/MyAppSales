@@ -109,9 +109,19 @@
 	cell.title.text = name;
 	cell.CELL_IMAGE = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", currency]];
 
+	if (indexPath.row == selectedIndex)
+	{
+		cell.accessoryType=UITableViewCellAccessoryCheckmark;
+	}
+	else
+	{
+		cell.accessoryType=UITableViewCellAccessoryNone;
+	}
+	
     return cell;
 }
 
+/*
 - (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath
 {
 	if (indexPath.row == selectedIndex)
@@ -122,7 +132,7 @@
 	{
 		return UITableViewCellAccessoryNone;
 	}
-}
+} */
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Navigation logic may go here. Create and push another view controller.

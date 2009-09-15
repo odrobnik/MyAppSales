@@ -9,13 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "EditAccountController.h"
 #import "PinLockController.h"
+#import "TableListSelectorView.h"
 
 //@class KeychainWrapper;
 
-@interface SettingsViewController : UITableViewController <UIActionSheetDelegate, EditAccountDelegate, PinLockDelegate> {
+@interface SettingsViewController : UITableViewController <UIActionSheetDelegate, EditAccountDelegate, PinLockDelegate, TableListSelectorDelegate> {
 	//KeychainWrapper *keychainWrapper;
 	
 	BOOL showAddress;
+	
+	NSArray *reviewFrequencyList;
 }
 
 //@property (nonatomic, retain) KeychainWrapper *keychainWrapper;

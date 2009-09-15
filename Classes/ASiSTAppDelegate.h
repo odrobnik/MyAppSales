@@ -23,7 +23,7 @@
     UINavigationController *navigationController;
 	UITabBarController *tabBarController;
 	
-	iTunesConnect *itts;
+	//iTunesConnect *itts;
 	AppViewController *appViewController;
 	ReportRootController *reportRootController;
 	SettingsViewController *settingsViewController;
@@ -43,6 +43,7 @@
 	
 	IBOutlet UITabBarItem* appBadgeItem;
 	IBOutlet UITabBarItem* reportBadgeItem;
+	IBOutlet UIBarButtonItem* refreshButton;
 	
 }
 
@@ -51,7 +52,7 @@
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 @property (nonatomic, retain) IBOutlet UITabBarItem* appBadgeItem;
 @property (nonatomic, retain) IBOutlet UITabBarItem* reportBadgeItem;
-@property (nonatomic, retain) iTunesConnect *itts;
+//@property (nonatomic, retain) iTunesConnect *itts;
 
 @property (nonatomic, readonly, assign) BOOL serverIsRunning;
 @property (nonatomic, assign) BOOL convertSalesToMainCurrency;
@@ -66,6 +67,8 @@
 
 @property (nonatomic, retain) IBOutlet SettingsViewController *settingsViewController;
 @property (nonatomic, retain) IBOutlet StatusInfoController *statusViewController;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem* refreshButton;
+
 
 //@property (nonatomic, retain) KeychainWrapper *keychainWrapper;
 

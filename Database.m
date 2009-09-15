@@ -157,6 +157,7 @@ static Database *_sharedInstance;
 	NSString *scriptPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:scriptName];
 	
 	NSString *script = [NSString stringWithContentsOfFile:scriptPath encoding:NSUTF8StringEncoding error:NULL];
+	
 	char *errmsg;
 	
 	if (sqlite3_exec(database, [script UTF8String], NULL, NULL, &errmsg)!=SQLITE_OK)
@@ -196,6 +197,10 @@ static Database *_sharedInstance;
 	switch (schema_version) {
 		case 0:
 			[self executeSchemaUpdate:@"update_0_to_1.sql"];
+		case 1:
+			[self executeSchemaUpdate:@"update_1_to_2.sql"];
+		case 2:
+			[self executeSchemaUpdate:@"update_2_to_3.sql"];
 		default:
 			break;
 	}
@@ -207,6 +212,26 @@ static Database *_sharedInstance;
 {
 	char *sql;
 	sqlite3_stmt *statement;
+	
+	// load all countries
+	self.countries = [NSMutableDictionary dictionary];  // does not need to be mutable
+	
+	sql = "SELECT iso3 from country";
+	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) 
+	{
+		NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+	}
+	
+	while (sqlite3_step(statement) == SQLITE_ROW) 
+	{
+		NSString *cntry = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+		Country *tmpCountry = [[Country alloc] initWithISO3:cntry database:database];
+		[countries setObject:tmpCountry forKey:tmpCountry.iso2];
+		[tmpCountry release];
+	} 
+	
+	// Finalize the statement, no reuse.
+	sqlite3_finalize(statement);
 	
 	// Load all apps
     self.apps = [NSMutableDictionary dictionary];
@@ -279,25 +304,9 @@ static Database *_sharedInstance;
 	sqlite3_finalize(statement);
 	
 	
-	// load all countries
-	self.countries = [NSMutableDictionary dictionary];  // does not need to be mutable
+
 	
-	sql = "SELECT iso3 from country";
-	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) 
-	{
-		NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-	}
 	
-	while (sqlite3_step(statement) == SQLITE_ROW) 
-	{
-		NSString *cntry = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
-		Country *tmpCountry = [[Country alloc] initWithISO3:cntry database:database];
-		[countries setObject:tmpCountry forKey:tmpCountry.iso2];
-		[tmpCountry release];
-	} 
-	
-	// Finalize the statement, no reuse.
-	sqlite3_finalize(statement);
 }
 
 #pragma mark Accessing Database
@@ -314,6 +323,35 @@ static Database *_sharedInstance;
 	
 	return [NSArray  arrayWithArray:sortedArray];  // non-mutable, autoreleased
 }
+
+- (Report *) reportNewerThan:(Report *)aReport
+{
+	NSArray *sortedReports = [self sortedReportsOfType:aReport.reportType];
+	
+	NSUInteger currentIdx = [sortedReports indexOfObject:aReport];
+	
+	if (currentIdx>0)
+	{
+		currentIdx--;
+	}
+	
+	return [sortedReports objectAtIndex:currentIdx];
+}
+
+- (Report *) reportOlderThan:(Report *)aReport
+{
+	NSArray *sortedReports = [self sortedReportsOfType:aReport.reportType];
+	
+	NSUInteger currentIdx = [sortedReports indexOfObject:aReport];
+	
+	if (currentIdx<([sortedReports count]-1))
+	{
+		currentIdx++;
+	}
+	
+	return [sortedReports objectAtIndex:currentIdx];
+}
+
 
 - (Report *) latestReportOfType:(ReportType)type
 {
@@ -335,6 +373,25 @@ static Database *_sharedInstance;
 	NSNumber *report_key = [NSNumber numberWithInt:reportID];
 	return [reports objectForKey:report_key];
 }
+
+
+- (NSArray *) allReports
+{
+	NSMutableArray *tmpArray = [NSMutableArray array];
+	
+	NSArray *dayArray = [reportsByReportType objectForKey:[NSNumber numberWithInt:ReportTypeDay]];
+	NSArray *weekArray = [reportsByReportType objectForKey:[NSNumber numberWithInt:ReportTypeWeek]];
+	NSArray *financialArray = [reportsByReportType objectForKey:[NSNumber numberWithInt:ReportTypeFinancial]];
+	NSArray *freeArray = [reportsByReportType objectForKey:[NSNumber numberWithInt:ReportTypeFree]];
+	
+	[tmpArray addObjectsFromArray:dayArray];
+	[tmpArray addObjectsFromArray:weekArray];	
+	[tmpArray addObjectsFromArray:financialArray];
+	[tmpArray addObjectsFromArray:freeArray];
+	
+	return [NSArray arrayWithArray:tmpArray];  // non-mutable, autoreleased
+}
+
 
 - (Country *) countryForCode:(NSString *)code
 {
@@ -450,8 +507,98 @@ static Database *_sharedInstance;
 	return [tmpReport autorelease];
 }
 
+
+// monthly free reports dont have beginning and end dates, thus they need to be supplied
+- (Report *) insertMonthlyFreeReportFromFromDict:(NSDictionary *)dict
+{
+	NSDate *fromDate = [dict objectForKey:@"FromDate"];
+	NSDate *untilDate = [dict objectForKey:@"UntilDate"];
+	NSString *string = [dict objectForKey:@"Text"];
+	
+	NSLog(@"%@", string);
+	NSUInteger report_id=0;
+	Report *insertedReport = nil;
+	
+	NSArray *lines = [string componentsSeparatedByString:@"\n"];
+	NSEnumerator *enu = [lines objectEnumerator];
+	NSString *oneLine;
+	
+	// first line = headers
+	
+	oneLine = [enu nextObject];
+	NSArray *column_names = [oneLine componentsSeparatedByString:@"\t"];
+	
+//	NSString *prev_until_date = @"";
+	
+	while(oneLine = [enu nextObject])
+	{
+		NSUInteger appID = [[oneLine getValueForNamedColumn:@"Apple Identifier" headerNames:column_names] intValue];
+		NSString *vendor_identifier = [oneLine getValueForNamedColumn:@"Vendor Identifier" headerNames:column_names];
+		NSString *company_name = [oneLine getValueForNamedColumn:@"Developer" headerNames:column_names];
+		NSString *title	= [oneLine getValueForNamedColumn:@"Title/Application" headerNames:column_names];
+		NSUInteger type_id = [[oneLine getValueForNamedColumn:@"Product Type Identifier" headerNames:column_names] intValue];
+		NSInteger units = [[oneLine getValueForNamedColumn:@"Units" headerNames:column_names] intValue];
+		double royalty_price = [[oneLine getValueForNamedColumn:@"Partner Share" headerNames:column_names] doubleValue];
+		NSString *royalty_currency	= [oneLine getValueForNamedColumn:@"Partner Share Currency" headerNames:column_names];
+		double customer_price = [[oneLine getValueForNamedColumn:@"Customer Price" headerNames:column_names] doubleValue];
+		NSString *customer_currency	= [oneLine getValueForNamedColumn:@"Customer Currency" headerNames:column_names];
+		NSString *country_code	= [oneLine getValueForNamedColumn:@"Country Code" headerNames:column_names];
+		
+		// free:headers Developer	Title/Application	Product Type Identifier	Units	Partner Share	Partner Share Currency	Customer Price	Customer Currency	Country Code	Apple Identifier	Vendor Identifier
+		
+		
+		if (fromDate&&untilDate&&appID&&vendor_identifier&&company_name&&title&&type_id&&units&&royalty_currency&&customer_currency&&country_code)
+		{
+			if (!report_id)
+			{  
+				
+				//if ([self reportIDForDateString:until_date type:ReportTypeFree region:ReportRegionUnknown]) return nil;
+					
+				insertedReport = [self insertReportWithType:ReportTypeFree from_date:fromDate until_date:untilDate downloaded_date:[NSDate date] region:ReportRegionUnknown];
+				report_id= insertedReport.primaryKey;
+				
+				if (!insertedReport)
+				{
+					// if we could not insert it, it's probably already in DB
+					return nil;
+				}
+			}
+			
+			if (insertedReport)
+			{
+				if (![DB appForID:appID])
+				{
+					
+					[DB insertAppWithTitle:title vendor_identifier:vendor_identifier apple_identifier:appID company_name:company_name];
+					
+				}
+				
+				[insertedReport insertSaleForAppID:appID type_id:type_id units:units royalty_price:royalty_price royalty_currency:royalty_currency customer_price:customer_price customer_currency:customer_currency country_code:country_code];
+			}
+			
+		}
+		else
+		{
+			// lines that don't match the headers, most likey empty lines after the report
+		} 
+		
+	//	prev_until_date = until_date;
+	}
+	
+	if (!insertedReport)
+	{
+		//try again, maybe it's empty and then this prevents constant retrying
+		insertedReport = [self insertReportWithType:ReportTypeFree from_date:fromDate until_date:untilDate downloaded_date:[NSDate date] region:ReportRegionUnknown];
+	}
+	//[insertedReport makeSummariesFromSales];
+	return insertedReport;
+}
+
+
+
 - (Report *) insertReportFromText:(NSString *)string
 {
+	NSLog(@"%@", string);
 	NSUInteger report_id=0;
 	Report *insertedReport = nil;
 	
@@ -501,6 +648,8 @@ static Database *_sharedInstance;
 			
 		}
 		
+		
+		// free:headers Developer	Title/Application	Product Type Identifier	Units	Partner Share	Partner Share Currency	Customer Price	Customer Currency	Country Code	Apple Identifier	Vendor Identifier
 		
 		
 		if (from_date&&until_date&&appID&&vendor_identifier&&company_name&&title&&type_id&&units&&royalty_currency&&customer_currency&&country_code)

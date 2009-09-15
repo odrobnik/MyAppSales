@@ -16,6 +16,8 @@
 	NSString *iso3;
 	NSString *name;
 	
+	NSUInteger appStoreID;
+	
 	BOOL usedInReport;
 	
 	// Opaque reference to the underlying database.
@@ -30,6 +32,9 @@
 @property (nonatomic, retain) NSString *iso2;
 @property (nonatomic, retain) NSString *iso3;
 @property (nonatomic, retain) NSString *name;
+
+@property (nonatomic, assign) NSUInteger appStoreID;
+
 @property (nonatomic, assign) BOOL usedInReport;
 
 - (id)initWithISO3:(NSString *)pk database:(sqlite3 *)db;

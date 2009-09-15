@@ -22,14 +22,38 @@
 
 @synthesize report;
 
+- (void) setReport:(Report *)activeReport
+{
+	report = activeReport;
+	[report hydrate];
+	
+	self.title = [report listDescription];
+	[self.tableView reloadData];
+}
+
+
 - (id) initWithReport:(Report *)aReport
 {
-	if (self = [super initWithStyle:UITableViewStyleGrouped]) {
-		report = aReport;
-		[report hydrate];
-		self.title = [aReport listDescription];
+	if (self = [super initWithStyle:UITableViewStyleGrouped]) 
+	{
+		[self setReport:aReport];
+
 		sumImage = [UIImage imageNamed:@"Sum.png"];
 		
+		segmentedControl = [[UISegmentedControl alloc] initWithItems:
+							[NSArray arrayWithObjects:
+							 [UIImage imageNamed:@"up.png"],
+							 [UIImage imageNamed:@"down.png"],
+							 nil]];
+		[segmentedControl addTarget:self action:@selector(upDownPushed:) forControlEvents:UIControlEventValueChanged];
+		segmentedControl.frame = CGRectMake(0, 0, 90, 30);
+		segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+		segmentedControl.momentary = YES;
+		
+		UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
+		
+		self.navigationItem.rightBarButtonItem = segmentBarItem;
+		[segmentBarItem release];
     }
     return self;
 }
@@ -92,6 +116,7 @@
 
 #pragma mark Table view methods
 
+/*
 // The accessory type is the image displayed on the far right of each table cell. In order for the delegate method
 // tableView:accessoryButtonClickedForRowWithIndexPath: to be called, you must return the "Detail Disclosure Button" type.
 - (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath 
@@ -105,6 +130,7 @@
 		return UITableViewCellAccessoryDisclosureIndicator;
 	}
 }
+*/
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
@@ -201,8 +227,12 @@
 		cell.royaltyEarnedLabel.text = @"Royalties";
 		cell.royaltyEarnedLabel.font = [UIFont systemFontOfSize:8.0];
 		cell.royaltyEarnedLabel.textAlignment = UITextAlignmentRight;
+		
+		cell.accessoryType = UITableViewCellAccessoryNone;
 		return cell;
 	}
+	
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
     // Set up the cell...
 	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -403,9 +433,27 @@
 
 
 
-- (void)dealloc {
-	
+- (void)dealloc 
+{
+	[segmentedControl release];
     [super dealloc];
+}
+
+#pragma mark Actions
+- (void) upDownPushed:(id)sender
+{
+	// cannot use sender for some reason, we get exception when accessing properties
+	
+	if (segmentedControl.selectedSegmentIndex == 0)
+	{
+		Report *newReport = [[Database sharedInstance] reportNewerThan:report];
+		[self setReport:newReport];
+	}
+	else
+	{
+		Report *newReport = [[Database sharedInstance] reportOlderThan:report];
+		[self setReport:newReport];
+	}
 }
 
 

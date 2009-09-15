@@ -13,6 +13,7 @@
 @implementation NSString (Helpers)
 
 #pragma mark Helpers
+
 - (NSDate *) dateFromString
 {
 	NSDate *retDate;
@@ -110,6 +111,39 @@
 			];
 }
 
+
+- (NSString *)stringByFindingFormPostURLwithName:(NSString *)formName
+{
+	NSRange formRange;
+	
+	if (formName)
+	{
+		formRange = [self rangeOfString:[NSString stringWithFormat:@"method=\"post\" name=\"%@\" action=\"", formName]];
+	}
+	else 
+	{
+		formRange = [self rangeOfString:@"method=\"post\" action=\""];
+	}
+	
+	if (formRange.location!=NSNotFound)
+	{
+		NSRange quoteRange = [self rangeOfString:@"\"" options:NSLiteralSearch range:NSMakeRange(formRange.location+formRange.length, 100)];
+		if (quoteRange.length)
+		{
+			return [self substringWithRange:NSMakeRange(formRange.location+formRange.length, quoteRange.location-formRange.location-formRange.length)];
+			
+		}
+		else
+		{
+			// we found the form post, but not the ending quote, strange
+			return nil;
+		}
+
+	}
+
+	// not found a form post in here
+	return nil;
+}
 
 @end
 

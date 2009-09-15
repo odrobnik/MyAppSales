@@ -1,6 +1,15 @@
-#import "ImageManipulator.h"
+//
+//  UIImage+Helpers.m
+//  ASiST
+//
+//  Created by Oliver on 11.09.09.
+//  Copyright 2009 Drobnik.com. All rights reserved.
+//
 
-@implementation ImageManipulator
+#import "UIImage+Helpers.h"
+
+
+@implementation UIImage (Helpers)
 
 static void addRoundedRectToPath(CGContextRef context, CGRect rect, float ovalWidth, float ovalHeight)
 {
@@ -57,4 +66,37 @@ static void addRoundedRectToPath(CGContextRef context, CGRect rect, float ovalWi
     return [newImage autorelease];
 }
 
+
+- (UIImage*) imageByMaskingWithImage:(UIImage *)maskImage 
+{
+	CGImageRef maskRef = maskImage.CGImage; 
+	
+	CGImageRef mask = CGImageMaskCreate(CGImageGetWidth(maskRef),
+										CGImageGetHeight(maskRef),
+										CGImageGetBitsPerComponent(maskRef),
+										CGImageGetBitsPerPixel(maskRef),
+										CGImageGetBytesPerRow(maskRef),
+										CGImageGetDataProvider(maskRef), NULL, false);
+	
+	CGImageRef masked = CGImageCreateWithMask([self CGImage], mask);
+	CGImageRelease(mask);
+	return [UIImage imageWithCGImage:masked];
+}
+
+
++ (UIImage*)imageWithImage:(UIImage*)image 
+			  scaledToSize:(CGSize)newSize;
+{
+	UIGraphicsBeginImageContext( newSize );
+	[image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+	UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	
+	return newImage;
+}
+
+- (UIImage*)scaleImageToSize:(CGSize)newSize
+{
+	return [UIImage imageWithImage:self scaledToSize:newSize];
+}
 @end

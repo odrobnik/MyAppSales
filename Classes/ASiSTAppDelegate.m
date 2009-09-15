@@ -32,6 +32,13 @@
 
 #import "AccountManager.h"
 #import "Account.h"
+#import "Country.h"
+#import "App.h"
+
+
+//#import "TurboReviewScraper.h"
+#import "SynchingManager.h"
+#import "NSDate+Helpers.h"
 
 
 @implementation ASiSTAppDelegate
@@ -40,18 +47,41 @@
 @synthesize navigationController;
 @synthesize tabBarController;
 @synthesize appViewController, reportRootController, settingsViewController, statusViewController;
-@synthesize itts, /*keychainWrapper,*/ serverIsRunning, convertSalesToMainCurrency;
+@synthesize /*itts, keychainWrapper,*/ serverIsRunning, convertSalesToMainCurrency;
 @synthesize addresses, httpServer;
-@synthesize appBadgeItem, reportBadgeItem;
+@synthesize appBadgeItem, reportBadgeItem, refreshButton;
+
+
+
+- (void) scrapeReviews
+{
+	NSDate *today = [NSDate date];
+	
+	[[NSUserDefaults standardUserDefaults] setObject:today forKey:@"ReviewsLastDownloaded"];
+	
+	// get apps sorted
+	NSArray *allApps = [[Database sharedInstance] appsSortedBySales];
+	NSMutableDictionary *countries = [[Database sharedInstance] countries];
+	NSArray *allKeys = [countries allKeys];
+
+	for (App *oneApp in allApps)
+	{
+		for (NSString *oneKey in allKeys)
+		{
+			Country *oneCountry = [countries objectForKey:oneKey];
+			if (oneCountry.appStoreID)
+			{
+				[[SynchingManager sharedInstance] scrapeForApp:oneApp country:oneCountry delegate:oneApp];
+			}
+		}
+	}
+}
 
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
 	
-/*	KeychainWrapper *wrapper= [[KeychainWrapper alloc] init];
-    self.keychainWrapper = wrapper;
-    [wrapper release];
-*/	
+	
 	// Configure and show the window
 	[window addSubview:[tabBarController view]];
 	[window addSubview:statusViewController.view];
@@ -124,11 +154,18 @@
 	
 	if ([acc.accounts count]>0)
 	{
-		itts = [[iTunesConnect alloc] initWithAccount:[acc.accounts objectAtIndex:0]];
+		//itts = [[iTunesConnect alloc] initWithAccount:[acc.accounts objectAtIndex:0]];
+		
+		// only auto-sync if we did not already download a daily report today
+		Report *lastDailyReport = [[Database sharedInstance] latestReportOfType:ReportTypeDay];
+		if (![lastDailyReport.downloadedDate sameDateAs:[NSDate date]])
+		{
+			[[SynchingManager sharedInstance] downloadForAccount:[acc.accounts objectAtIndex:0] reportsToIgnore:nil];
+		}
 	}
 	else 
 	{
-		itts = [[iTunesConnect alloc] init];
+		//itts = [[iTunesConnect alloc] init];
 
 		// don't show alert on lock
 		
@@ -154,6 +191,43 @@
 	}
 	
 	convertSalesToMainCurrency = [defaults boolForKey:@"AlwaysUseMainCurrency"];
+	
+	
+	// set default
+	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ReviewFrequency"])
+	{
+		[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"ReviewFrequency"];
+	}
+	
+	
+	
+	// Review Downloading
+	
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DownloadReviews"])
+	{
+		NSDate *lastScraped = [[NSUserDefaults standardUserDefaults] objectForKey:@"ReviewsLastDownloaded"];
+		NSInteger scrapeFrequency = [[NSUserDefaults standardUserDefaults] integerForKey:@"ReviewFrequency"]; 
+		
+		if (!lastScraped||!scrapeFrequency)
+		{
+			
+			// scrape now
+			[self scrapeReviews];
+		}
+		else
+		{
+			// check interval
+			NSCalendar *gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+			NSDateComponents *comps = [gregorian components:NSDayCalendarUnit fromDate:[lastScraped dateAtBeginningOfDay] toDate:[[NSDate date] dateAtBeginningOfDay] options:0];
+			
+			if ([comps day]>scrapeFrequency)
+			{
+				// scrape now
+				[self scrapeReviews];
+				
+			}
+		}
+	}
 }
 
 
@@ -162,7 +236,7 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	//[keychainWrapper release];
-	[itts release];
+	//[itts release];
 	[navigationController release];
 	[window release];
 	[super dealloc];
@@ -260,8 +334,9 @@
 	
 	if ([acc.accounts count]>0)
 	{
-		itts.account = [acc.accounts objectAtIndex:0];
-		[itts sync];
+		//itts.account = [acc.accounts objectAtIndex:0];
+		//[itts sync];
+		[[SynchingManager sharedInstance] downloadForAccount:[acc.accounts objectAtIndex:0] reportsToIgnore:[[Database sharedInstance] allReports]];
 	}
 	
 }

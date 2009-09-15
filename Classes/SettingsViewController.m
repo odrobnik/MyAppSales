@@ -30,6 +30,7 @@
 
 #import "EditAccountController.h"
 #import "PinLockController.h"
+#import "TableListSelectorView.h"
 
 
 
@@ -63,6 +64,20 @@
 	//[self.tableView setEditing:YES animated:NO];
 
 	showAddress = NO;
+	
+	if (!reviewFrequencyList)
+	{
+		NSMutableArray *tmpArray = [NSMutableArray arrayWithObjects:@"Every Launch", @"1 Day", nil];
+		
+		for (int i=2;i<=14;i++)
+		{
+			[tmpArray addObject:[NSString stringWithFormat:@"%d Days", i]];
+		}
+			 
+		reviewFrequencyList = [[NSArray arrayWithArray:tmpArray] retain];
+	}
+			 
+
     [super viewWillAppear:animated];
 	[self.tableView reloadData];
 }
@@ -109,7 +124,7 @@
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 5;
+    return 6;
 }
 
 
@@ -126,15 +141,27 @@
 	switch (section) {
 		case 0:  // password
 			return [[[AccountManager sharedAccountManager] accounts] count]+1;
-		case 1:  // reports
+		case 1:  // reviews
+		{
+			if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"DownloadReviews"] boolValue])
+			{
+				return 2;
+			}
+			else 
+			{
+				return 1;
+			}
+		}
+
+		case 2:  // reports
 			return 2;
-		case 2:  // web server
+		case 3:  // web server
 		{
 			return showAddress?2:1;
 		}
-		case 3:  // pin lock
+		case 4:  // pin lock
 			return 1;
-		case 4:  // maintenance
+		case 5:  // maintenance
 			return 1;
 		default:
 			break;
@@ -175,12 +202,14 @@
 		case 0:
 			return @"Accounts";
 		case 1:
-			return @"Reports";
+			return @"Reviews";
 		case 2:
-			return @"Import/Export Server";
+			return @"Reports";
 		case 3:
-			return @"Security";
+			return @"Import/Export Server";
 		case 4:
+			return @"Security";
+		case 5:
 			return @"Maintenance";
 		default:
 			break;
@@ -243,7 +272,54 @@
 				return cell;
 			}
 		}
-		case 1:   // general
+		case 1:   // reviews
+		{
+			
+			switch (indexPath.row) 
+			{
+				case 0:
+				{
+					NSString *CellIdentifier = @"ReviewSwitchSection";
+					
+					SwitchCell *cell = (SwitchCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+					if (cell == nil) 
+					{
+						cell = [[[SwitchCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
+						cell.titleLabel.text = @"Download Reviews";
+					}
+					
+					
+					cell.switchCtl.on = [[[NSUserDefaults standardUserDefaults] objectForKey:@"DownloadReviews"] boolValue];
+					[cell.switchCtl addTarget:self action:@selector(switchReviews:) forControlEvents:UIControlEventValueChanged];
+					return cell;
+				}
+				case 1:
+				{
+					NSString *CellIdentifier = @"ReviewSection";
+					
+					UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+					if (cell == nil) 
+					{
+						cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+						cell.textLabel.text = @"Frequency";
+					}
+					
+					NSUInteger frequencyInt = ([[NSUserDefaults standardUserDefaults] integerForKey:@"ReviewFrequency"]);
+					
+					cell.detailTextLabel.text = [reviewFrequencyList objectAtIndex:frequencyInt];
+					cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+					return cell;
+
+					break;
+				}
+				default:
+					return nil;
+					break;
+			}
+		}
+			
+		case 2:   // general
 		{
 			switch (indexPath.row) 
 			{
@@ -284,7 +360,7 @@
 			}
 		}
 			
-		case 2:   // web server
+		case 3:   // web server
 		{
 			switch (indexPath.row) {
 				case 0:
@@ -345,7 +421,7 @@
 
 		}
 			
-		case 3:   // pin lock
+		case 4:   // pin lock
 		{
 			NSString *CellIdentifier = @"LockSection";
 			
@@ -371,7 +447,7 @@
 			return cell;
 		}
 			
-		case 4:  // action
+		case 5:  // action
 		{
 			NSString *CellIdentifier = @"ActionsSection";
 			
@@ -433,67 +509,73 @@
 			
 			break;
 		}
-	}
-	
-	
-	/*
-	if (indexPath.section)
-	{
-		NSIndexPath *targetPath = [NSIndexPath indexPathForRow:0 inSection:0];
-		EditableCell *targetCell = (EditableCell *)[self.tableView cellForRowAtIndexPath:targetPath];
-		[targetCell hideKeyboard];
-		targetPath = [NSIndexPath indexPathForRow:1 inSection:0];
-		targetCell = (EditableCell *)[self.tableView cellForRowAtIndexPath:targetPath];
-		[targetCell hideKeyboard];
-	}
-	*/
-	
-	if (indexPath.section == 1)
-	{
-		if (indexPath.row)
-			return;
-		
-		// Navigation logic may go here. Create and push another view controller.
-		TableListView *anotherViewController = [[TableListView alloc] initWithYahoo:[YahooFinance sharedInstance] style:UITableViewStylePlain];
-		anotherViewController.title = @"Main Currency";
-		[anotherViewController setSelectedItem:[[YahooFinance sharedInstance] mainCurrency]];
-		[self.navigationController pushViewController:anotherViewController animated:YES];
-		[anotherViewController release];
-	}
-	else if (indexPath.section == 3)
-	{
-		PinLockControllerMode mode;
-		
-		if ([[NSUserDefaults standardUserDefaults] objectForKey:@"PIN"])
+		case 1:  // reviews
 		{
-			mode = PinLockControllerModeRemovePin;
+			if (!indexPath.row) return;
+			
+			TableListSelectorView *controller = [[TableListSelectorView alloc] initWithList:reviewFrequencyList];
+			controller.title = @"Frequency";
+			controller.delegate = self;
+			controller.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"ReviewFrequency"];
+			[self.navigationController pushViewController:controller animated:YES];
+			[controller release];
+			break;
 		}
-		else
+			
+		case 2: 
 		{
-			mode = PinLockControllerModeSetPin;
+			if (indexPath.row)
+				return;
+			
+			// Navigation logic may go here. Create and push another view controller.
+			TableListView *anotherViewController = [[TableListView alloc] initWithYahoo:[YahooFinance sharedInstance] style:UITableViewStylePlain];
+			anotherViewController.title = @"Main Currency";
+			[anotherViewController setSelectedItem:[[YahooFinance sharedInstance] mainCurrency]];
+			[self.navigationController pushViewController:anotherViewController animated:YES];
+			[anotherViewController release];
+			break;
 		}
-
-		PinLockController *controller = [[PinLockController alloc] initWithMode:mode];
-		controller.delegate = self;
-		controller.pin = [[NSUserDefaults standardUserDefaults] objectForKey:@"PIN"];
+			
+		case 4:
+		{
+			PinLockControllerMode mode;
+			
+			if ([[NSUserDefaults standardUserDefaults] objectForKey:@"PIN"])
+			{
+				mode = PinLockControllerModeRemovePin;
+			}
+			else
+			{
+				mode = PinLockControllerModeSetPin;
+			}
+			
+			PinLockController *controller = [[PinLockController alloc] initWithMode:mode];
+			controller.delegate = self;
+			controller.pin = [[NSUserDefaults standardUserDefaults] objectForKey:@"PIN"];
+			
+			UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+			navController.navigationBar.barStyle = UIBarStyleBlack;
+			[controller release];
+			
+			[self presentModalViewController:navController animated:YES];
+			[navController release];			
 		
-		UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
-		navController.navigationBar.barStyle = UIBarStyleBlack;
-		[controller release];
-		
-		[self presentModalViewController:navController animated:YES];
-		[navController release];
+			break;
+		}
+			
+		case 5:
+		{
+			[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+			
+			UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Do you really want to empty the cache?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Empty Cache", nil];
+			
+			[actionSheet showInView:self.view.window];
+			[actionSheet release];
+			
+			break;
+			
+		}
 	}
-	else if (indexPath.section == 4)
-	{
-		[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-		
-		UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Do you really want to empty the cache?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Empty Cache", nil];
-		
-		[actionSheet showInView:self.view.window];
-		[actionSheet release];
-	}
-	
 }
 
 
@@ -591,8 +673,32 @@
 
 - (void)dealloc {
 	//[KeychainWrapper release];
+	[reviewFrequencyList release];
     [super dealloc];
 }
+
+- (void)switchReviews:(id)sender
+{
+	BOOL oldValue = [[NSUserDefaults standardUserDefaults] boolForKey:@"DownloadReviews"];
+	
+	UISwitch *mySwitch = (UISwitch *)sender;
+	[[NSUserDefaults standardUserDefaults] setBool:mySwitch.on forKey:@"DownloadReviews"];
+	
+	if (oldValue == mySwitch.on) return;
+	
+	
+	// show or hide the frequency cell
+	if (mySwitch.on)
+	{
+		[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:1]] withRowAnimation:UITableViewRowAnimationTop];
+		
+	}
+	else
+	{
+		[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:1]] withRowAnimation:UITableViewRowAnimationTop];
+	}
+}
+
 
 /*
 - (void)displayInfoUpdate:(NSNotification *) notification
@@ -635,7 +741,7 @@
 	
 	//[report_array insertObject:report atIndex:insertionIndex];
 	
-	NSIndexPath *tmpIndex = [NSIndexPath indexPathForRow:1 inSection:2];
+	NSIndexPath *tmpIndex = [NSIndexPath indexPathForRow:1 inSection:3];
 	NSArray *insertIndexPaths = [NSArray arrayWithObjects:
 								 tmpIndex,
 								 nil];
@@ -707,6 +813,13 @@
 	[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:3]] withRowAnimation:UITableViewRowAnimationNone];
 }
 
+
+#pragma mark TableListSelector Delegate
+- (void) didFinishSelectingFromTableListIndex:(NSInteger)index
+{
+	[[NSUserDefaults standardUserDefaults] setInteger:index forKey:@"ReviewFrequency"];
+	[self.navigationController popViewControllerAnimated:YES];
+}
 
 @end
 

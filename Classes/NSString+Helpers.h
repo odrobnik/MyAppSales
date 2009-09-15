@@ -15,6 +15,7 @@
 - (NSString *) getValueForNamedColumn:(NSString *)column_name  headerNames:(NSArray *)header_names;
 - (NSDate *) dateFromString;
 - (NSArray *) optionsFromSelect;
+- (NSString *)stringByFindingFormPostURLwithName:(NSString *)formName;
 - (NSString *) stringByUrlEncoding;
 
 - (NSComparisonResult)compareDesc:(NSString *)aString;

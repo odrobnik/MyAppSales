@@ -9,7 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
 
-@interface App : NSObject {
+#import "ReviewDownloaderOperation.h"
+
+
+
+@interface App : NSObject <ReviewScraperDelegate> {
 	// fields
 	NSString *title;
 	NSString *vendor_identifier;
@@ -26,6 +30,8 @@
 
 	// Opaque reference to the underlying database.
     sqlite3 *database;
+
+	NSMutableArray *reviews;
 	
 	// for Downloading Icon image
 	NSMutableData *receivedData;
@@ -75,10 +81,14 @@
 @property (assign, readonly, nonatomic) int totalUnitsSold;
 @property (assign, readonly, nonatomic) int totalUnitsFree;
 
+@property (assign, readonly, nonatomic) NSMutableArray *reviews;
+
 - (NSComparisonResult)compareBySales:(App *)otherApp;
 
 
 - (void) updateTotalsFromDict:(NSDictionary *)totalsDict;
+
+- (void) getAllReviews;
 
 
 @end

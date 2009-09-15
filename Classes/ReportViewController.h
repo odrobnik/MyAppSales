@@ -28,7 +28,6 @@
 	
 	NSMutableDictionary *indexByYearMonth;
 	NSArray *indexByYearMonthSortedKeys;
-	
 }
 
 - (id)initWithReportArray:(NSArray *)array reportType:(ReportType)type style:(UITableViewStyle)style;

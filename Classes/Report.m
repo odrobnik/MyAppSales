@@ -35,8 +35,8 @@ static NSDateFormatter *dateFormatterToRead = nil;
 @implementation Report
 
 @synthesize isNew, sales, salesByApp, summariesByApp;
-
 @synthesize sumUnitsSold,sumUnitsUpdated,sumUnitsRefunded, sumUnitsFree;
+@synthesize region;
 
 - (NSDate *) dateFromString:(NSString *)rfc2822String
 {
@@ -46,7 +46,6 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		[dateFormatterToRead setDateFormat:@"yyyy-MM-dd HH:mm:ss ZZ"]; /* Unicode Locale Data Markup Language */
 	}
 	return [dateFormatterToRead dateFromString:rfc2822String]; /*e.g. @"Thu, 11 Sep 2008 12:34:12 +0200" */	
-	
 }
 
 
@@ -239,6 +238,20 @@ static NSDateFormatter *dateFormatterToRead = nil;
     }
 }
 
+- (NSString *)monthForMonthlyReports
+{
+	// calculate the middle point and output it's localized name
+	NSTimeInterval start = [fromDate timeIntervalSince1970];
+	NSTimeInterval finish = [untilDate timeIntervalSince1970];
+	NSTimeInterval middle = (start + finish)/2.0;
+	
+	NSDate *tmpDate = [NSDate dateWithTimeIntervalSince1970:middle];
+	
+	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
+	[df setDateFormat:@"MMMM"];
+	
+	return [df stringFromDate:tmpDate];
+}
 
 - (NSString *)listDescription
 {
@@ -260,13 +273,13 @@ static NSDateFormatter *dateFormatterToRead = nil;
 			return [NSString stringWithFormat:@"%@ until %@",[formatter stringFromDate:fromDate], [formatter stringFromDate:untilDate]];
 			break;
 		}
+		case ReportTypeFree:
+		{
+			return [self monthForMonthlyReports];
+			break;
+		}
 		case ReportTypeFinancial:
 		{
-			NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
-			[formatter setDateFormat:@"MMMM"];
-			//[formatter setDateStyle:NSDateFormatterNoStyle];
-			//[formatter setTimeStyle:NSDateFormatterNoStyle];
-			
 			NSString *region_name;
 			
 			[self hydrate];  // to estimate the region until there is a table for it
@@ -297,7 +310,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 					region_name = @"Invalid Region";
 			}
 			
-			return [NSString stringWithFormat:@"%@ %@", [formatter stringFromDate:untilDate], region_name];
+			return [NSString stringWithFormat:@"%@ %@", [self monthForMonthlyReports], region_name];
 			break;
 		}
 			
@@ -307,6 +320,11 @@ static NSDateFormatter *dateFormatterToRead = nil;
 			break;
 	}
 	
+}
+
+- (NSString *)description
+{
+	return [self listDescription];
 }
 
 - (NSUInteger) day

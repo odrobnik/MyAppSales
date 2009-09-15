@@ -20,49 +20,18 @@
 #import "YahooFinance.h"
 
 
+@interface ReportViewController ()
+
+- (void) createIndex;
+
+@end
+
+
+
 @implementation ReportViewController
 
 
 @synthesize report_array, tabBarItem;
-
-- (void) createIndex
-{
-	[indexByYearMonth release];
-	[indexByYearMonthSortedKeys release];
-	
-	indexByYearMonth = [[NSMutableDictionary alloc] init];
-	
-	
-	NSCalendar *gregorian = [[[NSCalendar alloc]
-							  initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
-	
-	
-	for (Report *oneReport in report_array)
-	{
-		// sort it into the correct month
-		NSDateComponents *dayComps = [gregorian components:NSMonthCalendarUnit|NSYearCalendarUnit fromDate:oneReport.fromDate];
-		
-		NSString *yearMonthKey = [NSString stringWithFormat:@"%04d-%02d", [dayComps year], [dayComps month]];
-		
-		NSMutableArray *monthArray = [indexByYearMonth objectForKey:yearMonthKey];
-		
-		if (!monthArray)
-		{
-			// need to add this month
-			monthArray = [NSMutableArray array];
-			[indexByYearMonth setObject:monthArray forKey:yearMonthKey];
-		}
-		
-		// add this report into the found/created month
-		[monthArray addObject:oneReport];
-	}
-	
-	
-	// now sort the months into a new array
-	
-	NSArray *keys = [indexByYearMonth allKeys];
-	indexByYearMonthSortedKeys = [[keys sortedArrayUsingSelector:@selector(compareDesc:)] retain];
-}
 
 
 
@@ -88,7 +57,7 @@
 		self.tableView.rowHeight = 45.0;
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportNotification:) name:@"NewReportAdded" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainCurrencyNotification:) name:@"MainCurrencyChanged" object:nil];
-		
+
 		
 		[self createIndex];
     }
@@ -296,9 +265,10 @@
 
 // The accessory type is the image displayed on the far right of each table cell. In order for the delegate method
 // tableView:accessoryButtonClickedForRowWithIndexPath: to be called, you must return the "Detail Disclosure Button" type.
+/*
 - (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath {
     return UITableViewCellAccessoryDisclosureIndicator;
-}
+}*/
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -368,6 +338,8 @@
 			cell.iconImage.image = report_icon;
 		} 
 		*/
+		
+		cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
 		return cell;
 	}
 	else
@@ -399,6 +371,8 @@
 			cell.CELL_IMAGE = report_icon;
 		}
 		
+		cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+
 		return cell;
 	}
 }
@@ -492,6 +466,45 @@
  }
  */
 
+#pragma mark Utility
+- (void) createIndex
+{
+	[indexByYearMonth release];
+	[indexByYearMonthSortedKeys release];
+	
+	indexByYearMonth = [[NSMutableDictionary alloc] init];
+	
+	
+	NSCalendar *gregorian = [[[NSCalendar alloc]
+							  initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	
+	
+	for (Report *oneReport in report_array)
+	{
+		// sort it into the correct month
+		NSDateComponents *dayComps = [gregorian components:NSMonthCalendarUnit|NSYearCalendarUnit fromDate:oneReport.fromDate];
+		
+		NSString *yearMonthKey = [NSString stringWithFormat:@"%04d-%02d", [dayComps year], [dayComps month]];
+		
+		NSMutableArray *monthArray = [indexByYearMonth objectForKey:yearMonthKey];
+		
+		if (!monthArray)
+		{
+			// need to add this month
+			monthArray = [NSMutableArray array];
+			[indexByYearMonth setObject:monthArray forKey:yearMonthKey];
+		}
+		
+		// add this report into the found/created month
+		[monthArray addObject:oneReport];
+	}
+	
+	
+	// now sort the months into a new array
+	
+	NSArray *keys = [indexByYearMonth allKeys];
+	indexByYearMonthSortedKeys = [[keys sortedArrayUsingSelector:@selector(compareDesc:)] retain];
+}
 
 
 
