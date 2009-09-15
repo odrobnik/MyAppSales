@@ -12,7 +12,6 @@
 #import "Database.h"
 
 #import "ASiSTAppDelegate.h"
-#import "iTunesConnect.h"
 
 
 @implementation ChartRootController

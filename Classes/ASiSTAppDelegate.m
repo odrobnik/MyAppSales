@@ -13,7 +13,6 @@
 #import "StatusInfoController.h"
 #import	"PinLockController.h"
 
-#import "iTunesConnect.h"
 #import "Database.h"
 
 // for the HTTP server
@@ -23,8 +22,6 @@
 
 #import "Report.h"
 #import "YahooFinance.h"
-#import "iTunesConnect.h"
-//#import "KeychainWrapper.h"
 
 #import "Query.h"
 

@@ -10,9 +10,9 @@
 	};
 	1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {2777, 6357}}";
-			sepNavSelRange = "{5626, 0}";
-			sepNavVisRange = "{5400, 901}";
+			sepNavIntBoundsRect = "{{0, 0}, {1166, 6877}}";
+			sepNavSelRange = "{499, 0}";
+			sepNavVisRange = "{0, 610}";
 			sepNavWindowFrame = "{{207, 457}, {1233, 228}}";
 		};
 	};
@@ -24,7 +24,7 @@
 	};
 	28A0AAE50D9B0CCF005BE974 /* ASiST_Prefix.pch */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {909, 388}}";
+			sepNavIntBoundsRect = "{{0, 0}, {913, 428}}";
 			sepNavSelRange = "{90, 0}";
 			sepNavVisRange = "{0, 681}";
 			sepNavWindowFrame = "{{15, 322}, {1351, 551}}";
@@ -48,7 +48,7 @@
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeBuildConfigurationName = Debug;
 		activeExecutable = A78E2B300EFA1E8C002EB6D9 /* MyAppSales */;
-		activeSDKPreference = iphoneos3.0;
+		activeSDKPreference = iphonesimulator3.0;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* MyAppSales */;
 		addToTargets = (
 			1D6058900D05DD3D006BFB54 /* MyAppSales */,
@@ -56,7 +56,7 @@
 		breakpoints = (
 			A7C7E9971045A73600D413D0 /* obj_exception_throw */,
 			A7E9E1D310499CE20042FD91 /* GenericReportController.m:188 */,
-			A7E9E1F110499D310042FD91 /* Report.m:648 */,
+			A7E9E1F110499D310042FD91 /* Report.m:647 */,
 			A7B12945104C6AC3004639C9 /* malloc_error_break */,
 			A7F49CF01059072A00817D3D /* PinLockController.m:248 */,
 			A7BD66E7105AD14C0021B6CF /* Review.h:46 */,
@@ -938,6 +938,49 @@
 			A78DF0251060199800786950 /* PBXTextBookmark */ = A78DF0251060199800786950 /* PBXTextBookmark */;
 			A78DF02910601AC800786950 /* PBXTextBookmark */ = A78DF02910601AC800786950 /* PBXTextBookmark */;
 			A78DF02A10601AC800786950 /* PBXTextBookmark */ = A78DF02A10601AC800786950 /* PBXTextBookmark */;
+			A78DF02E10601BDF00786950 /* PBXTextBookmark */ = A78DF02E10601BDF00786950 /* PBXTextBookmark */;
+			A78DF02F10601BDF00786950 /* PBXTextBookmark */ = A78DF02F10601BDF00786950 /* PBXTextBookmark */;
+			A78DF03010601BDF00786950 /* PlistBookmark */ = A78DF03010601BDF00786950 /* PlistBookmark */;
+			A78DF03110601BDF00786950 /* PlistBookmark */ = A78DF03110601BDF00786950 /* PlistBookmark */;
+			A78DF03210601BDF00786950 /* PBXTextBookmark */ = A78DF03210601BDF00786950 /* PBXTextBookmark */;
+			A78DF03310601BDF00786950 /* PBXTextBookmark */ = A78DF03310601BDF00786950 /* PBXTextBookmark */;
+			A78DF03410601BDF00786950 /* PBXTextBookmark */ = A78DF03410601BDF00786950 /* PBXTextBookmark */;
+			A78DF03710601EAB00786950 /* PBXTextBookmark */ = A78DF03710601EAB00786950 /* PBXTextBookmark */;
+			A78DF03810601EAB00786950 /* PBXTextBookmark */ = A78DF03810601EAB00786950 /* PBXTextBookmark */;
+			A78DF03910601EAB00786950 /* PlistBookmark */ = A78DF03910601EAB00786950 /* PlistBookmark */;
+			A78DF03A10601EAB00786950 /* PBXTextBookmark */ = A78DF03A10601EAB00786950 /* PBXTextBookmark */;
+			A78DF03B10601EAB00786950 /* PBXTextBookmark */ = A78DF03B10601EAB00786950 /* PBXTextBookmark */;
+			A78DF03C10601EAB00786950 /* PBXTextBookmark */ = A78DF03C10601EAB00786950 /* PBXTextBookmark */;
+			A78DF03D10601EAB00786950 /* PBXTextBookmark */ = A78DF03D10601EAB00786950 /* PBXTextBookmark */;
+			A78DF03E10601EAB00786950 /* PBXTextBookmark */ = A78DF03E10601EAB00786950 /* PBXTextBookmark */;
+			A78DF03F10601EAB00786950 /* PBXTextBookmark */ = A78DF03F10601EAB00786950 /* PBXTextBookmark */;
+			A78DF05D10601FF500786950 /* PBXTextBookmark */ = A78DF05D10601FF500786950 /* PBXTextBookmark */;
+			A78DF05E10601FF500786950 /* PBXTextBookmark */ = A78DF05E10601FF500786950 /* PBXTextBookmark */;
+			A78DF06010601FF500786950 /* PBXTextBookmark */ = A78DF06010601FF500786950 /* PBXTextBookmark */;
+			A78DF06110601FF500786950 /* PBXTextBookmark */ = A78DF06110601FF500786950 /* PBXTextBookmark */;
+			A78DF06210601FF500786950 /* PBXTextBookmark */ = A78DF06210601FF500786950 /* PBXTextBookmark */;
+			A78DF06310601FF500786950 /* PBXTextBookmark */ = A78DF06310601FF500786950 /* PBXTextBookmark */;
+			A78DF0681060203900786950 /* PBXTextBookmark */ = A78DF0681060203900786950 /* PBXTextBookmark */;
+			A78DF0691060203900786950 /* PBXTextBookmark */ = A78DF0691060203900786950 /* PBXTextBookmark */;
+			A78DF06A1060203900786950 /* PBXTextBookmark */ = A78DF06A1060203900786950 /* PBXTextBookmark */;
+			A78DF06B1060203900786950 /* PBXTextBookmark */ = A78DF06B1060203900786950 /* PBXTextBookmark */;
+			A78DF0711060206600786950 /* PBXTextBookmark */ = A78DF0711060206600786950 /* PBXTextBookmark */;
+			A78DF0721060206600786950 /* PBXTextBookmark */ = A78DF0721060206600786950 /* PBXTextBookmark */;
+			A78DF0781060208A00786950 /* PBXTextBookmark */ = A78DF0781060208A00786950 /* PBXTextBookmark */;
+			A78DF0791060208A00786950 /* PBXTextBookmark */ = A78DF0791060208A00786950 /* PBXTextBookmark */;
+			A78DF07A1060208A00786950 /* PBXTextBookmark */ = A78DF07A1060208A00786950 /* PBXTextBookmark */;
+			A78DF07B1060208A00786950 /* PBXTextBookmark */ = A78DF07B1060208A00786950 /* PBXTextBookmark */;
+			A78DF0811060211700786950 /* PBXTextBookmark */ = A78DF0811060211700786950 /* PBXTextBookmark */;
+			A78DF0821060211700786950 /* PBXTextBookmark */ = A78DF0821060211700786950 /* PBXTextBookmark */;
+			A78DF0831060211700786950 /* PBXTextBookmark */ = A78DF0831060211700786950 /* PBXTextBookmark */;
+			A78DF0841060211700786950 /* PBXTextBookmark */ = A78DF0841060211700786950 /* PBXTextBookmark */;
+			A78DF0851060211700786950 /* PBXTextBookmark */ = A78DF0851060211700786950 /* PBXTextBookmark */;
+			A78DF08B1060215100786950 /* PBXTextBookmark */ = A78DF08B1060215100786950 /* PBXTextBookmark */;
+			A78DF08C1060215100786950 /* PBXTextBookmark */ = A78DF08C1060215100786950 /* PBXTextBookmark */;
+			A78DF094106021BE00786950 /* PBXTextBookmark */ = A78DF094106021BE00786950 /* PBXTextBookmark */;
+			A78DF095106021BE00786950 /* PBXTextBookmark */ = A78DF095106021BE00786950 /* PBXTextBookmark */;
+			A78DF096106021BE00786950 /* PBXTextBookmark */ = A78DF096106021BE00786950 /* PBXTextBookmark */;
+			A78DF097106021BE00786950 /* PBXTextBookmark */ = A78DF097106021BE00786950 /* PBXTextBookmark */;
 			A7A2496F10038EA500D6D106 = A7A2496F10038EA500D6D106 /* PBXBookmark */;
 			A7A849D6105CFB5300CAD54F = A7A849D6105CFB5300CAD54F /* PBXTextBookmark */;
 			A7A84A8E105D140700CAD54F = A7A84A8E105D140700CAD54F /* PBXTextBookmark */;
@@ -1326,9 +1369,9 @@
 	};
 	A7061AC70F3712A300F605C1 /* ReportAppsController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1048, 6175}}";
-			sepNavSelRange = "{1452, 0}";
-			sepNavVisRange = "{770, 1001}";
+			sepNavIntBoundsRect = "{{0, 0}, {1166, 6175}}";
+			sepNavSelRange = "{338, 0}";
+			sepNavVisRange = "{0, 611}";
 			sepNavWindowFrame = "{{269, 89}, {1027, 789}}";
 		};
 	};
@@ -1510,7 +1553,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report.m */;
 		name = "Report.m: 328";
 		rLen = 0;
-		rLoc = 11620;
+		rLoc = 11594;
 		rType = 0;
 		vrLen = 660;
 		vrLoc = 11086;
@@ -1520,7 +1563,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report.m */;
 		name = "Report.m: 328";
 		rLen = 0;
-		rLoc = 11620;
+		rLoc = 11594;
 		rType = 0;
 		vrLen = 660;
 		vrLoc = 11086;
@@ -1540,7 +1583,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report.m */;
 		name = "Report.m: 328";
 		rLen = 0;
-		rLoc = 11620;
+		rLoc = 11594;
 		rType = 0;
 		vrLen = 660;
 		vrLoc = 11086;
@@ -1949,7 +1992,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 341";
 		rLen = 33;
-		rLoc = 8608;
+		rLoc = 8582;
 		rType = 0;
 		vrLen = 1386;
 		vrLoc = 9401;
@@ -1998,9 +2041,9 @@
 	};
 	A7248AC40F1BEEC9003DADDD /* AppCell.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1489, 2795}}";
-			sepNavSelRange = "{5424, 0}";
-			sepNavVisRange = "{5144, 1021}";
+			sepNavIntBoundsRect = "{{0, 0}, {1489, 2834}}";
+			sepNavSelRange = "{5398, 0}";
+			sepNavVisRange = "{5616, 1215}";
 			sepNavWindowFrame = "{{202, 119}, {1051, 694}}";
 		};
 	};
@@ -2009,7 +2052,7 @@
 		fRef = A7325B9F0F21C9920053AEB1 /* ReportRootController.m */;
 		name = "ReportRootController.m: 104";
 		rLen = 102;
-		rLoc = 2621;
+		rLoc = 2595;
 		rType = 0;
 		vrLen = 928;
 		vrLoc = 2410;
@@ -2148,9 +2191,9 @@
 	};
 	A7325B9F0F21C9920053AEB1 /* ReportRootController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1146, 3003}}";
-			sepNavSelRange = "{2566, 0}";
-			sepNavVisRange = "{4686, 1039}";
+			sepNavIntBoundsRect = "{{0, 0}, {1166, 3120}}";
+			sepNavSelRange = "{238, 0}";
+			sepNavVisRange = "{0, 744}";
 			sepNavWindowFrame = "{{89, 36}, {1359, 814}}";
 		};
 	};
@@ -2346,7 +2389,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 145";
 		rLen = 135;
-		rLoc = 6637;
+		rLoc = 6611;
 		rType = 0;
 		vrLen = 1170;
 		vrLoc = 4776;
@@ -2422,9 +2465,9 @@
 	};
 	A74A75460EFD7117003B5191 /* App.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1069, 7644}}";
-			sepNavSelRange = "{20672, 0}";
-			sepNavVisRange = "{20486, 499}";
+			sepNavIntBoundsRect = "{{0, 0}, {992, 7618}}";
+			sepNavSelRange = "{1845, 0}";
+			sepNavVisRange = "{1281, 1226}";
 			sepNavWindowFrame = "{{621, 181}, {819, 694}}";
 		};
 	};
@@ -2594,6 +2637,11 @@
 		name = GenericReportController.m;
 		path = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/Classes/GenericReportController.m;
 		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1166, 5863}}";
+			sepNavSelRange = "{310, 0}";
+			sepNavVisRange = "{0, 707}";
+		};
 	};
 	A776819F104D5AC7003295D7 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -2644,9 +2692,9 @@
 	};
 	A780D1340F25D1A100C796FB /* ChartRootController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1503, 4316}}";
-			sepNavSelRange = "{3978, 0}";
-			sepNavVisRange = "{3537, 721}";
+			sepNavIntBoundsRect = "{{0, 0}, {1166, 4303}}";
+			sepNavSelRange = "{275, 0}";
+			sepNavVisRange = "{0, 751}";
 			sepNavWindowFrame = "{{510, 127}, {759, 698}}";
 		};
 	};
@@ -2692,9 +2740,9 @@
 	};
 	A780D1C60F26219800C796FB /* Query.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1166, 5038}}";
-			sepNavSelRange = "{889, 0}";
-			sepNavVisRange = "{499, 956}";
+			sepNavIntBoundsRect = "{{0, 0}, {1166, 4693}}";
+			sepNavSelRange = "{191, 0}";
+			sepNavVisRange = "{3, 439}";
 			sepNavWindowFrame = "{{307, -58}, {1027, 810}}";
 		};
 	};
@@ -3236,7 +3284,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 1;
-		rLoc = 230;
+		rLoc = 227;
 		rType = 1;
 	};
 	A78DEA6C105F914400786950 /* PBXTextBookmark */ = {
@@ -3244,7 +3292,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 184";
 		rLen = 0;
-		rLoc = 6450;
+		rLoc = 6368;
 		rType = 0;
 		vrLen = 740;
 		vrLoc = 5046;
@@ -3254,7 +3302,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 197";
 		rLen = 0;
-		rLoc = 6344;
+		rLoc = 6262;
 		rType = 0;
 		vrLen = 867;
 		vrLoc = 5123;
@@ -3264,7 +3312,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 197";
 		rLen = 0;
-		rLoc = 6344;
+		rLoc = 6262;
 		rType = 0;
 		vrLen = 867;
 		vrLoc = 5123;
@@ -3324,7 +3372,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 184";
 		rLen = 16;
-		rLoc = 6450;
+		rLoc = 6368;
 		rType = 0;
 		vrLen = 722;
 		vrLoc = 5044;
@@ -3438,7 +3486,7 @@
 		isa = PBXTextBookmark;
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		rLen = 0;
-		rLoc = 205;
+		rLoc = 202;
 		rType = 1;
 	};
 	A78DEA96105F9ADD00786950 /* PBXTextBookmark */ = {
@@ -3446,7 +3494,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 181";
 		rLen = 0;
-		rLoc = 5923;
+		rLoc = 5841;
 		rType = 0;
 		vrLen = 967;
 		vrLoc = 5044;
@@ -3466,7 +3514,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 181";
 		rLen = 0;
-		rLoc = 5923;
+		rLoc = 5841;
 		rType = 0;
 		vrLen = 783;
 		vrLoc = 882;
@@ -3476,7 +3524,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 181";
 		rLen = 0;
-		rLoc = 5923;
+		rLoc = 5841;
 		rType = 0;
 		vrLen = 790;
 		vrLoc = 763;
@@ -3496,7 +3544,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 198";
 		rLen = 0;
-		rLoc = 6620;
+		rLoc = 6538;
 		rType = 0;
 		vrLen = 906;
 		vrLoc = 5223;
@@ -3517,7 +3565,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 1;
-		rLoc = 73;
+		rLoc = 70;
 		rType = 1;
 	};
 	A78DEAB0105F9ED100786950 /* PBXTextBookmark */ = {
@@ -3525,7 +3573,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 36";
 		rLen = 0;
-		rLoc = 707;
+		rLoc = 625;
 		rType = 0;
 		vrLen = 604;
 		vrLoc = 230;
@@ -3535,7 +3583,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 75";
 		rLen = 0;
-		rLoc = 1808;
+		rLoc = 1726;
 		rType = 0;
 		vrLen = 783;
 		vrLoc = 1541;
@@ -3632,7 +3680,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 83";
 		rLen = 66;
-		rLoc = 1827;
+		rLoc = 1745;
 		rType = 0;
 		vrLen = 1507;
 		vrLoc = 3859;
@@ -3642,7 +3690,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 83";
 		rLen = 66;
-		rLoc = 1827;
+		rLoc = 1745;
 		rType = 0;
 		vrLen = 1461;
 		vrLoc = 3859;
@@ -3662,7 +3710,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 163";
 		rLen = 0;
-		rLoc = 4642;
+		rLoc = 4560;
 		rType = 0;
 		vrLen = 1467;
 		vrLoc = 3859;
@@ -3682,7 +3730,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 163";
 		rLen = 0;
-		rLoc = 4642;
+		rLoc = 4560;
 		rType = 0;
 		vrLen = 970;
 		vrLoc = 854;
@@ -3702,7 +3750,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 36";
 		rLen = 0;
-		rLoc = 707;
+		rLoc = 625;
 		rType = 0;
 		vrLen = 604;
 		vrLoc = 230;
@@ -3712,7 +3760,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 215";
 		rLen = 0;
-		rLoc = 6620;
+		rLoc = 6538;
 		rType = 0;
 		vrLen = 705;
 		vrLoc = 6112;
@@ -3749,7 +3797,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 226";
 		rLen = 0;
-		rLoc = 6743;
+		rLoc = 6661;
 		rType = 0;
 		vrLen = 930;
 		vrLoc = 771;
@@ -3759,7 +3807,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 226";
 		rLen = 0;
-		rLoc = 6743;
+		rLoc = 6661;
 		rType = 0;
 		vrLen = 930;
 		vrLoc = 771;
@@ -3779,7 +3827,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 226";
 		rLen = 0;
-		rLoc = 6743;
+		rLoc = 6661;
 		rType = 0;
 		vrLen = 895;
 		vrLoc = 771;
@@ -3799,7 +3847,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 36";
 		rLen = 0;
-		rLoc = 707;
+		rLoc = 625;
 		rType = 0;
 		vrLen = 604;
 		vrLoc = 230;
@@ -3838,7 +3886,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 226";
 		rLen = 0;
-		rLoc = 6743;
+		rLoc = 6661;
 		rType = 0;
 		vrLen = 895;
 		vrLoc = 771;
@@ -3858,7 +3906,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 226";
 		rLen = 0;
-		rLoc = 6743;
+		rLoc = 6661;
 		rType = 0;
 		vrLen = 930;
 		vrLoc = 771;
@@ -3978,7 +4026,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 52";
 		rLen = 0;
-		rLoc = 1192;
+		rLoc = 1110;
 		rType = 0;
 		vrLen = 744;
 		vrLoc = 624;
@@ -4227,7 +4275,7 @@
 		fRef = A7EDD3870FA4E8C40079FE78 /* ReportViewController.h */;
 		name = "ReportViewController.h: 30";
 		rLen = 0;
-		rLoc = 580;
+		rLoc = 557;
 		rType = 0;
 		vrLen = 598;
 		vrLoc = 213;
@@ -4237,7 +4285,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 406";
 		rLen = 0;
-		rLoc = 10687;
+		rLoc = 10661;
 		rType = 0;
 		vrLen = 631;
 		vrLoc = 9018;
@@ -4247,7 +4295,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 83";
 		rLen = 0;
-		rLoc = 1549;
+		rLoc = 1523;
 		rType = 0;
 		vrLen = 1186;
 		vrLoc = 874;
@@ -4267,7 +4315,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 83";
 		rLen = 0;
-		rLoc = 1549;
+		rLoc = 1523;
 		rType = 0;
 		vrLen = 1090;
 		vrLoc = 970;
@@ -4287,7 +4335,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 533";
 		rLen = 0;
-		rLoc = 14223;
+		rLoc = 14197;
 		rType = 0;
 		vrLen = 691;
 		vrLoc = 14903;
@@ -4297,7 +4345,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 533";
 		rLen = 0;
-		rLoc = 14223;
+		rLoc = 14197;
 		rType = 0;
 		vrLen = 1584;
 		vrLoc = 1169;
@@ -4317,7 +4365,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 77";
 		rLen = 0;
-		rLoc = 1549;
+		rLoc = 1523;
 		rType = 0;
 		vrLen = 1256;
 		vrLoc = 1545;
@@ -4337,7 +4385,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 535";
 		rLen = 0;
-		rLoc = 14223;
+		rLoc = 14197;
 		rType = 0;
 		vrLen = 613;
 		vrLoc = 14980;
@@ -4357,7 +4405,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 543";
 		rLen = 0;
-		rLoc = 14223;
+		rLoc = 14197;
 		rType = 0;
 		vrLen = 572;
 		vrLoc = 15075;
@@ -4377,7 +4425,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 543";
 		rLen = 0;
-		rLoc = 14223;
+		rLoc = 14197;
 		rType = 0;
 		vrLen = 1090;
 		vrLoc = 970;
@@ -4397,7 +4445,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 543";
 		rLen = 0;
-		rLoc = 14223;
+		rLoc = 14197;
 		rType = 0;
 		vrLen = 1193;
 		vrLoc = 970;
@@ -4516,7 +4564,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 51";
 		rLen = 0;
-		rLoc = 1141;
+		rLoc = 1115;
 		rType = 0;
 		vrLen = 709;
 		vrLoc = 371;
@@ -4548,7 +4596,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 51";
 		rLen = 0;
-		rLoc = 1141;
+		rLoc = 1115;
 		rType = 0;
 		vrLen = 707;
 		vrLoc = 397;
@@ -4558,7 +4606,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 67";
 		rLen = 0;
-		rLoc = 1549;
+		rLoc = 1523;
 		rType = 0;
 		vrLen = 1604;
 		vrLoc = 1172;
@@ -4578,7 +4626,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 67";
 		rLen = 0;
-		rLoc = 1549;
+		rLoc = 1523;
 		rType = 0;
 		vrLen = 422;
 		vrLoc = 15236;
@@ -4588,7 +4636,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 67";
 		rLen = 0;
-		rLoc = 1549;
+		rLoc = 1523;
 		rType = 0;
 		vrLen = 425;
 		vrLoc = 15233;
@@ -4608,7 +4656,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 538";
 		rLen = 0;
-		rLoc = 14223;
+		rLoc = 14197;
 		rType = 0;
 		vrLen = 422;
 		vrLoc = 15240;
@@ -4628,7 +4676,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 67";
 		rLen = 0;
-		rLoc = 1549;
+		rLoc = 1523;
 		rType = 0;
 		vrLen = 1275;
 		vrLoc = 1549;
@@ -4648,7 +4696,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 246";
 		rLen = 0;
-		rLoc = 6250;
+		rLoc = 6224;
 		rType = 0;
 		vrLen = 772;
 		vrLoc = 6889;
@@ -4668,7 +4716,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 70";
 		rLen = 0;
-		rLoc = 1549;
+		rLoc = 1523;
 		rType = 0;
 		vrLen = 1553;
 		vrLoc = 1230;
@@ -4688,7 +4736,7 @@
 		fRef = A7EDD3870FA4E8C40079FE78 /* ReportViewController.h */;
 		name = "ReportViewController.h: 32";
 		rLen = 0;
-		rLoc = 580;
+		rLoc = 557;
 		rType = 0;
 		vrLen = 633;
 		vrLoc = 213;
@@ -4698,7 +4746,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 62";
 		rLen = 0;
-		rLoc = 1549;
+		rLoc = 1523;
 		rType = 0;
 		vrLen = 1566;
 		vrLoc = 1169;
@@ -4708,7 +4756,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 539";
 		rLen = 0;
-		rLoc = 14223;
+		rLoc = 14197;
 		rType = 0;
 		vrLen = 387;
 		vrLoc = 15245;
@@ -4728,7 +4776,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 61";
 		rLen = 0;
-		rLoc = 2114;
+		rLoc = 2088;
 		rType = 0;
 		vrLen = 669;
 		vrLoc = 1234;
@@ -4738,7 +4786,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 538";
 		rLen = 0;
-		rLoc = 14223;
+		rLoc = 14197;
 		rType = 0;
 		vrLen = 1054;
 		vrLoc = 491;
@@ -4748,7 +4796,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 38";
 		rLen = 0;
-		rLoc = 600;
+		rLoc = 574;
 		rType = 0;
 		vrLen = 1053;
 		vrLoc = 492;
@@ -4778,7 +4826,7 @@
 		fRef = A7EDD3870FA4E8C40079FE78 /* ReportViewController.h */;
 		name = "ReportViewController.h: 31";
 		rLen = 0;
-		rLoc = 580;
+		rLoc = 557;
 		rType = 0;
 		vrLen = 642;
 		vrLoc = 167;
@@ -4788,7 +4836,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 512";
 		rLen = 0;
-		rLoc = 14223;
+		rLoc = 14197;
 		rType = 0;
 		vrLen = 764;
 		vrLoc = 13498;
@@ -4798,7 +4846,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 47";
 		rLen = 0;
-		rLoc = 1480;
+		rLoc = 1454;
 		rType = 0;
 		vrLen = 1045;
 		vrLoc = 597;
@@ -4808,7 +4856,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 423";
 		rLen = 0;
-		rLoc = 12453;
+		rLoc = 12427;
 		rType = 0;
 		vrLen = 1025;
 		vrLoc = 617;
@@ -4839,7 +4887,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 1;
-		rLoc = 71;
+		rLoc = 70;
 		rType = 1;
 	};
 	A78DEBCF105FBE2300786950 /* PBXTextBookmark */ = {
@@ -4847,7 +4895,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 72";
 		rLen = 0;
-		rLoc = 1712;
+		rLoc = 1686;
 		rType = 0;
 		vrLen = 642;
 		vrLoc = 1401;
@@ -4897,7 +4945,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 30";
 		rLen = 0;
-		rLoc = 624;
+		rLoc = 598;
 		rType = 0;
 		vrLen = 1012;
 		vrLoc = 737;
@@ -4907,7 +4955,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 453";
 		rLen = 0;
-		rLoc = 12894;
+		rLoc = 12868;
 		rType = 0;
 		vrLen = 500;
 		vrLoc = 12450;
@@ -4927,7 +4975,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 437";
 		rLen = 0;
-		rLoc = 12503;
+		rLoc = 12477;
 		rType = 0;
 		vrLen = 499;
 		vrLoc = 12452;
@@ -4947,7 +4995,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 437";
 		rLen = 0;
-		rLoc = 12503;
+		rLoc = 12477;
 		rType = 0;
 		vrLen = 499;
 		vrLoc = 12452;
@@ -4967,7 +5015,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 72";
 		rLen = 0;
-		rLoc = 1712;
+		rLoc = 1686;
 		rType = 0;
 		vrLen = 575;
 		vrLoc = 1594;
@@ -4987,7 +5035,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 441";
 		rLen = 0;
-		rLoc = 12548;
+		rLoc = 12522;
 		rType = 0;
 		vrLen = 500;
 		vrLoc = 12451;
@@ -4997,7 +5045,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report.m */;
 		name = "Report.m: 328";
 		rLen = 0;
-		rLoc = 11620;
+		rLoc = 11594;
 		rType = 0;
 		vrLen = 589;
 		vrLoc = 11157;
@@ -5007,7 +5055,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report.m */;
 		name = "Report.m: 262";
 		rLen = 0;
-		rLoc = 10037;
+		rLoc = 10011;
 		rType = 0;
 		vrLen = 880;
 		vrLoc = 9827;
@@ -5027,7 +5075,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report.m */;
 		name = "Report.m: 261";
 		rLen = 230;
-		rLoc = 9913;
+		rLoc = 9887;
 		rType = 0;
 		vrLen = 956;
 		vrLoc = 9827;
@@ -5037,7 +5085,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 441";
 		rLen = 0;
-		rLoc = 12548;
+		rLoc = 12522;
 		rType = 0;
 		vrLen = 504;
 		vrLoc = 12446;
@@ -5047,7 +5095,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 31";
 		rLen = 0;
-		rLoc = 561;
+		rLoc = 535;
 		rType = 0;
 		vrLen = 681;
 		vrLoc = 231;
@@ -5067,7 +5115,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 121";
 		rLen = 0;
-		rLoc = 2900;
+		rLoc = 2874;
 		rType = 0;
 		vrLen = 1061;
 		vrLoc = 2511;
@@ -5077,7 +5125,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report.m */;
 		name = "Report.m: 261";
 		rLen = 230;
-		rLoc = 9913;
+		rLoc = 9887;
 		rType = 0;
 		vrLen = 956;
 		vrLoc = 9827;
@@ -5087,7 +5135,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report.m */;
 		name = "Report.m: 262";
 		rLen = 0;
-		rLoc = 10037;
+		rLoc = 10011;
 		rType = 0;
 		vrLen = 924;
 		vrLoc = 9857;
@@ -5107,7 +5155,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report.m */;
 		name = "Report.m: 262";
 		rLen = 0;
-		rLoc = 10037;
+		rLoc = 10011;
 		rType = 0;
 		vrLen = 965;
 		vrLoc = 9021;
@@ -5117,7 +5165,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 121";
 		rLen = 0;
-		rLoc = 2900;
+		rLoc = 2874;
 		rType = 0;
 		vrLen = 1025;
 		vrLoc = 2547;
@@ -5127,7 +5175,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 30";
 		rLen = 0;
-		rLoc = 585;
+		rLoc = 559;
 		rType = 0;
 		vrLen = 544;
 		vrLoc = 3650;
@@ -5147,7 +5195,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 30";
 		rLen = 0;
-		rLoc = 585;
+		rLoc = 559;
 		rType = 0;
 		vrLen = 565;
 		vrLoc = 3650;
@@ -5157,7 +5205,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 52";
 		rLen = 0;
-		rLoc = 1192;
+		rLoc = 1110;
 		rType = 0;
 		vrLen = 743;
 		vrLoc = 625;
@@ -5167,7 +5215,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 199";
 		rLen = 0;
-		rLoc = 5888;
+		rLoc = 5806;
 		rType = 0;
 		vrLen = 871;
 		vrLoc = 5380;
@@ -5187,7 +5235,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 199";
 		rLen = 0;
-		rLoc = 5888;
+		rLoc = 5806;
 		rType = 0;
 		vrLen = 879;
 		vrLoc = 5380;
@@ -5207,7 +5255,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 192";
 		rLen = 0;
-		rLoc = 5626;
+		rLoc = 5544;
 		rType = 0;
 		vrLen = 901;
 		vrLoc = 5400;
@@ -5227,7 +5275,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 27";
 		rLen = 3354;
-		rLoc = 448;
+		rLoc = 422;
 		rType = 0;
 		vrLen = 956;
 		vrLoc = 4582;
@@ -5895,7 +5943,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 72";
 		rLen = 0;
-		rLoc = 1712;
+		rLoc = 1686;
 		rType = 0;
 		vrLen = 812;
 		vrLoc = 2260;
@@ -6276,7 +6324,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report.m */;
 		name = "Report.m: 262";
 		rLen = 0;
-		rLoc = 10037;
+		rLoc = 10011;
 		rType = 0;
 		vrLen = 939;
 		vrLoc = 9047;
@@ -6286,7 +6334,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report.m */;
 		name = "Report.m: 251";
 		rLen = 0;
-		rLoc = 9786;
+		rLoc = 9760;
 		rType = 0;
 		vrLen = 866;
 		vrLoc = 9047;
@@ -6306,7 +6354,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report.m */;
 		name = "Report.m: 251";
 		rLen = 0;
-		rLoc = 9786;
+		rLoc = 9760;
 		rType = 0;
 		vrLen = 1179;
 		vrLoc = 8652;
@@ -6316,7 +6364,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 30";
 		rLen = 0;
-		rLoc = 585;
+		rLoc = 559;
 		rType = 0;
 		vrLen = 554;
 		vrLoc = 3650;
@@ -6326,7 +6374,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 56";
 		rLen = 0;
-		rLoc = 1452;
+		rLoc = 1426;
 		rType = 0;
 		vrLen = 971;
 		vrLoc = 679;
@@ -6346,7 +6394,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 56";
 		rLen = 0;
-		rLoc = 1452;
+		rLoc = 1426;
 		rType = 0;
 		vrLen = 972;
 		vrLoc = 679;
@@ -6356,7 +6404,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 56";
 		rLen = 0;
-		rLoc = 1452;
+		rLoc = 1426;
 		rType = 0;
 		vrLen = 912;
 		vrLoc = 739;
@@ -6376,7 +6424,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 56";
 		rLen = 0;
-		rLoc = 1452;
+		rLoc = 1426;
 		rType = 0;
 		vrLen = 1015;
 		vrLoc = 739;
@@ -6396,7 +6444,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 56";
 		rLen = 0;
-		rLoc = 1452;
+		rLoc = 1426;
 		rType = 0;
 		vrLen = 1001;
 		vrLoc = 770;
@@ -6451,9 +6499,9 @@
 	};
 	A78DEDD41060076300786950 /* BadgeView.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1166, 1157}}";
-			sepNavSelRange = "{1430, 0}";
-			sepNavVisRange = "{1339, 479}";
+			sepNavIntBoundsRect = "{{0, 0}, {1013, 1105}}";
+			sepNavSelRange = "{1132, 0}";
+			sepNavVisRange = "{970, 696}";
 		};
 	};
 	A78DEDE41060095400786950 /* PBXTextBookmark */ = {
@@ -6461,7 +6509,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 72";
 		rLen = 0;
-		rLoc = 1712;
+		rLoc = 1686;
 		rType = 0;
 		vrLen = 1018;
 		vrLoc = 2831;
@@ -6711,7 +6759,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3689;
+		rLoc = 3663;
 		rType = 0;
 		vrLen = 1235;
 		vrLoc = 2381;
@@ -6776,7 +6824,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 1;
-		rLoc = 83;
+		rLoc = 82;
 		rType = 1;
 	};
 	A78DEE1F10600AF300786950 /* PBXTextBookmark */ = {
@@ -6784,7 +6832,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 83";
 		rLen = 0;
-		rLoc = 3647;
+		rLoc = 3621;
 		rType = 0;
 		vrLen = 1626;
 		vrLoc = 332;
@@ -6884,7 +6932,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3689;
+		rLoc = 3663;
 		rType = 0;
 		vrLen = 1366;
 		vrLoc = 2250;
@@ -6894,7 +6942,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 83";
 		rLen = 0;
-		rLoc = 3633;
+		rLoc = 3607;
 		rType = 0;
 		vrLen = 1292;
 		vrLoc = 2324;
@@ -6914,7 +6962,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 83";
 		rLen = 0;
-		rLoc = 3633;
+		rLoc = 3607;
 		rType = 0;
 		vrLen = 1294;
 		vrLoc = 2324;
@@ -7256,7 +7304,7 @@
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		name = "BadgeView.m: 59";
 		rLen = 0;
-		rLoc = 1254;
+		rLoc = 1278;
 		rType = 0;
 		vrLen = 543;
 		vrLoc = 1008;
@@ -7266,7 +7314,7 @@
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		name = "BadgeView.m: 59";
 		rLen = 0;
-		rLoc = 1254;
+		rLoc = 1278;
 		rType = 0;
 		vrLen = 542;
 		vrLoc = 1009;
@@ -7286,7 +7334,7 @@
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		name = "BadgeView.m: 61";
 		rLen = 0;
-		rLoc = 1384;
+		rLoc = 1408;
 		rType = 0;
 		vrLen = 526;
 		vrLoc = 1035;
@@ -7306,7 +7354,7 @@
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		name = "BadgeView.m: 61";
 		rLen = 0;
-		rLoc = 1384;
+		rLoc = 1408;
 		rType = 0;
 		vrLen = 526;
 		vrLoc = 1035;
@@ -7366,7 +7414,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 83";
 		rLen = 0;
-		rLoc = 3633;
+		rLoc = 3607;
 		rType = 0;
 		vrLen = 1366;
 		vrLoc = 2250;
@@ -7376,7 +7424,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 83";
 		rLen = 0;
-		rLoc = 3633;
+		rLoc = 3607;
 		rType = 0;
 		vrLen = 1292;
 		vrLoc = 2324;
@@ -7396,7 +7444,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 83";
 		rLen = 0;
-		rLoc = 3633;
+		rLoc = 3607;
 		rType = 0;
 		vrLen = 1292;
 		vrLoc = 2324;
@@ -7405,7 +7453,7 @@
 		isa = PBXTextBookmark;
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		rLen = 0;
-		rLoc = 49;
+		rLoc = 50;
 		rType = 1;
 	};
 	A78DEEE510600F1E00786950 /* PBXTextBookmark */ = {
@@ -7443,7 +7491,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 83";
 		rLen = 0;
-		rLoc = 3633;
+		rLoc = 3607;
 		rType = 0;
 		vrLen = 1367;
 		vrLoc = 2250;
@@ -7453,7 +7501,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 83";
 		rLen = 0;
-		rLoc = 3633;
+		rLoc = 3607;
 		rType = 0;
 		vrLen = 1293;
 		vrLoc = 2324;
@@ -7473,7 +7521,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 83";
 		rLen = 0;
-		rLoc = 3633;
+		rLoc = 3607;
 		rType = 0;
 		vrLen = 1293;
 		vrLoc = 2324;
@@ -7493,7 +7541,7 @@
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		name = "BadgeView.m: 62";
 		rLen = 0;
-		rLoc = 1430;
+		rLoc = 1454;
 		rType = 0;
 		vrLen = 526;
 		vrLoc = 1035;
@@ -7513,7 +7561,7 @@
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		name = "BadgeView.m: 65";
 		rLen = 0;
-		rLoc = 1514;
+		rLoc = 1538;
 		rType = 0;
 		vrLen = 566;
 		vrLoc = 1081;
@@ -7533,7 +7581,7 @@
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		name = "BadgeView.m: 62";
 		rLen = 0;
-		rLoc = 1430;
+		rLoc = 1454;
 		rType = 0;
 		vrLen = 566;
 		vrLoc = 1081;
@@ -7553,7 +7601,7 @@
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		name = "BadgeView.m: 62";
 		rLen = 0;
-		rLoc = 1430;
+		rLoc = 1454;
 		rType = 0;
 		vrLen = 565;
 		vrLoc = 1081;
@@ -7573,7 +7621,7 @@
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		name = "BadgeView.m: 61";
 		rLen = 0;
-		rLoc = 1383;
+		rLoc = 1407;
 		rType = 0;
 		vrLen = 564;
 		vrLoc = 1081;
@@ -7593,7 +7641,7 @@
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		name = "BadgeView.m: 55";
 		rLen = 0;
-		rLoc = 1128;
+		rLoc = 1152;
 		rType = 0;
 		vrLen = 606;
 		vrLoc = 955;
@@ -7643,7 +7691,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 83";
 		rLen = 0;
-		rLoc = 3633;
+		rLoc = 3607;
 		rType = 0;
 		vrLen = 1367;
 		vrLoc = 2250;
@@ -7653,7 +7701,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 1295;
 		vrLoc = 2324;
@@ -7673,7 +7721,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 832;
 		vrLoc = 4521;
@@ -7693,7 +7741,7 @@
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		name = "BadgeView.m: 64";
 		rLen = 0;
-		rLoc = 1430;
+		rLoc = 1454;
 		rType = 0;
 		vrLen = 586;
 		vrLoc = 992;
@@ -7713,7 +7761,7 @@
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		name = "BadgeView.m: 64";
 		rLen = 0;
-		rLoc = 1430;
+		rLoc = 1454;
 		rType = 0;
 		vrLen = 589;
 		vrLoc = 1008;
@@ -7783,7 +7831,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 661;
 		vrLoc = 4521;
@@ -7793,7 +7841,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 1034;
 		vrLoc = 2703;
@@ -7813,7 +7861,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 1008;
 		vrLoc = 2754;
@@ -7833,7 +7881,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 923;
 		vrLoc = 2864;
@@ -7853,7 +7901,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 844;
 		vrLoc = 2997;
@@ -7873,7 +7921,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 789;
 		vrLoc = 3129;
@@ -7893,7 +7941,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 1081;
 		vrLoc = 3231;
@@ -7913,7 +7961,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 1251;
 		vrLoc = 3269;
@@ -7933,7 +7981,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 925;
 		vrLoc = 2864;
@@ -7953,7 +8001,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 85";
 		rLen = 0;
-		rLoc = 3696;
+		rLoc = 3670;
 		rType = 0;
 		vrLen = 910;
 		vrLoc = 2864;
@@ -7973,7 +8021,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 83";
 		rLen = 0;
-		rLoc = 3633;
+		rLoc = 3607;
 		rType = 0;
 		vrLen = 909;
 		vrLoc = 2864;
@@ -7993,7 +8041,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 85";
 		rLen = 0;
-		rLoc = 3770;
+		rLoc = 3744;
 		rType = 0;
 		vrLen = 940;
 		vrLoc = 2939;
@@ -8013,7 +8061,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 877;
 		vrLoc = 3080;
@@ -8033,7 +8081,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 970;
 		vrLoc = 3180;
@@ -8073,7 +8121,7 @@
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		name = "BadgeView.m: 82";
 		rLen = 0;
-		rLoc = 1809;
+		rLoc = 1833;
 		rType = 0;
 		vrLen = 609;
 		vrLoc = 1158;
@@ -8083,7 +8131,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 1176;
 		vrLoc = 2703;
@@ -8093,7 +8141,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 1118;
 		vrLoc = 2751;
@@ -8113,7 +8161,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 83";
 		rLen = 0;
-		rLoc = 3647;
+		rLoc = 3621;
 		rType = 0;
 		vrLen = 1353;
 		vrLoc = 3620;
@@ -8132,7 +8180,7 @@
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		name = "BadgeView.m: 59";
 		rLen = 0;
-		rLoc = 1430;
+		rLoc = 1454;
 		rType = 0;
 		vrLen = 645;
 		vrLoc = 832;
@@ -8152,7 +8200,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 1118;
 		vrLoc = 2751;
@@ -8162,7 +8210,7 @@
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		name = "BadgeView.m: 82";
 		rLen = 0;
-		rLoc = 1809;
+		rLoc = 1833;
 		rType = 0;
 		vrLen = 609;
 		vrLoc = 1158;
@@ -8172,7 +8220,7 @@
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		name = "BadgeView.m: 82";
 		rLen = 0;
-		rLoc = 1781;
+		rLoc = 1805;
 		rType = 0;
 		vrLen = 618;
 		vrLoc = 1194;
@@ -8192,7 +8240,7 @@
 		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
 		name = "BadgeView.m: 82";
 		rLen = 0;
-		rLoc = 1781;
+		rLoc = 1805;
 		rType = 0;
 		vrLen = 624;
 		vrLoc = 1194;
@@ -8202,7 +8250,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 1168;
 		vrLoc = 2703;
@@ -8212,7 +8260,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 85";
 		rLen = 0;
-		rLoc = 3689;
+		rLoc = 3663;
 		rType = 0;
 		vrLen = 1104;
 		vrLoc = 2751;
@@ -8232,7 +8280,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 85";
 		rLen = 0;
-		rLoc = 3682;
+		rLoc = 3656;
 		rType = 0;
 		vrLen = 1153;
 		vrLoc = 2754;
@@ -8252,7 +8300,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 85";
 		rLen = 0;
-		rLoc = 3686;
+		rLoc = 3660;
 		rType = 0;
 		vrLen = 1045;
 		vrLoc = 2939;
@@ -8272,7 +8320,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 85";
 		rLen = 0;
-		rLoc = 3686;
+		rLoc = 3660;
 		rType = 0;
 		vrLen = 1098;
 		vrLoc = 3080;
@@ -8292,7 +8340,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 85";
 		rLen = 0;
-		rLoc = 3686;
+		rLoc = 3660;
 		rType = 0;
 		vrLen = 1408;
 		vrLoc = 3180;
@@ -8312,7 +8360,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 84";
 		rLen = 0;
-		rLoc = 3649;
+		rLoc = 3623;
 		rType = 0;
 		vrLen = 1460;
 		vrLoc = 3129;
@@ -8332,7 +8380,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 88";
 		rLen = 0;
-		rLoc = 3689;
+		rLoc = 3663;
 		rType = 0;
 		vrLen = 953;
 		vrLoc = 3129;
@@ -8352,7 +8400,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 85";
 		rLen = 0;
-		rLoc = 3653;
+		rLoc = 3627;
 		rType = 0;
 		vrLen = 1047;
 		vrLoc = 3231;
@@ -8372,7 +8420,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 153";
 		rLen = 0;
-		rLoc = 6611;
+		rLoc = 6585;
 		rType = 0;
 		vrLen = 1300;
 		vrLoc = 5149;
@@ -8392,7 +8440,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 155";
 		rLen = 0;
-		rLoc = 6611;
+		rLoc = 6585;
 		rType = 0;
 		vrLen = 1300;
 		vrLoc = 5149;
@@ -8442,7 +8490,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 155";
 		rLen = 0;
-		rLoc = 6611;
+		rLoc = 6585;
 		rType = 0;
 		vrLen = 1013;
 		vrLoc = 5579;
@@ -8452,7 +8500,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 153";
 		rLen = 0;
-		rLoc = 6611;
+		rLoc = 6585;
 		rType = 0;
 		vrLen = 841;
 		vrLoc = 5753;
@@ -8472,7 +8520,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 162";
 		rLen = 0;
-		rLoc = 6611;
+		rLoc = 6585;
 		rType = 0;
 		vrLen = 810;
 		vrLoc = 5780;
@@ -8502,7 +8550,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 162";
 		rLen = 0;
-		rLoc = 6611;
+		rLoc = 6585;
 		rType = 0;
 		vrLen = 1649;
 		vrLoc = 3129;
@@ -8512,7 +8560,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 180";
 		rLen = 0;
-		rLoc = 6772;
+		rLoc = 6746;
 		rType = 0;
 		vrLen = 496;
 		vrLoc = 6455;
@@ -8532,7 +8580,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 184";
 		rLen = 0;
-		rLoc = 6805;
+		rLoc = 6779;
 		rType = 0;
 		vrLen = 517;
 		vrLoc = 6459;
@@ -8552,7 +8600,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 184";
 		rLen = 0;
-		rLoc = 6805;
+		rLoc = 6779;
 		rType = 0;
 		vrLen = 517;
 		vrLoc = 6459;
@@ -8572,7 +8620,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 194";
 		rLen = 0;
-		rLoc = 6967;
+		rLoc = 6941;
 		rType = 0;
 		vrLen = 519;
 		vrLoc = 6480;
@@ -8582,7 +8630,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 183";
 		rLen = 0;
-		rLoc = 6777;
+		rLoc = 6751;
 		rType = 0;
 		vrLen = 523;
 		vrLoc = 6476;
@@ -8602,7 +8650,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 183";
 		rLen = 0;
-		rLoc = 6777;
+		rLoc = 6751;
 		rType = 0;
 		vrLen = 485;
 		vrLoc = 6514;
@@ -8622,7 +8670,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 183";
 		rLen = 0;
-		rLoc = 6777;
+		rLoc = 6751;
 		rType = 0;
 		vrLen = 485;
 		vrLoc = 6514;
@@ -8652,7 +8700,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 142";
 		rLen = 0;
-		rLoc = 5424;
+		rLoc = 5398;
 		rType = 0;
 		vrLen = 485;
 		vrLoc = 5076;
@@ -8662,7 +8710,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 142";
 		rLen = 0;
-		rLoc = 5424;
+		rLoc = 5398;
 		rType = 0;
 		vrLen = 485;
 		vrLoc = 5076;
@@ -8682,7 +8730,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 142";
 		rLen = 0;
-		rLoc = 5424;
+		rLoc = 5398;
 		rType = 0;
 		vrLen = 485;
 		vrLoc = 5076;
@@ -8702,7 +8750,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 142";
 		rLen = 0;
-		rLoc = 5424;
+		rLoc = 5398;
 		rType = 0;
 		vrLen = 477;
 		vrLoc = 5101;
@@ -8715,6 +8763,448 @@
 		rLoc = 1845;
 		rType = 0;
 		vrLen = 1224;
+		vrLoc = 1281;
+	};
+	A78DF02E10601BDF00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
+		name = "AppCell.m: 142";
+		rLen = 0;
+		rLoc = 5398;
+		rType = 0;
+		vrLen = 1021;
+		vrLoc = 5144;
+	};
+	A78DF02F10601BDF00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84BC0105D64B500CAD54F /* ReviewCell.m */;
+		name = "ReviewCell.m: 23";
+		rLen = 0;
+		rLoc = 782;
+		rType = 0;
+		vrLen = 1306;
+		vrLoc = 1202;
+	};
+	A78DF03010601BDF00786950 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A700AA9E0F2B5B6C0014885D /* Entitlements.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			"get-task-allow",
+		);
+		name = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/Entitlements.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	A78DF03110601BDF00786950 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			LSRequiresIPhoneOS,
+		);
+		name = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	A78DF03210601BDF00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84D0D105E405100CAD54F /* SynchingManager.m */;
+		name = "SynchingManager.m: 101";
+		rLen = 235;
+		rLoc = 2067;
+		rType = 0;
+		vrLen = 715;
+		vrLoc = 2065;
+	};
+	A78DF03310601BDF00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84D0D105E405100CAD54F /* SynchingManager.m */;
+		name = "SynchingManager.m: 138";
+		rLen = 0;
+		rLoc = 2833;
+		rType = 0;
+		vrLen = 542;
+		vrLoc = 2302;
+	};
+	A78DF03410601BDF00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A74A75460EFD7117003B5191 /* App.m */;
+		name = "App.m: 59";
+		rLen = 0;
+		rLoc = 1845;
+		rType = 0;
+		vrLen = 1226;
+		vrLoc = 1281;
+	};
+	A78DF03710601EAB00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84D0D105E405100CAD54F /* SynchingManager.m */;
+		name = "SynchingManager.m: 138";
+		rLen = 0;
+		rLoc = 2833;
+		rType = 0;
+		vrLen = 542;
+		vrLoc = 2302;
+	};
+	A78DF03810601EAB00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28A0AAE50D9B0CCF005BE974 /* ASiST_Prefix.pch */;
+		name = "ASiST_Prefix.pch: 5";
+		rLen = 0;
+		rLoc = 90;
+		rType = 0;
+		vrLen = 681;
+		vrLoc = 0;
+	};
+	A78DF03910601EAB00786950 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			LSRequiresIPhoneOS,
+		);
+		name = /Users/Oliver/Documents/iphone/Projects/ASiST/trunk/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	A78DF03A10601EAB00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84BC0105D64B500CAD54F /* ReviewCell.m */;
+		name = "ReviewCell.m: 23";
+		rLen = 0;
+		rLoc = 782;
+		rType = 0;
+		vrLen = 1209;
+		vrLoc = 2525;
+	};
+	A78DF03B10601EAB00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
+		name = "AppCell.m: 142";
+		rLen = 0;
+		rLoc = 5398;
+		rType = 0;
+		vrLen = 1220;
+		vrLoc = 5639;
+	};
+	A78DF03C10601EAB00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A74A75460EFD7117003B5191 /* App.m */;
+		name = "App.m: 75";
+		rLen = 0;
+		rLoc = 2150;
+		rType = 0;
+		vrLen = 1047;
+		vrLoc = 1849;
+	};
+	A78DF03D10601EAB00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
+		name = "BadgeView.m: 82";
+		rLen = 0;
+		rLoc = 1805;
+		rType = 0;
+		vrLen = 622;
+		vrLoc = 1196;
+	};
+	A78DF03E10601EAB00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
+		name = "BadgeView.m: 49";
+		rLen = 0;
+		rLoc = 1101;
+		rType = 0;
+		vrLen = 806;
+		vrLoc = 714;
+	};
+	A78DF03F10601EAB00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A74A75460EFD7117003B5191 /* App.m */;
+		name = "App.m: 59";
+		rLen = 0;
+		rLoc = 1845;
+		rType = 0;
+		vrLen = 1252;
+		vrLoc = 1281;
+	};
+	A78DF05D10601FF500786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
+		name = "BadgeView.m: 49";
+		rLen = 0;
+		rLoc = 1101;
+		rType = 0;
+		vrLen = 806;
+		vrLoc = 714;
+	};
+	A78DF05E10601FF500786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A78DF05F10601FF500786950 /* iTunesConnect.h */;
+		name = "iTunesConnect.h: 13";
+		rLen = 334;
+		rLoc = 212;
+		rType = 0;
+		vrLen = 881;
+		vrLoc = 0;
+	};
+	A78DF05F10601FF500786950 /* iTunesConnect.h */ = {
+		isa = PBXFileReference;
+		name = iTunesConnect.h;
+		path = /Users/Oliver/Desktop/iTunesConnect.h;
+		sourceTree = "<absolute>";
+	};
+	A78DF06010601FF500786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3850FA4E8C40079FE78 /* Report.h */;
+		name = "Report.h: 13";
+		rLen = 0;
+		rLoc = 202;
+		rType = 0;
+		vrLen = 744;
+		vrLoc = 0;
+	};
+	A78DF06110601FF500786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EB519210481BE6005452BE /* Database.h */;
+		name = "Database.h: 52";
+		rLen = 0;
+		rLoc = 1524;
+		rType = 0;
+		vrLen = 1332;
+		vrLoc = 1104;
+	};
+	A78DF06210601FF500786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EB519210481BE6005452BE /* Database.h */;
+		name = "Database.h: 52";
+		rLen = 0;
+		rLoc = 1524;
+		rType = 0;
+		vrLen = 962;
+		vrLoc = 28;
+	};
+	A78DF06310601FF500786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A74A75460EFD7117003B5191 /* App.m */;
+		name = "App.m: 59";
+		rLen = 0;
+		rLoc = 1845;
+		rType = 0;
+		vrLen = 1236;
+		vrLoc = 1281;
+	};
+	A78DF0681060203900786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EB519210481BE6005452BE /* Database.h */;
+		name = "Database.h: 52";
+		rLen = 0;
+		rLoc = 1524;
+		rType = 0;
+		vrLen = 962;
+		vrLoc = 28;
+	};
+	A78DF0691060203900786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
+		name = "BadgeView.m: 49";
+		rLen = 0;
+		rLoc = 1101;
+		rType = 0;
+		vrLen = 755;
+		vrLoc = 765;
+	};
+	A78DF06A1060203900786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
+		name = "BadgeView.m: 49";
+		rLen = 0;
+		rLoc = 1101;
+		rType = 0;
+		vrLen = 647;
+		vrLoc = 887;
+	};
+	A78DF06B1060203900786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A74A75460EFD7117003B5191 /* App.m */;
+		name = "App.m: 59";
+		rLen = 0;
+		rLoc = 1845;
+		rType = 0;
+		vrLen = 1236;
+		vrLoc = 1281;
+	};
+	A78DF0711060206600786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
+		name = "BadgeView.m: 49";
+		rLen = 0;
+		rLoc = 1103;
+		rType = 0;
+		vrLen = 657;
+		vrLoc = 943;
+	};
+	A78DF0721060206600786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A74A75460EFD7117003B5191 /* App.m */;
+		name = "App.m: 59";
+		rLen = 0;
+		rLoc = 1845;
+		rType = 0;
+		vrLen = 1236;
+		vrLoc = 1281;
+	};
+	A78DF0781060208A00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
+		name = "BadgeView.m: 49";
+		rLen = 0;
+		rLoc = 1097;
+		rType = 0;
+		vrLen = 697;
+		vrLoc = 943;
+	};
+	A78DF0791060208A00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A74A75460EFD7117003B5191 /* App.m */;
+		name = "App.m: 75";
+		rLen = 0;
+		rLoc = 2150;
+		rType = 0;
+		vrLen = 1045;
+		vrLoc = 1849;
+	};
+	A78DF07A1060208A00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A74A75460EFD7117003B5191 /* App.m */;
+		name = "App.m: 75";
+		rLen = 0;
+		rLoc = 2150;
+		rType = 0;
+		vrLen = 1043;
+		vrLoc = 1850;
+	};
+	A78DF07B1060208A00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A74A75460EFD7117003B5191 /* App.m */;
+		name = "App.m: 59";
+		rLen = 0;
+		rLoc = 1845;
+		rType = 0;
+		vrLen = 1235;
+		vrLoc = 1281;
+	};
+	A78DF0811060211700786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A74A75460EFD7117003B5191 /* App.m */;
+		name = "App.m: 75";
+		rLen = 0;
+		rLoc = 2150;
+		rType = 0;
+		vrLen = 1043;
+		vrLoc = 1850;
+	};
+	A78DF0821060211700786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
+		name = "AppCell.m: 141";
+		rLen = 0;
+		rLoc = 5398;
+		rType = 0;
+		vrLen = 1215;
+		vrLoc = 5616;
+	};
+	A78DF0831060211700786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
+		name = "BadgeView.m: 49";
+		rLen = 0;
+		rLoc = 1097;
+		rType = 0;
+		vrLen = 657;
+		vrLoc = 943;
+	};
+	A78DF0841060211700786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
+		name = "BadgeView.m: 51";
+		rLen = 0;
+		rLoc = 1152;
+		rType = 0;
+		vrLen = 678;
+		vrLoc = 944;
+	};
+	A78DF0851060211700786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A74A75460EFD7117003B5191 /* App.m */;
+		name = "App.m: 59";
+		rLen = 0;
+		rLoc = 1845;
+		rType = 0;
+		vrLen = 1235;
+		vrLoc = 1281;
+	};
+	A78DF08B1060215100786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
+		name = "BadgeView.m: 51";
+		rLen = 0;
+		rLoc = 1132;
+		rType = 0;
+		vrLen = 694;
+		vrLoc = 970;
+	};
+	A78DF08C1060215100786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A74A75460EFD7117003B5191 /* App.m */;
+		name = "App.m: 59";
+		rLen = 0;
+		rLoc = 1845;
+		rType = 0;
+		vrLen = 1235;
+		vrLoc = 1281;
+	};
+	A78DF094106021BE00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A78DEDD41060076300786950 /* BadgeView.m */;
+		name = "BadgeView.m: 51";
+		rLen = 0;
+		rLoc = 1132;
+		rType = 0;
+		vrLen = 696;
+		vrLoc = 970;
+	};
+	A78DF095106021BE00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A74A75460EFD7117003B5191 /* App.m */;
+		name = "App.m: 75";
+		rLen = 0;
+		rLoc = 2150;
+		rType = 0;
+		vrLen = 1046;
+		vrLoc = 1849;
+	};
+	A78DF096106021BE00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A74A75460EFD7117003B5191 /* App.m */;
+		name = "App.m: 75";
+		rLen = 0;
+		rLoc = 2150;
+		rType = 0;
+		vrLen = 1021;
+		vrLoc = 1849;
+	};
+	A78DF097106021BE00786950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A74A75460EFD7117003B5191 /* App.m */;
+		name = "App.m: 59";
+		rLen = 0;
+		rLoc = 1845;
+		rType = 0;
+		vrLen = 1226;
 		vrLoc = 1281;
 	};
 	A78E2B300EFA1E8C002EB6D9 /* MyAppSales */ = {
@@ -8773,9 +9263,9 @@
 	};
 	A79D81F50EFEA913006C37FC /* AppViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1069, 2613}}";
-			sepNavSelRange = "{4914, 0}";
-			sepNavVisRange = "{4328, 1078}";
+			sepNavIntBoundsRect = "{{0, 0}, {1166, 2717}}";
+			sepNavSelRange = "{199, 0}";
+			sepNavVisRange = "{0, 669}";
 			sepNavWindowFrame = "{{276, 125}, {1042, 694}}";
 		};
 	};
@@ -8783,8 +9273,8 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1993, 637}}";
 			sepNavSelRange = "{1411, 18}";
-			sepNavVisRange = "{304, 1209}";
-			sepNavWindowFrame = "{{61, 133}, {1070, 698}}";
+			sepNavVisRange = "{123, 1390}";
+			sepNavWindowFrame = "{{287, 149}, {1070, 698}}";
 		};
 	};
 	A79D88FF0F029628006C37FC /* Sale.m */ = {
@@ -8908,7 +9398,7 @@
 		fRef = A79D81F50EFEA913006C37FC /* AppViewController.m */;
 		name = "AppViewController.m: 164";
 		rLen = 0;
-		rLoc = 4914;
+		rLoc = 4888;
 		rType = 0;
 		vrLen = 1078;
 		vrLoc = 4328;
@@ -8918,7 +9408,7 @@
 		fRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */;
 		name = "AppCell.m: 27";
 		rLen = 3354;
-		rLoc = 448;
+		rLoc = 422;
 		rType = 0;
 		vrLen = 987;
 		vrLoc = 4582;
@@ -8932,9 +9422,9 @@
 	};
 	A7A84BC0105D64B500CAD54F /* ReviewCell.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {913, 1768}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1342, 1846}}";
 			sepNavSelRange = "{782, 0}";
-			sepNavVisRange = "{1202, 1306}";
+			sepNavVisRange = "{2525, 1209}";
 		};
 	};
 	A7A84C5B105D6E5B00CAD54F /* PBXTextBookmark */ = {
@@ -9033,9 +9523,9 @@
 	};
 	A7A84D0D105E405100CAD54F /* SynchingManager.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {992, 1859}}";
-			sepNavSelRange = "{2067, 235}";
-			sepNavVisRange = "{2066, 668}";
+			sepNavIntBoundsRect = "{{0, 0}, {992, 1781}}";
+			sepNavSelRange = "{2833, 0}";
+			sepNavVisRange = "{2302, 542}";
 		};
 	};
 	A7A84D3F105E4BAF00CAD54F /* PBXTextBookmark */ = {
@@ -9170,7 +9660,7 @@
 		fRef = A7EDD3850FA4E8C40079FE78 /* Report.h */;
 		name = "Report.h: 72";
 		rLen = 0;
-		rLoc = 2322;
+		rLoc = 2324;
 		rType = 0;
 		vrLen = 888;
 		vrLoc = 301;
@@ -9304,7 +9794,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		location = libSystem.B.dylib;
-		modificationTime = 274733764.416052;
+		modificationTime = 274735444.452487;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 		symbolName = malloc_error_break;
@@ -10042,7 +10532,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 46;
-		modificationTime = 274733764.408223;
+		modificationTime = 274735444.452305;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
 	};
@@ -10068,7 +10558,7 @@
 		fRef = A7EDD3830FA4E8C40079FE78 /* Country.h */;
 		name = "Country.h: 36";
 		rLen = 10;
-		rLoc = 747;
+		rLoc = 742;
 		rType = 0;
 		vrLen = 685;
 		vrLoc = 245;
@@ -10147,7 +10637,7 @@
 		ignoreCount = 0;
 		lineNumber = 838;
 		location = MyAppSales;
-		modificationTime = 274733764.408239;
+		modificationTime = 274735444.452319;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
 	};
@@ -10166,7 +10656,7 @@
 		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
 		name = "ReportViewController.m: 406";
 		rLen = 0;
-		rLoc = 10687;
+		rLoc = 10661;
 		rType = 0;
 		vrLen = 460;
 		vrLoc = 11544;
@@ -10227,7 +10717,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		location = "";
-		modificationTime = 274733764.416032;
+		modificationTime = 274735444.452471;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
 		symbolName = obj_exception_throw;
@@ -10247,7 +10737,7 @@
 		fRef = A780D1C60F26219800C796FB /* Query.m */;
 		name = "Query.m: 206";
 		rLen = 0;
-		rLoc = 5384;
+		rLoc = 5358;
 		rType = 0;
 		vrLen = 1089;
 		vrLoc = 2066;
@@ -10257,7 +10747,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 61";
 		rLen = 0;
-		rLoc = 2114;
+		rLoc = 2088;
 		rType = 0;
 		vrLen = 1164;
 		vrLoc = 740;
@@ -10373,7 +10863,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
 		name = "ASiSTAppDelegate.m: 260";
 		rLen = 33;
-		rLoc = 8614;
+		rLoc = 8532;
 		rType = 0;
 		vrLen = 714;
 		vrLoc = 6839;
@@ -10403,7 +10893,7 @@
 		fRef = A7325B9F0F21C9920053AEB1 /* ReportRootController.m */;
 		name = "ReportRootController.m: 99";
 		rLen = 0;
-		rLoc = 2566;
+		rLoc = 2540;
 		rType = 0;
 		vrLen = 1039;
 		vrLoc = 4686;
@@ -10483,7 +10973,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report.m */;
 		name = "Report.m: 328";
 		rLen = 0;
-		rLoc = 11620;
+		rLoc = 11594;
 		rType = 0;
 		vrLen = 998;
 		vrLoc = 11502;
@@ -10493,7 +10983,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report.m */;
 		name = "Report.m: 328";
 		rLen = 0;
-		rLoc = 11620;
+		rLoc = 11594;
 		rType = 0;
 		vrLen = 660;
 		vrLoc = 11086;
@@ -10523,7 +11013,7 @@
 		fRef = A79D81F50EFEA913006C37FC /* AppViewController.m */;
 		name = "AppViewController.m: 110";
 		rLen = 0;
-		rLoc = 3065;
+		rLoc = 3039;
 		rType = 0;
 		vrLen = 1152;
 		vrLoc = 1342;
@@ -10572,11 +11062,11 @@
 		ignoreCount = 0;
 		lineNumber = 188;
 		location = MyAppSales;
-		modificationTime = 274733764.408118;
+		modificationTime = 274735444.452209;
 		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
-	A7E9E1F110499D310042FD91 /* Report.m:648 */ = {
+	A7E9E1F110499D310042FD91 /* Report.m:647 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -10588,9 +11078,9 @@
 		functionName = "-sumRoyaltiesForAppId:inCurrency:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 648;
+		lineNumber = 647;
 		location = MyAppSales;
-		modificationTime = 274733764.408184;
+		modificationTime = 274735444.452271;
 		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
@@ -10619,7 +11109,7 @@
 		fRef = A7EDD3870FA4E8C40079FE78 /* ReportViewController.h */;
 		name = "ReportViewController.h: 30";
 		rLen = 0;
-		rLoc = 580;
+		rLoc = 557;
 		rType = 0;
 		vrLen = 767;
 		vrLoc = 43;
@@ -10649,7 +11139,7 @@
 		fRef = A7EDD3800FA4E8C40079FE78 /* GenericReportController.m */;
 		name = "GenericReportController.m: 268";
 		rLen = 0;
-		rLoc = 5953;
+		rLoc = 5955;
 		rType = 0;
 		vrLen = 1428;
 		vrLoc = 6237;
@@ -10659,7 +11149,7 @@
 		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
 		name = "ReportAppsController.m: 170";
 		rLen = 0;
-		rLoc = 4608;
+		rLoc = 4582;
 		rType = 0;
 		vrLen = 569;
 		vrLoc = 3363;
@@ -10729,7 +11219,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report.m */;
 		name = "Report.m: 105";
 		rLen = 0;
-		rLoc = 4384;
+		rLoc = 4358;
 		rType = 0;
 		vrLen = 987;
 		vrLoc = 3882;
@@ -10739,7 +11229,7 @@
 		fRef = A7EDD3850FA4E8C40079FE78 /* Report.h */;
 		name = "Report.h: 56";
 		rLen = 0;
-		rLoc = 1580;
+		rLoc = 1582;
 		rType = 0;
 		vrLen = 1437;
 		vrLoc = 975;
@@ -10759,7 +11249,7 @@
 		fRef = A7EDD3830FA4E8C40079FE78 /* Country.h */;
 		name = "Country.h: 38";
 		rLen = 0;
-		rLoc = 928;
+		rLoc = 923;
 		rType = 0;
 		vrLen = 820;
 		vrLoc = 27;
@@ -10841,7 +11331,7 @@
 		fRef = A7EDD3870FA4E8C40079FE78 /* ReportViewController.h */;
 		name = "ReportViewController.h: 30";
 		rLen = 0;
-		rLoc = 580;
+		rLoc = 557;
 		rType = 0;
 		vrLen = 775;
 		vrLoc = 30;
@@ -11013,9 +11503,9 @@
 	};
 	A7EB519210481BE6005452BE /* Database.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1559, 1144}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1559, 1131}}";
 			sepNavSelRange = "{1524, 0}";
-			sepNavVisRange = "{1173, 1235}";
+			sepNavVisRange = "{28, 962}";
 			sepNavWindowFrame = "{{64, 105}, {1147, 552}}";
 		};
 	};
@@ -11113,9 +11603,9 @@
 	};
 	A7EDD3830FA4E8C40079FE78 /* Country.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {902, 611}}";
-			sepNavSelRange = "{747, 10}";
-			sepNavVisRange = "{245, 685}";
+			sepNavIntBoundsRect = "{{0, 0}, {1166, 611}}";
+			sepNavSelRange = "{181, 0}";
+			sepNavVisRange = "{0, 608}";
 		};
 	};
 	A7EDD3840FA4E8C40079FE78 /* Country.m */ = {
@@ -11127,32 +11617,32 @@
 	};
 	A7EDD3850FA4E8C40079FE78 /* Report.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1398, 1404}}";
-			sepNavSelRange = "{2322, 0}";
-			sepNavVisRange = "{301, 888}";
+			sepNavIntBoundsRect = "{{0, 0}, {913, 1599}}";
+			sepNavSelRange = "{202, 0}";
+			sepNavVisRange = "{0, 744}";
 			sepNavWindowFrame = "{{181, 242}, {1147, 552}}";
 		};
 	};
 	A7EDD3860FA4E8C40079FE78 /* Report.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1020, 10283}}";
-			sepNavSelRange = "{9786, 0}";
-			sepNavVisRange = "{8652, 1179}";
+			sepNavIntBoundsRect = "{{0, 0}, {1166, 10309}}";
+			sepNavSelRange = "{275, 0}";
+			sepNavVisRange = "{0, 1110}";
 			sepNavWindowFrame = "{{181, 242}, {1147, 552}}";
 		};
 	};
 	A7EDD3870FA4E8C40079FE78 /* ReportViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {902, 520}}";
-			sepNavSelRange = "{580, 0}";
-			sepNavVisRange = "{167, 642}";
+			sepNavIntBoundsRect = "{{0, 0}, {1166, 546}}";
+			sepNavSelRange = "{181, 0}";
+			sepNavVisRange = "{0, 560}";
 		};
 	};
 	A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1166, 6786}}";
-			sepNavSelRange = "{1712, 0}";
-			sepNavVisRange = "{2831, 1018}";
+			sepNavIntBoundsRect = "{{0, 0}, {1166, 6760}}";
+			sepNavSelRange = "{205, 0}";
+			sepNavVisRange = "{0, 505}";
 			sepNavWindowFrame = "{{293, 266}, {1147, 552}}";
 		};
 	};
@@ -11191,7 +11681,7 @@
 		ignoreCount = 0;
 		lineNumber = 248;
 		location = MyAppSales;
-		modificationTime = 274733764.408206;
+		modificationTime = 274735444.452289;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
@@ -11230,7 +11720,7 @@
 		fRef = A77460B40F08FE2E0009DD76 /* GenericReportController.m */;
 		name = "GenericReportController.m: 244";
 		rLen = 0;
-		rLoc = 5953;
+		rLoc = 5955;
 		rType = 0;
 		vrLen = 1553;
 		vrLoc = 6606;

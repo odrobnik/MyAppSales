@@ -14,7 +14,6 @@
 #import "Database.h"
 
 #import "YahooFinance.h"
-#import "iTunesConnect.h"
 
 // Static variables for compiled SQL queries. This implementation choice is to be able to share a one time
 // compilation of each query across all instances of the class. Each time a query is used, variables may be bound

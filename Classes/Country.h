@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "iTunesConnect.h"
+#import "Database.h"
 
 
 @interface Country : NSObject {

@@ -10,6 +10,8 @@
 #import "Sale.h"
 #import "Database.h"
 
+
+
 @interface Report : NSObject 
 {
 	NSUInteger primaryKey;

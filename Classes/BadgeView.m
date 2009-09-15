@@ -46,8 +46,9 @@
 	
 	backgroundView.frame = frame;
 	
-	frame.size.height-=7.0;
+	frame.size.height-=8.0;
 	frame.size.width-=1.0;
+	//frame.origin.y-=1.0;
 	textLabel.frame = frame;
 }
 

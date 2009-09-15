@@ -8,7 +8,6 @@
 
 #import "AppViewController.h"
 #import "ASiSTAppDelegate.h"
-#import "iTunesConnect.h"
 #import "App.h"
 #import "Sale.h"
 #import "Report.h"

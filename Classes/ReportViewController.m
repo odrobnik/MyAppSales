@@ -8,7 +8,6 @@
 
 #import "ReportViewController.h"
 #import "ASiSTAppDelegate.h"
-#import "iTunesConnect.h"
 #import "Report.h"
 #import "Database.h"
 //#import "GenericReportController.h"
