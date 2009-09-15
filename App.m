@@ -140,18 +140,28 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		
         while (sqlite3_step(reviews_statement) == SQLITE_ROW) {
 			//NSUInteger review_id = sqlite3_column_int(reviews_statement, 0);
+			//NSLog(@"%d", review_id);
 			NSString *country_code = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 1)];
 			Country *reviewCountry = [DB countryForCode:country_code];
 			
 			char *date_text = (char *)sqlite3_column_text(reviews_statement, 2);
 			
-			NSDate *review_date;
+			NSDate *review_date = nil;
 			
 			if (date_text)
 			{
 				review_date = [self dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 2)]];
 			}
-			NSString *version = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 3)];			
+			
+			char *version_text = (char *)sqlite3_column_text(reviews_statement, 3);
+			
+			NSString *version = nil;
+			
+			if (version_text )
+			{	
+				version = [NSString stringWithUTF8String:version_text];
+			}
+			
 			NSString *review_title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 4)];			
 			NSString *review_name = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 5)];			
 			NSString *review_text = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 6)];			

@@ -222,8 +222,13 @@
 				}
 				if (!reviewDate)
 				{
-					NSLog(@"Cannot parse date: %@", dateString);
+					NSLog(@"Cannot parse date: '%@'", dateString);
 				}
+				if (!version)
+				{
+					NSLog(@"Cannot parse version: '%@'", version);
+				}
+				
 				
 				double stars = [[oneReview objectForKey:@"average-user-rating"] doubleValue];
 				
