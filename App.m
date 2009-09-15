@@ -40,7 +40,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 @implementation App
 
 @synthesize iconImage, iconImageNano, isNew, averageRoyaltiesPerDay, apple_identifier, totalRoyalties, totalUnitsSold, totalUnitsFree;
-@synthesize reviews;
+@synthesize reviews, countNewReviews;
 
 - (void) getAllReviews
 {
@@ -559,6 +559,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		if (oneReview.isNew)
 		{
 			[reviews insertObject:oneReview atIndex:0];
+			countNewReviews++;
 		}
 	}
 

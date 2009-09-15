@@ -32,6 +32,7 @@
     sqlite3 *database;
 
 	NSMutableArray *reviews;
+	NSUInteger countNewReviews;
 	
 	// for Downloading Icon image
 	NSMutableData *receivedData;
@@ -82,6 +83,8 @@
 @property (assign, readonly, nonatomic) int totalUnitsFree;
 
 @property (assign, readonly, nonatomic) NSMutableArray *reviews;
+
+@property (nonatomic, readonly) NSUInteger countNewReviews;
 
 - (NSComparisonResult)compareBySales:(App *)otherApp;
 

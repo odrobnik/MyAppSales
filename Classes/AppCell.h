@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@class App;
+@class App, BadgeView;
 
 @interface AppCell : UITableViewCell {
 	UILabel *appTitleLabel;
 	UILabel *subTextLabel;
 	UILabel *royaltiesLabel;
 	UILabel *totalUnitsLabel;
+	BadgeView *badge;
 	
 	App* app;
 }

@@ -193,6 +193,8 @@
 		A78DED42105FDEF800786950 /* MAC.png in Resources */ = {isa = PBXBuildFile; fileRef = A78DED36105FDEF800786950 /* MAC.png */; };
 		A78DED43105FDEF800786950 /* MDA.png in Resources */ = {isa = PBXBuildFile; fileRef = A78DED37105FDEF800786950 /* MDA.png */; };
 		A78DED44105FDEF800786950 /* URY.png in Resources */ = {isa = PBXBuildFile; fileRef = A78DED38105FDEF800786950 /* URY.png */; };
+		A78DEDD51060076300786950 /* BadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A78DEDD41060076300786950 /* BadgeView.m */; };
+		A78DEE0710600A7C00786950 /* Badge.png in Resources */ = {isa = PBXBuildFile; fileRef = A78DEE0610600A7C00786950 /* Badge.png */; };
 		A78E2C3D0EFA7EB3002EB6D9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A78E2C3C0EFA7EB3002EB6D9 /* libz.dylib */; };
 		A79D81F60EFEA913006C37FC /* AppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A79D81F50EFEA913006C37FC /* AppViewController.m */; };
 		A79D89000F029628006C37FC /* Sale.m in Sources */ = {isa = PBXBuildFile; fileRef = A79D88FF0F029628006C37FC /* Sale.m */; };
@@ -293,7 +295,6 @@
 		A7B8D9730F1E587F00DC09E1 /* EditableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8D9720F1E587F00DC09E1 /* EditableCell.m */; };
 		A7B8DBAF0F1F1F5900DC09E1 /* SwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DBAE0F1F1F5900DC09E1 /* SwitchCell.m */; };
 		A7B8DC290F1F247E00DC09E1 /* TextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DC280F1F247E00DC09E1 /* TextCell.m */; };
-		A7B8DD030F1F8E1B00DC09E1 /* KeychainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DD020F1F8E1B00DC09E1 /* KeychainWrapper.m */; };
 		A7B8DDE10F1FC88100DC09E1 /* TableListView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DDE00F1FC88100DC09E1 /* TableListView.m */; };
 		A7BB984C0F3C13B0008AC1B4 /* Currencies.plist in Resources */ = {isa = PBXBuildFile; fileRef = A7BB984B0F3C13B0008AC1B4 /* Currencies.plist */; };
 		A7BD65DA105AB47B0021B6CF /* Review.m in Sources */ = {isa = PBXBuildFile; fileRef = A7BD65D9105AB47B0021B6CF /* Review.m */; };
@@ -309,7 +310,6 @@
 		A7EDD3000FA4E2C50079FE78 /* ChartRootController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD2FC0FA4E2C50079FE78 /* ChartRootController.xib */; };
 		A7EDD3010FA4E2C50079FE78 /* AppViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD2FD0FA4E2C50079FE78 /* AppViewController.xib */; };
 		A7EDD37A0FA4E75B0079FE78 /* MLT.png in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD3790FA4E75B0079FE78 /* MLT.png */; };
-		A7EDD3890FA4E8C40079FE78 /* iTunesConnect.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EDD37E0FA4E8C40079FE78 /* iTunesConnect.m */; };
 		A7EDD38A0FA4E8C40079FE78 /* GenericReportController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EDD3800FA4E8C40079FE78 /* GenericReportController.m */; };
 		A7EDD38B0FA4E8C40079FE78 /* ReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EDD3820FA4E8C40079FE78 /* ReportCell.m */; };
 		A7EDD38C0FA4E8C40079FE78 /* Country.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EDD3840FA4E8C40079FE78 /* Country.m */; };
@@ -542,6 +542,9 @@
 		A78DED36105FDEF800786950 /* MAC.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MAC.png; sourceTree = "<group>"; };
 		A78DED37105FDEF800786950 /* MDA.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MDA.png; sourceTree = "<group>"; };
 		A78DED38105FDEF800786950 /* URY.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = URY.png; sourceTree = "<group>"; };
+		A78DEDD31060076300786950 /* BadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BadgeView.h; sourceTree = "<group>"; };
+		A78DEDD41060076300786950 /* BadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BadgeView.m; sourceTree = "<group>"; };
+		A78DEE0610600A7C00786950 /* Badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Badge.png; sourceTree = "<group>"; };
 		A78E2C3C0EFA7EB3002EB6D9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		A79D81F40EFEA913006C37FC /* AppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppViewController.h; sourceTree = "<group>"; };
 		A79D81F50EFEA913006C37FC /* AppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppViewController.m; sourceTree = "<group>"; };
@@ -661,8 +664,6 @@
 		A7B8DBAE0F1F1F5900DC09E1 /* SwitchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchCell.m; sourceTree = "<group>"; };
 		A7B8DC270F1F247E00DC09E1 /* TextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextCell.h; sourceTree = "<group>"; };
 		A7B8DC280F1F247E00DC09E1 /* TextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextCell.m; sourceTree = "<group>"; };
-		A7B8DD010F1F8E1B00DC09E1 /* KeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeychainWrapper.h; path = ../KeychainWrapper.h; sourceTree = "<group>"; };
-		A7B8DD020F1F8E1B00DC09E1 /* KeychainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeychainWrapper.m; path = ../KeychainWrapper.m; sourceTree = "<group>"; };
 		A7B8DDDF0F1FC88100DC09E1 /* TableListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableListView.h; sourceTree = "<group>"; };
 		A7B8DDE00F1FC88100DC09E1 /* TableListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableListView.m; sourceTree = "<group>"; };
 		A7BB984B0F3C13B0008AC1B4 /* Currencies.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Currencies.plist; sourceTree = "<group>"; };
@@ -684,8 +685,6 @@
 		A7EDD2FC0FA4E2C50079FE78 /* ChartRootController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChartRootController.xib; sourceTree = "<group>"; };
 		A7EDD2FD0FA4E2C50079FE78 /* AppViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppViewController.xib; sourceTree = "<group>"; };
 		A7EDD3790FA4E75B0079FE78 /* MLT.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MLT.png; sourceTree = "<group>"; };
-		A7EDD37D0FA4E8C40079FE78 /* iTunesConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTunesConnect.h; sourceTree = "<group>"; };
-		A7EDD37E0FA4E8C40079FE78 /* iTunesConnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTunesConnect.m; sourceTree = "<group>"; };
 		A7EDD37F0FA4E8C40079FE78 /* GenericReportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericReportController.h; sourceTree = "<group>"; };
 		A7EDD3800FA4E8C40079FE78 /* GenericReportController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericReportController.m; sourceTree = "<group>"; };
 		A7EDD3810FA4E8C40079FE78 /* ReportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportCell.h; sourceTree = "<group>"; };
@@ -730,12 +729,6 @@
 				1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */,
 				A70D5A7A0F17A66700A6FE9B /* YahooFinance.h */,
 				A70D5A7B0F17A66700A6FE9B /* YahooFinance.m */,
-				A780D1710F25D2F600C796FB /* ChartView.h */,
-				A780D1720F25D2F600C796FB /* ChartView.m */,
-				A780D7660F278EF900C796FB /* AxisView.h */,
-				A780D7670F278EF900C796FB /* AxisView.m */,
-				A780DEFE0F285FAB00C796FB /* LegendView.h */,
-				A780DEFF0F285FAB00C796FB /* LegendView.m */,
 				A7357AF60F3348C900502F15 /* StatusInfoController.h */,
 				A7357AF70F3348C900502F15 /* StatusInfoController.m */,
 			);
@@ -1022,6 +1015,8 @@
 		A73CEBC510444425008778BF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A78DEDD21060075500786950 /* Badge */,
+				A78DEDD11060074900786950 /* Chart */,
 				A707A33F0FA61305004060D9 /* View Controllers */,
 				A73CEBC61044444D008778BF /* CalendarDayView.h */,
 				A73CEBC71044444D008778BF /* CalendarDayView.m */,
@@ -1081,6 +1076,28 @@
 			name = "HTTP Server";
 			sourceTree = "<group>";
 		};
+		A78DEDD11060074900786950 /* Chart */ = {
+			isa = PBXGroup;
+			children = (
+				A780D1710F25D2F600C796FB /* ChartView.h */,
+				A780D1720F25D2F600C796FB /* ChartView.m */,
+				A780D7660F278EF900C796FB /* AxisView.h */,
+				A780D7670F278EF900C796FB /* AxisView.m */,
+				A780DEFE0F285FAB00C796FB /* LegendView.h */,
+				A780DEFF0F285FAB00C796FB /* LegendView.m */,
+			);
+			name = Chart;
+			sourceTree = "<group>";
+		};
+		A78DEDD21060075500786950 /* Badge */ = {
+			isa = PBXGroup;
+			children = (
+				A78DEDD31060076300786950 /* BadgeView.h */,
+				A78DEDD41060076300786950 /* BadgeView.m */,
+			);
+			name = Badge;
+			sourceTree = "<group>";
+		};
 		A79272500F2D95F9009AF9B2 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1132,9 +1149,10 @@
 		A7B3B4030F169C9100D211A0 /* artwork */ = {
 			isa = PBXGroup;
 			children = (
+				A78DEE0610600A7C00786950 /* Badge.png */,
+				A7A84C10105D6A4D00CAD54F /* Star Images */,
 				A78DEB2D105FB1B700786950 /* up.png */,
 				A78DEB2E105FB1B700786950 /* down.png */,
-				A7A84C10105D6A4D00CAD54F /* Star Images */,
 				A7CD0665105A7014005F9166 /* cover_mask_rounded_100x100.png */,
 				A7B42E341056A190007BC954 /* button_red.png */,
 				A73CEB37104340A5008778BF /* EmptyNano.png */,
@@ -1244,8 +1262,6 @@
 		A7B42AF910564D53007BC954 /* Account Manager */ = {
 			isa = PBXGroup;
 			children = (
-				A7B8DD010F1F8E1B00DC09E1 /* KeychainWrapper.h */,
-				A7B8DD020F1F8E1B00DC09E1 /* KeychainWrapper.m */,
 				A7B424BB10553718007BC954 /* AccountManager.h */,
 				A7B424BC10553718007BC954 /* AccountManager.m */,
 				A7B424F110553E8F007BC954 /* Account.h */,
@@ -1257,8 +1273,6 @@
 		A7B4331F1057F11A007BC954 /* Report Server Connectors */ = {
 			isa = PBXGroup;
 			children = (
-				A7EDD37D0FA4E8C40079FE78 /* iTunesConnect.h */,
-				A7EDD37E0FA4E8C40079FE78 /* iTunesConnect.m */,
 				A7A84CB0105E18D200CAD54F /* ItunesConnectDownloaderOperation.h */,
 				A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */,
 			);
@@ -1579,6 +1593,7 @@
 				A78DED42105FDEF800786950 /* MAC.png in Resources */,
 				A78DED43105FDEF800786950 /* MDA.png in Resources */,
 				A78DED44105FDEF800786950 /* URY.png in Resources */,
+				A78DEE0710600A7C00786950 /* Badge.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1612,7 +1627,6 @@
 				A7B8D9730F1E587F00DC09E1 /* EditableCell.m in Sources */,
 				A7B8DBAF0F1F1F5900DC09E1 /* SwitchCell.m in Sources */,
 				A7B8DC290F1F247E00DC09E1 /* TextCell.m in Sources */,
-				A7B8DD030F1F8E1B00DC09E1 /* KeychainWrapper.m in Sources */,
 				A7B8DDE10F1FC88100DC09E1 /* TableListView.m in Sources */,
 				A7325BA00F21C9920053AEB1 /* ReportRootController.m in Sources */,
 				A780D1350F25D1A100C796FB /* ChartRootController.m in Sources */,
@@ -1628,7 +1642,6 @@
 				A7006B5B0F3B0A0D009BB6A5 /* unzip.c in Sources */,
 				A7006B5C0F3B0A0D009BB6A5 /* zip.c in Sources */,
 				A7006B5D0F3B0A0D009BB6A5 /* ZipArchive.mm in Sources */,
-				A7EDD3890FA4E8C40079FE78 /* iTunesConnect.m in Sources */,
 				A7EDD38A0FA4E8C40079FE78 /* GenericReportController.m in Sources */,
 				A7EDD38B0FA4E8C40079FE78 /* ReportCell.m in Sources */,
 				A7EDD38C0FA4E8C40079FE78 /* Country.m in Sources */,
@@ -1656,6 +1669,7 @@
 				A7A84CF2105E379200CAD54F /* NSDate+Helpers.m in Sources */,
 				A7A84D0E105E405100CAD54F /* SynchingManager.m in Sources */,
 				A709DD9E105F7C8A00FD8909 /* TableListSelectorView.m in Sources */,
+				A78DEDD51060076300786950 /* BadgeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

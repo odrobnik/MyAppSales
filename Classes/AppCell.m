@@ -12,6 +12,7 @@
 #import "iTunesConnect.h"
 #import "Report.h"
 #import "YahooFinance.h"
+#import "BadgeView.h"
 
 
 @implementation AppCell
@@ -78,7 +79,11 @@
 		[self.contentView addSubview:totalUnitsLabel];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(emptyCache:) name:@"EmptyCache" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appReviewsUpdated:) name:@"AppReviewsUpdated" object:nil];
 
+		badge = [[BadgeView alloc] initWithFrame:CGRectMake(40, 5, 40, 30)];
+		//badge.center = CGPointMake(60, 60);
+		[self addSubview:badge];  //naughty: we want to be above the standard imageview
 		
 		
     }
@@ -122,6 +127,22 @@
 	return app;
 }
 
+- (void)setBadge
+{
+	if (app.countNewReviews)
+	{
+		badge.text = [NSString stringWithFormat:@"%d", app.countNewReviews];
+		CGRect frame = badge.frame;
+		frame.origin.x = 74.0 - frame.size.width;
+		badge.frame = frame;
+		badge.hidden = NO;
+	}
+	else
+	{
+		badge.hidden = YES;
+	}
+}
+
 - (void)setApp:(App *)inApp
 {
 	//if (self.app != inApp)  // would prevent update for main currency change
@@ -145,7 +166,9 @@
 			royaltiesLabel.text = @"free";
 			totalUnitsLabel.text = [NSString stringWithFormat:@"%d downloaded", app.totalUnitsFree];
 		}
-		
+
+		[self setBadge];
+
 		
 		
 		if (app.iconImage)
@@ -159,9 +182,16 @@
 	}
 }
 
+#pragma mark Notifications
 - (void)emptyCache:(NSNotification *) notification
 {
 	self.CELL_IMAGE = nil;
+}
+
+- (void)appReviewsUpdated:(NSNotification *)notifications
+{
+	[self setBadge];
+	//[self setNeedsDisplay];
 }
 
 @end
