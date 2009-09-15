@@ -135,7 +135,6 @@ static SynchingManager * _sharedInstance;
 	else 
 	{
 		[self toggleNetworkIndicator:YES];
-		NSLog(@"Still %d operations in queue", active_count);
 	}
 }
 
