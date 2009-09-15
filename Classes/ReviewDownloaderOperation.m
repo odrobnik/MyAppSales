@@ -103,7 +103,10 @@
 				
 				NSString *version = nil;
 				
-				[titleScanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"0123456789."] intoString:&version];
+				NSMutableCharacterSet *legalVersionChars = [NSMutableCharacterSet alphanumericCharacterSet];
+				[legalVersionChars formUnionWithCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@"."]];
+				
+				[titleScanner scanCharactersFromSet:legalVersionChars intoString:&version];
 				
 				NSString *review = [oneReview objectForKey:@"text"];
 				NSString *userline = [oneReview objectForKey:@"user-name"];
