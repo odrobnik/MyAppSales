@@ -283,15 +283,14 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>9</integer>
-									<integer>7</integer>
-									<integer>5</integer>
+									<integer>22</integer>
+									<integer>20</integer>
 									<integer>4</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 734}, {368, 660}}</string>
+							<string>{{0, 209}, {368, 660}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -312,7 +311,7 @@
 							<real>346</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>24 120 1364 719 0 0 1440 878 </string>
+						<string>45 127 1364 719 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -460,7 +459,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {974, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>24 120 1364 719 0 0 1440 878 </string>
+								<string>45 127 1364 719 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -475,7 +474,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>ReviewDownloaderOperation.m</string>
+								<string>Review.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -483,11 +482,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>ReviewDownloaderOperation.m</string>
+										<string>Review.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>A78DF18E10603A1500786950</string>
+										<string>A78DF19C10603C8800786950</string>
 										<key>history</key>
 										<array>
 											<string>A72486290F1B24FF003DADDD</string>
@@ -681,9 +680,9 @@
 											<string>A78DF0681060203900786950</string>
 											<string>A78DF0821060211700786950</string>
 											<string>A78DF094106021BE00786950</string>
-											<string>A78DF158106037DA00786950</string>
-											<string>A78DF186106039E100786950</string>
-											<string>A78DF187106039E100786950</string>
+											<string>A78DF19910603C8800786950</string>
+											<string>A78DF19A10603C8800786950</string>
+											<string>A78DF19B10603C8800786950</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -697,7 +696,7 @@
 								<key>Frame</key>
 								<string>{{0, 5}, {974, 473}}</string>
 								<key>RubberWindowFrame</key>
-								<string>24 120 1364 719 0 0 1440 878 </string>
+								<string>45 127 1364 719 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -717,7 +716,7 @@
 								<key>Frame</key>
 								<string>{{0, 483}, {974, 195}}</string>
 								<key>RubberWindowFrame</key>
-								<string>24 120 1364 719 0 0 1440 878 </string>
+								<string>45 127 1364 719 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -881,7 +880,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>A78DF18F10603A1500786950</string>
+		<string>A78DF19D10603C8800786950</string>
 		<string>A78DF14310602DFC00786950</string>
 		<string>A78DF14410602DFC00786950</string>
 		<string>A78E2B7C0EFA2263002EB6D9</string>
@@ -890,7 +889,7 @@
 		<string>/Users/Oliver/Documents/iphone/Projects/ASiST/trunk/ASiST.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>24 120 1364 719 0 0 1440 878 </string>
+	<string>45 127 1364 719 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

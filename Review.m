@@ -26,7 +26,16 @@ static sqlite3_stmt *insert_statement = nil;
 		self.country = reviewCountry;
 		self.title = aTitle;
 		self.name = aName;
-		self.version = aVersion;
+		
+		if (aVersion)
+		{
+			self.version = aVersion;
+		}
+		else 
+		{
+			self.version = @"-";
+		}
+
 		self.date = aDate;
 		self.review = aReview;
 		self.stars = aStars;
