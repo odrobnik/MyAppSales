@@ -2,13 +2,14 @@
 // Prefix header for all source files of the 'ASiST' target in the 'ASiST' project
 //
 
-#ifndef __IPHONE_3_0
-#warning "This project uses features only available in iPhone SDK 3.0 and later."
-#endif
-
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
     #import <UIKit/UIKit.h>
+
+	#ifndef __IPHONE_3_0
+	#warning "This project uses features only available in iPhone SDK 3.0 and later."
+	#endif
+
 #endif
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 30000
@@ -20,3 +21,4 @@
 	#define CELL_IMAGE image
 	#define TABLEVIEWCELL_PLAIN_INIT [super initWithFrame:frame reuseIdentifier:reuseIdentifier]
 #endif
+
