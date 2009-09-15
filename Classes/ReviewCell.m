@@ -19,6 +19,8 @@
 		self.reviewTitle.textColor = [UIColor whiteColor];
 		self.reviewTitle.backgroundColor = [UIColor clearColor];
 		self.reviewTitle.numberOfLines = 0;
+		self.reviewTitle.shadowColor = [UIColor blackColor];
+		self.reviewTitle.shadowOffset = CGSizeMake(0, 1);
 		
 		reviewTitleBackground = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
 		reviewTitleBackground.backgroundColor = [UIColor lightGrayColor];
