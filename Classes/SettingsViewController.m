@@ -21,8 +21,6 @@
 #import "YahooFinance.h"
 
 // for login data
-#import "iTunesConnect.h"
-//#import "KeychainWrapper.h"
 #import <Security/Security.h>
 
 #import "AccountManager.h"

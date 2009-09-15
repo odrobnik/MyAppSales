@@ -12,7 +12,6 @@
 #import "LegendView.h"
 #import "ASiSTAppDelegate.h"
 #import "YahooFinance.h"
-#import "iTunesConnect.h"
 
 
 @implementation ChartViewController

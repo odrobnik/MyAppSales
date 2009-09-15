@@ -7,7 +7,6 @@
 //
 
 #import "EditableCell.h"
-#import "KeychainWrapper.h"
 #import "SettingsViewController.h"
 
 
