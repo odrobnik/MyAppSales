@@ -248,7 +248,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	NSDate *tmpDate = [NSDate dateWithTimeIntervalSince1970:middle];
 	
 	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
-	[df setDateFormat:@"MMMM"];
+	[df setDateFormat:@"MMMM YYYY"];
 	
 	return [df stringFromDate:tmpDate];
 }

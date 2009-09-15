@@ -18,9 +18,6 @@
 		self.reviewTitle.font = [UIFont boldSystemFontOfSize:14];
 		self.reviewTitle.textColor = [UIColor whiteColor];
 		self.reviewTitle.backgroundColor = [UIColor clearColor];
-		self.reviewTitle.shadowColor = [UIColor blackColor];
-		self.reviewTitle.shadowOffset = CGSizeMake(0, 1);
-		
 		self.reviewTitle.numberOfLines = 0;
 		
 		reviewTitleBackground = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
@@ -81,7 +78,7 @@
 		
 		NSString *text = self.reviewTitle.text;
 		UIFont *font = self.reviewTitle.font;
-		CGSize constraint = CGSizeMake(contentRect.size.width - 50, 500);
+		CGSize constraint = CGSizeMake(contentRect.size.width - 20, 500);
 		CGSize size = [text sizeWithFont:font constrainedToSize:constraint];
 		
 		frame = CGRectMake(boundsX + 10, 0, contentRect.size.width - 20, size.height + 10);
@@ -114,7 +111,7 @@
 		frame = CGRectMake(boundsX + 100, self.reviewText.frame.size.height + self.reviewAuthor.frame.size.height + self.reviewTitle.frame.size.height + 2, contentRect.size.width - 115, 16);
 		self.reviewVersion.frame = frame;
 		
-		frame = CGRectMake(boundsX + 150, self.reviewTitle.frame.size.height + 3, contentRect.size.width - 65, 16);
+		frame = CGRectMake(boundsX + 150, self.reviewTitle.frame.size.height + 3, contentRect.size.width - 165, 16);
 		self.reviewDate.frame = frame;
 	}
 }
