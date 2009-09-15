@@ -57,42 +57,42 @@
 		}
 		else
 		{
-		switch ((int)step_size) {
-			case 1:
-				step_size=5;
-				break;
-			case 5:
-				step_size=10;
-				break;
-			case 10:
-				step_size=25;
-				break;
-			case 25:
-				step_size=50;
-				break;
-			case 50:
-				step_size=100;
-				break;
-			case 100:
-				step_size=250;
-				break;
-			case 250:
-				step_size=500;
-				break;
-			default:
-				step_size=1000;
-				break;
+			switch ((int)step_size) {
+				case 1:
+					step_size=5;
+					break;
+				case 5:
+					step_size=10;
+					break;
+				case 10:
+					step_size=25;
+					break;
+				case 25:
+					step_size=50;
+					break;
+				case 50:
+					step_size=100;
+					break;
+				case 100:
+					step_size=250;
+					break;
+				case 250:
+					step_size=500;
+					break;
+				default:
+					step_size=1000;
+					break;
+			}
 		}
-		}
-//		step_size = step_size*10.0;
+		//		step_size = step_size*10.0;
 	}
-
+	
 	
 	double i;
 	
 	// for labels
 	CGContextSetGrayFillColor(context, 0, 1);
-
+	
 	
 	for (i=0;i<max;i+=step_size)
 	{
