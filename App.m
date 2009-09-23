@@ -58,9 +58,6 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	}
 }
 
-
-
-
 - (id)init
 {
 	// default images
@@ -81,7 +78,21 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	return self;
 }
 
-
+- (void)dealloc 
+{
+	// Remove notification observer
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	[sumsByCurrency release];
+	[iconImage release];
+	[iconImageNano release];
+	[title release];
+	[vendor_identifier release];
+    [company_name release];
+	
+	[reviews release];
+    [super dealloc];
+}
 
 - (NSDate *) dateFromString:(NSString *)rfc2822String
 {
@@ -129,7 +140,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
             // Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
             // This is a great way to optimize because frequently used queries can be compiled once, then with each
             // use new variable values can be bound to placeholders.
-            const char *sql = "SELECT id, country_code, review_date, version, title, name, review, stars REAL FROM review WHERE app_id=? ORDER BY review_date DESC";
+            const char *sql = "SELECT id FROM review WHERE app_id=? ORDER BY review_date DESC";
             if (sqlite3_prepare_v2(database, sql, -1, &reviews_statement, NULL) != SQLITE_OK) {
                 NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
             }
@@ -139,36 +150,11 @@ static NSDateFormatter *dateFormatterToRead = nil;
         sqlite3_bind_int(reviews_statement, 1, apple_identifier);
 		
         while (sqlite3_step(reviews_statement) == SQLITE_ROW) {
-			//NSUInteger review_id = sqlite3_column_int(reviews_statement, 0);
-			//NSLog(@"%d", review_id);
-			NSString *country_code = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 1)];
-			Country *reviewCountry = [DB countryForCode:country_code];
+			NSUInteger review_id = sqlite3_column_int(reviews_statement, 0);
 			
-			char *date_text = (char *)sqlite3_column_text(reviews_statement, 2);
+			Review *loadedReview = [[Review alloc] initWithPrimaryKey:review_id database:database];
+			loadedReview.app = self;
 			
-			NSDate *review_date = nil;
-			
-			if (date_text)
-			{
-				review_date = [self dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 2)]];
-			}
-			
-			char *version_text = (char *)sqlite3_column_text(reviews_statement, 3);
-			
-			NSString *version = nil;
-			
-			if (version_text )
-			{	
-				version = [NSString stringWithUTF8String:version_text];
-			}
-			
-			NSString *review_title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 4)];			
-			NSString *review_name = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 5)];			
-			NSString *review_text = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 6)];			
-			double review_stars = sqlite3_column_double(reviews_statement, 7);
-														
-			Review *loadedReview = [[Review alloc] initWithApp:self country:reviewCountry title:review_title name:review_name version:version date:review_date review:review_text stars:review_stars];
-				
 			[reviews addObject:loadedReview];
 			[loadedReview release];
         }
@@ -379,21 +365,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	}
 }
 
-- (void)dealloc 
-{
-	// Remove notification observer
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[sumsByCurrency release];
-	[iconImage release];
-	[iconImageNano release];
-	[title release];
-	[vendor_identifier release];
-    [company_name release];
-	
-	[reviews release];
-    [super dealloc];
-}
+
 
 - (void)insertIntoDatabase:(sqlite3 *)db {
     database = db;
@@ -467,7 +439,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
     sqlite3_reset(update_statement);
     // Handle errors.
     if (success != SQLITE_DONE) {
-        NSAssert1(0, @"Error: failed to delete from database with message '%s'.", sqlite3_errmsg(database));
+        NSAssert1(0, @"Error: failed to update in database with message '%s'.", sqlite3_errmsg(database));
     }
 }
 
@@ -557,21 +529,42 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	iconImageNano = nil;
 }
 
+- (void) removeReviewTranslations
+{
+	for (Review *oneReview in reviews)
+	{
+		oneReview.translated_review = nil;
+		//[oneReview updateDatabase]; // unnecessary
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"AppReviewsUpdated" object:nil userInfo:(id)self];
+
+		[[SynchingManager sharedInstance] translateReview:oneReview delegate:oneReview];
+	}
+}
 
 
 #pragma mark ReviewScraper
 
 - (void) didFinishRetrievingReviews:(NSArray *)scrapedReviews;
 {
+	NSMutableArray *tmpArray = [NSMutableArray arrayWithArray:reviews];
+	
 	for (Review *oneReview in scrapedReviews)
 	{
 		[oneReview insertIntoDatabase:database];
 		if (oneReview.isNew)
 		{
-			[reviews insertObject:oneReview atIndex:0];
+			[tmpArray insertObject:oneReview atIndex:0];
 			countNewReviews++;
+			oneReview.country.usedInReport = YES; // loads icon if we don't have it yet
+			
+			[[SynchingManager sharedInstance]translateReview:oneReview delegate:oneReview];
+
 		}
 	}
+	
+	[reviews release];
+	
+	reviews = [[tmpArray sortedArrayUsingSelector:@selector(compareByReviewDate:)] retain];
 
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"AppReviewsUpdated" object:nil userInfo:(id)self];
 }

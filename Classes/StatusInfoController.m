@@ -88,7 +88,7 @@
 	}
 	else if ([userInfo isKindOfClass:[NSDictionary class]])
 	{
-		NSLog(@"%@", userInfo);
+		//NSLog(@"%@", userInfo);
 			msg = [userInfo objectForKey:@"message"];
 		if ([[userInfo objectForKey:@"type"] isEqualToString:@"Error"])
 		{

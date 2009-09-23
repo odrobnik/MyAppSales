@@ -15,6 +15,7 @@
 	NSString *iso2;
 	NSString *iso3;
 	NSString *name;
+	NSString *language;
 	
 	NSUInteger appStoreID;
 	
@@ -32,6 +33,7 @@
 @property (nonatomic, retain) NSString *iso2;
 @property (nonatomic, retain) NSString *iso3;
 @property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString *language;
 
 @property (nonatomic, assign) NSUInteger appStoreID;
 

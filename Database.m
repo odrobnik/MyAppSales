@@ -47,7 +47,7 @@ static Database *_sharedInstance;
 @implementation Database
 
 @synthesize database;
-@synthesize apps, reports, countries;
+@synthesize apps, reports, countries, languages;
 @synthesize reportsByReportType;
 @synthesize dataToImport;
 
@@ -97,6 +97,7 @@ static Database *_sharedInstance;
 	[apps release];
 	[reports release];
 	[countries release];
+	[languages release];
 	
 	[super dealloc];
 }
@@ -201,6 +202,8 @@ static Database *_sharedInstance;
 			[self executeSchemaUpdate:@"update_1_to_2.sql"];
 		case 2:
 			[self executeSchemaUpdate:@"update_2_to_3.sql"];
+		case 3:
+			[self executeSchemaUpdate:@"update_3_to_4.sql"];
 		default:
 			break;
 	}
@@ -213,10 +216,32 @@ static Database *_sharedInstance;
 	char *sql;
 	sqlite3_stmt *statement;
 	
+	// get current system language
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	NSArray *appleLanguages = [userDefaults objectForKey:@"AppleLanguages"];
+	NSString *currentLanguage = [appleLanguages objectAtIndex:0];
+	
+	
+	NSLocale *loc = [[NSLocale alloc] initWithLocaleIdentifier:currentLanguage];
+	
+	
+	// set language default to current system language if not set
+	if  (![[NSUserDefaults standardUserDefaults] objectForKey:@"ReviewTranslation"])
+	{
+		[[NSUserDefaults standardUserDefaults] setObject:currentLanguage forKey:@"ReviewTranslation"];
+	}
+	 
+	
 	// load all countries
 	self.countries = [NSMutableDictionary dictionary];  // does not need to be mutable
+	//self.languages = [NSMutableDictionary dictionary];  // does not need to be mutable
 	
-	sql = "SELECT iso3 from country";
+	// also load the legal language codes into temp array for later sorting
+	NSMutableDictionary *tmpDict = [NSMutableDictionary dictionary];
+	
+	[tmpDict setObject:@" Don't translate" forKey:@" "];  // leading space orders it first in list
+	
+	sql = "SELECT iso3, language from country";
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) 
 	{
 		NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
@@ -228,10 +253,25 @@ static Database *_sharedInstance;
 		Country *tmpCountry = [[Country alloc] initWithISO3:cntry database:database];
 		[countries setObject:tmpCountry forKey:tmpCountry.iso2];
 		[tmpCountry release];
+
+		// get language
+		char *lang_code;
+		if (lang_code = (char *)sqlite3_column_text(statement, 1))
+		{
+			NSString *language_code = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+			NSString *language_name = [loc displayNameForKey:NSLocaleLanguageCode value:language_code];
+			
+			if (language_code&&language_name)
+			{
+				[tmpDict setObject:language_name forKey:language_code];
+			}
+		}
 	} 
-	
+
 	// Finalize the statement, no reuse.
 	sqlite3_finalize(statement);
+	
+	languages = [tmpDict retain];
 	
 	// Load all apps
     self.apps = [NSMutableDictionary dictionary];
@@ -302,11 +342,6 @@ static Database *_sharedInstance;
 	}
 	// "Finalize" the statement - releases the resources associated with the statement.
 	sqlite3_finalize(statement);
-	
-	
-
-	
-	
 }
 
 #pragma mark Accessing Database
@@ -392,11 +427,57 @@ static Database *_sharedInstance;
 	return [NSArray arrayWithArray:tmpArray];  // non-mutable, autoreleased
 }
 
+- (Country *) countryForName:(NSString *)countryName
+{
+	NSArray *allKeys = [countries allKeys];
+	
+	for (NSString *oneKey in allKeys)
+	{
+		Country *oneCountry = [countries objectForKey:oneKey];
+		
+		if ([[oneCountry.name lowercaseString] isEqualToString:[countryName lowercaseString]])
+		{
+			return oneCountry;
+		}
+		
+	}
+	
+	return nil;
+}
+
 
 - (Country *) countryForCode:(NSString *)code
 {
-	return [countries objectForKey:code];
+	if ([code length]==2)
+	{
+		// iso2 code
+		return [countries objectForKey:code];
+	}
+	else
+	{
+		// most likely this is a country name
+		
+		if ([code isEqualToString:@"USA"])
+		{
+			return [self countryForName:@"United States"];
+		}
+		else 
+		{
+			return [self countryForName:code];
+		}
+	}
+
 }
+
+/*
+- (NSArray *) languagesSorted
+{
+	NSArray *sortedKeys = [languages keysSortedByValueUsingSelector:@selector(compare:)];
+	NSArray *sortedObjects = [languages objectsForKeys:sortedKeys notFoundMarker:@"Dummy"];
+	
+	return sortedObjects;
+}
+*/
 
 - (NSUInteger) countOfApps
 {
@@ -515,7 +596,7 @@ static Database *_sharedInstance;
 	NSDate *untilDate = [dict objectForKey:@"UntilDate"];
 	NSString *string = [dict objectForKey:@"Text"];
 	
-	NSLog(@"%@", string);
+	//NSLog(@"%@", string);
 	NSUInteger report_id=0;
 	Report *insertedReport = nil;
 	
@@ -598,7 +679,7 @@ static Database *_sharedInstance;
 
 - (Report *) insertReportFromText:(NSString *)string
 {
-	NSLog(@"%@", string);
+	//NSLog(@"%@", string);
 	NSUInteger report_id=0;
 	Report *insertedReport = nil;
 	
@@ -768,6 +849,28 @@ static Database *_sharedInstance;
 	}
 }
 
+- (void) removeAllReviewTranslations
+{
+	for (NSNumber *oneAppID in apps)
+	{
+		App *oneApp = [apps objectForKey:oneAppID];
+		[oneApp removeReviewTranslations];
+	}
+	
+	
+	// fast removal directly in DB
+	
+	NSString *script = @"update review set review_translated = NULL";	
+	char *errmsg;
+	
+	if (sqlite3_exec(database, [script UTF8String], NULL, NULL, &errmsg)!=SQLITE_OK)
+	{
+ 		sqlite3_close(database);
+        NSAssert1(0, @"Failed to execute update script with message '%s'.", errmsg);
+	}
+}
+
+
 #pragma mark Import / Export
 - (NSString *) createZipFromReportsOfType:(ReportType)type
 {
@@ -836,7 +939,7 @@ static Database *_sharedInstance;
 	{
 		if ([[aString lowercaseString] hasSuffix:@".txt"])
 		{
-			NSLog(@"Found report %@", aString);
+			//NSLog(@"Found report %@", aString);
 			NSString *pathOfFile = [documentsDirectory stringByAppendingPathComponent:aString];
 			
 			NSString *string = [NSString stringWithContentsOfFile: pathOfFile encoding:NSUTF8StringEncoding error:NULL];

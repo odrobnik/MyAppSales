@@ -10,6 +10,7 @@
 #import <sqlite3.h>
 
 #import "ReviewDownloaderOperation.h"
+#import "TranslationScraperOperation.h"
 
 
 
@@ -92,6 +93,7 @@
 - (void) updateTotalsFromDict:(NSDictionary *)totalsDict;
 
 - (void) getAllReviews;
+- (void) removeReviewTranslations;
 
 
 @end

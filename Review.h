@@ -8,12 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
+#import "TranslationScraperOperation.h"
 
 @class Country, App;
 
-@interface Review : NSObject 
+
+
+@interface Review  : NSObject <TranslationScraperDelegate>
 {
-	//NSUInteger apple_identifier;
+	NSUInteger primaryKey;
 	App *app;
 	Country *country;
 	
@@ -22,6 +25,9 @@
 	NSString *version;
 	NSDate *date;
 	NSString *review;
+	NSString *translated_review;
+	
+	
 	double stars;
 	
 	BOOL isNew;
@@ -37,11 +43,15 @@
 @property (nonatomic, retain) NSString *version;
 @property (nonatomic, retain) NSDate *date;
 @property (nonatomic, retain) NSString *review;
+@property (nonatomic, retain) NSString *translated_review;
 @property (nonatomic, assign) double stars;
 @property (nonatomic, assign) BOOL isNew;
+@property (nonatomic, assign) NSUInteger primaryKey;
 
 
 - (id) initWithApp:(App *)reviewApp country:(Country *)reviewCountry title:(NSString *)aTitle name:(NSString *)aName version:(NSString *)aVersion date:(NSDate *)aDate review:(NSString *)aReview stars:(double)aStars;
+- (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db;
 - (void)insertIntoDatabase:(sqlite3 *)db;
+- (void)updateDatabase;
 
 @end

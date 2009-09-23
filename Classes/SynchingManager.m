@@ -10,8 +10,11 @@
 
 #import "ReviewDownloaderOperation.h"
 #import "ItunesConnectDownloaderOperation.h"
+#import "TranslationScraperOperation.h"
 #import "Database.h"
 #import "ASiSTAppDelegate.h"
+#import "Review.h"
+#import "Country.h"
 
 @implementation SynchingManager
 
@@ -108,18 +111,48 @@ static SynchingManager * _sharedInstance;
 	
 }
 
+// Translation Downloader
+- (void) translateReview:(Review *)review delegate:(id<TranslationScraperDelegate>)scraperDelegate
+{
+	NSString *translationLanguage = [[NSUserDefaults standardUserDefaults] objectForKey:@"ReviewTranslation"];
+	
+	if (translationLanguage&&![translationLanguage isEqualToString:@" "])
+	{
+		TranslationScraperOperation *wu = [[TranslationScraperOperation alloc] initForText:review.review fromLanguage:review.country.language toLanguage:translationLanguage delegate:scraperDelegate];
+							
+		wu.delegate = self;
+		[queue addOperation:wu];
+		[self toggleNetworkIndicator:YES];
+	
+		[wu release];
+	}
+}
+
+- (void) cancelAllTranslations
+{
+	NSArray *allOps = [queue operations];
+	
+	for (id oneOp in allOps)
+	{
+		if ([oneOp isKindOfClass:[TranslationScraperOperation class]])
+		{
+			[oneOp cancel];
+		}
+	}
+}
 
 - (void) downloadFinishedForOperation:(NSOperation *)operation
 {
 	int active_count = 0;
 	for (NSOperation *operation in [queue operations])
 	{
-		if (![operation isFinished])
+		if (![operation isFinished]&&![operation isCancelled])
 		{
 			active_count ++;
 		}
 	}
 	
+	//NSLog(@"%d of %d", active_count, [[queue operations] count]);
 	if (!active_count)
 	{
 		[self toggleNetworkIndicator:NO];

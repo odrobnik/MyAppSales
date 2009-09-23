@@ -12,6 +12,8 @@
 #import "TextCell.h"
 #import "ButtonCell.h"
 #import "YahooFinance.h"
+#import "Database.h"
+#import "SynchingManager.h"
 
 // for the currency selection
 #import "TableListView.h"
@@ -73,6 +75,11 @@
 		}
 			 
 		reviewFrequencyList = [[NSArray arrayWithArray:tmpArray] retain];
+	}
+	
+	if (!sortedLanguageCodeList)
+	{
+		sortedLanguageCodeList = [[[[Database sharedInstance] languages] keysSortedByValueUsingSelector:@selector(compare:)] retain];
 	}
 			 
 
@@ -143,7 +150,7 @@
 		{
 			if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"DownloadReviews"] boolValue])
 			{
-				return 2;
+				return 3;
 			}
 			else 
 			{
@@ -309,6 +316,26 @@
 
 					return cell;
 
+					break;
+				}
+				case 2:
+				{
+					NSString *CellIdentifier = @"ReviewSection2";
+					
+					UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+					if (cell == nil) 
+					{
+						cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+						cell.textLabel.text = @"Translation";
+					}
+					
+					NSString *selectedLanguageCode = ([[NSUserDefaults standardUserDefaults] objectForKey:@"ReviewTranslation"]);
+					
+					cell.detailTextLabel.text = [[[Database sharedInstance] languages] objectForKey:selectedLanguageCode];
+					cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+					
+					return cell;
+					
 					break;
 				}
 				default:
@@ -511,13 +538,27 @@
 		{
 			if (!indexPath.row) return;
 			
-			TableListSelectorView *controller = [[TableListSelectorView alloc] initWithList:reviewFrequencyList];
-			controller.title = @"Frequency";
-			controller.delegate = self;
-			controller.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"ReviewFrequency"];
-			[self.navigationController pushViewController:controller animated:YES];
-			[controller release];
-			break;
+			if (indexPath.row==1)
+			{
+				TableListSelectorView *controller = [[TableListSelectorView alloc] initWithList:reviewFrequencyList];
+				controller.title = @"Frequency";
+				controller.delegate = self;
+				controller.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"ReviewFrequency"];
+				[self.navigationController pushViewController:controller animated:YES];
+				[controller release];
+				break;
+			}
+			else if (indexPath.row==2)
+			{
+				TableListSelectorView *controller = [[TableListSelectorView alloc] initWithDictionary:[[Database sharedInstance] languages]];
+				controller.title = @"Review Translation";
+				controller.delegate = self;
+				[controller setSelectedKey:[[NSUserDefaults standardUserDefaults] objectForKey:@"ReviewTranslation"]];
+				//controller.selectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"ReviewFrequency"];
+				[self.navigationController pushViewController:controller animated:YES];
+				[controller release];
+				break;
+			}
 		}
 			
 		case 2: 
@@ -579,42 +620,6 @@
 
 
 #pragma mark Other Stuff
-- (IBAction) showAppInfo:(id)sender
-{
-	// a convenient method to get to the Info.plist in the app bundle
-    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-
-	// get two items from the dictionary
-	NSString *version = [info objectForKey:@"CFBundleVersion"];
-	NSString *title = [info objectForKey:@"CFBundleDisplayName"];
-	
-	UIAlertView *alert = [[UIAlertView alloc] 
-						  initWithTitle:[@"About " stringByAppendingString:title]
-						  message:[NSString stringWithFormat:@"Version %@\n\n© 2009 Drobnik.com\nAll rights reserved.", version]
-						  delegate:self 
-						  cancelButtonTitle:@"Dismiss" 
-						  otherButtonTitles:@"Contact", nil];
-	[alert show];
-	[alert release];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-	UIApplication *myApp = [UIApplication sharedApplication];
-	
-	// cancel button has index 0
-	switch (buttonIndex) {
-		case 1:
-		{
-			[myApp openURL:[NSURL URLWithString:@"mailto:oliver@drobnik.com"]];
-			break;
-		}
-		default:
-			break;
-	}
-	
-}
-
 
 
 
@@ -672,6 +677,7 @@
 - (void)dealloc {
 	//[KeychainWrapper release];
 	[reviewFrequencyList release];
+	[sortedLanguageCodeList release];
     [super dealloc];
 }
 
@@ -688,12 +694,12 @@
 	// show or hide the frequency cell
 	if (mySwitch.on)
 	{
-		[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:1]] withRowAnimation:UITableViewRowAnimationTop];
+		[self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:1 inSection:1], [NSIndexPath indexPathForRow:2 inSection:1], nil] withRowAnimation:UITableViewRowAnimationTop];
 		
 	}
 	else
 	{
-		[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:1]] withRowAnimation:UITableViewRowAnimationTop];
+		[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:1 inSection:1], [NSIndexPath indexPathForRow:2 inSection:1], nil] withRowAnimation:UITableViewRowAnimationTop];
 	}
 }
 
@@ -763,6 +769,54 @@
 
 
 #pragma mark Actions
+- (IBAction) showAppInfo:(id)sender
+{
+	// a convenient method to get to the Info.plist in the app bundle
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+	
+	// get two items from the dictionary
+	NSString *version = [info objectForKey:@"CFBundleVersion"];
+	NSString *title = [info objectForKey:@"CFBundleDisplayName"];
+	
+	UIAlertView *alert = [[UIAlertView alloc] 
+						  initWithTitle:[@"About " stringByAppendingString:title]
+						  message:[NSString stringWithFormat:@"Version %@\n\n© 2009 Drobnik.com\nAll rights reserved.", version]
+						  delegate:self 
+						  cancelButtonTitle:@"Dismiss" 
+						  otherButtonTitles:@"Contact", nil];
+	[alert show];
+	[alert release];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (alertView.tag==0)
+	{
+		UIApplication *myApp = [UIApplication sharedApplication];
+	
+		// cancel button has index 0
+		switch (buttonIndex) {
+			case 1:
+			{
+				[myApp openURL:[NSURL URLWithString:@"mailto:oliver@drobnik.com"]];
+				break;
+			}
+		}
+	}
+	else if (alertView.tag==1)
+	{
+		// cancel button has index 0
+		switch (buttonIndex) {
+			case 1:
+			{
+				[[Database sharedInstance] removeAllReviewTranslations];
+				break;
+			}
+		}
+	}
+}
+
+
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
 	if (buttonIndex==0)
@@ -813,10 +867,44 @@
 
 
 #pragma mark TableListSelector Delegate
+// frequency selection
 - (void) didFinishSelectingFromTableListIndex:(NSInteger)index
 {
 	[[NSUserDefaults standardUserDefaults] setInteger:index forKey:@"ReviewFrequency"];
 	[self.navigationController popViewControllerAnimated:YES];
+}
+
+// translation selection
+- (void) didFinishSelectingFromTableKey:(NSString *)key
+{
+	[self.navigationController popViewControllerAnimated:YES];
+
+	NSString *lastCode = [[NSUserDefaults standardUserDefaults] objectForKey:@"ReviewTranslation"];
+	
+	if (lastCode != key)
+	{
+		UIAlertView *alert;
+		
+		if ([key isEqualToString:@" "])
+		{
+			alert = [[UIAlertView alloc] initWithTitle:@"Language Changed" message:@"You have disabled translation for reviews. Would you like to remove existing translations and restore original language reviews?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Execute", nil];
+		}
+		else
+		{
+			alert = [[UIAlertView alloc] initWithTitle:@"Language Changed" message:@"You have changed the translation language for reviews. Would you like to remove existing translations and download new translations?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Execute", nil];
+		}
+
+		alert.tag = 1;
+		[alert show];
+		[alert release];
+		
+		[[SynchingManager sharedInstance] cancelAllTranslations];
+
+	}
+		
+		
+	[[NSUserDefaults standardUserDefaults] setObject:key forKey:@"ReviewTranslation"];
+		
 }
 
 @end

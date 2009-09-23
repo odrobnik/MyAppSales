@@ -195,6 +195,8 @@
 	
 	height += size.height;
 	
+	
+	constraint = CGSizeMake(contentRect.size.width - 50, 500);
 	text = review.title;
 	font = [UIFont boldSystemFontOfSize:14];
 	size = [text sizeWithFont:font constrainedToSize:constraint];

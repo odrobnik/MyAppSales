@@ -12,6 +12,7 @@
 #import "App.h"
 #import "Country.h"
 
+
 @interface ReviewDownloaderOperation ()
 - (void) sendFinishToDelegate;
 @end;
@@ -32,6 +33,7 @@
 		scraperDelegate = scrDelegate;
 		
 		workInProgress = YES;
+		
 	}
 	
 	return self;
@@ -236,6 +238,7 @@
 				double stars = [[oneReview objectForKey:@"average-user-rating"] doubleValue];
 				
 				Review *newReview = [[Review alloc] initWithApp:app country:country title:title name:user version:version date:reviewDate review:review stars:stars];
+				
 				[scrapedReviews addObject:newReview];
 				[newReview release];
 			}

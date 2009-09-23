@@ -25,6 +25,7 @@ typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope 
 	NSMutableDictionary *apps;
 	NSMutableDictionary *reports;
 	NSMutableDictionary *countries;
+	NSDictionary *languages;
 	
 	// indexes
 	NSMutableDictionary *reportsByReportType;
@@ -43,6 +44,7 @@ typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope 
 @property (nonatomic, retain, readonly) NSMutableDictionary *apps;	
 @property (nonatomic, retain, readonly) NSMutableDictionary *reports;  
 @property (nonatomic, retain, readonly) NSMutableDictionary *countries;
+@property (nonatomic, retain, readonly) NSDictionary *languages;
 
 + (Database *) sharedInstance;
 
@@ -73,6 +75,7 @@ typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope 
 - (void) newReportRead:(Report *)report;
 
 - (void) reloadAllAppIcons;
+- (void) removeAllReviewTranslations;
 
 - (void) importReportsFromDocumentsFolder;
 - (NSString *) createZipFromReportsOfType:(ReportType)type;

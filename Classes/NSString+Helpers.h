@@ -16,6 +16,8 @@
 - (NSDate *) dateFromString;
 - (NSArray *) optionsFromSelect;
 - (NSString *)stringByFindingFormPostURLwithName:(NSString *)formName;
+- (NSArray *)arrayWithHrefDicts;
+- (NSString *)hrefForLinkContainingText:(NSString *)searchText;
 - (NSString *) stringByUrlEncoding;
 
 - (NSComparisonResult)compareDesc:(NSString *)aString;
@@ -23,4 +25,11 @@
 
 // md5 maker
 - (NSString * )md5;
+
+// method to get the path for a file in the document directory
++ (NSString *) pathForFileInDocuments:(NSString *)fileName;
+
+
++ (NSString *) pathForLocalizedFileInAppBundle:(NSString *)fileName ofType:(NSString *)type;
+
 @end

@@ -24,9 +24,22 @@
     return self;
 }
 
+- (id) initWithDictionary:(NSDictionary *)dict
+{
+    if (self = [super initWithStyle:UITableViewStylePlain]) 
+	{
+		// the list are the keys of the dictionary
+		myList = [[dict keysSortedByValueUsingSelector:@selector(compare:)] retain];
+
+		myDictionary = [dict retain]; // for looking up the long text
+	}
+    return self;
+}
+
 
 - (void)dealloc 
 {
+	[myDictionary release];
 	[myList release];
     [super dealloc];
 }
@@ -106,7 +119,15 @@
     }
     
     // Set up the cell...
-	cell.textLabel.text = [myList objectAtIndex:indexPath.row];
+	if (myDictionary)
+	{
+		cell.textLabel.text = [[myDictionary objectForKey:[myList objectAtIndex:indexPath.row]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	}
+	else
+	{
+		cell.textLabel.text = [myList objectAtIndex:indexPath.row];
+	}
+
 	
 	if (indexPath.row == selectedIndex)
 	{
@@ -137,11 +158,18 @@
 	UITableViewCell *newCell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:0]];
 	newCell.accessoryType = UITableViewCellAccessoryCheckmark;
 	
-	
-	if (delegate && [delegate respondsToSelector:@selector(didFinishSelectingFromTableListIndex:)])
+	if (myDictionary)
+	{
+		if (delegate && [delegate respondsToSelector:@selector(didFinishSelectingFromTableKey:)])
+		{
+			[delegate didFinishSelectingFromTableKey:[myList objectAtIndex:selectedIndex]];
+		}
+	}
+	else if (delegate && [delegate respondsToSelector:@selector(didFinishSelectingFromTableListIndex:)])
 	{
 		[delegate didFinishSelectingFromTableListIndex:selectedIndex];
-	}
+	} 
+	
 	
     // Navigation logic may go here. Create and push another view controller.
 	// AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
@@ -190,8 +218,24 @@
 */
 
 
+- (NSString *) selectedKey
+{
+	return [myList objectAtIndex:selectedIndex];
+}
 
-
+- (void) setSelectedKey:(NSString *)newKey
+{
+	NSUInteger idx = 0;
+	for (NSString *oneKey in myList)
+	{
+		if ([oneKey isEqualToString:newKey])
+		{
+			selectedIndex = idx;
+			return;
+		}
+		idx++;
+	}
+}
 
 @end
 

@@ -142,6 +142,19 @@
 	}
 }
 
+- (void) showDisclosureIndicatorIfNeeded
+{
+	// show disclosure indicator if there are reviews
+	if ([app.reviews count])
+	{
+		self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	}
+	else
+	{
+		self.accessoryType = UITableViewCellAccessoryNone;
+	}
+}
+
 - (void)setApp:(App *)inApp
 {
 	//if (self.app != inApp)  // would prevent update for main currency change
@@ -178,6 +191,10 @@
 		{
 			self.CELL_IMAGE = [UIImage imageNamed:@"Empty.png"];
 		}
+		
+		
+		[self showDisclosureIndicatorIfNeeded];
+
 	}
 }
 
@@ -190,6 +207,8 @@
 - (void)appReviewsUpdated:(NSNotification *)notifications
 {
 	[self setBadge];
+	[self showDisclosureIndicatorIfNeeded];
+	
 	//[self setNeedsDisplay];
 }
 

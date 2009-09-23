@@ -43,11 +43,41 @@
 		
 		switch (report_type) {
 			case ReportTypeDay:
+			{
 				self.title = @"Days";
 				break;
+			}	
 			case ReportTypeWeek:
+			{
 				self.title = @"Weeks";
 				break;
+			}
+			case ReportTypeFree:
+			{
+				self.title = @"Months (Free)";
+				// this defines the back button leading BACK TO THIS controller
+				UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc]
+													  initWithTitle:@"Months"
+													  style:UIBarButtonItemStyleBordered
+													  target:nil
+													  action:nil];
+				self.navigationItem.backBarButtonItem = backBarButtonItem;
+				[backBarButtonItem release];
+				break;
+			}
+			case ReportTypeFinancial:
+			{
+				self.title = @"Months (Financial)";
+				// this defines the back button leading BACK TO THIS controller
+				UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc]
+													  initWithTitle:@"Months"
+													  style:UIBarButtonItemStyleBordered
+													  target:nil
+													  action:nil];
+				self.navigationItem.backBarButtonItem = backBarButtonItem;
+				[backBarButtonItem release];
+				break;
+			}
 			default:
 				break;
 		}
@@ -55,6 +85,8 @@
 		self.tabBarItem = self.parentViewController.tabBarItem;
 		self.tableView.rowHeight = 45.0;
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportNotification:) name:@"NewReportAdded" object:nil];
+		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportNotification:) name:@"NewReportRead" object:nil];
+		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainCurrencyNotification:) name:@"MainCurrencyChanged" object:nil];
 
 		
@@ -75,16 +107,17 @@
 }
 
 
-/*
+
  - (void)viewWillAppear:(BOOL)animated {
  [super viewWillAppear:animated];
+	 [self.tableView reloadData];
  }
- */
-/*
+ 
+
  - (void)viewDidAppear:(BOOL)animated {
  [super viewDidAppear:animated];
  }
- */
+ 
 /*
  - (void)viewWillDisappear:(BOOL)animated {
  [super viewWillDisappear:animated];
@@ -119,8 +152,6 @@
 // new Reports cause insertion animation
 - (void)newReportNotification:(NSNotification *) notification
 {
-	
-	
 	if(notification)
 	{
 		NSDictionary *tmpDict = [notification userInfo];
@@ -128,7 +159,7 @@
 		
 		if (report.reportType == report_type)
 		{	
-			if ((report_type == ReportTypeWeek) ||(report_type == ReportTypeFinancial))
+			if ((report_type == ReportTypeWeek) ||(report_type == ReportTypeFinancial)||(report_type == ReportTypeFree))
 			{
 				NSInteger insertionIndex = [[tmpDict objectForKey:@"InsertionIndex"] intValue];
 				
@@ -210,6 +241,13 @@
 		
 	}
 }
+
+// new Reports cause update of badges
+- (void)newReportRead:(NSNotification *) notification
+{
+	//[self.tableView reloadData];  // to change icon where there are new reports
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -298,7 +336,34 @@
 	
 }
 
-
+/*
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	Report *tmpReport;
+	
+	if (report_type==ReportTypeDay)
+	{
+		NSString *key = [indexByYearMonthSortedKeys objectAtIndex:indexPath.section];
+		NSArray *monthArray = [indexByYearMonth objectForKey:key];
+		
+		tmpReport = [monthArray objectAtIndex:indexPath.row];
+	}
+	else
+	{
+		tmpReport = [report_array objectAtIndex:indexPath.row];
+	}
+	
+	if (tmpReport.isNew)
+	{
+		cell.CELL_IMAGE = report_icon_new;
+	}
+	else
+	{
+		cell.CELL_IMAGE = report_icon;
+	}
+}
+*/
+ 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -396,6 +461,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
 	Report *tmpReport;
 	
 	if (report_type==ReportTypeDay)
@@ -409,20 +476,23 @@
 	{
 		tmpReport = [report_array objectAtIndex:indexPath.row];
 	}
+
+	/*
 	
+	 // if this was a new report, now it ain't any longer
+	 if (tmpReport.isNew)
+	 {
+		 [DB newReportRead:tmpReport];
+		 
+		 // change icon
+		 UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+		 cell.CELL_IMAGE = report_icon;  
+	 }
+	*/
+	 
 	ReportAppsController *reportAppsController = [[ReportAppsController alloc] initWithReport:tmpReport];
 	[self.navigationController pushViewController:reportAppsController animated:YES];
 	[reportAppsController release];
-	
-	// if this was a new report, now it ain't any longer
-	if (tmpReport.isNew)
-	{
-		[DB newReportRead:tmpReport];
-		
-		[self.tableView reloadData];  // only way to remove the red stars
-	}
-	
-	
 }
 
 

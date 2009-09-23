@@ -59,7 +59,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
             // Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
             // This is a great way to optimize because frequently used queries can be compiled once, then with each
             // use new variable values can be bound to placeholders.
-            const char *sql = "SELECT from_date, until_date, downloaded_date, report_type_id FROM report WHERE id=?";
+            const char *sql = "SELECT from_date, until_date, downloaded_date, report_type_id, report_region_id FROM report WHERE id=?";
             if (sqlite3_prepare_v2(database, sql, -1, &init_statement, NULL) != SQLITE_OK) {
                 NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
             }
@@ -73,6 +73,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 			self.untilDate = [self dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 1)]];
 			self.downloadedDate = [self dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 2)]];
 			self.reportType = sqlite3_column_int(init_statement, 3);
+			self.region = sqlite3_column_int(init_statement, 4);
         } else {
         }
         // Reset the statement for future reuse.
@@ -130,6 +131,11 @@ static NSDateFormatter *dateFormatterToRead = nil;
 				 country_code:(NSString *)country_code
 {
 	Country *tmpCountry = [DB countryForCode:country_code];
+	
+	if (!tmpCountry)
+	{
+		NSLog(@"cannot find country '%@'", country_code);
+	}
 	tmpCountry.usedInReport = YES; // makes sure we have an icon
 
 	App *tmpApp = [DB appForID:app_id];
@@ -237,19 +243,63 @@ static NSDateFormatter *dateFormatterToRead = nil;
     }
 }
 
-- (NSString *)monthForMonthlyReports
+- (NSDate *)dateInMiddleOfReport
 {
 	// calculate the middle point and output it's localized name
 	NSTimeInterval start = [fromDate timeIntervalSince1970];
 	NSTimeInterval finish = [untilDate timeIntervalSince1970];
 	NSTimeInterval middle = (start + finish)/2.0;
 	
-	NSDate *tmpDate = [NSDate dateWithTimeIntervalSince1970:middle];
+	return [NSDate dateWithTimeIntervalSince1970:middle];
+}
+
+- (NSString *)monthForMonthlyReports
+{
+	NSDate *tmpDate = [self dateInMiddleOfReport];
 	
 	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
 	[df setDateFormat:@"MMMM YYYY"];
 	
 	return [df stringFromDate:tmpDate];
+}
+
+- (NSString *)descriptionFinancialShort
+{
+	NSString *region_name;
+	
+	switch (region) {
+		case ReportRegionUK:
+			region_name = @"UK";
+			break;
+		case ReportRegionUSA:
+			region_name = @"US";
+			break;
+		case ReportRegionEurope:
+			region_name = @"EU";
+			break;
+		case ReportRegionJapan:
+			region_name = @"JP";
+			break;
+		case ReportRegionCanada:
+			region_name = @"CA";
+			break;
+		case ReportRegionAustralia:
+			region_name = @"AU";
+			break;
+		case ReportRegionRestOfWorld:
+			region_name = @"WW";
+			break;
+		default:
+			region_name = @"??";
+	}
+	
+	NSDate *tmpDate = [self dateInMiddleOfReport];
+	
+	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
+	[df setDateFormat:@"MM/YYYY"];
+	
+	NSString *monthString = [df stringFromDate:tmpDate];
+	return [NSString stringWithFormat:@"%@ %@", region_name, monthString];
 }
 
 - (NSString *)listDescription
@@ -281,11 +331,11 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		{
 			NSString *region_name;
 			
-			[self hydrate];  // to estimate the region until there is a table for it
+			//[self hydrate];  // to estimate the region until there is a table for it
 			
 			switch (region) {
 				case ReportRegionUK:
-					region_name = @"United Kingdom";
+					region_name = @"UK";
 					break;
 				case ReportRegionUSA:
 					region_name = @"USA";
@@ -303,7 +353,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 					region_name = @"Australia";
 					break;
 				case ReportRegionRestOfWorld:
-					region_name = @"Rest of World";
+					region_name = @"Rest";
 					break;
 				default:
 					region_name = @"Invalid Region";
@@ -648,7 +698,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 {
 	NSMutableArray *tmpArray = [salesByApp objectForKey:[NSNumber numberWithInt:app_id]];
 	double ret = 0;
-	NSLog(@"---");
+	//NSLog(@"---");
 	
 	if (tmpArray)
 	{

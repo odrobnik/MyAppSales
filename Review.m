@@ -9,12 +9,18 @@
 #import "Review.h"
 #import "App.h"
 #import "Country.h"
+#import "SynchingManager.h"
 
 static sqlite3_stmt *insert_statement = nil;
+static sqlite3_stmt *update_statement = nil;
+static sqlite3_stmt *reviews_statement = nil;
+
+// Date formatter for XML files
+static NSDateFormatter *dateFormatterToRead = nil;
 
 @implementation Review
 
-@synthesize app, country, title, name, version, date, review, stars, isNew;
+@synthesize app, country, title, name, version, date, review, translated_review, stars, isNew, primaryKey;
 
 
 
@@ -44,8 +50,94 @@ static sqlite3_stmt *insert_statement = nil;
 	return self;
 }
 
+- (NSDate *) dateFromString:(NSString *)rfc2822String
+{
+	if (!dateFormatterToRead)
+	{
+		dateFormatterToRead = [[NSDateFormatter alloc] init];
+		[dateFormatterToRead setDateFormat:@"yyyy-MM-dd HH:mm:ss ZZ"]; /* Unicode Locale Data Markup Language */
+	}
+	return [dateFormatterToRead dateFromString:rfc2822String]; /*e.g. @"Thu, 11 Sep 2008 12:34:12 +0200" */	
+}
+
+// Creates the object with primary key and title is brought into memory.
+- (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db 
+{
+	self.primaryKey = pk;
+	database = db;
+	
+    if (self = [self init]) 
+	{
+        if (reviews_statement == nil) {
+            // Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
+            // This is a great way to optimize because frequently used queries can be compiled once, then with each
+            // use new variable values can be bound to placeholders.
+            const char *sql = "SELECT id, country_code, review_date, version, title, name, review, stars, review_translated FROM review WHERE id=? ORDER BY review_date DESC";
+            if (sqlite3_prepare_v2(database, sql, -1, &reviews_statement, NULL) != SQLITE_OK) {
+                NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+            }
+        }
+        // For this query, we bind the primary key to the first (and only) placeholder in the statement.
+        // Note that the parameters are numbered from 1, not from 0.
+        sqlite3_bind_int(reviews_statement, 1, pk);
+		
+        while (sqlite3_step(reviews_statement) == SQLITE_ROW) {
+			//NSUInteger review_id = sqlite3_column_int(reviews_statement, 0);
+			//NSLog(@"%d", review_id);
+			NSString *country_code = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 1)];
+			self.country = [DB countryForCode:country_code];
+			country.usedInReport = YES; // makes sure we have an icon
+			
+			
+			
+			char *date_text = (char *)sqlite3_column_text(reviews_statement, 2);
+			
+			if (date_text)
+			{
+				self.date = [self dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 2)]];
+			}
+			
+			char *version_text = (char *)sqlite3_column_text(reviews_statement, 3);
+			
+			//NSString *version = nil;
+			
+			if (version_text )
+			{	
+				self.version = [NSString stringWithUTF8String:version_text];
+			}
+			
+			self.title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 4)];			
+			self.name = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 5)];			
+			self.review = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 6)];			
+			stars = sqlite3_column_double(reviews_statement, 7);
+			
+			char *translated_text = (char *)sqlite3_column_text(reviews_statement, 8);
+			NSString *review_translated;
+			
+			if (translated_text)
+			{
+				review_translated = [NSString stringWithUTF8String:translated_text];
+				self.translated_review = review_translated;
+			}
+			else 
+			{
+				[[SynchingManager sharedInstance]translateReview:self delegate:self];
+			}
+						
+        }
+        // Reset the statement for future reuse.
+        sqlite3_reset(reviews_statement);
+    }
+	
+    return self;
+}
+
+
+
 - (void) dealloc
 {
+	[dateFormatterToRead release];
+	dateFormatterToRead = nil;
 	[app release];
 	[country release];
 	[title release];
@@ -70,7 +162,7 @@ static sqlite3_stmt *insert_statement = nil;
     // variable is used to store the SQLite compiled byte-code for the query, which is generated one time - the first
     // time the method is executed by any Book object.
     if (insert_statement == nil) {
-        static char *sql = "INSERT INTO review(app_id, country_code, review_date, version, title, name, review, stars) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        static char *sql = "INSERT INTO review(app_id, country_code, review_date, version, title, name, review, stars, review_translated) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         if (sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
@@ -84,6 +176,7 @@ static sqlite3_stmt *insert_statement = nil;
     sqlite3_bind_text(insert_statement, 6, [name UTF8String], -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(insert_statement, 7, [review UTF8String], -1, SQLITE_TRANSIENT);
 	sqlite3_bind_double(insert_statement, 8, stars);
+	sqlite3_bind_text(insert_statement, 9, [translated_review UTF8String], -1, SQLITE_TRANSIENT);
 	
 	
     int success = sqlite3_step(insert_statement);
@@ -92,6 +185,7 @@ static sqlite3_stmt *insert_statement = nil;
 	if (success != SQLITE_CONSTRAINT)
 	{
 		isNew = YES;
+		primaryKey = sqlite3_last_insert_rowid(database);
 	}
 	
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
@@ -112,8 +206,75 @@ static sqlite3_stmt *insert_statement = nil;
     //hydrated = YES;
 }
 
+- (void)updateDatabase
+{
+    // This query may be performed many times during the run of the application. As an optimization, a static
+    // variable is used to store the SQLite compiled byte-code for the query, which is generated one time - the first
+    // time the method is executed by any Book object.
+    if (update_statement == nil) {
+        static char *sql = "UPDATE review set review_translated = ? WHERE id = ?";
+        if (sqlite3_prepare_v2(database, sql, -1, &update_statement, NULL) != SQLITE_OK) {
+            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+        }
+    }
+	
+	sqlite3_bind_text(update_statement, 1, [translated_review UTF8String], -1, SQLITE_TRANSIENT);
+	sqlite3_bind_int(update_statement, 2, primaryKey);
+	
+    int success = sqlite3_step(update_statement);
+	
+    // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
+    sqlite3_reset(update_statement);
+	
+    if (success == SQLITE_ERROR) {
+        NSAssert1(0, @"Error: failed to update in database with message '%s'.", sqlite3_errmsg(database));
+    }
+}
 
 
+
+- (NSString *) review
+{
+	if (translated_review)
+	{
+		return translated_review;
+	}
+	else 
+	{
+		return review;
+	}
+}
+
+
+#pragma mark Sorting
+- (NSComparisonResult)compareByReviewDate:(Review *)otherReview
+{
+	NSTimeInterval myTI = [self.date timeIntervalSinceReferenceDate];
+	NSTimeInterval otherTI = [otherReview.date timeIntervalSinceReferenceDate];
+	
+	
+	
+	if (myTI < otherTI)
+	{
+		return NSOrderedDescending;
+	}
+	
+	if (myTI > otherTI)
+	{
+		return NSOrderedAscending;
+	}
+	
+	return [self.name compare:otherReview.name];  // if same date sort by reviewer
+}
+
+- (void) finishedTranslatingTextTo:(NSString *)translatedText
+{
+	//NSLog(@"trans: '%@' to '%@'", review, translatedText);
+	self.translated_review = translatedText;
+	
+	[self updateDatabase];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"AppReviewsUpdated" object:nil userInfo:(id)app];
+}
 
 
 @end

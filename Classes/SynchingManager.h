@@ -10,13 +10,14 @@
 
 
 
-@class App, Country, Account;
-@protocol ReviewScraperDelegate;
+@class App, Country, Account, Review;
+@protocol ReviewScraperDelegate, TranslationScraperDelegate;
 
 
 @interface SynchingManager : NSObject
 {
 	NSOperationQueue *queue;
+	NSUInteger activeOperations;
 }
 
 + (SynchingManager *) sharedInstance;
@@ -25,7 +26,14 @@
 // iTunes Review Scraper
 - (void) scrapeForApp:(App *)reviewApp country:(Country *)reviewCountry delegate:(id<ReviewScraperDelegate>)scraperDelegate;
 
+// Translation Downloader
+- (void) translateReview:(Review *)review delegate:(id<TranslationScraperDelegate>)scraperDelegate;
+- (void) cancelAllTranslations;
 
 // iTunes Connect Downloader
 - (void) downloadForAccount:(Account *)itcAccount reportsToIgnore:(NSArray *)reportsArray;
+
+
+
+
 @end

@@ -19,6 +19,8 @@
 	BOOL showAddress;
 	
 	NSArray *reviewFrequencyList;
+	
+	NSArray *sortedLanguageCodeList;
 }
 
 //@property (nonatomic, retain) KeychainWrapper *keychainWrapper;

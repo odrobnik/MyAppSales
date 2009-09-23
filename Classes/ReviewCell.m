@@ -80,12 +80,15 @@
 		
 		NSString *text = self.reviewTitle.text;
 		UIFont *font = self.reviewTitle.font;
-		CGSize constraint = CGSizeMake(contentRect.size.width - 20, 500);
+		CGSize constraint = CGSizeMake(contentRect.size.width - 50, 500);
 		CGSize size = [text sizeWithFont:font constrainedToSize:constraint];
 		
-		frame = CGRectMake(boundsX + 10, 0, contentRect.size.width - 20, size.height + 10);
+		frame = CGRectMake(boundsX + 10, 0, contentRect.size.width - 50, size.height + 10);
 		
 		self.reviewTitle.frame = frame;
+		
+		constraint = CGSizeMake(contentRect.size.width - 20, 500);
+		
 		self.countryImage.frame = CGRectMake(280, 2.0+(frame.size.height-self.countryImage.image.size.height)/2.0, self.countryImage.image.size.height, self.countryImage.image.size.height);
 		
 		
@@ -123,7 +126,6 @@
 {
 	
 }
-
 
 - (void)dealloc
 {

@@ -13,7 +13,7 @@
 @optional
 
 - (void) didFinishSelectingFromTableListIndex:(NSInteger)index;
-
+- (void) didFinishSelectingFromTableKey:(NSString *)key;
 @end
 
 
@@ -22,12 +22,19 @@
 {
 	NSInteger selectedIndex;
 	NSArray *myList;
+	NSDictionary *myDictionary;
+	
 	id <TableListSelectorDelegate> delegate;
 }
 
 @property (nonatomic, assign) NSInteger selectedIndex;
 @property (nonatomic, assign) id <TableListSelectorDelegate> delegate;
+//@property (nonatomic, assign) NSString *selectedKey;
 
 - (id) initWithList:(NSArray *)list;
+- (id) initWithDictionary:(NSDictionary *)dict;
+
+- (void) setSelectedKey:(NSString *)newKey;
+
 
 @end

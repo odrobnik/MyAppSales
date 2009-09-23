@@ -46,6 +46,54 @@
 }
 
 
+
+- (BOOL) needToDownloadFinancialReportWithFilename:(NSString *)fileName
+{
+	NSLog(@"%@", fileName);
+	NSArray *split = [[fileName stringByReplacingOccurrencesOfString:@".txt" withString:@""] componentsSeparatedByString:@"_"];
+	
+	NSString *reportMonth = [split objectAtIndex:1];
+	NSString *regionCode = [split objectAtIndex:2];
+	
+	if ([split count]>3)
+	{
+		return NO;
+	}
+	
+	ReportRegion region;
+	
+	if ([regionCode isEqualToString:@"US"]) region = ReportRegionUSA;
+	else if ([regionCode isEqualToString:@"GB"]) region = ReportRegionUK;
+	else if ([regionCode isEqualToString:@"JP"]) region = ReportRegionJapan;
+	else if ([regionCode isEqualToString:@"AU"]) region = ReportRegionAustralia;
+	else if ([regionCode isEqualToString:@"CA"]) region = ReportRegionCanada;
+	else if ([regionCode isEqualToString:@"EU"]) region = ReportRegionEurope;
+	else if ([regionCode isEqualToString:@"WW"]) region = ReportRegionRestOfWorld;
+	else region = ReportRegionUnknown;
+
+	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
+	[df setDateFormat:@"MMYY"];
+	
+	for (Report *oneReport in reportsToIgnore)
+	{
+		if (oneReport.reportType == ReportTypeFinancial)
+		{
+			NSDate *middleDate = [oneReport dateInMiddleOfReport];
+			NSString *oneReportMonth = [df stringFromDate:middleDate];
+		
+			if ([oneReportMonth isEqualToString:reportMonth]&&(oneReport.region == region))
+			{
+				return NO;
+			}
+		}
+	}
+	
+	return YES;
+}
+
+
+
+
 - (void) main
 {
 	if (!(account.account&&account.password&&![account.account isEqualToString:@""]&&![account.password isEqualToString:@""]))
@@ -121,11 +169,11 @@
 	
 	data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	
-	if ([response isKindOfClass:[NSHTTPURLResponse class]])
+	/*if ([response isKindOfClass:[NSHTTPURLResponse class]])
 	{
 		NSHTTPURLResponse *http = (NSHTTPURLResponse *)response;
 		NSLog(@"%@", [http allHeaderFields]);
-	}
+	}*/
 	
 	if (error)
 	{
@@ -139,6 +187,9 @@
 		return;
 	}
 	
+	
+	sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+	
 	// check if we received a login session cookies
 	NSArray *sessionCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://www.apple.com"]];
 	
@@ -147,6 +198,11 @@
 		[self setStatusError:@"Login Failed"];
 		return;
 	}
+	
+	
+	NSString *financialUrl = [sourceSt hrefForLinkContainingText:@"Financial"];
+
+	[NSThread sleepForTimeInterval:1]; // experiment: slow down to prevent timeout changing to itts
 	
 	// open "Piano" reporting page
 	URL = @"http://itts.apple.com/cgi-bin/WebObjects/Piano.woa";
@@ -182,7 +238,7 @@
 	if (!post_url)
 	{
 		[self setStatusError:@"No form post URL found! (Piano Screen)"];
-		NSLog(@"%@", sourceSt);
+		//NSLog(@"%@", sourceSt);
 		return;
 	}
 	
@@ -224,6 +280,8 @@
 	if (!post_url)
 	{
 		[self setStatusError:@"Unrecognized response from day options"];
+		
+		NSLog(@"%@", sourceSt);
 		return;
 	}
 	
@@ -491,6 +549,170 @@
 		}
 		
 	}	
+	
+	
+	URL = [@"https://itunesconnect.apple.com" stringByAppendingString:financialUrl];
+	
+	request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
+									cachePolicy:NSURLRequestUseProtocolCachePolicy
+								timeoutInterval:60.0];  // might take long
+	
+	[request setHTTPMethod:@"GET"];
+	
+	[self setStatus:@"Accessing Financial Reports"];
+	
+	NSUInteger financialsDownloaded = 0;
+	
+	data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+	
+	
+	if (error)
+	{
+		[self setStatusError:[error localizedDescription]];
+		return;
+	}
+	
+	if (!data) 
+	{
+		[self setStatusError:@"No data received from FR"];
+		return;
+	}
+	
+	sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+	NSString *nextUrl = [sourceSt hrefForLinkContainingText:@"rt-OSarw.gif"];
+	
+	NSArray *reportURLs = [sourceSt arrayWithHrefDicts];
+	
+	for (NSDictionary *oneDict in reportURLs)
+	{
+		NSString *url = [oneDict objectForKey:@"url"];
+		NSString *text = [oneDict objectForKey:@"contents"];
+		
+		if ([text hasSuffix:@".txt"]&&[self needToDownloadFinancialReportWithFilename:text])
+		{
+			URL = [@"https://itunesconnect.apple.com" stringByAppendingString:url];
+			
+			request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
+											cachePolicy:NSURLRequestUseProtocolCachePolicy
+										timeoutInterval:60.0];  // might take long
+			
+			[request setHTTPMethod:@"GET"];
+			
+			
+			[self setStatus:[@"Loading " stringByAppendingString:text]];
+			
+			financialsDownloaded++;
+			data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+			
+			/*if ([response isKindOfClass:[NSHTTPURLResponse class]])
+			 {
+			 NSHTTPURLResponse *http = (NSHTTPURLResponse *)response;
+			 NSLog(@"%@", [http allHeaderFields]);
+			 }*/
+			
+			
+			if (error)
+			{
+				[self setStatusError:[error localizedDescription]];
+				return;
+			}
+			
+			if (!data) 
+			{
+				[self setStatusError:@"No data received from FR"];
+				return;
+			}
+			
+			sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+			
+			[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromText:) withObject:sourceSt waitUntilDone:YES];
+			
+		}
+	}
+	
+	// to to next page if possible and if we at least downloaded one report on first page
+	while (financialsDownloaded&&nextUrl)
+	{
+		financialsDownloaded = 0;  // only go to next page if there was something new on this one
+		
+		URL = [@"https://itunesconnect.apple.com" stringByAppendingString:nextUrl];
+		
+		request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
+										cachePolicy:NSURLRequestUseProtocolCachePolicy
+									timeoutInterval:60.0];  // might take long
+		
+		[request setHTTPMethod:@"GET"];
+		
+		data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+		
+		
+		if (error)
+		{
+			[self setStatusError:[error localizedDescription]];
+			return;
+		}
+		
+		if (!data) 
+		{
+			[self setStatusError:@"No data received from FR"];
+			return;
+		}
+		
+		sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+		
+		nextUrl = [sourceSt hrefForLinkContainingText:@"rt-OSarw.gif"];
+		
+		NSArray *reportURLs = [sourceSt arrayWithHrefDicts];
+		
+		for (NSDictionary *oneDict in reportURLs)
+		{
+			NSString *url = [oneDict objectForKey:@"url"];
+			NSString *text = [oneDict objectForKey:@"contents"];
+			
+			if ([text hasSuffix:@".txt"]&&[self needToDownloadFinancialReportWithFilename:text])
+			{
+				URL = [@"https://itunesconnect.apple.com" stringByAppendingString:url];
+				
+				request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
+												cachePolicy:NSURLRequestUseProtocolCachePolicy
+											timeoutInterval:60.0];  // might take long
+				
+				[request setHTTPMethod:@"GET"];
+				
+				
+				[self setStatus:[@"Loading " stringByAppendingString:text]];
+				
+				data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+				financialsDownloaded++;
+				
+				/*if ([response isKindOfClass:[NSHTTPURLResponse class]])
+				 {
+				 NSHTTPURLResponse *http = (NSHTTPURLResponse *)response;
+				 NSLog(@"%@", [http allHeaderFields]);
+				 }*/
+				
+				
+				if (error)
+				{
+					[self setStatusError:[error localizedDescription]];
+					return;
+				}
+				
+				if (!data) 
+				{
+					[self setStatusError:@"No data received from FR"];
+					return;
+				}
+				
+				sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+				
+				[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromText:) withObject:sourceSt waitUntilDone:YES];
+				
+			}
+		}
+	}
+	
+	
 	
 	
 	[self setStatusSuccess:@"Synchronization Done"];

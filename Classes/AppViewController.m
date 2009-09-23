@@ -129,7 +129,6 @@
     AppCell *cell = (AppCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[AppCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
-		cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     }
     
     // Set up the cell...

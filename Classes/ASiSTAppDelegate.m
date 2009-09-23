@@ -77,6 +77,21 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	NSArray *languages = [userDefaults objectForKey:@"AppleLanguages"];
+	NSString *currentLanguage = [languages objectAtIndex:0];
+	NSLog(@"%@", currentLanguage);
+	
+	
+	NSLocale *loc = [[NSLocale alloc] initWithLocaleIdentifier:currentLanguage];
+	
+	
+	for (NSString *oneKey in languages)
+	{
+		NSLog(@"%@ - %@", oneKey, [loc displayNameForKey:NSLocaleLanguageCode value:oneKey]);
+	}
+	
+	NSLog(@"%@ - %@", @"nix", [loc displayNameForKey:NSLocaleLanguageCode value:@"zh-TW"]);
 	
 	
 	// Configure and show the window

@@ -262,6 +262,7 @@
     [super dealloc];
 }
 
+
 #pragma mark Actions for Edit
 
 - (void) cancel:(id)sender
@@ -269,15 +270,12 @@
 	[self.navigationController dismissModalViewControllerAnimated:YES];
 }
 
-
-
-
 - (void) save:(id)sender
 {
 	EditableCell *accountCell = (EditableCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
 	EditableCell *passwordCell = (EditableCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
 	EditableCell *descriptionCell = (EditableCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
-												 
+	
 	
 	NSString *account = accountCell.textField.text;
 	NSString *password = passwordCell.textField.text;

@@ -111,6 +111,67 @@
 			];
 }
 
+- (NSArray *)arrayWithHrefDicts
+{
+	NSScanner *scanner = [NSScanner scannerWithString:self];
+	
+	NSMutableArray *retArray = [NSMutableArray array];
+	
+	NSString *url;
+	
+	do 
+	{
+		url = nil;
+		[scanner scanUpToString:@"<a href=\"" intoString:nil];
+		
+		if (![scanner isAtEnd])
+		{
+			[scanner setScanLocation:[scanner scanLocation]+9];
+			// we found a href, get the content
+		
+			if ([scanner scanUpToString:@"\"" intoString:&url])
+			{
+				[scanner scanUpToString:@">" intoString:nil];
+				[scanner setScanLocation:[scanner scanLocation]+1];
+				
+				NSString *contents;
+				if ([scanner scanUpToString:@"</a>" intoString:&contents])
+				{
+					NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:url, 
+											 @"url", 
+											 [contents stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]], @"contents", nil];
+					
+					[retArray addObject:tmpDict];
+				}
+				
+			}
+		}
+
+	} while (url);
+	
+	return [NSArray arrayWithArray:retArray];
+}
+
+
+- (NSString *)hrefForLinkContainingText:(NSString *)searchText
+{
+	NSArray *linkDict = [self arrayWithHrefDicts];
+	
+	//NSLog(@"links: %@", linkDict);
+	
+	for (NSDictionary *oneDict in linkDict)
+	{
+		NSRange range = [[oneDict objectForKey:@"contents"] rangeOfString:searchText];
+		
+		if (range.length)
+		{
+			return [oneDict objectForKey:@"url"];
+		}
+	}
+		
+		
+	return nil;	
+}
 
 - (NSString *)stringByFindingFormPostURLwithName:(NSString *)formName
 {
@@ -143,6 +204,21 @@
 
 	// not found a form post in here
 	return nil;
+}
+
+// method to get the path for a file in the document directory
++ (NSString *) pathForFileInDocuments:(NSString *)fileName
+{
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+	return [documentsDirectory stringByAppendingPathComponent:fileName];
+}
+
++ (NSString *) pathForLocalizedFileInAppBundle:(NSString *)fileName ofType:(NSString *)type
+{
+	// get localized path for file from app bundle
+	NSBundle *thisBundle = [NSBundle mainBundle];
+	return [thisBundle pathForResource:fileName ofType:type];
 }
 
 @end

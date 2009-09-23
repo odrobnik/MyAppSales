@@ -24,9 +24,23 @@
 - (void) setReport:(Report *)activeReport
 {
 	report = activeReport;
-	[report hydrate];
 	
-	self.title = [report listDescription];
+	if (activeReport.isNew)
+	{
+		[DB newReportRead:activeReport];
+	}
+
+	[report hydrate];
+
+	if (report.reportType == ReportTypeFinancial)
+	{
+		self.title = [report descriptionFinancialShort];
+	}
+	else
+	{
+		self.title = [report listDescription];
+	}
+
 	[self.tableView reloadData];
 }
 

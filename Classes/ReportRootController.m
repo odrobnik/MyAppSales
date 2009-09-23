@@ -51,11 +51,12 @@
 	[self.tableView reloadData];  // to change icon where there are new reports
 }
 
-/*
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+	//[self.tableView reloadData];   // new indicator might have changed
 }
-*/
+
 /*
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
