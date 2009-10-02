@@ -796,8 +796,9 @@ static Database *_sharedInstance;
 	}
 	
 	
-	//[insertedReport makeSummariesFromSales];
-	[insertedReport dehydrate];
+	[insertedReport makeSummariesFromSales];
+	
+	/* [insertedReport dehydrate]; //-- did not gain enough memory saving */
 	return insertedReport;
 }
 
