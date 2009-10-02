@@ -560,7 +560,23 @@ static NSDateFormatter *dateFormatterToRead = nil;
 }
 
 
+// remove detail info from memory
+- (void) dehydrate
+{
+	[salesByApp release];
+	salesByApp = nil;
+	
+	[sales release];
+	sales = nil;
+	
+	[summariesByApp release];
+	summariesByApp = nil;
+	
+	hydrated = NO;
+}
 
+
+// get all detail info
 - (void) hydrate
 {
 	if (hydrated)

@@ -103,7 +103,9 @@
 - (NSString *) reconstructText;
 
 - (void) makeSummariesFromSales;
+
 - (void) hydrate;
+- (void) dehydrate;
 
 
 - (NSComparisonResult)compareByReportDateDesc:(Report *)otherObject;
