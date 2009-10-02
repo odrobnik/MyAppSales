@@ -714,7 +714,9 @@ local int unzlocal_GetCurrentFileInfoInternal (file,
 
         if (lSeek!=0)
             if (ZSEEK(s->z_filefunc, s->filestream,lSeek,ZLIB_FILEFUNC_SEEK_CUR)==0)
-                lSeek=0;
+			{
+               // lSeek=0; never read according to Analyze
+			}
             else
                 err=UNZ_ERRNO;
         if ((file_info.size_file_comment>0) && (commentBufferSize>0))
@@ -1112,7 +1114,10 @@ extern int ZEXPORT unzOpenCurrentFile3 (file, method, level, raw, password)
 
     if ((s->cur_file_info.compression_method!=0) &&
         (s->cur_file_info.compression_method!=Z_DEFLATED))
+	{
         err=UNZ_BADZIPFILE;
+		return err;  // Added: OD
+	}
 
     pfile_in_zip_read_info->crc32_wait=s->cur_file_info.crc;
     pfile_in_zip_read_info->crc32=0;

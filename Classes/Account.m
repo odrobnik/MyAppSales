@@ -131,7 +131,7 @@ static const UInt8 kKeychainIdentifier[]    = "com.drobnik.asist.KeychainUI\0";
 	[genericPasswordQuery setObject:pk_account forKey:(id)kSecAttrAccount];
 	[genericPasswordQuery setObject:pk_service forKey:(id)kSecAttrService];
 	
-	return genericPasswordQuery;
+	return [genericPasswordQuery autorelease];
 }
 
 - (void)writeToKeychain

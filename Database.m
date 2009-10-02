@@ -222,7 +222,7 @@ static Database *_sharedInstance;
 	NSString *currentLanguage = [appleLanguages objectAtIndex:0];
 	
 	
-	NSLocale *loc = [[NSLocale alloc] initWithLocaleIdentifier:currentLanguage];
+	NSLocale *loc = [[[NSLocale alloc] initWithLocaleIdentifier:currentLanguage] autorelease];
 	
 	
 	// set language default to current system language if not set
@@ -258,7 +258,7 @@ static Database *_sharedInstance;
 		char *lang_code;
 		if (lang_code = (char *)sqlite3_column_text(statement, 1))
 		{
-			NSString *language_code = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 1)];
+			NSString *language_code = [NSString stringWithUTF8String:lang_code];
 			NSString *language_name = [loc displayNameForKey:NSLocaleLanguageCode value:language_code];
 			
 			if (language_code&&language_name)

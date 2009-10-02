@@ -87,8 +87,6 @@
 		
 		self.reviewTitle.frame = frame;
 		
-		constraint = CGSizeMake(contentRect.size.width - 20, 500);
-		
 		self.countryImage.frame = CGRectMake(280, 2.0+(frame.size.height-self.countryImage.image.size.height)/2.0, self.countryImage.image.size.height, self.countryImage.image.size.height);
 		
 		

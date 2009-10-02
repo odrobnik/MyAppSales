@@ -395,7 +395,7 @@
 	}
 	
 	endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
-	NSArray *weekOptions = [[[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect] retain];
+	NSArray *weekOptions = [[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect];
 	
 	
 	for (NSString *oneWeekOption in weekOptions)
