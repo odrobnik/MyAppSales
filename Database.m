@@ -853,12 +853,6 @@ static Database *_sharedInstance;
 
 - (void) removeAllReviewTranslations
 {
-	for (NSNumber *oneAppID in apps)
-	{
-		App *oneApp = [apps objectForKey:oneAppID];
-		[oneApp removeReviewTranslations];
-	}
-	
 	
 	// fast removal directly in DB
 	
@@ -869,6 +863,12 @@ static Database *_sharedInstance;
 	{
  		sqlite3_close(database);
         NSAssert1(0, @"Failed to execute update script with message '%s'.", errmsg);
+	}
+	
+	for (NSNumber *oneAppID in apps)
+	{
+		App *oneApp = [apps objectForKey:oneAppID];
+		[oneApp removeReviewTranslations];
 	}
 }
 

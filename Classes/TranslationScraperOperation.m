@@ -85,6 +85,12 @@
 	return NO;
 }
 
+- (void)cancel
+{
+	[super cancel];
+	workInProgress = NO;
+}
+
 #pragma mark Status
 
 - (void) sendFinishToDelegate

@@ -49,7 +49,7 @@
 
 - (BOOL) needToDownloadFinancialReportWithFilename:(NSString *)fileName
 {
-	NSLog(@"%@", fileName);
+	//NSLog(@"%@", fileName);
 	NSArray *split = [[fileName stringByReplacingOccurrencesOfString:@".txt" withString:@""] componentsSeparatedByString:@"_"];
 	
 	NSString *reportMonth = [split objectAtIndex:1];

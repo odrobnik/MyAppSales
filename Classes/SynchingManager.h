@@ -33,7 +33,7 @@
 // iTunes Connect Downloader
 - (void) downloadForAccount:(Account *)itcAccount reportsToIgnore:(NSArray *)reportsArray;
 
-
+- (void) updateIndicators;
 
 
 @end

@@ -105,10 +105,7 @@ static SynchingManager * _sharedInstance;
 
 - (void) downloadStartedForOperation:(NSOperation *)operation
 {
-	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-	
-	appDelegate.refreshButton.enabled = NO;
-	
+	[self updateIndicators];
 }
 
 // Translation Downloader
@@ -122,7 +119,9 @@ static SynchingManager * _sharedInstance;
 							
 		wu.delegate = self;
 		[queue addOperation:wu];
-		[self toggleNetworkIndicator:YES];
+		//[self updateIndicators]; // update counter
+
+		//[self toggleNetworkIndicator:YES];
 	
 		[wu release];
 	}
@@ -139,9 +138,12 @@ static SynchingManager * _sharedInstance;
 			[oneOp cancel];
 		}
 	}
+	
+	[self updateIndicators]; // update counter
 }
 
-- (void) downloadFinishedForOperation:(NSOperation *)operation
+
+- (void) updateIndicators
 {
 	int active_count = 0;
 	for (NSOperation *operation in [queue operations])
@@ -155,20 +157,35 @@ static SynchingManager * _sharedInstance;
 	//NSLog(@"%d of %d", active_count, [[queue operations] count]);
 	if (!active_count)
 	{
-		[self toggleNetworkIndicator:NO];
 		
 		// update sums
 		[[Database sharedInstance] getTotals];
 		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
 		
+		//NSLog(@"synching done");
 		appDelegate.refreshButton.enabled = YES;
-		
+		[self toggleNetworkIndicator:NO];
+		[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 		
 	}
 	else 
 	{
+		//NSLog(@"still active : %d of %d", active_count, [[queue operations] count]);
 		[self toggleNetworkIndicator:YES];
+
+		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
+		appDelegate.refreshButton.enabled = NO;
+		
+		// disable idle time why synching active
+		[[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+		
+		
 	}
+}
+
+- (void) downloadFinishedForOperation:(NSOperation *)operation
+{
+	[self updateIndicators];
 }
 
 @end
