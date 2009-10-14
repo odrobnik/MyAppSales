@@ -83,7 +83,7 @@ typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope 
 
 // used by iTunesConnect to check if report has been downloaded already
 - (NSUInteger) reportIDForDateString:(NSString *)dayString type:(ReportType)report_type region:(ReportRegion)report_region;
-
+- (Report *) reportForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion;
 
 
 @end

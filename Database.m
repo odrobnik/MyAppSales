@@ -12,6 +12,7 @@
 #import "Country.h"
 
 #import "NSString+Helpers.h"
+#import "NSDate+Helpers.h"
 #import "ZipArchive.h"
 
 
@@ -836,6 +837,23 @@ static Database *_sharedInstance;
 	// Reset the statement for future reuse.
 	sqlite3_reset(reportid_statement);
 	return retID;
+}
+
+
+- (Report *) reportForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion
+{
+	NSArray *reportsOfThisType = [reportsByReportType objectForKey:[NSNumber numberWithInt:reportType]];
+	
+	for (Report *oneReport in reportsOfThisType)
+	{
+		if ([oneReport.untilDate sameDateAs:reportDate]&&(oneReport.region == reportRegion))
+		{
+			return oneReport;
+		}
+		
+	}
+								  
+	return nil;
 }
 
 #pragma mark Misc

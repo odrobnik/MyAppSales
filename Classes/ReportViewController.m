@@ -477,19 +477,6 @@
 		tmpReport = [report_array objectAtIndex:indexPath.row];
 	}
 
-	/*
-	
-	 // if this was a new report, now it ain't any longer
-	 if (tmpReport.isNew)
-	 {
-		 [DB newReportRead:tmpReport];
-		 
-		 // change icon
-		 UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-		 cell.CELL_IMAGE = report_icon;  
-	 }
-	*/
-	 
 	ReportAppsController *reportAppsController = [[ReportAppsController alloc] initWithReport:tmpReport];
 	[self.navigationController pushViewController:reportAppsController animated:YES];
 	[reportAppsController release];
@@ -576,7 +563,14 @@
 }
 
 
+#pragma mark Direct Navigation
 
+- (void)gotoReport:(Report *)reportToShow
+{
+	ReportAppsController *reportAppsController = [[ReportAppsController alloc] initWithReport:reportToShow];
+	[self.navigationController pushViewController:reportAppsController animated:YES];
+	[reportAppsController release];
+}
 
 @end
 

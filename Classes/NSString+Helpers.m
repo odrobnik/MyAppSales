@@ -36,7 +36,24 @@
 			[dateFormatterToRead setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
 			retDate = [dateFormatterToRead dateFromString:self];
 			[dateFormatterToRead release];
+			
+			if (retDate)
+			{
+				return retDate;
+			}
+			else
+			{
+				// try another format
+				
+				NSDateFormatter *dateFormatterToRead = [[NSDateFormatter alloc] init];
+				[dateFormatterToRead setDateFormat:@"yyyy-MM-dd"]; /* Unicode Locale Data Markup Language */
+				[dateFormatterToRead setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
+				retDate = [dateFormatterToRead dateFromString:self];
+				[dateFormatterToRead release];
+			}
+			
 			return retDate;
+
 		}
 	}
 	

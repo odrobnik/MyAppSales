@@ -233,5 +233,27 @@
 }
 
 
+#pragma mark Direct Navigation
+
+- (void)gotoReport:(Report *)reportToShow
+{
+	NSArray *tmpArray = [DB sortedReportsOfType:reportToShow.reportType];
+	
+	ReportViewController *reportViewController = [[ReportViewController alloc] initWithReportArray:tmpArray reportType:reportToShow.reportType style:UITableViewStylePlain];
+	[self.navigationController pushViewController:reportViewController animated:YES];
+	[reportViewController release];
+	
+	[reportViewController gotoReport:reportToShow];
+}
+
+- (void)gotToReportType:(ReportType)typeToShow
+{
+	NSArray *tmpArray = [DB sortedReportsOfType:typeToShow];
+	
+	ReportViewController *reportViewController = [[ReportViewController alloc] initWithReportArray:tmpArray reportType:typeToShow style:UITableViewStylePlain];
+	[self.navigationController pushViewController:reportViewController animated:YES];
+	[reportViewController release];
+}
+
 @end
 

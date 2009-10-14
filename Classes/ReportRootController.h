@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Database.h"
+@class Report;
 
 
 @interface ReportRootController : UITableViewController {
@@ -14,5 +16,8 @@
 	UIImage *report_icon_new;
 
 }
+
+- (void)gotoReport:(Report *)reportToShow;
+- (void)gotToReportType:(ReportType)typeToShow;
 
 @end

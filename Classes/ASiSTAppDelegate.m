@@ -10,6 +10,7 @@
 #import "RootViewController.h"
 #import "AppViewController.h"
 #import "ReportViewController.h"
+#import "ReportRootController.h"
 #import "StatusInfoController.h"
 #import	"PinLockController.h"
 
@@ -36,6 +37,8 @@
 //#import "TurboReviewScraper.h"
 #import "SynchingManager.h"
 #import "NSDate+Helpers.h"
+#import "NSURL+Helpers.h"
+#import "NSString+Helpers.h"
 
 
 @implementation ASiSTAppDelegate
@@ -78,7 +81,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	NSURL *launchURL;
-	BOOL forceSynch;
+	BOOL forceSynch = NO;
+	
+	
+	
 	
 	if (launchOptions)
 	{
@@ -90,7 +96,25 @@
 		if ([host isEqualToString:@"reports"])
 		{
 			tabBarController.selectedIndex = 1;
-			forceSynch = YES;
+
+			NSDictionary *options = [launchURL parameterDictionary];
+			
+			NSDate *tmpDate = [[options objectForKey:@"report_date"] dateFromString];
+			ReportType reportType = [[options objectForKey:@"type"] intValue];
+			Report *oneReport = [[Database sharedInstance] reportForDate:tmpDate type:reportType region:[[options objectForKey:@"region"] intValue]];
+
+			if (oneReport)
+			{
+				// no synch necessary because report is already there
+				[reportRootController gotoReport:oneReport];
+			}
+			else
+			{
+				// go to the appropriate section and start synch
+				[reportRootController gotToReportType:reportType];
+				forceSynch = YES;
+			}
+
 		}
 	}
 	
@@ -525,7 +549,7 @@
 	[tabBarController dismissModalViewControllerAnimated:YES];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
+- (void)applicationWillResignActive:(UIApplication *)application
 {
 	NSString *pin =  [[NSUserDefaults standardUserDefaults] objectForKey:@"PIN"];
 	if (pin)
