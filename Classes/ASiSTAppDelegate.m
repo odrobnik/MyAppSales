@@ -78,6 +78,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	NSURL *launchURL;
+	BOOL forceSynch;
 	
 	if (launchOptions)
 	{
@@ -89,6 +90,7 @@
 		if ([host isEqualToString:@"reports"])
 		{
 			tabBarController.selectedIndex = 1;
+			forceSynch = YES;
 		}
 	}
 	
@@ -169,7 +171,7 @@
 		
 		// only auto-sync if we did not already download a daily report today
 		Report *lastDailyReport = [[Database sharedInstance] latestReportOfType:ReportTypeDay];
-		if (![lastDailyReport.downloadedDate sameDateAs:[NSDate date]])
+		if (forceSynch || ![lastDailyReport.downloadedDate sameDateAs:[NSDate date]])
 		{
 			[[SynchingManager sharedInstance] downloadForAccount:[acc.accounts objectAtIndex:0] reportsToIgnore:nil];
 		}
@@ -255,10 +257,6 @@
 	[super dealloc];
 }
 
-- (void)newFileInDocuments:(NSNotification *) notification
-{
-	[DB importReportsFromDocumentsFolder];
-}
 
 - (void)applicationWillTerminate:(UIApplication *)application 
 {
@@ -356,6 +354,12 @@
 
 
 #pragma mark Notifications
+- (void)newFileInDocuments:(NSNotification *) notification
+{
+	[DB importReportsFromDocumentsFolder];
+}
+
+
 - (void)newReportNotification:(NSNotification *) notification
 {
 	
