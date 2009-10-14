@@ -75,8 +75,24 @@
 }
 
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application 
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	NSURL *launchURL;
+	
+	if (launchOptions)
+	{
+		 launchURL = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
+		//NSString *openingApp = [launchOptions objectForKey:UIApplicationLaunchOptionsSourceApplicationKey];
+		
+		NSString *host = [launchURL host];
+		
+		if ([host isEqualToString:@"reports"])
+		{
+			tabBarController.selectedIndex = 1;
+		}
+	}
+	
+
 	// Configure and show the window
 	[window addSubview:[tabBarController view]];
 	[window addSubview:statusViewController.view];
@@ -171,7 +187,7 @@
 			[alert release];
 			[tabBarController setSelectedIndex:3];
 		}
-		return;
+		return YES;
 	}
 
 	
@@ -223,6 +239,8 @@
 			}
 		}
 	}
+	
+	return YES;
 }
 
 
@@ -501,6 +519,24 @@
 - (void) didFinishUnlocking
 {
 	[tabBarController dismissModalViewControllerAnimated:YES];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+	NSString *pin =  [[NSUserDefaults standardUserDefaults] objectForKey:@"PIN"];
+	if (pin)
+	{	
+		PinLockController *controller = [[PinLockController alloc] initWithMode:PinLockControllerModeUnlock];
+		controller.delegate = self;
+		controller.pin = pin;
+		
+		UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+		navController.navigationBar.barStyle = UIBarStyleBlack;
+		[controller release];
+		
+		[tabBarController presentModalViewController:navController animated:NO];
+		[navController release];
+	}
 }
 
 @end

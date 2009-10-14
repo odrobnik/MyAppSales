@@ -880,6 +880,25 @@ static NSDateFormatter *dateFormatterToRead = nil;
 }
 
 
+#pragma mark MyAppSales Web Service
+
+// notify the server anonymously about the availability of all reports
+- (void) notifyServerAboutReportAvailability
+{
+	// build URL
+	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
+	[df setDateFormat:@"YYYY-MM-dd"];
+	
+	NSString *reportDateString = [df stringFromDate:untilDate];
+	NSString *url_string = [NSString stringWithFormat:@"http://www.drobnik.com/services/myappsales.asmx/SeenReport?ReportType=%d&ReportDate=%@&ReportRegionID=%d", reportType, reportDateString, region];
+	NSURL *url = [NSURL URLWithString:url_string];
+	
+	NSURLRequest *request=[NSURLRequest requestWithURL:url
+										   cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+									   timeoutInterval:60.0];
+	
+	[[[NSURLConnection alloc] initWithRequest:request delegate:self] autorelease]; // we don't care about reponse
+}
 
 
 @end

@@ -113,5 +113,7 @@
 
 - (NSDate *)dateInMiddleOfReport;
 
+- (void) notifyServerAboutReportAvailability;
+
 
 @end

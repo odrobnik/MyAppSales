@@ -1294,6 +1294,8 @@ static Database *_sharedInstance;
 	NSDictionary *tmpDict = [NSDictionary dictionaryWithObjects:values forKeys:keys];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"NewReportAdded" object:nil userInfo:tmpDict];
+	
+	[report notifyServerAboutReportAvailability];
 }
 
 - (void) setStatus:(NSString *)message
