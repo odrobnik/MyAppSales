@@ -22,6 +22,7 @@
 		A7006B5C0F3B0A0D009BB6A5 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = A7006B500F3B0A0C009BB6A5 /* zip.c */; };
 		A7006B5D0F3B0A0D009BB6A5 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = A7006B530F3B0A0C009BB6A5 /* ZipArchive.mm */; };
 		A700AA9F0F2B5B6C0014885D /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = A700AA9E0F2B5B6C0014885D /* Entitlements.plist */; };
+		A70582721085E07A0060BF64 /* NSURL+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = A70582711085E07A0060BF64 /* NSURL+Helpers.m */; };
 		A7061AC80F3712A300F605C1 /* ReportAppsController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */; };
 		A706CEE5105CDE790048E061 /* NSDictionary+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = A706CEE4105CDE790048E061 /* NSDictionary+Helpers.m */; };
 		A706D00B105CF3130048E061 /* ReviewDownloaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A706D00A105CF3130048E061 /* ReviewDownloaderOperation.m */; };
@@ -308,6 +309,7 @@
 		A7C7E92B10459E3000D413D0 /* DayReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C7E92A10459E3000D413D0 /* DayReportCell.m */; };
 		A7CD0666105A7014005F9166 /* cover_mask_rounded_100x100.png in Resources */ = {isa = PBXBuildFile; fileRef = A7CD0665105A7014005F9166 /* cover_mask_rounded_100x100.png */; };
 		A7CD06EA105A7882005F9166 /* UIImage+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CD06E9105A7882005F9166 /* UIImage+Helpers.m */; };
+		A7E0F9F3106BB684003B93FE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E0F9F2106BB684003B93FE /* QuartzCore.framework */; };
 		A7EB519410481BE6005452BE /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EB519310481BE6005452BE /* Database.m */; };
 		A7EB5259104825F9005452BE /* update_0_to_1.sql in Resources */ = {isa = PBXBuildFile; fileRef = A7EB5258104825F9005452BE /* update_0_to_1.sql */; };
 		A7EDD2FE0FA4E2C50079FE78 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD2FA0FA4E2C50079FE78 /* SettingsViewController.xib */; };
@@ -349,6 +351,8 @@
 		A7006B520F3B0A0C009BB6A5 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
 		A7006B530F3B0A0C009BB6A5 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
 		A700AA9E0F2B5B6C0014885D /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		A70582701085E07A0060BF64 /* NSURL+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+Helpers.h"; sourceTree = "<group>"; };
+		A70582711085E07A0060BF64 /* NSURL+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+Helpers.m"; sourceTree = "<group>"; };
 		A7061AC60F3712A300F605C1 /* ReportAppsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportAppsController.h; sourceTree = "<group>"; };
 		A7061AC70F3712A300F605C1 /* ReportAppsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportAppsController.m; sourceTree = "<group>"; };
 		A706CEE3105CDE790048E061 /* NSDictionary+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Helpers.h"; sourceTree = "<group>"; };
@@ -695,6 +699,7 @@
 		A7CD0665105A7014005F9166 /* cover_mask_rounded_100x100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover_mask_rounded_100x100.png; sourceTree = "<group>"; };
 		A7CD06E8105A7882005F9166 /* UIImage+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Helpers.h"; sourceTree = "<group>"; };
 		A7CD06E9105A7882005F9166 /* UIImage+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Helpers.m"; sourceTree = "<group>"; };
+		A7E0F9F2106BB684003B93FE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A7EB519210481BE6005452BE /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
 		A7EB519310481BE6005452BE /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
 		A7EB5258104825F9005452BE /* update_0_to_1.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = update_0_to_1.sql; sourceTree = "<group>"; };
@@ -727,6 +732,7 @@
 				A74A71EA0EFB0806003B5191 /* libsqlite3.dylib in Frameworks */,
 				A7745DC70F08D6740009DD76 /* CFNetwork.framework in Frameworks */,
 				A7B12CEE104D2EAA004639C9 /* Security.framework in Frameworks */,
+				A7E0F9F3106BB684003B93FE /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -775,6 +781,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				A700AA9E0F2B5B6C0014885D /* Entitlements.plist */,
+				A7E0F9F2106BB684003B93FE /* QuartzCore.framework */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -1133,6 +1140,8 @@
 				A706CEE4105CDE790048E061 /* NSDictionary+Helpers.m */,
 				A7A84CF0105E379200CAD54F /* NSDate+Helpers.h */,
 				A7A84CF1105E379200CAD54F /* NSDate+Helpers.m */,
+				A70582701085E07A0060BF64 /* NSURL+Helpers.h */,
+				A70582711085E07A0060BF64 /* NSURL+Helpers.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -1722,6 +1731,7 @@
 				A7C23D0810656D6800D544BA /* NSString+SBJSON.m in Sources */,
 				A7C23D0910656D6800D544BA /* SBJSON.m in Sources */,
 				A7C23D7E106575BC00D544BA /* TranslationScraperOperation.m in Sources */,
+				A70582721085E07A0060BF64 /* NSURL+Helpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1815,7 +1825,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
 				GCC_TREAT_NONCONFORMANT_CODE_ERRORS_AS_WARNINGS = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
