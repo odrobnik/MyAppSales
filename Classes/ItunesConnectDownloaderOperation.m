@@ -550,6 +550,11 @@
 		
 	}	
 	
+	if (!financialUrl) 
+	{
+		[self setStatusError:@"No link to financial reports"];
+		return;
+	}
 	
 	URL = [@"https://itunesconnect.apple.com" stringByAppendingString:financialUrl];
 	

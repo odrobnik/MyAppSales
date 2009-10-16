@@ -10,10 +10,10 @@
 	};
 	1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1074, 7371}}";
-			sepNavSelRange = "{14603, 0}";
-			sepNavVisRange = "{13651, 1060}";
-			sepNavWindowFrame = "{{307, 188}, {1133, 644}}";
+			sepNavIntBoundsRect = "{{0, 0}, {885, 7475}}";
+			sepNavSelRange = "{358, 0}";
+			sepNavVisRange = "{0, 860}";
+			sepNavWindowFrame = "{{216, 153}, {1133, 644}}";
 		};
 	};
 	1D6058900D05DD3D006BFB54 /* MyAppSales */ = {
@@ -48,7 +48,7 @@
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeBuildConfigurationName = Debug;
 		activeExecutable = A78E2B300EFA1E8C002EB6D9 /* MyAppSales */;
-		activeSDKPreference = iphonesimulator3.0;
+		activeSDKPreference = iphoneos3.0;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* MyAppSales */;
 		addToTargets = (
 			1D6058900D05DD3D006BFB54 /* MyAppSales */,
@@ -273,6 +273,9 @@
 			A71A8AA41086F6E200C61988 /* PBXTextBookmark */ = A71A8AA41086F6E200C61988 /* PBXTextBookmark */;
 			A71A8AA51086F6E200C61988 /* PBXTextBookmark */ = A71A8AA51086F6E200C61988 /* PBXTextBookmark */;
 			A71A8AA81086F6E200C61988 /* PBXTextBookmark */ = A71A8AA81086F6E200C61988 /* PBXTextBookmark */;
+			A71A8DFB1088613F00C61988 /* PBXTextBookmark */ = A71A8DFB1088613F00C61988 /* PBXTextBookmark */;
+			A71A8DFC1088613F00C61988 /* PBXTextBookmark */ = A71A8DFC1088613F00C61988 /* PBXTextBookmark */;
+			A71A8DFD1088613F00C61988 /* PBXTextBookmark */ = A71A8DFD1088613F00C61988 /* PBXTextBookmark */;
 			A71B829C104C004600654CBD = A71B829C104C004600654CBD /* PBXTextBookmark */;
 			A71B829D104C004600654CBD = A71B829D104C004600654CBD /* PBXTextBookmark */;
 			A71B829E104C004600654CBD = A71B829E104C004600654CBD /* PBXTextBookmark */;
@@ -1134,9 +1137,9 @@
 	};
 	A70D5A7B0F17A66700A6FE9B /* YahooFinance.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {985, 6058}}";
+			sepNavIntBoundsRect = "{{0, 0}, {985, 5954}}";
 			sepNavSelRange = "{9071, 5}";
-			sepNavVisRange = "{8861, 436}";
+			sepNavVisRange = "{8453, 1526}";
 			sepNavWindowFrame = "{{215, 82}, {991, 698}}";
 		};
 	};
@@ -1189,6 +1192,36 @@
 		rType = 0;
 		vrLen = 1060;
 		vrLoc = 13651;
+	};
+	A71A8DFB1088613F00C61988 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A70D5A7B0F17A66700A6FE9B /* YahooFinance.m */;
+		name = "YahooFinance.m: 330";
+		rLen = 5;
+		rLoc = 9071;
+		rType = 0;
+		vrLen = 1526;
+		vrLoc = 8453;
+	};
+	A71A8DFC1088613F00C61988 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
+		name = "ASiSTAppDelegate.m: 15";
+		rLen = 0;
+		rLoc = 358;
+		rType = 0;
+		vrLen = 860;
+		vrLoc = 0;
+	};
+	A71A8DFD1088613F00C61988 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
+		name = "ASiSTAppDelegate.m: 15";
+		rLen = 0;
+		rLoc = 358;
+		rType = 0;
+		vrLen = 860;
+		vrLoc = 0;
 	};
 	A71B829C104C004600654CBD /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -2358,9 +2391,9 @@
 	};
 	A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1125, 9984}}";
-			sepNavSelRange = "{6737, 0}";
-			sepNavVisRange = "{6240, 1107}";
+			sepNavIntBoundsRect = "{{0, 0}, {1293, 9867}}";
+			sepNavSelRange = "{18135, 0}";
+			sepNavVisRange = "{17568, 768}";
 			sepNavWindowFrame = "{{233, 262}, {1351, 551}}";
 		};
 	};
@@ -2542,7 +2575,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		location = libSystem.B.dylib;
-		modificationTime = 277246628.107755;
+		modificationTime = 277373206.437846;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 		symbolName = malloc_error_break;
@@ -3139,7 +3172,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 56;
-		modificationTime = 277246628.107628;
+		modificationTime = 277373206.432592;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
@@ -3223,7 +3256,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 838;
-		modificationTime = 277246628.107638;
+		modificationTime = 277373206.433718;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
@@ -3254,7 +3287,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 231;
-		modificationTime = 277246628.107656;
+		modificationTime = 277373206.435669;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
@@ -3740,7 +3773,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		location = "";
-		modificationTime = 277246628.107744;
+		modificationTime = 277373206.436783;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 		symbolName = obj_exception_throw;
@@ -3830,7 +3863,7 @@
 		ignoreCount = 0;
 		lineNumber = 326;
 		location = MyAppSales;
-		modificationTime = 277246628.107646;
+		modificationTime = 277373206.434805;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
@@ -4094,7 +4127,7 @@
 		ignoreCount = 0;
 		lineNumber = 188;
 		location = MyAppSales;
-		modificationTime = 277246628.107596;
+		modificationTime = 277373206.426913;
 		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
@@ -4112,7 +4145,7 @@
 		ignoreCount = 0;
 		lineNumber = 674;
 		location = MyAppSales;
-		modificationTime = 277246628.107608;
+		modificationTime = 277373206.428502;
 		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
@@ -4586,7 +4619,7 @@
 		ignoreCount = 0;
 		lineNumber = 248;
 		location = MyAppSales;
-		modificationTime = 277246628.107617;
+		modificationTime = 277373206.429396;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
