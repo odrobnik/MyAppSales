@@ -6,6 +6,9 @@ begin exclusive transaction;
 
 UPDATE Country SET language="tr", app_store_id=143480 WHERE ISO2="TR";
 
+/* fix writing so that country is found for Jan 2009 report */
+update country set Name = 'Great Britain' where iso2 = 'GB';
+
 /* add account table */
 
 CREATE TABLE AppGrouping (id INTEGER PRIMARY KEY, description VARCHAR);
