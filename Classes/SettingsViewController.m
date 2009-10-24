@@ -224,13 +224,15 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
+	return nil;
+	/*
 	if (!section)
 	{
 		return @"Only first account is currently used.";
 	}
 	else {
 		return nil;
-	}
+	} */
 }
 
 // Customize the appearance of table view cells.

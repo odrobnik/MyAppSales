@@ -21,5 +21,6 @@
 - (Account *) addAccountForService:(NSString*)aService user:(NSString *)aUser;
 - (void) removeAccount:(Account *)accountToRemove;
 
+- (NSArray *)accountsOfType:(NSString *)type;
 
 @end

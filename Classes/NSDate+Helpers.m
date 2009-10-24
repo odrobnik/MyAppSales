@@ -46,4 +46,28 @@
 	return [gregorian dateFromComponents:comps];
 }
 
++ (NSDate *) dateFromRFC2822String:(NSString *)rfc2822String
+{
+	NSDateFormatter *dateFormatterToRead = [[[NSDateFormatter alloc] init] autorelease];
+	[dateFormatterToRead setDateFormat:@"yyyy-MM-dd HH:mm:ss ZZ"]; /* Unicode Locale Data Markup Language */
+	
+	return [dateFormatterToRead dateFromString:rfc2822String]; /*e.g. @"Thu, 11 Sep 2008 12:34:12 +0200" */	
+}
+
++ (NSDate *) dateFromMonth:(int)month Year:(int)year
+{
+	NSDateComponents *comps = [[NSDateComponents alloc] init];
+	[comps setDay:1];
+	[comps setMonth:month];
+	[comps setYear:year];
+	NSCalendar *gregorian = [[NSCalendar alloc]
+							 initWithCalendarIdentifier:NSGregorianCalendar];
+	NSDate *date = [gregorian dateFromComponents:comps];
+	[comps release];
+	[gregorian release];
+	
+	return date;
+}
+
+
 @end

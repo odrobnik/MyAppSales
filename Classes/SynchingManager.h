@@ -29,11 +29,13 @@
 // Translation Downloader
 - (void) translateReview:(Review *)review delegate:(id<TranslationScraperDelegate>)scraperDelegate;
 - (void) cancelAllTranslations;
+- (void) cancelAllSynching;
 
 // iTunes Connect Downloader
 - (void) downloadForAccount:(Account *)itcAccount reportsToIgnore:(NSArray *)reportsArray;
 
 - (void) updateIndicators;
+- (NSArray *) queuedOperationsOfClass:(Class)opClass;
 
 
 @end

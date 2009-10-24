@@ -15,6 +15,9 @@
 
 #import "YahooFinance.h"
 
+#import "NSString+Helpers.h"
+#import "NSDate+Helpers.h"
+
 // Static variables for compiled SQL queries. This implementation choice is to be able to share a one time
 // compilation of each query across all instances of the class. Each time a query is used, variables may be bound
 // to it, it will be "stepped", and then reset for the next usage. When the application begins to terminate,
@@ -22,31 +25,20 @@
 // can be closed.
 static sqlite3_stmt *insert_statement = nil;
 static sqlite3_stmt *init_statement = nil;
+static sqlite3_stmt *init_grouping_statement = nil;
+static sqlite3_stmt *update_statement = nil;
 static sqlite3_stmt *delete_statement = nil;
 //static sqlite3_stmt *delete_points_statement = nil;
 
 static sqlite3_stmt *hydrate_statement = nil;
 //static sqlite3_stmt *dehydrate_statement = nil;
 
-// Date formatter for XML files
-static NSDateFormatter *dateFormatterToRead = nil;
-
 @implementation Report
 
 @synthesize isNew, sales, salesByApp, summariesByApp;
 @synthesize sumUnitsSold,sumUnitsUpdated,sumUnitsRefunded, sumUnitsFree;
-@synthesize region;
-
-- (NSDate *) dateFromString:(NSString *)rfc2822String
-{
-	if (!dateFormatterToRead)
-	{
-		dateFormatterToRead = [[NSDateFormatter alloc] init];
-		[dateFormatterToRead setDateFormat:@"yyyy-MM-dd HH:mm:ss ZZ"]; /* Unicode Locale Data Markup Language */
-	}
-	return [dateFormatterToRead dateFromString:rfc2822String]; /*e.g. @"Thu, 11 Sep 2008 12:34:12 +0200" */	
-}
-
+@synthesize appsInReport;
+@synthesize region, appGrouping;
 
 // Creates the object with primary key and title is brought into memory.
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db {
@@ -54,12 +46,10 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	{
         primaryKey = pk;
         database = db;
-        // Compile the query for retrieving book data. See insertNewBookIntoDatabase: for more detail.
-        if (init_statement == nil) {
-            // Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
-            // This is a great way to optimize because frequently used queries can be compiled once, then with each
-            // use new variable values can be bound to placeholders.
-            const char *sql = "SELECT from_date, until_date, downloaded_date, report_type_id, report_region_id FROM report WHERE id=?";
+  
+        if (init_statement == nil) 
+		{
+            const char *sql = "SELECT from_date, until_date, downloaded_date, report_type_id, report_region_id FROM report WHERE report.id=?";
             if (sqlite3_prepare_v2(database, sql, -1, &init_statement, NULL) != SQLITE_OK) {
                 NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
             }
@@ -69,15 +59,43 @@ static NSDateFormatter *dateFormatterToRead = nil;
         sqlite3_bind_int(init_statement, 1, primaryKey);
         if (sqlite3_step(init_statement) == SQLITE_ROW) 
 		{
-			self.fromDate = [self dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 0)]];
-			self.untilDate = [self dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 1)]];
-			self.downloadedDate = [self dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 2)]];
+			self.fromDate = [NSDate dateFromRFC2822String:[NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 0)]];
+			self.untilDate = [NSDate dateFromRFC2822String:[NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 1)]];
+			self.downloadedDate = [NSDate dateFromRFC2822String:[NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 2)]];
 			self.reportType = sqlite3_column_int(init_statement, 3);
 			self.region = sqlite3_column_int(init_statement, 4);
         } else {
         }
         // Reset the statement for future reuse.
         sqlite3_reset(init_statement);
+		
+		if (init_grouping_statement == nil) 
+		{
+            const char *sql = "SELECT appgrouping_id FROM ReportAppGrouping WHERE report_id=?";
+            if (sqlite3_prepare_v2(database, sql, -1, &init_grouping_statement, NULL) != SQLITE_OK) {
+                NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+            }
+        }
+        // For this query, we bind the primary key to the first (and only) placeholder in the statement.
+        // Note that the parameters are numbered from 1, not from 0.
+        sqlite3_bind_int(init_grouping_statement, 1, primaryKey);
+        if (sqlite3_step(init_grouping_statement) == SQLITE_ROW) 
+		{
+			NSUInteger groupingID = sqlite3_column_int(init_grouping_statement, 0);
+			self.appGrouping = [DB appGroupingForID:groupingID];
+        } 
+		else 
+		{
+			[self hydrate];
+			
+			self.appGrouping = [DB appGroupingForReport:self];
+			[self updateInDatabase];
+        }
+        // Reset the statement for future reuse.
+        sqlite3_reset(init_grouping_statement);		
+		
+		
+		
         dirty = NO;
 		hydrated = NO;
 		
@@ -123,51 +141,390 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	}
 }
 
-
-
-- (Sale *) insertSaleForAppID:(NSUInteger)app_id type_id:(NSUInteger)type_id units:(NSUInteger)units
-				royalty_price:(double)royalty_price royalty_currency:(NSString *)royalty_currency 
-			   customer_price:(double)customer_price customer_currency:(NSString *)customer_currency 
-				 country_code:(NSString *)country_code
+// monthly free reports dont have beginning and end dates, thus they need to be supplied
+- (id)initAsFreeReportWithDict:(NSDictionary *)dict
 {
-	Country *tmpCountry = [DB countryForCode:country_code];
-	
-	if (!tmpCountry)
+	if (self = [super init])
 	{
-		NSLog(@"cannot find country '%@'", country_code);
-	}
-	tmpCountry.usedInReport = YES; // makes sure we have an icon
+		NSDate *fromDateIn = [dict objectForKey:@"FromDate"];
+		NSDate *untilDateIn = [dict objectForKey:@"UntilDate"];
+		NSString *string = [dict objectForKey:@"Text"];
+		
+		
+		self.fromDate = fromDateIn;
+		self.untilDate = untilDateIn;
 
-	App *tmpApp = [DB appForID:app_id];
-	
-	
-	Sale *newSale = [[Sale alloc] initWithCountry:tmpCountry report:self app:tmpApp units:units royaltyPrice:royalty_price 
-								  royaltyCurrency:royalty_currency customerPrice:customer_price customerCurrency:customer_currency transactionType:type_id];
-	
-	[newSale insertIntoDatabase:database];
-	
-	[sales addObject:newSale];
-	
-	// detect region for financial reports
-	if ((reportType == ReportTypeFinancial)&&(!region))
-	{
-		region = [tmpCountry reportRegion];
+		// Make a list of apps in this report
+		NSMutableSet *tmpAppsInReport = [NSMutableSet set];
+		sales = [[NSMutableArray array] retain];
+		
+		reportType = ReportTypeUnknown;
+		self.downloadedDate = [NSDate date];
+		
+		salesByApp = [[NSMutableDictionary alloc] init];
+		summariesByApp = [[NSMutableDictionary alloc] init];
+		sumUnitsSold = 0;
+		sumUnitsUpdated = 0;
+		sumUnitsRefunded = 0;
+		
+		reportType = ReportTypeFree;
+		
+		NSArray *lines = [string componentsSeparatedByString:@"\n"];
+		NSEnumerator *enu = [lines objectEnumerator];
+		NSString *oneLine;
+		
+		// first line = headers
+		oneLine = [enu nextObject];
+		NSArray *column_names = [oneLine componentsSeparatedByString:@"\t"];
+		
+		//	NSString *prev_until_date = @"";
+		
+		while(oneLine = [enu nextObject])
+		{
+			NSUInteger appID = [[oneLine getValueForNamedColumn:@"Apple Identifier" headerNames:column_names] intValue];
+			NSString *vendor_identifier = [oneLine getValueForNamedColumn:@"Vendor Identifier" headerNames:column_names];
+			NSString *company_name = [oneLine getValueForNamedColumn:@"Developer" headerNames:column_names];
+			NSString *title	= [oneLine getValueForNamedColumn:@"Title/Application" headerNames:column_names];
+			NSUInteger type_id = [[oneLine getValueForNamedColumn:@"Product Type Identifier" headerNames:column_names] intValue];
+			NSInteger units = [[oneLine getValueForNamedColumn:@"Units" headerNames:column_names] intValue];
+			double royalty_price = [[oneLine getValueForNamedColumn:@"Partner Share" headerNames:column_names] doubleValue];
+			NSString *royalty_currency	= [oneLine getValueForNamedColumn:@"Partner Share Currency" headerNames:column_names];
+			double customer_price = [[oneLine getValueForNamedColumn:@"Customer Price" headerNames:column_names] doubleValue];
+			NSString *customer_currency	= [oneLine getValueForNamedColumn:@"Customer Currency" headerNames:column_names];
+			NSString *country_code	= [oneLine getValueForNamedColumn:@"Country Code" headerNames:column_names];
+			
+			if (fromDateIn&&untilDateIn&&appID&&vendor_identifier&&company_name&&title&&type_id&&units&&royalty_currency&&customer_currency&&country_code)
+			{
+				Country *saleCountry = [DB countryForCode:country_code];
+				saleCountry.usedInReport = YES; // makes sure we have an icon
+				
+				App *saleApp = [DB appForID:appID];
+				
+				if (!saleApp)
+				{
+					saleApp = [DB insertAppWithTitle:title vendor_identifier:vendor_identifier apple_identifier:appID company_name:company_name];
+				}
+				
+				if (![tmpAppsInReport containsObject:saleApp])
+				{
+					[tmpAppsInReport addObject:saleApp];
+				}
+				
+				
+				// detect region for financial reports
+				if ((reportType == ReportTypeFinancial)&&(!region))
+				{
+					region = [saleCountry reportRegion];
+				}
+				
+
+				
+				// add sale
+				Sale *newSale = [[Sale alloc] initWithCountry:saleCountry 
+													   report:self 
+														  app:saleApp 
+														units:units 
+												 royaltyPrice:royalty_price 
+											  royaltyCurrency:royalty_currency 
+												customerPrice:customer_price 
+											 customerCurrency:customer_currency
+											  transactionType:type_id];
+				[sales addObject:newSale];
+				
+				
+				
+				// sort it into the an index by app
+				NSMutableArray *salesForThisAppArray = [salesByApp objectForKey:[NSNumber numberWithInt:appID]];
+				
+				if (!salesForThisAppArray)
+				{
+					salesForThisAppArray = [[NSMutableArray alloc] init];
+					[salesByApp setObject:salesForThisAppArray forKey:[NSNumber numberWithInt:appID]];
+					[salesForThisAppArray release];
+				}
+				
+				[salesForThisAppArray addObject:newSale];
+				[newSale release];
+				
+				// add it to the summaries
+				NSMutableDictionary *summaryForThisApp = [summariesByApp objectForKey:[NSNumber numberWithInt:appID]];
+				
+				if (!summaryForThisApp)
+				{ 
+					// not yet a summary array for this app
+					summaryForThisApp = [[NSMutableDictionary alloc] init];
+					[summariesByApp setObject:summaryForThisApp forKey:[NSNumber numberWithInt:appID]];
+					[summaryForThisApp release];
+				}
+				
+				// in the summary array we add the current sale's data
+				
+				CountrySummary *countrySummaryForThisApp = [summaryForThisApp objectForKey:country_code];
+				
+				if (!countrySummaryForThisApp)
+				{
+					countrySummaryForThisApp = [[CountrySummary alloc] initWithCountry:saleCountry sumSales:0 sumUpdates:0 sumRefunds:0];
+					[summaryForThisApp setObject:countrySummaryForThisApp forKey:country_code];  // just an array, no key for adding
+					[countrySummaryForThisApp release];
+				}
+				
+				switch (type_id) {
+					case TransactionTypeSale:
+					{
+						if (units>0)
+						{
+							countrySummaryForThisApp.sumSales+=units;
+							countrySummaryForThisApp.sumRoyalites+= royalty_price*units;
+							countrySummaryForThisApp.royaltyCurrency = royalty_currency;
+							
+							if (royalty_price)
+							{
+								sumUnitsSold+=units;
+							}
+							else
+							{
+								sumUnitsFree+=units;
+							}
+						}
+						else
+						{
+							countrySummaryForThisApp.sumRefunds +=units;
+							sumUnitsRefunded +=units;
+						}
+						
+						break;
+					}
+					case TransactionTypeFreeUpdate:
+					{
+						countrySummaryForThisApp.sumUpdates += units;
+						sumUnitsUpdated += units;
+					}
+						
+					default:
+						break;
+				}	
+			}
+			
+		}
+		
+		hydrated = YES;
+		isNew = YES;
+		dirty = YES;
+		
+		// convert to non-mutable
+		appsInReport = [[NSSet setWithSet:tmpAppsInReport] retain];
+		
 	}
 	
-	
-	// sort it into the an index by app
-	NSMutableArray *tmpArray = [salesByApp objectForKey:[NSNumber numberWithInt:app_id]];
-	
-	if (!tmpArray)
+	return self;
+}
+
+
+- (id)initWithReportText:(NSString *)string
+{
+	if (self = [super init])
 	{
-		tmpArray = [[NSMutableArray alloc] init];
-		[salesByApp setObject:tmpArray forKey:[NSNumber numberWithInt:app_id]];
-		[tmpArray release];
+		// Make a list of apps in this report
+		NSMutableSet *tmpAppsInReport = [NSMutableSet set];
+		sales = [[NSMutableArray array] retain];
+		
+		reportType = ReportTypeUnknown;
+		self.downloadedDate = [NSDate date];
+
+		salesByApp = [[NSMutableDictionary alloc] init];
+		summariesByApp = [[NSMutableDictionary alloc] init];
+		sumUnitsSold = 0;
+		sumUnitsUpdated = 0;
+		sumUnitsRefunded = 0;
+		
+		NSArray *lines = [string componentsSeparatedByString:@"\n"];
+		NSEnumerator *enu = [lines objectEnumerator];
+		NSString *oneLine;
+		
+		// first line = headers
+		oneLine = [enu nextObject];
+		NSArray *column_names = [oneLine componentsSeparatedByString:@"\t"];
+		
+		// work off all lines
+		
+		while((oneLine = [enu nextObject])&&[oneLine length])
+		{
+			NSString *from_date = [oneLine getValueForNamedColumn:@"Begin Date" headerNames:column_names];
+			NSString *until_date = [oneLine getValueForNamedColumn:@"End Date" headerNames:column_names];
+			NSUInteger appID = [[oneLine getValueForNamedColumn:@"Apple Identifier" headerNames:column_names] intValue];
+			NSString *vendor_identifier = [oneLine getValueForNamedColumn:@"Vendor Identifier" headerNames:column_names];
+			NSString *company_name = [oneLine getValueForNamedColumn:@"Artist / Show" headerNames:column_names];
+			NSString *title	= [oneLine getValueForNamedColumn:@"Title / Episode / Season" headerNames:column_names];
+			NSUInteger type_id = [[oneLine getValueForNamedColumn:@"Product Type Identifier" headerNames:column_names] intValue];
+			NSInteger units = [[oneLine getValueForNamedColumn:@"Units" headerNames:column_names] intValue];
+			double royalty_price = [[oneLine getValueForNamedColumn:@"Royalty Price" headerNames:column_names] doubleValue];
+			NSString *royalty_currency	= [oneLine getValueForNamedColumn:@"Royalty Currency" headerNames:column_names];
+			double customer_price = [[oneLine getValueForNamedColumn:@"Customer Price" headerNames:column_names] doubleValue];
+			NSString *customer_currency	= [oneLine getValueForNamedColumn:@"Customer Currency" headerNames:column_names];
+			NSString *country_code	= [oneLine getValueForNamedColumn:@"Country Code" headerNames:column_names];
+			
+			BOOL financial_report = NO;
+			
+			if ((!from_date)&&(!company_name)&&(!title)&&(!royalty_currency)&&(!royalty_price)&&(!country_code))
+			{
+				// probably monthly financial report
+				from_date = [oneLine getValueForNamedColumn:@"Start Date" headerNames:column_names];
+				
+				units = [[oneLine getValueForNamedColumn:@"Quantity" headerNames:column_names] intValue];
+				company_name = [oneLine getValueForNamedColumn:@"Artist/Show/Developer" headerNames:column_names];
+				title	= [oneLine getValueForNamedColumn:@"Title" headerNames:column_names];
+				royalty_currency	= [oneLine getValueForNamedColumn:@"Partner Share Currency" headerNames:column_names];
+				royalty_price = [[oneLine getValueForNamedColumn:@"Partner Share" headerNames:column_names] doubleValue];
+				country_code	= [oneLine getValueForNamedColumn:@"Country Of Sale" headerNames:column_names];
+				
+				
+				financial_report = YES;
+				reportType = ReportTypeFinancial;
+			}
+			
+			// if all columns have a value then we accept the line
+			if (from_date&&until_date&&appID&&vendor_identifier&&company_name&&title&&type_id&&units&&royalty_currency&&customer_currency&&country_code)
+			{
+				Country *saleCountry = [DB countryForCode:country_code];
+				saleCountry.usedInReport = YES; // makes sure we have an icon
+
+				App *saleApp = [DB appForID:appID];
+				
+				if (!saleApp)
+				{
+					saleApp = [DB insertAppWithTitle:title vendor_identifier:vendor_identifier apple_identifier:appID company_name:company_name];
+				}
+				
+				if (![tmpAppsInReport containsObject:saleApp])
+				{
+					[tmpAppsInReport addObject:saleApp];
+				}
+					  
+				
+				// detect region for financial reports
+				if ((reportType == ReportTypeFinancial)&&(!region))
+				{
+					region = [saleCountry reportRegion];
+				}
+
+				// detect report type
+				if (reportType == ReportTypeUnknown)
+				{
+					if ([from_date isEqualToString:until_date])
+					{	
+						// day report
+						reportType = ReportTypeDay;
+					}
+					else
+					{	// week report
+						reportType = ReportTypeWeek;
+					}
+				}
+				
+				// set report dates if not set
+				if (!fromDate&&!untilDate)
+				{
+					self.fromDate = [from_date dateFromString];
+					self.untilDate = [until_date dateFromString];
+				}
+				
+				// add sale
+				Sale *newSale = [[Sale alloc] initWithCountry:saleCountry 
+													   report:self 
+														  app:saleApp 
+														units:units 
+												 royaltyPrice:royalty_price 
+											  royaltyCurrency:royalty_currency 
+												customerPrice:customer_price 
+											 customerCurrency:customer_currency
+											  transactionType:type_id];
+				[sales addObject:newSale];
+
+
+				
+				// sort it into the an index by app
+				NSMutableArray *salesForThisAppArray = [salesByApp objectForKey:[NSNumber numberWithInt:appID]];
+				
+				if (!salesForThisAppArray)
+				{
+					salesForThisAppArray = [[NSMutableArray alloc] init];
+					[salesByApp setObject:salesForThisAppArray forKey:[NSNumber numberWithInt:appID]];
+					[salesForThisAppArray release];
+				}
+				
+				[salesForThisAppArray addObject:newSale];
+				[newSale release];
+				
+				// add it to the summaries
+				NSMutableDictionary *summaryForThisApp = [summariesByApp objectForKey:[NSNumber numberWithInt:appID]];
+				
+				if (!summaryForThisApp)
+				{ 
+					// not yet a summary array for this app
+					summaryForThisApp = [[NSMutableDictionary alloc] init];
+					[summariesByApp setObject:summaryForThisApp forKey:[NSNumber numberWithInt:appID]];
+					[summaryForThisApp release];
+				}
+				
+				// in the summary array we add the current sale's data
+				
+				CountrySummary *countrySummaryForThisApp = [summaryForThisApp objectForKey:country_code];
+				
+				if (!countrySummaryForThisApp)
+				{
+					countrySummaryForThisApp = [[CountrySummary alloc] initWithCountry:saleCountry sumSales:0 sumUpdates:0 sumRefunds:0];
+					[summaryForThisApp setObject:countrySummaryForThisApp forKey:country_code];  // just an array, no key for adding
+					[countrySummaryForThisApp release];
+				}
+				
+				switch (type_id) {
+					case TransactionTypeSale:
+					{
+						if (units>0)
+						{
+							countrySummaryForThisApp.sumSales+=units;
+							countrySummaryForThisApp.sumRoyalites+= royalty_price*units;
+							countrySummaryForThisApp.royaltyCurrency = royalty_currency;
+							
+							if (royalty_price)
+							{
+								sumUnitsSold+=units;
+							}
+							else
+							{
+								sumUnitsFree+=units;
+							}
+						}
+						else
+						{
+							countrySummaryForThisApp.sumRefunds +=units;
+							sumUnitsRefunded +=units;
+						}
+						
+						break;
+					}
+					case TransactionTypeFreeUpdate:
+					{
+						countrySummaryForThisApp.sumUpdates += units;
+						sumUnitsUpdated += units;
+					}
+						
+					default:
+						break;
+				}	
+			}
+				
+		}
+		
+		hydrated = YES;
+		isNew = YES;
+		dirty = YES;
+		
+		// convert to non-mutable
+		appsInReport = [[NSSet setWithSet:tmpAppsInReport] retain];
 	}
 	
-	[tmpArray addObject:newSale];
-	[newSale release];
-	return newSale;
+	return self;
 }
 
 
@@ -177,6 +534,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	// Remove notification observer
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
+	[appsInReport release];
 	[sumsByCurrency release];
 	
 	[fromDate release];
@@ -188,6 +546,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
     [super dealloc];
 }
 
+#pragma mark Database
 - (void)insertIntoDatabase:(sqlite3 *)db {
     database = db;
     // This query may be performed many times during the run of the application. As an optimization, a static
@@ -217,13 +576,21 @@ static NSDateFormatter *dateFormatterToRead = nil;
         // "INTEGER PRIMARY KEY"
         
 		primaryKey = sqlite3_last_insert_rowid(database);
+		
+		// add sales too
+		for (Sale *oneSale in sales)
+		{
+			[oneSale insertIntoDatabase:database];
+		}
+		
+		// insert the grouping
+		[self updateInDatabase];
     }
-    // All data for the book is already in memory, but has not be written to the database
-    // Mark as hydrated to prevent empty/default values from overwriting what is in memory
-    //hydrated = YES;
 }
 
-- (void)deleteFromDatabase {
+
+- (void)deleteFromDatabase 
+{
     // Compile the delete statement if needed.
     if (delete_statement == nil) {
         const char *sql = "DELETE FROM report WHERE id=?";
@@ -241,8 +608,300 @@ static NSDateFormatter *dateFormatterToRead = nil;
     if (success != SQLITE_DONE) {
         NSAssert1(0, @"Error: failed to delete from database with message '%s'.", sqlite3_errmsg(database));
     }
+	
+	
+	// remove all sales for this report
+	sqlite3_stmt *tmp_statement = NULL;
+	const char *sql = "DELETE FROM sale WHERE report_id=?";
+	
+	if (sqlite3_prepare_v2(database, sql, -1, &tmp_statement, NULL) != SQLITE_OK) 
+	{
+		NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+	}
+	else
+	{
+		// Bind the primary key variable.
+		sqlite3_bind_int(tmp_statement, 1, primaryKey);
+		// Execute the query.
+		success = sqlite3_step(tmp_statement);
+		sqlite3_finalize(tmp_statement);
+		// Handle errors.
+		if (success != SQLITE_DONE) 
+		{
+			NSAssert1(0, @"Error: failed to delete from database with message '%s'.", sqlite3_errmsg(database));
+		}
+		
+	}
+	
+	// remove the grouping
+	tmp_statement = NULL;
+	const char *sql2 = "DELETE FROM ReportAppGrouping WHERE report_id=?";
+	
+	if (sqlite3_prepare_v2(database, sql2, -1, &tmp_statement, NULL) != SQLITE_OK) 
+	{
+		NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+	}
+	else
+	{
+		// Bind the primary key variable.
+		sqlite3_bind_int(tmp_statement, 1, primaryKey);
+		// Execute the query.
+		success = sqlite3_step(tmp_statement);
+		sqlite3_finalize(tmp_statement);
+		// Handle errors.
+		if (success != SQLITE_DONE) 
+		{
+			NSAssert1(0, @"Error: failed to delete from database with message '%s'.", sqlite3_errmsg(database));
+		}
+	}
 }
 
+// only the grouping is to be updated
+- (void)updateInDatabase 
+{
+    // Compile the delete statement if needed.
+    if (update_statement == nil) 
+	{
+        const char *sql = "REPLACE INTO  ReportAppGrouping (report_id, appgrouping_id) values (?, ?)";
+        if (sqlite3_prepare_v2(database, sql, -1, &update_statement, NULL) != SQLITE_OK) {
+            NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+        }
+    }
+    // Bind the primary key variable.
+    sqlite3_bind_int(update_statement, 1, primaryKey);
+    sqlite3_bind_int(update_statement, 2, appGrouping.primaryKey);
+    // Execute the query.
+    int success = sqlite3_step(update_statement);
+    // Reset the statement for future use.
+    sqlite3_reset(update_statement);
+    // Handle errors.
+    if (success != SQLITE_DONE) {
+        NSAssert1(0, @"Error: failed to update in database with message '%s'.", sqlite3_errmsg(database));
+    }
+}
+
+
+- (void) makeSummariesFromSales
+{
+	// reset
+	
+	if (!summariesByApp)
+	{
+		summariesByApp = [[NSMutableDictionary alloc] init];
+	}
+	else
+	{
+		[summariesByApp removeAllObjects];
+	}
+	
+	sumUnitsSold = 0;
+	sumUnitsUpdated = 0;
+	sumUnitsRefunded = 0;
+	
+	
+	
+	// go through all sales
+	
+	for (Sale *oneSale in sales)
+	{
+		NSUInteger app_id = oneSale.app.apple_identifier;
+		NSString *cntry_code = oneSale.country.iso2;
+		Country *country = oneSale.country;
+		NSUInteger ttype = oneSale.transactionType;
+		NSInteger units = oneSale.unitsSold;
+		double royalty_price = oneSale.royaltyPrice;
+		NSString *royalty_currency = oneSale.royaltyCurrency;
+		//double customer_price = oneSale.customerPrice;
+		//NSString *customer_currency = oneSale.customerCurrency;
+		
+		
+		// create a summary by app
+		
+		// 1) get or create app 
+		NSMutableDictionary *tmpSummaries = [summariesByApp objectForKey:[NSNumber numberWithInt:app_id]];
+		
+		if (!tmpSummaries)
+		{  // not yet a summary array for this app
+			tmpSummaries = [[NSMutableDictionary alloc] init];
+			[summariesByApp setObject:tmpSummaries forKey:[NSNumber numberWithInt:app_id]];
+			[tmpSummaries release];
+		}
+		
+		// 2) in the summary array we add the current sale's data
+		
+		CountrySummary *tmpSummary = [tmpSummaries objectForKey:cntry_code];
+		
+		if (!tmpSummary)
+		{
+			tmpSummary = [[CountrySummary alloc] initWithCountry:country sumSales:0 sumUpdates:0 sumRefunds:0];
+			[tmpSummaries setObject:tmpSummary forKey:cntry_code];  // just an array, no key for adding
+			[tmpSummary release];
+		}
+		
+		switch (ttype) {
+			case TransactionTypeSale:
+			{
+				if (units>0)
+				{
+					tmpSummary.sumSales+=units;
+					tmpSummary.sumRoyalites+= royalty_price*units;
+					tmpSummary.royaltyCurrency = royalty_currency;
+					
+					if (royalty_price)
+					{
+						sumUnitsSold+=units;
+					}
+					else
+					{
+						sumUnitsFree+=units;
+					}
+					
+				}
+				else
+				{
+					tmpSummary.sumRefunds +=units;
+					sumUnitsRefunded +=units;
+				}
+				
+				
+				// get's calculated when needed
+				//sumRoyaltiesEarned += [[YahooFinance sharedInstance] convertToEuro:(royalty_price*units) fromCurrency:royalty_currency]; 
+				
+				
+				break;
+			}
+			case TransactionTypeFreeUpdate:
+			{
+				tmpSummary.sumUpdates += units;
+				sumUnitsUpdated += units;
+			}
+				
+			default:
+				break;
+		}	
+	}
+}
+
+
+
+
+
+// get all detail info
+- (void) hydrate
+{
+	if (hydrated)
+	{
+		return;
+	}
+	
+	if (!sales)
+	{
+		sales = [[NSMutableArray alloc] init];
+	}
+	
+	if (!salesByApp)
+	{
+		salesByApp = [[NSMutableDictionary alloc] init];
+	}
+	else
+	{
+		[salesByApp removeAllObjects];
+	}
+	
+	NSMutableSet *tmpAppsInReport = [NSMutableSet set];
+
+	
+	// Compile the query for retrieving book data. See insertNewBookIntoDatabase: for more detail.
+	if (hydrate_statement == nil) 
+	{
+		// Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
+		// This is a great way to optimize because frequently used queries can be compiled once, then with each
+		// use new variable values can be bound to placeholders.
+		const char *sql = "SELECT country_code, units, app_id, royalty_price, royalty_currency,type_id,customer_price, customer_currency FROM sale WHERE report_id=?";  //  order by units desc <- done by view
+		if (sqlite3_prepare_v2(database, sql, -1, &hydrate_statement, NULL) != SQLITE_OK) {
+			NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+		}
+	}
+	// For this query, we bind the primary key to the first (and only) placeholder in the statement.
+	// Note that the parameters are numbered from 1, not from 0.
+	sqlite3_bind_int(hydrate_statement, 1, primaryKey);
+	
+	
+	
+	while (sqlite3_step(hydrate_statement) == SQLITE_ROW) 
+	{
+		NSString *cntry_code = [NSString stringWithUTF8String:(char *)sqlite3_column_text(hydrate_statement, 0)];
+		NSInteger units = (int)sqlite3_column_int(hydrate_statement, 1);
+		NSInteger app_id = (int)sqlite3_column_int(hydrate_statement, 2);
+		double royalty_price = (double)sqlite3_column_double(hydrate_statement, 3);
+		NSString *royalty_currency = [NSString stringWithUTF8String:(char *)sqlite3_column_text(hydrate_statement, 4)];
+		NSInteger ttype = (int)sqlite3_column_int(hydrate_statement, 5);
+		double customer_price = (double)sqlite3_column_double(hydrate_statement, 6);
+		NSString *customer_currency = [NSString stringWithUTF8String:(char *)sqlite3_column_text(hydrate_statement, 7)];
+		
+		Country *country = [DB countryForCode:cntry_code];
+		country.usedInReport = YES; // makes sure we have an icon
+		
+		// detect region for financial reports
+		if ((reportType == ReportTypeFinancial)&&(!region))
+		{
+			region = [country reportRegion];
+		}
+		
+		App *app = [DB appForID:app_id];
+		if (![tmpAppsInReport containsObject:app])
+		{
+			[tmpAppsInReport addObject:app];
+		}
+		
+		Sale *tmpSale = [[Sale alloc] initWithCountry:country report:self app:app units:units royaltyPrice:royalty_price royaltyCurrency:royalty_currency customerPrice:customer_price customerCurrency:customer_currency transactionType:ttype];
+		
+		[sales addObject:tmpSale];
+		
+		NSMutableArray *tmpArray = [salesByApp objectForKey:[NSNumber numberWithInt:app_id]];
+		
+		if (!tmpArray)
+		{
+			tmpArray = [[NSMutableArray alloc] init];
+			[salesByApp setObject:tmpArray forKey:[NSNumber numberWithInt:app_id]];
+			[tmpArray release];
+		}
+		
+		[tmpArray addObject:tmpSale];
+		[tmpSale release];
+	}
+	// Reset the statement for future reuse.
+	sqlite3_reset(hydrate_statement);
+	
+	[self makeSummariesFromSales];
+	
+	hydrated = YES;
+	
+	// sums are dependent on exchange rates, if they change we need to redo the sums
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exchangeRatesChanged:) name:@"ExchangeRatesChanged" object:nil];
+
+	// convert to non-mutable
+	appsInReport = [[NSSet setWithSet:tmpAppsInReport] retain];
+	
+	self.appGrouping = [DB appGroupingForReport:self];
+}
+
+// remove detail info from memory
+- (void) dehydrate
+{
+	[salesByApp release];
+	salesByApp = nil;
+	
+	[sales release];
+	sales = nil;
+	
+	[summariesByApp release];
+	summariesByApp = nil;
+	
+	hydrated = NO;
+}
+
+#pragma mark Utilities
 - (NSDate *)dateInMiddleOfReport
 {
 	// calculate the middle point and output it's localized name
@@ -454,219 +1113,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 }
 
 
-
-- (void) makeSummariesFromSales
-{
-	
-	// reset
-	
-
-	
-	if (!summariesByApp)
-	{
-		summariesByApp = [[NSMutableDictionary alloc] init];
-	}
-	else
-	{
-		[summariesByApp removeAllObjects];
-	}
-	
-	sumUnitsSold = 0;
-	sumUnitsUpdated = 0;
-	sumUnitsRefunded = 0;
-	
-	
-	
-	// go through all sales
-	
-	for (Sale *oneSale in sales)
-	{
-		NSUInteger app_id = oneSale.app.apple_identifier;
-		NSString *cntry_code = oneSale.country.iso2;
-		Country *country = oneSale.country;
-		NSUInteger ttype = oneSale.transactionType;
-		NSInteger units = oneSale.unitsSold;
-		double royalty_price = oneSale.royaltyPrice;
-		NSString *royalty_currency = oneSale.royaltyCurrency;
-		//double customer_price = oneSale.customerPrice;
-		//NSString *customer_currency = oneSale.customerCurrency;
-		
-		
-		// create a summary by app
-		
-		// 1) get or create app 
-		NSMutableDictionary *tmpSummaries = [summariesByApp objectForKey:[NSNumber numberWithInt:app_id]];
-		
-		if (!tmpSummaries)
-		{  // not yet a summary array for this app
-			tmpSummaries = [[NSMutableDictionary alloc] init];
-			[summariesByApp setObject:tmpSummaries forKey:[NSNumber numberWithInt:app_id]];
-			[tmpSummaries release];
-		}
-		
-		// 2) in the summary array we add the current sale's data
-		
-		CountrySummary *tmpSummary = [tmpSummaries objectForKey:cntry_code];
-		
-		if (!tmpSummary)
-		{
-			tmpSummary = [[CountrySummary alloc] initWithCountry:country sumSales:0 sumUpdates:0 sumRefunds:0];
-			[tmpSummaries setObject:tmpSummary forKey:cntry_code];  // just an array, no key for adding
-			[tmpSummary release];
-		}
-		
-		switch (ttype) {
-			case TransactionTypeSale:
-			{
-				if (units>0)
-				{
-					tmpSummary.sumSales+=units;
-					tmpSummary.sumRoyalites+= royalty_price*units;
-					tmpSummary.royaltyCurrency = royalty_currency;
-					
-					if (royalty_price)
-					{
-						sumUnitsSold+=units;
-					}
-					else
-					{
-						sumUnitsFree+=units;
-					}
-					
-				}
-				else
-				{
-					tmpSummary.sumRefunds +=units;
-					sumUnitsRefunded +=units;
-				}
-				
-				
-				// get's calculated when needed
-				//sumRoyaltiesEarned += [[YahooFinance sharedInstance] convertToEuro:(royalty_price*units) fromCurrency:royalty_currency]; 
-				
-				
-				break;
-			}
-			case TransactionTypeFreeUpdate:
-			{
-				tmpSummary.sumUpdates += units;
-				sumUnitsUpdated += units;
-			}
-				
-			default:
-				break;
-		}	
-	}
-}
-
-
-// remove detail info from memory
-- (void) dehydrate
-{
-	[salesByApp release];
-	salesByApp = nil;
-	
-	[sales release];
-	sales = nil;
-	
-	[summariesByApp release];
-	summariesByApp = nil;
-	
-	hydrated = NO;
-}
-
-
-// get all detail info
-- (void) hydrate
-{
-	if (hydrated)
-	{
-		return;
-	}
-	
-	if (!sales)
-	{
-		sales = [[NSMutableArray alloc] init];
-	}
-	
-	if (!salesByApp)
-	{
-		salesByApp = [[NSMutableDictionary alloc] init];
-	}
-	else
-	{
-		[salesByApp removeAllObjects];
-	}
-	
-	// Compile the query for retrieving book data. See insertNewBookIntoDatabase: for more detail.
-	if (hydrate_statement == nil) 
-	{
-		// Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
-		// This is a great way to optimize because frequently used queries can be compiled once, then with each
-		// use new variable values can be bound to placeholders.
-		const char *sql = "SELECT country_code, units, app_id, royalty_price, royalty_currency,type_id,customer_price, customer_currency FROM sale WHERE report_id=?";  //  order by units desc <- done by view
-		if (sqlite3_prepare_v2(database, sql, -1, &hydrate_statement, NULL) != SQLITE_OK) {
-			NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-		}
-	}
-	// For this query, we bind the primary key to the first (and only) placeholder in the statement.
-	// Note that the parameters are numbered from 1, not from 0.
-	sqlite3_bind_int(hydrate_statement, 1, primaryKey);
-	
-	
-	
-	while (sqlite3_step(hydrate_statement) == SQLITE_ROW) 
-	{
-		NSString *cntry_code = [NSString stringWithUTF8String:(char *)sqlite3_column_text(hydrate_statement, 0)];
-		NSInteger units = (int)sqlite3_column_int(hydrate_statement, 1);
-		NSInteger app_id = (int)sqlite3_column_int(hydrate_statement, 2);
-		double royalty_price = (double)sqlite3_column_double(hydrate_statement, 3);
-		NSString *royalty_currency = [NSString stringWithUTF8String:(char *)sqlite3_column_text(hydrate_statement, 4)];
-		NSInteger ttype = (int)sqlite3_column_int(hydrate_statement, 5);
-		double customer_price = (double)sqlite3_column_double(hydrate_statement, 6);
-		NSString *customer_currency = [NSString stringWithUTF8String:(char *)sqlite3_column_text(hydrate_statement, 7)];
-		
-		Country *country = [DB countryForCode:cntry_code];
-		country.usedInReport = YES; // makes sure we have an icon
-		
-		// detect region for financial reports
-		if ((reportType == ReportTypeFinancial)&&(!region))
-		{
-			region = [country reportRegion];
-		}
-		
-		App *app = [DB appForID:app_id];
-		
-		Sale *tmpSale = [[Sale alloc] initWithCountry:country report:self app:app units:units royaltyPrice:royalty_price royaltyCurrency:royalty_currency customerPrice:customer_price customerCurrency:customer_currency transactionType:ttype];
-		
-		[sales addObject:tmpSale];
-		
-		NSMutableArray *tmpArray = [salesByApp objectForKey:[NSNumber numberWithInt:app_id]];
-		
-		if (!tmpArray)
-		{
-			tmpArray = [[NSMutableArray alloc] init];
-			[salesByApp setObject:tmpArray forKey:[NSNumber numberWithInt:app_id]];
-			[tmpArray release];
-		}
-		
-		[tmpArray addObject:tmpSale];
-		[tmpSale release];
-		
-		
-	}
-	// Reset the statement for future reuse.
-	sqlite3_reset(hydrate_statement);
-
-	[self makeSummariesFromSales];
-
-	hydrated = YES;
-	
-	// sums are dependent on exchange rates, if they change we need to redo the sums
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exchangeRatesChanged:) name:@"ExchangeRatesChanged" object:nil];
-}
-
-
+#pragma mark Sums
 - (NSInteger) sumUnitsForAppId:(NSUInteger)app_id transactionType:(TransactionType)ttype
 {
 	NSMutableArray *tmpArray = [salesByApp objectForKey:[NSNumber numberWithInt:app_id]];
@@ -714,7 +1161,6 @@ static NSDateFormatter *dateFormatterToRead = nil;
 {
 	NSMutableArray *tmpArray = [salesByApp objectForKey:[NSNumber numberWithInt:app_id]];
 	double ret = 0;
-	//NSLog(@"---");
 	
 	if (tmpArray)
 	{
@@ -831,8 +1277,6 @@ static NSDateFormatter *dateFormatterToRead = nil;
     [downloadedDate release];
     downloadedDate = [aDate copy];
 }
-
-
 
 #pragma mark Sorting
 - (NSComparisonResult)compareByReportDateDesc:(Report *)otherObject

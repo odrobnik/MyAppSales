@@ -15,6 +15,7 @@
 #import "ASiSTAppDelegate.h"
 #import "Review.h"
 #import "Country.h"
+#import "Account+MyAppSales.h"
 
 @implementation SynchingManager
 
@@ -89,11 +90,21 @@ static SynchingManager * _sharedInstance;
 
 - (void) downloadForAccount:(Account *)itcAccount reportsToIgnore:(NSArray *)reportsArray;
 {
+	NSArray *previousITC = [self queuedOperationsOfClass:[ItunesConnectDownloaderOperation class]];
+	
 	ItunesConnectDownloaderOperation *wu = [[ItunesConnectDownloaderOperation alloc] initForAccount:itcAccount];
 	[wu setQueuePriority:NSOperationQueuePriorityVeryHigh];
 	
-	wu.reportsToIgnore = [[Database sharedInstance] allReports];
+	wu.reportsToIgnore = [[Database sharedInstance] allReportsWithAppGrouping:[itcAccount appGrouping]];
 	wu.delegate = self;
+	
+	// if there are previous downloads we wait until they are done by making a new download dependent on them
+	
+	for (ItunesConnectDownloaderOperation *oneOp in previousITC)
+	{
+		[wu addDependency:oneOp];
+	}
+	
 	[queue addOperation:wu];
 	[self toggleNetworkIndicator:YES];
 	
@@ -142,6 +153,11 @@ static SynchingManager * _sharedInstance;
 	[self updateIndicators]; // update counter
 }
 
+- (void) cancelAllSynching
+{
+	[queue cancelAllOperations];
+	[self updateIndicators]; // update counter
+}
 
 - (void) updateIndicators
 {
@@ -186,6 +202,30 @@ static SynchingManager * _sharedInstance;
 - (void) downloadFinishedForOperation:(NSOperation *)operation
 {
 	[self updateIndicators];
+}
+
+- (NSArray *) queuedOperationsOfClass:(Class)opClass
+{
+	NSArray *allOps = [queue operations];
+	NSMutableArray *tmpArray = [NSMutableArray array];
+	
+	for (id oneOp in allOps)
+	{
+		if ([oneOp isKindOfClass:opClass])
+		{
+			[tmpArray addObject:oneOp];
+		}
+	}
+	
+	if ([tmpArray count])
+	{
+		return [NSArray arrayWithArray:tmpArray];
+	}
+	else 
+	{
+		return nil;
+	}
+
 }
 
 @end

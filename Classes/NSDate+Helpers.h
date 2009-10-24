@@ -16,4 +16,7 @@
 - (BOOL) sameDateAs:(NSDate *) other;
 - (NSDate *) dateAtBeginningOfDay;
 
++ (NSDate *) dateFromRFC2822String:(NSString *)rfc2822String;
++ (NSDate *) dateFromMonth:(int)month Year:(int)year;
+
 @end

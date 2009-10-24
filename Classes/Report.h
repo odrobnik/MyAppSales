@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Sale.h"
 #import "Database.h"
-
+#import "AppGrouping.h"
 
 
 @interface Report : NSObject 
@@ -46,22 +46,34 @@
 	NSInteger sumUnitsFree;
 	double sumRoyaltiesEarned;
 	
+	NSSet *appsInReport;
+	
 	// for financial reports we need region
 	ReportRegion region;
+	
+	// for multi-accounts: AppGrouping
+	AppGrouping *appGrouping;
 }
 
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db;
 - (id)initWithType:(ReportType)type from_date:(NSDate *)from_date until_date:(NSDate *)until_date downloaded_date:(NSDate *)downloaded_date region:(ReportRegion)report_region database:(sqlite3 *)db;
+- (id)initAsFreeReportWithDict:(NSDictionary *)dict;
+- (id)initWithReportText:(NSString *)text;
 
+/*
 - (Sale *) insertSaleForAppID:(NSUInteger)app_id type_id:(NSUInteger)type_id units:(NSUInteger)units
 			  royalty_price:(double)royalty_price royalty_currency:(NSString *)royalty_currency 
 			 customer_price:(double)customer_price customer_currency:(NSString *)customer_currency 
 			   country_code:(NSString *)country_code;
+*/
+
+
 
 
 - (void)insertIntoDatabase:(sqlite3 *)db;
 - (void)deleteFromDatabase;
+- (void)updateInDatabase; 
 - (void)hydrate;
 
 - (NSString *)listDescription;
@@ -73,6 +85,7 @@
 @property (assign, nonatomic, readonly) NSUInteger primaryKey;
 @property (assign, nonatomic) ReportType reportType;
 @property (assign, nonatomic) ReportRegion region;
+@property (retain, nonatomic) AppGrouping *appGrouping;
 
 // The remaining attributes are copied rather than retained because they are value objects.
 
@@ -82,7 +95,7 @@
 @property (readonly, nonatomic) NSMutableArray *sales;
 @property (readonly, nonatomic) NSMutableDictionary *salesByApp;
 @property (readonly, nonatomic) NSMutableDictionary *summariesByApp;
-//@property (readonly, nonatomic) NSMutableDictionary *countrySummaries;
+@property (readonly, nonatomic) NSSet *appsInReport;
 
 @property (assign, nonatomic) BOOL isNew;
 
@@ -90,6 +103,8 @@
 @property (assign, nonatomic) NSInteger sumUnitsUpdated;
 @property (assign, nonatomic) NSInteger sumUnitsRefunded;
 @property (assign, nonatomic) NSInteger sumUnitsFree;
+
+
 
 //@property (assign, nonatomic) double sumRoyaltiesEarned;  // replaced with method
 

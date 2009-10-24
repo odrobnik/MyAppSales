@@ -9,12 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
 
+
 #define DB [Database sharedInstance]
 
-typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, ReportTypeFree = 3 } ReportType;
+typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, ReportTypeFree = 3, ReportTypeUnknown = 99 } ReportType;
 typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope = 2, ReportRegionCanada = 3, ReportRegionAustralia = 4, ReportRegionUK = 5, ReportRegionJapan = 6, ReportRegionRestOfWorld = 7} ReportRegion;
 
-@class App, Report, Country;
+@class App, Report, Country, AppGrouping, Account;
 
 @interface Database : NSObject 
 {
@@ -34,6 +35,7 @@ typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope 
 	int newApps;
 	int newReports;
 	NSMutableDictionary *newReportsByType;
+	NSMutableArray *appGroupings;
 	
 	// import from directory
 	NSMutableArray *dataToImport;
@@ -53,6 +55,10 @@ typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope 
 - (Report *) reportNewerThan:(Report *)aReport;
 - (Report *) reportOlderThan:(Report *)aReport;
 - (NSArray *) allReports;
+- (NSArray *) allReportsWithAppGrouping:(AppGrouping *)appGrouping;
+
+- (AppGrouping *) appGroupingForID:(NSInteger)groupingID;
+- (AppGrouping *) appGroupingForReport:(Report *)report;
 
 - (App *) appForID:(NSUInteger)appID;
 - (Report *) reportForID:(NSUInteger)reportID;
@@ -63,11 +69,13 @@ typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope 
 - (NSArray *) appsSortedBySales;
 
 - (App *) insertAppWithTitle:(NSString *)title vendor_identifier:(NSString *)vendor_identifier apple_identifier:(NSUInteger)apple_identifier company_name:(NSString *)company_name;
-- (Report *) insertReportWithType:(ReportType)type from_date:(NSDate *)from_date until_date:(NSDate *)until_date downloaded_date:(NSDate *)downloaded_date region:(ReportRegion)region;
 
 
-- (Report *) insertMonthlyFreeReportFromFromDict:(NSDictionary *)dict;
-- (Report *) insertReportFromText:(NSString *)string;
+//- (Report *) insertReportWithType:(ReportType)type from_date:(NSDate *)from_date until_date:(NSDate *)until_date downloaded_date:(NSDate *)downloaded_date region:(ReportRegion)region;
+
+- (void) insertMonthlyFreeReportFromFromDict:(NSDictionary *)dict;
+- (void) insertReportFromText:(NSString *)string fromAccount:(Account *)account;
+- (void) insertReportFromDict:(NSDictionary *)dict;
 
 
 - (BOOL) hasNewReportsOfType:(ReportType)type;
@@ -82,8 +90,8 @@ typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope 
 - (void) getTotals; 
 
 // used by iTunesConnect to check if report has been downloaded already
-- (NSUInteger) reportIDForDateString:(NSString *)dayString type:(ReportType)report_type region:(ReportRegion)report_region;
-- (Report *) reportForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion;
+- (Report *) reportForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion appGrouping:(AppGrouping *)appGrouping;
+//- (NSUInteger) reportIDForDateString:(NSString *)dayString type:(ReportType)report_type region:(ReportRegion)report_region;
 
 
 @end

@@ -82,6 +82,7 @@
 - (void)newReportNotification:(NSNotification *) notification;
 
 - (void) refreshButton:(id)sender;
+- (void) synchAllItunesAccounts;
 - (void) emptyCache;
 
 

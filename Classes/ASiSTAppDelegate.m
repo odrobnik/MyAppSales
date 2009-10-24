@@ -30,6 +30,7 @@
 
 #import "AccountManager.h"
 #import "Account.h"
+#import "Account+MyAppSales.h"
 #import "Country.h"
 #import "App.h"
 
@@ -101,7 +102,7 @@
 			
 			NSDate *tmpDate = [[options objectForKey:@"report_date"] dateFromString];
 			ReportType reportType = [[options objectForKey:@"type"] intValue];
-			Report *oneReport = [[Database sharedInstance] reportForDate:tmpDate type:reportType region:[[options objectForKey:@"region"] intValue]];
+			Report *oneReport = [[Database sharedInstance] reportForDate:tmpDate type:reportType region:[[options objectForKey:@"region"] intValue] appGrouping:nil];
 
 			if (oneReport)
 			{
@@ -189,7 +190,9 @@
 	
 	AccountManager *acc = [AccountManager sharedAccountManager];
 	
-	if ([acc.accounts count]>0)
+	NSArray *itunesAccounts = [acc accountsOfType:@"iTunes Connect"];
+	
+	if ([itunesAccounts count]>0)
 	{
 		//itts = [[iTunesConnect alloc] initWithAccount:[acc.accounts objectAtIndex:0]];
 		
@@ -197,7 +200,10 @@
 		Report *lastDailyReport = [[Database sharedInstance] latestReportOfType:ReportTypeDay];
 		if (forceSynch || ![lastDailyReport.downloadedDate sameDateAs:[NSDate date]])
 		{
-			[[SynchingManager sharedInstance] downloadForAccount:[acc.accounts objectAtIndex:0] reportsToIgnore:nil];
+			for (Account *oneAccount in itunesAccounts)
+			{
+				[[SynchingManager sharedInstance] downloadForAccount:oneAccount reportsToIgnore:[[Database sharedInstance] allReportsWithAppGrouping:[oneAccount appGrouping]]];
+			}
 		}
 	}
 	else 
@@ -367,11 +373,14 @@
 	
 	AccountManager *acc = [AccountManager sharedAccountManager];
 	
-	if ([acc.accounts count]>0)
+	NSArray *itunesAccounts = [acc accountsOfType:@"iTunes Connect"];
+	
+	if ([itunesAccounts count]>0)
 	{
-		//itts.account = [acc.accounts objectAtIndex:0];
-		//[itts sync];
-		[[SynchingManager sharedInstance] downloadForAccount:[acc.accounts objectAtIndex:0] reportsToIgnore:[[Database sharedInstance] allReports]];
+		for (Account *oneAccount in itunesAccounts)
+		{
+			[[SynchingManager sharedInstance] downloadForAccount:oneAccount reportsToIgnore:[[Database sharedInstance] allReportsWithAppGrouping:[oneAccount appGrouping]]];
+		}
 	}
 	
 }
@@ -380,7 +389,26 @@
 #pragma mark Notifications
 - (void)newFileInDocuments:(NSNotification *) notification
 {
-	[DB importReportsFromDocumentsFolder];
+	if (notification)
+	{
+		NSDictionary *userInfo = [notification userInfo];
+		NSString *fileName = [userInfo objectForKey:@"FileName"];
+		
+		if ([fileName isEqualToString:@"apps.db"])
+		{
+			[[SynchingManager sharedInstance] cancelAllSynching];
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"File uploaded" message:@"You replaced the SQLite Database. To avoid inconsistency you need to restart MyAppSales NOW." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Quit MyAppSales", nil];
+			alert.tag = 99;
+			[alert show];
+			[alert release];
+		}
+		else
+		{
+			[DB importReportsFromDocumentsFolder];
+		}
+
+			
+	}
 }
 
 
@@ -567,4 +595,12 @@
 	}
 }
 
+#pragma mark Alert callback 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (alertView.tag == 99)
+	{
+		exit(0);
+	}
+}
 @end

@@ -10,10 +10,13 @@
 #import "App.h"
 #import "Report.h"
 #import "Country.h"
+#import "Account.h"
+#import "Account+MyAppSales.h"
 
 #import "NSString+Helpers.h"
 #import "NSDate+Helpers.h"
 #import "ZipArchive.h"
+#import "AppGrouping.h"
 
 
 
@@ -67,6 +70,7 @@ static Database *_sharedInstance;
 	if (self = [super init])
 	{
 		newReportsByType = [[NSMutableDictionary alloc] init];
+		appGroupings = [[NSMutableSet alloc] init];
 		
 		// connect with database
 		[self createEditableCopyOfDatabaseIfNeeded];
@@ -93,6 +97,7 @@ static Database *_sharedInstance;
 	// release indexes
 	[reportsByReportType release];
 	[newReportsByType release];
+	[appGroupings release];
 	
 	// release tables
 	[apps release];
@@ -301,6 +306,34 @@ static Database *_sharedInstance;
 	sqlite3_finalize(statement); 
 	
 	
+	// Load all AppGroupings
+	// needed before the reports
+	
+    appGroupings = [[NSMutableArray array] retain];
+	sql = "SELECT id FROM AppGrouping order by id";
+	
+	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) 
+	{
+		// We "step" through the results - once for each row.
+		while (sqlite3_step(statement) == SQLITE_ROW) 
+		{
+			// The second parameter indicates the column index into the result set.
+			int primaryKey = sqlite3_column_int(statement, 0);
+			
+			// We avoid the alloc-init-autorelease pattern here because we are in a tight loop and
+			// autorelease is slightly more expensive than release. This design choice has nothing to do with
+			// actual memory management - at the end of this block of code, all the book objects allocated
+			// here will be in memory regardless of whether we use autorelease or release, because they are
+			// retained by the books array.
+			AppGrouping *appGrouping = [[AppGrouping alloc] initWithPrimaryKey:primaryKey database:database];
+			[appGroupings addObject:appGrouping];
+			[appGrouping release];
+		}
+	}
+	// "Finalize" the statement - releases the resources associated with the statement.
+	sqlite3_finalize(statement);
+	
+	
 	// Load all reports
 	
     self.reports = [NSMutableDictionary dictionary];
@@ -343,9 +376,79 @@ static Database *_sharedInstance;
 	}
 	// "Finalize" the statement - releases the resources associated with the statement.
 	sqlite3_finalize(statement);
+	
+	
+	
+
 }
 
 #pragma mark Accessing Database
+/*
+- (NSUInteger) reportIDForDateString:(NSString *)dayString type:(ReportType)report_type region:(ReportRegion)report_region
+{
+	static sqlite3_stmt *reportid_statement = nil;
+	
+	NSUInteger retID = 0;
+	NSDate *tmpDate = [dayString dateFromString];
+	// Compile the query for retrieving book data. See insertNewBookIntoDatabase: for more detail.
+	if (reportid_statement == nil) {
+		// Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
+		// This is a great way to optimize because frequently used queries can be compiled once, then with each
+		// use new variable values can be bound to placeholders.
+		const char *sql = "SELECT [id] from report WHERE until_date like ? AND report_type_id = ? AND report_region_id = ?";
+		if (sqlite3_prepare_v2(database, sql, -1, &reportid_statement, NULL) != SQLITE_OK) {
+			NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+		}
+	}
+	// For this query, we bind the primary key to the first (and only) placeholder in the statement.
+	// Note that the parameters are numbered from 1, not from 0.
+	
+	sqlite3_bind_text(reportid_statement, 1, [[NSString stringWithFormat:@"%@%%", [[tmpDate description] substringToIndex:10]] UTF8String], -1, SQLITE_TRANSIENT);
+	sqlite3_bind_int(reportid_statement, 2, (int)report_type);
+	sqlite3_bind_int(reportid_statement, 3, (int)report_region);
+	
+	if (sqlite3_step(reportid_statement) == SQLITE_ROW) 
+	{
+		retID = sqlite3_column_int(reportid_statement, 0);
+	} else {
+	}
+	// Reset the statement for future reuse.
+	sqlite3_reset(reportid_statement);
+	return retID;
+}
+*/
+
+- (Report *) reportForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion appGrouping:(AppGrouping *)appGrouping
+{
+	NSArray *reportsOfThisType = [reportsByReportType objectForKey:[NSNumber numberWithInt:reportType]];
+	
+	for (Report *oneReport in reportsOfThisType)
+	{
+		if ([oneReport.untilDate sameDateAs:reportDate]&&(oneReport.region == reportRegion))
+		{
+			// also check if its from the same grouping if not nil
+			
+			if (appGrouping)
+			{
+				AppGrouping *oneGrouping = [self appGroupingForReport:oneReport];
+			
+				if (oneGrouping == appGrouping)
+				{
+					return oneReport;
+				}
+			}
+			else 
+			{
+				return oneReport;
+			}
+
+		}
+	}
+	
+	return nil;
+}
+
+
 - (NSArray *) sortedReportsOfType:(ReportType)type
 {
 	NSNumber *reportTypeKey = [NSNumber numberWithInt:type];
@@ -427,6 +530,23 @@ static Database *_sharedInstance;
 	
 	return [NSArray arrayWithArray:tmpArray];  // non-mutable, autoreleased
 }
+
+- (NSArray *) allReportsWithAppGrouping:(AppGrouping *)appGrouping
+{
+	NSArray *allReports = [self allReports];
+	NSMutableArray *tmpArray = [NSMutableArray array];
+	
+	for (Report *oneReport in allReports)
+	{
+		if (oneReport.appGrouping == appGrouping)
+		{
+			[tmpArray addObject:oneReport];
+		}
+	}
+	
+	return [NSArray arrayWithArray:tmpArray];
+}
+
 
 - (Country *) countryForName:(NSString *)countryName
 {
@@ -537,8 +657,330 @@ static Database *_sharedInstance;
 	return (BOOL) [[newReportsByType objectForKey:typeKey] intValue];
 }
 
+#pragma mark App Grouping
+- (AppGrouping *) appGroupingForID:(NSInteger)groupingID
+{
+	for (AppGrouping *oneGrouping in appGroupings)
+	{
+		if (oneGrouping.primaryKey == groupingID)
+		{
+			return oneGrouping;
+		}
+	}
+	
+	return nil;
+}
+
+- (AppGrouping *) appGroupingForReport:(Report *)report
+{
+	if (report.appGrouping)
+	{
+		return report.appGrouping;
+	}
+	
+	if (![report.appsInReport count])
+	{
+		return nil;   // empty report, we cannot determine
+	}
+	
+
+	// make sure we have the list of apps
+	[report hydrate];
+	
+	NSMutableArray *intersectingGroups = [NSMutableArray array];
+	
+	for (AppGrouping *oneGrouping in appGroupings)
+	{
+		if ([oneGrouping containsAppsOfSet:report.appsInReport])
+		{
+			[intersectingGroups addObject:oneGrouping];
+		}
+	}
+	
+	if ([intersectingGroups count]==0)
+	{
+		// no group yet with these apps, make new one
+		AppGrouping *newGrouping = [[[AppGrouping alloc] initWithAppSet:report.appsInReport] autorelease];
+		[appGroupings addObject:newGrouping];
+		[newGrouping insertIntoDatabase:database];
+		
+		return newGrouping;
+	}
+	else if ([intersectingGroups count]==1)
+	{
+		// exactly one group, so we make sure that all apps from this report belong to it
+		AppGrouping *foundGroup = [intersectingGroups lastObject];
+		[foundGroup appendAppsOfSet:report.appsInReport];
+		[foundGroup updateInDatabase];
+		return foundGroup;
+	}
+	else 
+	{
+		// multiple groups, we need to merge down
+		
+		AppGrouping *groupToMergeInto = [intersectingGroups objectAtIndex:0]; //use earliest
+		[groupToMergeInto appendAppsOfSet:report.appsInReport];
+		
+		for (AppGrouping *oneGroup in intersectingGroups)
+		{
+			if (oneGroup!=groupToMergeInto)
+			{
+				[groupToMergeInto snatchReportsFromAppGrouping:oneGroup];
+				for (Report *oneReport in [self allReports])
+				{
+					if (oneReport.appGrouping == oneGroup)
+					{
+						oneReport.appGrouping = groupToMergeInto;
+					}
+				}
+				
+				[groupToMergeInto appendAppsOfSet:oneGroup.apps];
+				[appGroupings removeObject:oneGroup];
+				[oneGroup deleteFromDatabase];
+			}
+		}
+		
+		[groupToMergeInto updateInDatabase];
+		
+		return groupToMergeInto;
+	}
+}
 
 #pragma mark Inserting
+
+- (void) insertReportIfNotDuplicate:(Report *)newReport
+{
+	Report *existingReport = [self reportForDate:newReport.untilDate type:newReport.reportType region:newReport.region appGrouping:newReport.appGrouping];
+	
+	if (!existingReport)
+	{
+		// no duplicate, add it
+		
+		[newReport insertIntoDatabase:database]; 
+		[reports setObject:newReport forKey:[NSNumber numberWithInt:newReport.primaryKey]];
+		
+		
+		// also add it to the type index
+		NSNumber *reportTypeKey = [NSNumber numberWithInt:(int)newReport.reportType];
+		NSMutableArray *arrayForThisType = [reportsByReportType objectForKey:reportTypeKey];
+		
+		if (!arrayForThisType)
+		{
+			// this is the first report of this type, create corresponding array
+			arrayForThisType = [NSMutableArray array];
+			[reportsByReportType setObject:arrayForThisType forKey:reportTypeKey];
+		}
+		
+		[arrayForThisType addObject:newReport];
+		
+		newReports ++;
+		
+		[self calcAvgRoyaltiesForApps];
+		[self sendNewReportNotification:newReport];
+		
+		// local number of daily/weekly new Reports tracking
+		NSNumber *typeKey = [NSNumber numberWithInt:newReport.reportType];
+		
+		[newReportsByType setObject:[NSNumber numberWithInt:1 + [[newReportsByType objectForKey:typeKey] intValue]] forKey:typeKey];
+	}
+}
+
+- (void) insertReportFromDict:(NSDictionary *)dict
+{
+		NSString *text = [dict objectForKey:@"Text"];
+	Account *account = [dict objectForKey:@"Account"];
+	ReportRegion region = [[dict objectForKey:@"Region"] intValue];
+	NSDate *fallbackDate = [dict objectForKey:@"FallbackDate"];
+
+	// Make a report from the text, nothing added to DB yet
+	Report *newReport = [[[Report alloc] initWithReportText:text] autorelease];
+	
+	if (!newReport.fromDate)
+	{
+		newReport.fromDate = fallbackDate;
+	}
+	
+	if (!newReport.untilDate)
+	{
+		newReport.untilDate = fallbackDate;
+	}
+	
+	// this can happen if there are no sales on report
+	if (newReport.region == ReportRegionUnknown)
+	{
+		newReport.region = region;
+	}
+	
+	if (newReport.reportType == ReportTypeUnknown)
+	{
+		newReport.reportType = [[dict objectForKey:@"Type"] intValue];
+	}
+	
+	// check for duplicate
+	AppGrouping *appGrouping = [self appGroupingForReport:newReport];
+	
+	if (appGrouping)
+	{
+		newReport.appGrouping = appGrouping;
+		
+		// save grouping ID in account label
+		[account setAppGrouping:appGrouping];
+	}
+	else
+	{
+		// try to inherit grouping from account
+		
+		appGrouping = [account appGrouping];
+		
+		if (appGrouping)
+		{
+			newReport.appGrouping = [account appGrouping]; 
+		}
+		else
+		{
+			return;  // to be safe ignore this for now, next time this account has a group
+		}
+	}
+	
+	[self insertReportIfNotDuplicate:newReport];
+}
+
+
+
+// monthly free reports dont have beginning and end dates, thus they need to be supplied
+- (void) insertMonthlyFreeReportFromFromDict:(NSDictionary *)dict
+{
+	// Make a report from the text, nothing added to DB yet
+	Report *newReport = [[[Report alloc] initAsFreeReportWithDict:dict] autorelease];
+	Account *account = [dict objectForKey:@"Account"];
+	AppGrouping *appGrouping = [self appGroupingForReport:newReport];
+	if (appGrouping)
+	{
+		newReport.appGrouping = appGrouping;
+		
+		// save grouping ID in account label
+		[account setAppGrouping:appGrouping];
+	}
+	else
+	{
+		newReport.appGrouping = [account appGrouping]; 
+	}
+	
+	[self insertReportIfNotDuplicate:newReport];
+	
+	/*
+	
+	// check for duplicate
+	Report *existingReport = [self reportForDate:newReport.untilDate type:newReport.reportType region:newReport.region appGrouping:appGrouping];
+	
+	if (!existingReport)
+	{
+		// no duplicate, add it
+		
+		[newReport insertIntoDatabase:database]; 
+		[reports setObject:newReport forKey:[NSNumber numberWithInt:newReport.primaryKey]];
+		
+		// also add it to the type index
+		NSNumber *reportTypeKey = [NSNumber numberWithInt:(int)newReport.reportType];
+		NSMutableArray *arrayForThisType = [reportsByReportType objectForKey:reportTypeKey];
+		
+		if (!arrayForThisType)
+		{
+			// this is the first report of this type, create corresponding array
+			arrayForThisType = [NSMutableArray array];
+			[reportsByReportType setObject:arrayForThisType forKey:reportTypeKey];
+		}
+		
+		[arrayForThisType addObject:newReport];
+		
+		newReports ++;
+		
+		[self calcAvgRoyaltiesForApps];
+		[self sendNewReportNotification:newReport];
+		
+		// local number of daily/weekly new Reports tracking
+		NSNumber *typeKey = [NSNumber numberWithInt:newReport.reportType];
+		
+		[newReportsByType setObject:[NSNumber numberWithInt:1 + [[newReportsByType objectForKey:typeKey] intValue]] forKey:typeKey];
+		
+		return newReport;
+	}
+	return nil; */
+	
+}
+
+- (void) insertReportFromText:(NSString *)string fromAccount:(Account *)account
+{
+	// Make a report from the text, nothing added to DB yet
+	Report *newReport = [[[Report alloc] initWithReportText:string] autorelease];
+	
+	// check for duplicate
+	AppGrouping *appGrouping = [self appGroupingForReport:newReport];
+	
+	if (appGrouping)
+	{
+		newReport.appGrouping = appGrouping;
+
+		// save grouping ID in account label
+		[account setAppGrouping:appGrouping];
+	}
+	else
+	{
+		// try to inherit grouping from account
+		
+		appGrouping = [account appGrouping];
+		
+		if (appGrouping)
+		{
+			newReport.appGrouping = [account appGrouping]; 
+		}
+		else
+		{
+			return;  // to be safe ignore this for now, next time this account has a group
+		}
+	}
+	
+	[self insertReportIfNotDuplicate:newReport];
+	
+	/*
+	
+	Report *existingReport = [self reportForDate:newReport.untilDate type:newReport.reportType region:newReport.region appGrouping:appGrouping];
+	
+	if (!existingReport)
+	{
+		// no duplicate, add it
+		
+		[newReport insertIntoDatabase:database]; 
+		[reports setObject:newReport forKey:[NSNumber numberWithInt:newReport.primaryKey]];
+		
+		
+		// also add it to the type index
+		NSNumber *reportTypeKey = [NSNumber numberWithInt:(int)newReport.reportType];
+		NSMutableArray *arrayForThisType = [reportsByReportType objectForKey:reportTypeKey];
+		
+		if (!arrayForThisType)
+		{
+			// this is the first report of this type, create corresponding array
+			arrayForThisType = [NSMutableArray array];
+			[reportsByReportType setObject:arrayForThisType forKey:reportTypeKey];
+		}
+		
+		[arrayForThisType addObject:newReport];
+		
+		newReports ++;
+		
+		[self calcAvgRoyaltiesForApps];
+		[self sendNewReportNotification:newReport];
+		
+		// local number of daily/weekly new Reports tracking
+		NSNumber *typeKey = [NSNumber numberWithInt:newReport.reportType];
+		
+		[newReportsByType setObject:[NSNumber numberWithInt:1 + [[newReportsByType objectForKey:typeKey] intValue]] forKey:typeKey];
+		
+		return newReport;
+	}
+	return nil; */
+}
 
 - (App *) insertAppWithTitle:(NSString *)title vendor_identifier:(NSString *)vendor_identifier apple_identifier:(NSUInteger)apple_identifier company_name:(NSString *)company_name;
 {
@@ -552,308 +994,6 @@ static Database *_sharedInstance;
 	[self sendNewAppNotification:tmpApp];
 	
 	return [tmpApp autorelease];
-}
-
-- (Report *) insertReportWithType:(ReportType)type from_date:(NSDate *)from_date until_date:(NSDate *)until_date downloaded_date:(NSDate *)downloaded_date region:(ReportRegion)region
-{
-	if ((!from_date)||(!until_date)) return nil;
-	
-	// this also adds it to the database
-	Report *tmpReport = [[Report alloc] initWithType:type from_date:from_date until_date:until_date downloaded_date:downloaded_date region:region database:database];
-	
-	[reports setObject:tmpReport forKey:[NSNumber numberWithInt:tmpReport.primaryKey]];
-	
-	// also add it to the type index
-	NSNumber *reportTypeKey = [NSNumber numberWithInt:(int)tmpReport.reportType];
-	NSMutableArray *arrayForThisType = [reportsByReportType objectForKey:reportTypeKey];
-	
-	if (!arrayForThisType)
-	{
-		// this is the first report of this type, create corresponding array
-		arrayForThisType = [NSMutableArray array];
-		[reportsByReportType setObject:arrayForThisType forKey:reportTypeKey];
-	}
-	
-	[arrayForThisType addObject:tmpReport];
-	
-	newReports ++;
-
-	[self calcAvgRoyaltiesForApps];
-	[self sendNewReportNotification:tmpReport];
-	
-	// local number of daily/weekly new Reports tracking
-	NSNumber *typeKey = [NSNumber numberWithInt:tmpReport.reportType];
-	
-	[newReportsByType setObject:[NSNumber numberWithInt:1 + [[newReportsByType objectForKey:typeKey] intValue]] forKey:typeKey];
-
-	return [tmpReport autorelease];
-}
-
-
-// monthly free reports dont have beginning and end dates, thus they need to be supplied
-- (Report *) insertMonthlyFreeReportFromFromDict:(NSDictionary *)dict
-{
-	NSDate *fromDate = [dict objectForKey:@"FromDate"];
-	NSDate *untilDate = [dict objectForKey:@"UntilDate"];
-	NSString *string = [dict objectForKey:@"Text"];
-	
-	//NSLog(@"%@", string);
-	NSUInteger report_id=0;
-	Report *insertedReport = nil;
-	
-	NSArray *lines = [string componentsSeparatedByString:@"\n"];
-	NSEnumerator *enu = [lines objectEnumerator];
-	NSString *oneLine;
-	
-	// first line = headers
-	
-	oneLine = [enu nextObject];
-	NSArray *column_names = [oneLine componentsSeparatedByString:@"\t"];
-	
-//	NSString *prev_until_date = @"";
-	
-	while(oneLine = [enu nextObject])
-	{
-		NSUInteger appID = [[oneLine getValueForNamedColumn:@"Apple Identifier" headerNames:column_names] intValue];
-		NSString *vendor_identifier = [oneLine getValueForNamedColumn:@"Vendor Identifier" headerNames:column_names];
-		NSString *company_name = [oneLine getValueForNamedColumn:@"Developer" headerNames:column_names];
-		NSString *title	= [oneLine getValueForNamedColumn:@"Title/Application" headerNames:column_names];
-		NSUInteger type_id = [[oneLine getValueForNamedColumn:@"Product Type Identifier" headerNames:column_names] intValue];
-		NSInteger units = [[oneLine getValueForNamedColumn:@"Units" headerNames:column_names] intValue];
-		double royalty_price = [[oneLine getValueForNamedColumn:@"Partner Share" headerNames:column_names] doubleValue];
-		NSString *royalty_currency	= [oneLine getValueForNamedColumn:@"Partner Share Currency" headerNames:column_names];
-		double customer_price = [[oneLine getValueForNamedColumn:@"Customer Price" headerNames:column_names] doubleValue];
-		NSString *customer_currency	= [oneLine getValueForNamedColumn:@"Customer Currency" headerNames:column_names];
-		NSString *country_code	= [oneLine getValueForNamedColumn:@"Country Code" headerNames:column_names];
-		
-		// free:headers Developer	Title/Application	Product Type Identifier	Units	Partner Share	Partner Share Currency	Customer Price	Customer Currency	Country Code	Apple Identifier	Vendor Identifier
-		
-		
-		if (fromDate&&untilDate&&appID&&vendor_identifier&&company_name&&title&&type_id&&units&&royalty_currency&&customer_currency&&country_code)
-		{
-			if (!report_id)
-			{  
-				
-				//if ([self reportIDForDateString:until_date type:ReportTypeFree region:ReportRegionUnknown]) return nil;
-					
-				insertedReport = [self insertReportWithType:ReportTypeFree from_date:fromDate until_date:untilDate downloaded_date:[NSDate date] region:ReportRegionUnknown];
-				report_id= insertedReport.primaryKey;
-				
-				if (!insertedReport)
-				{
-					// if we could not insert it, it's probably already in DB
-					return nil;
-				}
-			}
-			
-			if (insertedReport)
-			{
-				if (![DB appForID:appID])
-				{
-					
-					[DB insertAppWithTitle:title vendor_identifier:vendor_identifier apple_identifier:appID company_name:company_name];
-					
-				}
-				
-				[insertedReport insertSaleForAppID:appID type_id:type_id units:units royalty_price:royalty_price royalty_currency:royalty_currency customer_price:customer_price customer_currency:customer_currency country_code:country_code];
-			}
-			
-		}
-		else
-		{
-			// lines that don't match the headers, most likey empty lines after the report
-		} 
-		
-	//	prev_until_date = until_date;
-	}
-	
-	if (!insertedReport)
-	{
-		//try again, maybe it's empty and then this prevents constant retrying
-		insertedReport = [self insertReportWithType:ReportTypeFree from_date:fromDate until_date:untilDate downloaded_date:[NSDate date] region:ReportRegionUnknown];
-	}
-	//[insertedReport makeSummariesFromSales];
-	return insertedReport;
-}
-
-
-
-- (Report *) insertReportFromText:(NSString *)string
-{
-	//NSLog(@"%@", string);
-	NSUInteger report_id=0;
-	Report *insertedReport = nil;
-	
-	NSArray *lines = [string componentsSeparatedByString:@"\n"];
-	NSEnumerator *enu = [lines objectEnumerator];
-	NSString *oneLine;
-	
-	// first line = headers
-	
-	oneLine = [enu nextObject];
-	NSArray *column_names = [oneLine componentsSeparatedByString:@"\t"];
-	
-	NSString *prev_until_date = @"";
-	
-	while(oneLine = [enu nextObject])
-	{
-		NSString *from_date = [oneLine getValueForNamedColumn:@"Begin Date" headerNames:column_names];
-		NSString *until_date = [oneLine getValueForNamedColumn:@"End Date" headerNames:column_names];
-		NSUInteger appID = [[oneLine getValueForNamedColumn:@"Apple Identifier" headerNames:column_names] intValue];
-		NSString *vendor_identifier = [oneLine getValueForNamedColumn:@"Vendor Identifier" headerNames:column_names];
-		NSString *company_name = [oneLine getValueForNamedColumn:@"Artist / Show" headerNames:column_names];
-		NSString *title	= [oneLine getValueForNamedColumn:@"Title / Episode / Season" headerNames:column_names];
-		NSUInteger type_id = [[oneLine getValueForNamedColumn:@"Product Type Identifier" headerNames:column_names] intValue];
-		NSInteger units = [[oneLine getValueForNamedColumn:@"Units" headerNames:column_names] intValue];
-		double royalty_price = [[oneLine getValueForNamedColumn:@"Royalty Price" headerNames:column_names] doubleValue];
-		NSString *royalty_currency	= [oneLine getValueForNamedColumn:@"Royalty Currency" headerNames:column_names];
-		double customer_price = [[oneLine getValueForNamedColumn:@"Customer Price" headerNames:column_names] doubleValue];
-		NSString *customer_currency	= [oneLine getValueForNamedColumn:@"Customer Currency" headerNames:column_names];
-		NSString *country_code	= [oneLine getValueForNamedColumn:@"Country Code" headerNames:column_names];
-		
-		BOOL financial_report = NO;
-		
-		if ((!from_date)&&(!company_name)&&(!title)&&(!royalty_currency)&&(!royalty_price)&&(!country_code))
-		{
-			// probably monthly report
-			from_date = [oneLine getValueForNamedColumn:@"Start Date" headerNames:column_names];
-			
-			units = [[oneLine getValueForNamedColumn:@"Quantity" headerNames:column_names] intValue];
-			company_name = [oneLine getValueForNamedColumn:@"Artist/Show/Developer" headerNames:column_names];
-			title	= [oneLine getValueForNamedColumn:@"Title" headerNames:column_names];
-			royalty_currency	= [oneLine getValueForNamedColumn:@"Partner Share Currency" headerNames:column_names];
-			royalty_price = [[oneLine getValueForNamedColumn:@"Partner Share" headerNames:column_names] doubleValue];
-			country_code	= [oneLine getValueForNamedColumn:@"Country Of Sale" headerNames:column_names];
-			
-			
-			financial_report = YES;
-			
-		}
-		
-		
-		// free:headers Developer	Title/Application	Product Type Identifier	Units	Partner Share	Partner Share Currency	Customer Price	Customer Currency	Country Code	Apple Identifier	Vendor Identifier
-		
-		
-		if (from_date&&until_date&&appID&&vendor_identifier&&company_name&&title&&type_id&&units&&royalty_currency&&customer_currency&&country_code)
-		{
-			if ((!report_id)||(![prev_until_date isEqualToString:until_date]))   // added: possibly multiple different rows from different reports
-			{  // detect report type from first line
-				
-				NSDate *tmp_from_date = [from_date dateFromString];
-				NSDate *tmp_until_date = [until_date dateFromString];
-				
-				if (financial_report)
-				{
-					// is a monthly report
-					ReportRegion inferred_region = [[DB countryForCode:country_code] reportRegion];
-
-					if ([self reportIDForDateString:until_date type:ReportTypeFinancial region:inferred_region]) return nil;
-					
-					insertedReport = [self insertReportWithType:ReportTypeFinancial from_date:tmp_from_date until_date:tmp_until_date downloaded_date:[NSDate date] region:inferred_region];
-					report_id= insertedReport.primaryKey;
-				}
-				else if ([from_date isEqualToString:until_date])
-				{	// day report
-
-					if ([self reportIDForDateString:from_date type:ReportTypeDay region:ReportRegionUnknown]) return nil;
-
-					insertedReport = [self insertReportWithType:ReportTypeDay from_date:tmp_from_date until_date:tmp_until_date downloaded_date:[NSDate date] region:ReportRegionUnknown];
-					report_id= insertedReport.primaryKey;
-				}
-				else
-				{	// week report
-					if ([self reportIDForDateString:until_date type:ReportTypeWeek region:ReportRegionUnknown]) return nil;
-
-					insertedReport = [self insertReportWithType:ReportTypeWeek from_date:tmp_from_date until_date:tmp_until_date downloaded_date:[NSDate date] region:ReportRegionUnknown];
-					report_id= insertedReport.primaryKey;
-				}
-				
-				if (!insertedReport)
-				{
-					// if we could not insert it, it's probably already in DB
-					return nil;
-				}
-			}
-			
-			if (insertedReport)
-			{
-				if (![DB appForID:appID])
-				{
-					
-					[DB insertAppWithTitle:title vendor_identifier:vendor_identifier apple_identifier:appID company_name:company_name];
-					
-				}
-				
-				[insertedReport insertSaleForAppID:appID type_id:type_id units:units royalty_price:royalty_price royalty_currency:royalty_currency customer_price:customer_price customer_currency:customer_currency country_code:country_code];
-			}
-			
-		}
-		else
-		{
-			// lines that don't match the headers, most likey empty lines after the report
-		} 
-		
-		prev_until_date = until_date;
-	}
-	
-	
-	[insertedReport makeSummariesFromSales];
-	
-	/* [insertedReport dehydrate]; //-- did not gain enough memory saving */
-	return insertedReport;
-}
-
-
-
-
-- (NSUInteger) reportIDForDateString:(NSString *)dayString type:(ReportType)report_type region:(ReportRegion)report_region
-{
-	static sqlite3_stmt *reportid_statement = nil;
-
-	NSUInteger retID = 0;
-	NSDate *tmpDate = [dayString dateFromString];
-	// Compile the query for retrieving book data. See insertNewBookIntoDatabase: for more detail.
-	if (reportid_statement == nil) {
-		// Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
-		// This is a great way to optimize because frequently used queries can be compiled once, then with each
-		// use new variable values can be bound to placeholders.
-		const char *sql = "SELECT [id] from report WHERE until_date like ? AND report_type_id = ? AND report_region_id = ?";
-		if (sqlite3_prepare_v2(database, sql, -1, &reportid_statement, NULL) != SQLITE_OK) {
-			NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-		}
-	}
-	// For this query, we bind the primary key to the first (and only) placeholder in the statement.
-	// Note that the parameters are numbered from 1, not from 0.
-	
-	sqlite3_bind_text(reportid_statement, 1, [[NSString stringWithFormat:@"%@%%", [[tmpDate description] substringToIndex:10]] UTF8String], -1, SQLITE_TRANSIENT);
-	sqlite3_bind_int(reportid_statement, 2, (int)report_type);
-	sqlite3_bind_int(reportid_statement, 3, (int)report_region);
-	
-	if (sqlite3_step(reportid_statement) == SQLITE_ROW) 
-	{
-		retID = sqlite3_column_int(reportid_statement, 0);
-	} else {
-	}
-	// Reset the statement for future reuse.
-	sqlite3_reset(reportid_statement);
-	return retID;
-}
-
-
-- (Report *) reportForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion
-{
-	NSArray *reportsOfThisType = [reportsByReportType objectForKey:[NSNumber numberWithInt:reportType]];
-	
-	for (Report *oneReport in reportsOfThisType)
-	{
-		if ([oneReport.untilDate sameDateAs:reportDate]&&(oneReport.region == reportRegion))
-		{
-			return oneReport;
-		}
-		
-	}
-								  
-	return nil;
 }
 
 #pragma mark Misc
@@ -871,7 +1011,6 @@ static Database *_sharedInstance;
 
 - (void) removeAllReviewTranslations
 {
-	
 	// fast removal directly in DB
 	
 	NSString *script = @"update review set review_translated = NULL";	
@@ -963,7 +1102,7 @@ static Database *_sharedInstance;
 			NSString *pathOfFile = [documentsDirectory stringByAppendingPathComponent:aString];
 			
 			NSString *string = [NSString stringWithContentsOfFile: pathOfFile encoding:NSUTF8StringEncoding error:NULL];
-			[self insertReportFromText:string];
+			[self insertReportFromText:string fromAccount:nil];  // don't know account
 			[fileManager removeItemAtPath:pathOfFile error:NULL];
 		}
 		else if ([[aString lowercaseString] hasSuffix:@".zip"])
@@ -1026,7 +1165,7 @@ static Database *_sharedInstance;
 	
 	NSData *oneData = [dataToImport objectAtIndex:0];
 	NSString *string = [[NSString alloc] initWithBytes:[oneData bytes] length:[oneData length] encoding:NSUTF8StringEncoding];
-	[self insertReportFromText:string];
+	[self insertReportFromText:string fromAccount:nil];  // don't know account
 	[string release];
 	
 	[dataToImport removeObject:oneData];

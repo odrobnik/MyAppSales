@@ -300,6 +300,8 @@
 		A7BD65DA105AB47B0021B6CF /* Review.m in Sources */ = {isa = PBXBuildFile; fileRef = A7BD65D9105AB47B0021B6CF /* Review.m */; };
 		A7BD6699105AC9C80021B6CF /* update_1_to_2.sql in Resources */ = {isa = PBXBuildFile; fileRef = A7BD65DB105AB4D00021B6CF /* update_1_to_2.sql */; };
 		A7BD6849105AEC920021B6CF /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = A7BD6848105AEC920021B6CF /* ISO8601DateFormatter.m */; };
+		A7C15A7D108F127300693757 /* AppGrouping.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C15A7C108F127300693757 /* AppGrouping.m */; };
+		A7C15C15108F69B900693757 /* update_3_to_4.sql in Resources */ = {isa = PBXBuildFile; fileRef = A7C23F161065928E00D544BA /* update_3_to_4.sql */; };
 		A7C235ED1064C3C900D544BA /* AUT.png in Resources */ = {isa = PBXBuildFile; fileRef = A7AB06960F308F2200085D99 /* AUT.png */; };
 		A7C23CF510656C0B00D544BA /* LKGoogleTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C23CF410656C0B00D544BA /* LKGoogleTranslator.m */; };
 		A7C23D0710656D6800D544BA /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C23D0210656D6800D544BA /* NSObject+SBJSON.m */; };
@@ -307,6 +309,7 @@
 		A7C23D0910656D6800D544BA /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C23D0610656D6800D544BA /* SBJSON.m */; };
 		A7C23D7E106575BC00D544BA /* TranslationScraperOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C23D7D106575BC00D544BA /* TranslationScraperOperation.m */; };
 		A7C7E92B10459E3000D413D0 /* DayReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C7E92A10459E3000D413D0 /* DayReportCell.m */; };
+		A7CCCEAE109357C10091FCE1 /* Account+MyAppSales.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CCCEAD109357C10091FCE1 /* Account+MyAppSales.m */; };
 		A7CD0666105A7014005F9166 /* cover_mask_rounded_100x100.png in Resources */ = {isa = PBXBuildFile; fileRef = A7CD0665105A7014005F9166 /* cover_mask_rounded_100x100.png */; };
 		A7CD06EA105A7882005F9166 /* UIImage+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CD06E9105A7882005F9166 /* UIImage+Helpers.m */; };
 		A7E0F9F3106BB684003B93FE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E0F9F2106BB684003B93FE /* QuartzCore.framework */; };
@@ -681,6 +684,8 @@
 		A7BD65DB105AB4D00021B6CF /* update_1_to_2.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = update_1_to_2.sql; sourceTree = "<group>"; };
 		A7BD6847105AEC920021B6CF /* ISO8601DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISO8601DateFormatter.h; sourceTree = "<group>"; };
 		A7BD6848105AEC920021B6CF /* ISO8601DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISO8601DateFormatter.m; sourceTree = "<group>"; };
+		A7C15A7B108F127300693757 /* AppGrouping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppGrouping.h; sourceTree = "<group>"; };
+		A7C15A7C108F127300693757 /* AppGrouping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppGrouping.m; sourceTree = "<group>"; };
 		A7C23CF210656C0B00D544BA /* LKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKConstants.h; sourceTree = "<group>"; };
 		A7C23CF310656C0B00D544BA /* LKGoogleTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKGoogleTranslator.h; sourceTree = "<group>"; };
 		A7C23CF410656C0B00D544BA /* LKGoogleTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKGoogleTranslator.m; sourceTree = "<group>"; };
@@ -696,6 +701,8 @@
 		A7C23F161065928E00D544BA /* update_3_to_4.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = update_3_to_4.sql; sourceTree = "<group>"; };
 		A7C7E92910459E3000D413D0 /* DayReportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DayReportCell.h; sourceTree = "<group>"; };
 		A7C7E92A10459E3000D413D0 /* DayReportCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DayReportCell.m; sourceTree = "<group>"; };
+		A7CCCEAC109357C10091FCE1 /* Account+MyAppSales.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Account+MyAppSales.h"; sourceTree = "<group>"; };
+		A7CCCEAD109357C10091FCE1 /* Account+MyAppSales.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Account+MyAppSales.m"; sourceTree = "<group>"; };
 		A7CD0665105A7014005F9166 /* cover_mask_rounded_100x100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover_mask_rounded_100x100.png; sourceTree = "<group>"; };
 		A7CD06E8105A7882005F9166 /* UIImage+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Helpers.h"; sourceTree = "<group>"; };
 		A7CD06E9105A7882005F9166 /* UIImage+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Helpers.m"; sourceTree = "<group>"; };
@@ -1071,6 +1078,8 @@
 				A780D1C60F26219800C796FB /* Query.m */,
 				A7EB519210481BE6005452BE /* Database.h */,
 				A7EB519310481BE6005452BE /* Database.m */,
+				A7C15A7B108F127300693757 /* AppGrouping.h */,
+				A7C15A7C108F127300693757 /* AppGrouping.m */,
 			);
 			name = Database;
 			path = ..;
@@ -1295,6 +1304,8 @@
 				A7B424BC10553718007BC954 /* AccountManager.m */,
 				A7B424F110553E8F007BC954 /* Account.h */,
 				A7B424F210553E8F007BC954 /* Account.m */,
+				A7CCCEAC109357C10091FCE1 /* Account+MyAppSales.h */,
+				A7CCCEAD109357C10091FCE1 /* Account+MyAppSales.m */,
 			);
 			name = "Account Manager";
 			sourceTree = "<group>";
@@ -1650,6 +1661,7 @@
 				A78DED44105FDEF800786950 /* URY.png in Resources */,
 				A78DEE0710600A7C00786950 /* Badge.png in Resources */,
 				A7C235ED1064C3C900D544BA /* AUT.png in Resources */,
+				A7C15C15108F69B900693757 /* update_3_to_4.sql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1732,6 +1744,8 @@
 				A7C23D0910656D6800D544BA /* SBJSON.m in Sources */,
 				A7C23D7E106575BC00D544BA /* TranslationScraperOperation.m in Sources */,
 				A70582721085E07A0060BF64 /* NSURL+Helpers.m in Sources */,
+				A7C15A7D108F127300693757 /* AppGrouping.m in Sources */,
+				A7CCCEAE109357C10091FCE1 /* Account+MyAppSales.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

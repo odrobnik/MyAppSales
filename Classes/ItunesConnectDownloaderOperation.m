@@ -13,6 +13,7 @@
 #import "Database.h"
 
 #import "NSArray+Reports.h"
+#import "NSDate+Helpers.h"
 
 
 @implementation ItunesConnectDownloaderOperation
@@ -46,8 +47,22 @@
 }
 
 
+- (ReportRegion)regionFromCode:(NSString *)regionCode
+{
+	ReportRegion region;
+	if ([regionCode isEqualToString:@"US"]) region = ReportRegionUSA;
+	else if ([regionCode isEqualToString:@"GB"]) region = ReportRegionUK;
+	else if ([regionCode isEqualToString:@"JP"]) region = ReportRegionJapan;
+	else if ([regionCode isEqualToString:@"AU"]) region = ReportRegionAustralia;
+	else if ([regionCode isEqualToString:@"CA"]) region = ReportRegionCanada;
+	else if ([regionCode isEqualToString:@"EU"]) region = ReportRegionEurope;
+	else if ([regionCode isEqualToString:@"WW"]) region = ReportRegionRestOfWorld;
+	else region = ReportRegionUnknown;
+	
+	return region;
+}
 
-- (BOOL) needToDownloadFinancialReportWithFilename:(NSString *)fileName
+- (BOOL) needToDownloadFinancialReportWithFilename:(NSString *)fileName region:(ReportRegion *)foundRegion month:(int *)foundMonth year:(int *)foundYear
 {
 	//NSLog(@"%@", fileName);
 	NSArray *split = [[fileName stringByReplacingOccurrencesOfString:@".txt" withString:@""] componentsSeparatedByString:@"_"];
@@ -60,8 +75,8 @@
 		return NO;
 	}
 	
-	ReportRegion region;
-	
+	ReportRegion region = [self regionFromCode:regionCode];
+/*	
 	if ([regionCode isEqualToString:@"US"]) region = ReportRegionUSA;
 	else if ([regionCode isEqualToString:@"GB"]) region = ReportRegionUK;
 	else if ([regionCode isEqualToString:@"JP"]) region = ReportRegionJapan;
@@ -70,7 +85,24 @@
 	else if ([regionCode isEqualToString:@"EU"]) region = ReportRegionEurope;
 	else if ([regionCode isEqualToString:@"WW"]) region = ReportRegionRestOfWorld;
 	else region = ReportRegionUnknown;
-
+*/
+	
+	if (foundRegion)
+	{
+		*foundRegion = region;
+	}
+	
+	if (foundMonth)
+	{
+		*foundMonth = [[reportMonth substringToIndex:2] intValue];
+	}
+	
+	if (foundYear)
+	{
+		*foundYear = [[reportMonth substringFromIndex:2] intValue];
+	}
+	
+	
 	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
 	[df setDateFormat:@"MMYY"];
 	
@@ -350,7 +382,9 @@
 			NSData *decompressed = [data gzipInflate];
 			NSString *decompStr = [[[NSString alloc] initWithBytes:[decompressed bytes] length:[decompressed length] encoding:NSASCIIStringEncoding] autorelease];
 			
-			[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromText:) withObject:decompStr waitUntilDone:YES];
+			NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:decompStr, @"Text", account, @"Account", nil];
+
+			[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
 		}
 	}
 	
@@ -443,7 +477,9 @@
 			NSData *decompressed = [data gzipInflate];
 			NSString *decompStr = [[[NSString alloc] initWithBytes:[decompressed bytes] length:[decompressed length] encoding:NSASCIIStringEncoding] autorelease];
 			
-			[DB performSelectorOnMainThread:@selector(insertReportFromText:) withObject:decompStr waitUntilDone:YES];
+			NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:decompStr, @"Text", account, @"Account", nil];
+
+			[DB performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
 		}
 		
 	}	
@@ -543,7 +579,7 @@
 			NSData *decompressed = [data gzipInflate];
 			NSString *decompStr = [[[NSString alloc] initWithBytes:[decompressed bytes] length:[decompressed length] encoding:NSASCIIStringEncoding] autorelease];
 			
-			NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:decompStr, @"Text", untilDate, @"UntilDate", fromDate, @"FromDate", nil];
+			NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:decompStr, @"Text", untilDate, @"UntilDate", fromDate, @"FromDate", account, @"Account", nil];
 			
 			[DB performSelectorOnMainThread:@selector(insertMonthlyFreeReportFromFromDict:) withObject:tmpDict waitUntilDone:YES];
 		}
@@ -593,8 +629,15 @@
 		NSString *url = [oneDict objectForKey:@"url"];
 		NSString *text = [oneDict objectForKey:@"contents"];
 		
-		if ([text hasSuffix:@".txt"]&&[self needToDownloadFinancialReportWithFilename:text])
+		ReportRegion region;
+		int month;
+		int year;
+		
+		if ([text hasSuffix:@".txt"]&&[self needToDownloadFinancialReportWithFilename:text region:&region month:&month year:&year])
 		{
+			NSDate *fallbackDate = [NSDate dateFromMonth:month Year:2000+year];
+			
+			
 			URL = [@"https://itunesconnect.apple.com" stringByAppendingString:url];
 			
 			request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
@@ -630,7 +673,9 @@
 			
 			sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
 			
-			[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromText:) withObject:sourceSt waitUntilDone:YES];
+			NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:sourceSt, @"Text", account, @"Account", [NSNumber numberWithInt:region], @"Region", fallbackDate, @"FallbackDate", [NSNumber numberWithInt:ReportTypeFinancial], @"Type", nil];
+
+			[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
 			
 		}
 	}
@@ -674,8 +719,12 @@
 			NSString *url = [oneDict objectForKey:@"url"];
 			NSString *text = [oneDict objectForKey:@"contents"];
 			
-			if ([text hasSuffix:@".txt"]&&[self needToDownloadFinancialReportWithFilename:text])
+			ReportRegion region;
+			int month;
+			int year;
+			if ([text hasSuffix:@".txt"]&&[self needToDownloadFinancialReportWithFilename:text region:&region month:&month year:&year])
 			{
+				NSDate *fallbackDate = [NSDate dateFromMonth:month Year:2000+year];
 				URL = [@"https://itunesconnect.apple.com" stringByAppendingString:url];
 				
 				request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
@@ -711,7 +760,9 @@
 				
 				sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
 				
-				[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromText:) withObject:sourceSt waitUntilDone:YES];
+				NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:sourceSt, @"Text", account, @"Account", [NSNumber numberWithInt:region], @"Region", fallbackDate, @"FallbackDate", [NSNumber numberWithInt:ReportTypeFinancial], @"Type", nil];
+
+				[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
 				
 			}
 		}

@@ -167,4 +167,28 @@ static AccountManager *_sharedInstance = nil;
 	[self.accounts removeObject:accountToRemove];
 }
 
+#pragma mark Retrieving Accounts
+- (NSArray *)accountsOfType:(NSString *)type
+{
+	NSMutableArray *tmpArray = [NSMutableArray array];
+	
+	for (Account *oneAccount in accounts)
+	{
+		if ([oneAccount.service isEqualToString:type])
+		{
+			[tmpArray addObject:oneAccount];
+		}
+	}
+	
+	if ([tmpArray count])
+	{
+		return [NSArray arrayWithArray:tmpArray];
+	}
+	else
+	{
+		return nil;
+	}
+
+}
+
 @end
