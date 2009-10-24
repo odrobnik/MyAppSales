@@ -8,6 +8,12 @@ UPDATE Country SET language="tr", app_store_id=143480 WHERE ISO2="TR";
 
 /* fix writing so that country is found for Jan 2009 report */
 update country set Name = 'Great Britain' where iso2 = 'GB';
+update country set name = 'Taiwan' where iso2 = 'TW';
+update country set name = 'Russian Fed.' where iso2 = 'RU';
+update country set name = 'South Korea' where iso2 = 'KR';
+update country set name = 'Unit.Arab Emir.' where iso2 = 'AE';
+update country set name = 'Czech. Republic' where iso2 = 'CZ';
+
 
 /* add account table */
 

@@ -563,6 +563,7 @@ static Database *_sharedInstance;
 		
 	}
 	
+	NSLog(@"Cannot resolve country name '%@', please report this to oliver@drobnik.com", countryName);
 	return nil;
 }
 

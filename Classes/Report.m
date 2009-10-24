@@ -386,6 +386,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 			if (from_date&&until_date&&appID&&vendor_identifier&&company_name&&title&&type_id&&units&&royalty_currency&&customer_currency&&country_code)
 			{
 				Country *saleCountry = [DB countryForCode:country_code];
+				
 				saleCountry.usedInReport = YES; // makes sure we have an icon
 
 				App *saleApp = [DB appForID:appID];
