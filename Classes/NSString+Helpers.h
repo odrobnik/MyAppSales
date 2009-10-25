@@ -14,6 +14,7 @@
 // helper function
 - (NSString *) getValueForNamedColumn:(NSString *)column_name  headerNames:(NSArray *)header_names;
 - (NSDate *) dateFromString;
+- (NSDate *) dateFromISO8601;
 - (NSArray *) optionsFromSelect;
 - (NSString *)stringByFindingFormPostURLwithName:(NSString *)formName;
 - (NSArray *)arrayWithHrefDicts;

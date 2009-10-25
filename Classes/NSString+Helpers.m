@@ -60,6 +60,26 @@
 	return nil;
 }
 
+- (NSDate *) dateFromISO8601
+{
+	NSMutableString *str = [self mutableCopy];
+    NSDateFormatter* sISO8601 = nil;
+    
+    if (!sISO8601) {
+        sISO8601 = [[[NSDateFormatter alloc] init] autorelease];
+        [sISO8601 setTimeStyle:NSDateFormatterFullStyle];
+        [sISO8601 setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+    }
+    if ([str hasSuffix:@"Z"]) 
+	{
+		[str deleteCharactersInRange:NSMakeRange(str.length-1, 1)];
+		[sISO8601 setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
+    }    
+    NSDate *d = [sISO8601 dateFromString:str];
+	[str release];
+    return d;
+}
+
 // pass in a HTML <select>, returns the options as NSArray 
 - (NSArray *) optionsFromSelect
 {
