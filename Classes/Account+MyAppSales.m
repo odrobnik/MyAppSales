@@ -23,4 +23,52 @@
 	return [DB appGroupingForID:[label intValue]];
 }
 
+
++ (NSString *)stringForAccountType:(AccountType)anAccountType
+{
+	switch (anAccountType) 
+	{
+		case AccountTypeITC:
+			return @"iTunes Connect";
+		case AccountTypeNotifications:
+			return @"Notifications";
+		case AccountTypeApplyzer:
+			return @"Applyzer";
+		default:
+			return nil;
+	}
+}
+
+
+- (void) setAccountType:(AccountType)newAccountType
+{
+	NSString *accountTypeString = [Account stringForAccountType:newAccountType];
+	
+	if (accountTypeString)
+	{
+		self.service = accountTypeString;
+	}
+}
+
+- (AccountType) accountType
+{
+	if ([service isEqualToString:@"iTunes Connect"])
+	{
+		return AccountTypeITC;
+	}
+	else if ([service isEqualToString:@"Notifications"])
+	{
+		return AccountTypeNotifications;
+	}
+	else if ([service isEqualToString:@"Applyzer"])
+	{
+		return AccountTypeApplyzer;
+	}
+	else 
+	{
+		return AccountTypeUnknown;
+	}
+}
+
+
 @end

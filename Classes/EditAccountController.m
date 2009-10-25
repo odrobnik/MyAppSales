@@ -8,14 +8,16 @@
 
 #import "EditAccountController.h"
 #import "Account.h"
+#import "Account+MyAppSales.h"
 #import "EditableCell.h"
 #import "PushButtonCell.h"
 #import "AccountManager.h"
+#import "BigProgressView.h"
 
 
 @implementation EditAccountController
 
-@synthesize myAccount, delegate;
+@synthesize myAccount, delegate, typeForNewAccount;
 
 - (id) initWithAccount:(Account *)account
 {
@@ -27,68 +29,90 @@
 		if (!account)
 		{
 			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
-																								  target:self action:@selector(save:)];
+																								   target:self action:@selector(save:)];
 			self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
 																								  target:self action:@selector(cancel:)];
-			self.navigationItem.prompt = @"Enter your iTunes Connect account information";
 			self.navigationItem.rightBarButtonItem.enabled = NO;
 			
 			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(somethingTyped:) name:UITextFieldTextDidChangeNotification object:nil];
-
+			
 		}
 	}
-
-
+	
+	
 	return self;
 }
 
-
-/*
-- (id)initWithStyle:(UITableViewStyle)style {
-    // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if (self = [super initWithStyle:style]) {
-    }
-    return self;
+- (void) setupProgressView
+{
+	prog = [[BigProgressView alloc] initWithFrame:self.view.bounds];  //
+	//prog.contentMode = UIViewContentModeCenter;
+	//self.view.contentMode = UIViewContentModeCenter;
+	prog.autoresizesSubviews = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+	self.view.autoresizesSubviews = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+	
+	[self.view addSubview:prog];
 }
-*/
 
 /*
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-*/
+ - (id)initWithStyle:(UITableViewStyle)style {
+ // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
+ if (self = [super initWithStyle:style]) {
+ }
+ return self;
+ }
+ */
 
 /*
+ - (void)viewDidLoad {
+ [super viewDidLoad];
+ 
+ // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+ // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+ }
+ */
+
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+	
+	if (!typeForNewAccount&&[myAccount accountType])
+	{
+		typeForNewAccount = [myAccount accountType];
+	}
+	
+	NSString *accountTypeString = [Account stringForAccountType:typeForNewAccount];
+	self.title = accountTypeString;
+	
+	if (!myAccount)
+	{
+		self.navigationItem.prompt = [NSString stringWithFormat:@"Enter your %@ account information", accountTypeString];
+	}
 }
-*/
+
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 }
 
 /*
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-}
-*/
+ - (void)viewWillDisappear:(BOOL)animated {
+ [super viewWillDisappear:animated];
+ }
+ */
 /*
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-}
-*/
+ - (void)viewDidDisappear:(BOOL)animated {
+ [super viewDidDisappear:animated];
+ }
+ */
 
 /*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
+ // Override to allow orientations other than the default portrait orientation.
+ - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+ // Return YES for supported orientations
+ return (interfaceOrientation == UIInterfaceOrientationPortrait);
+ }
+ */
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -105,8 +129,17 @@
 
 #pragma mark Table view methods
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return myAccount?2:1;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
+{
+	int num = 1;
+	if (myAccount)
+	{
+		num++; // delete button
+	}
+
+	
+	
+    return num;
 }
 
 
@@ -121,6 +154,27 @@
 	}
 	
 	return 0;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+	if (!myAccount)
+	{
+		switch (typeForNewAccount) 
+		{
+			case AccountTypeITC:
+				return @"Downloading sales report directly from your account. Credentials as safely store on your keychain.";
+				break;
+			case AccountTypeNotifications:
+				return @"Notifications is a 3rd party app enabling push notifications for MyAppSales.";
+				break;
+			default:
+				break;
+		}
+	}
+	
+	return nil;
+	
 }
 
 // Customize the appearance of table view cells.
@@ -159,7 +213,15 @@
 			{
 				case 0:
 				{
-					cell.titleLabel.text = @"Apple ID";
+					if ((!myAccount)&&(typeForNewAccount==AccountTypeITC)||([myAccount accountType]==AccountTypeITC))
+					{
+						cell.titleLabel.text = @"Apple ID";
+					}
+					else 
+					{
+						cell.titleLabel.text = @"Login";
+					}
+					
 					if (myAccount)
 						cell.textField.text = myAccount.account;
 					cell.textField.placeholder = @"oliver@drobnik.com";
@@ -186,11 +248,12 @@
 					cell.titleLabel.text = @"Description";
 					if (myAccount)
 						cell.textField.text = myAccount.description;
-					cell.textField.placeholder = @"My iTunes Connect Account";
+					cell.textField.placeholder = [NSString stringWithFormat:@"My %@ account", [Account stringForAccountType:typeForNewAccount]];
+					
 					cell.textField.secureTextEntry = NO;
 					cell.textField.keyboardType = UIKeyboardTypeDefault;
 					descriptionField = cell.textField;
-
+					
 					break;
 				}
 			}
@@ -205,7 +268,7 @@
 	
 	return nil;
 	
-
+	
 }
 
 
@@ -218,43 +281,43 @@
 
 
 /*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
 
 
 /*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+ 
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source
+ [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+ }   
+ else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }   
+ }
+ */
 
 
 /*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+ }
+ */
 
 
 /*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
 
 
 - (void)dealloc {
@@ -281,11 +344,16 @@
 	NSString *password = passwordCell.textField.text;
 	NSString *description = descriptionCell.textField.text;
 	
-	Account *newAccount = [[AccountManager sharedAccountManager] addAccountForService:@"iTunes Connect" user:account];
+	Account *newAccount = [[AccountManager sharedAccountManager] addAccountForService:[Account stringForAccountType:typeForNewAccount] user:account];
 	newAccount.password = password;
 	newAccount.description = description;
 	
 	[self.navigationController dismissModalViewControllerAnimated:YES];
+	
+	if (delegate && [delegate respondsToSelector:@selector(insertedAccount:)])
+	{
+		[delegate insertedAccount:newAccount];
+	}
 }
 
 - (void) delete:(id)sender
@@ -329,6 +397,11 @@
 	}
 	
 	self.navigationItem.rightBarButtonItem.enabled = ([accountField.text length]&&[passwordField.text length]);
+	
+	if (delegate && [delegate respondsToSelector:@selector(modifiedAccount:)])
+	{
+		[delegate modifiedAccount:myAccount];
+	}
 }
 
 

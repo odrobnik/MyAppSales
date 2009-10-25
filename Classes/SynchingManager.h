@@ -22,6 +22,9 @@
 
 + (SynchingManager *) sharedInstance;
 
+// Notifications
+- (void) subscribeToNotificationsWithAccount:(Account *)notificationsAccount;
+- (void) unsubscribeToNotificationsWithAccount:(Account *)notificationsAccount;
 
 // iTunes Review Scraper
 - (void) scrapeForApp:(App *)reviewApp country:(Country *)reviewCountry delegate:(id<ReviewScraperDelegate>)scraperDelegate;

@@ -11,6 +11,7 @@
 #import "ReviewDownloaderOperation.h"
 #import "ItunesConnectDownloaderOperation.h"
 #import "TranslationScraperOperation.h"
+#import "NotificationsSubscribeOperation.h"
 #import "Database.h"
 #import "ASiSTAppDelegate.h"
 #import "Review.h"
@@ -58,7 +59,33 @@ static SynchingManager * _sharedInstance;
 	application.networkActivityIndicatorVisible = isOn;
 }
 
+#pragma mark Notifications
 
+- (void) subscribeToNotificationsWithAccount:(Account *)notificationsAccount
+{
+	NotificationsSubscribeOperation *wu = [[NotificationsSubscribeOperation alloc] initForAccount:notificationsAccount subscribe:YES];
+	[wu setQueuePriority:NSOperationQueuePriorityVeryHigh];
+	
+	wu.delegate = self;
+		
+	[queue addOperation:wu];
+	[self toggleNetworkIndicator:YES];
+	
+	[wu release];
+}
+
+- (void) unsubscribeToNotificationsWithAccount:(Account *)notificationsAccount
+{
+	NotificationsSubscribeOperation *wu = [[NotificationsSubscribeOperation alloc] initForAccount:notificationsAccount subscribe:NO];
+	[wu setQueuePriority:NSOperationQueuePriorityVeryHigh];
+	
+	wu.delegate = self;
+	
+	[queue addOperation:wu];
+	[self toggleNetworkIndicator:YES];
+	
+	[wu release];
+}
 #pragma mark iTunes Reviews
 
 
@@ -88,7 +115,7 @@ static SynchingManager * _sharedInstance;
 }
 
 
-- (void) downloadForAccount:(Account *)itcAccount reportsToIgnore:(NSArray *)reportsArray;
+- (void) downloadForAccount:(Account *)itcAccount reportsToIgnore:(NSArray *)reportsArray
 {
 	NSArray *previousITC = [self queuedOperationsOfClass:[ItunesConnectDownloaderOperation class]];
 	

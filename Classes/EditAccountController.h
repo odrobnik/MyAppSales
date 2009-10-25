@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "EditableCell.h"
 
-@class Account;
+#import "Account+MyAppSales.h"
 
 
 @protocol EditAccountDelegate <NSObject>
@@ -18,10 +18,11 @@
 
 - (void) deleteAccount:(Account *)deletedAccount;
 - (void) insertedAccount:(Account *)insertedAccount;
+- (void) modifiedAccount:(Account *)modifiedAccount;
 
 @end
 
-
+@class BigProgressView;
 
 @interface EditAccountController : UITableViewController <EditableCellDelegate>
 {
@@ -33,10 +34,14 @@
 	UITextField *passwordField;
 	UITextField *descriptionField;
 	
+	AccountType typeForNewAccount;
+	
+	BigProgressView *prog;
 }
 
 @property (nonatomic, retain) Account *myAccount;
 @property (nonatomic, assign) id<EditAccountDelegate> delegate;
+@property (nonatomic, assign) AccountType typeForNewAccount;
 
 - (id) initWithAccount:(Account *)account;
 

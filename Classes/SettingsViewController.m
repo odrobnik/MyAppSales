@@ -29,6 +29,7 @@
 #import "Account.h"
 
 #import "EditAccountController.h"
+#import "AccountTypeSelector.h"
 #import "PinLockController.h"
 #import "TableListSelectorView.h"
 
@@ -519,17 +520,25 @@
 			}
 			else 
 			{
+				// show type selector
+				AccountTypeSelector *controller = [[AccountTypeSelector alloc] initWithStyle:UITableViewStyleGrouped];
+				
 				// Add account
-				EditAccountController *controller = [[EditAccountController alloc] initWithAccount:nil];
-				controller.title = @"Add Account";
+				//EditAccountController *controller = [[EditAccountController alloc] initWithAccount:nil];
+				controller.title = @"Add Account...";
 				controller.delegate = self;
+				
+				[self.navigationController pushViewController:controller animated:YES];
+				[controller release];
+				
+				/*
 				
 				UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
 				navController.navigationBar.barStyle = UIBarStyleBlack;
 				[controller release];
 				
 				[self presentModalViewController:navController animated:YES];
-				[navController release];
+				[navController release]; */
 			}
 			
 
@@ -834,6 +843,11 @@
 #pragma mark EditAccount Delegate
 - (void) deleteAccount:(Account *)deletedAccount
 {
+	if ([deletedAccount accountType]==AccountTypeNotifications)
+	{
+		[[SynchingManager sharedInstance] unsubscribeToNotificationsWithAccount:deletedAccount];
+	}	
+	
 	AccountManager *am = [AccountManager sharedAccountManager];
 	NSUInteger row = [am.accounts indexOfObject:deletedAccount];
 	[am removeAccount:deletedAccount];
@@ -844,13 +858,27 @@
 
 - (void) insertedAccount:(Account *)insertedAccount
 {
+	/*
 	AccountManager *am = [AccountManager sharedAccountManager];
 	NSUInteger row = [am.accounts indexOfObject:insertedAccount];
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
 	
 	[self.tableView	insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
+	 */
+	
+	if ([insertedAccount accountType]==AccountTypeNotifications)
+	{
+		[[SynchingManager sharedInstance] subscribeToNotificationsWithAccount:insertedAccount];
+	}
 }
 
+- (void) modifiedAccount:(Account *)modifiedAccount
+{
+	if ([modifiedAccount accountType]==AccountTypeNotifications)
+	{
+		[[SynchingManager sharedInstance] subscribeToNotificationsWithAccount:modifiedAccount];
+	}
+}
 
 #pragma mark PinLock Delegate
 - (void) didFinishSelectingNewPin:(NSString *)newPin
