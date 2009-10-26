@@ -8,6 +8,7 @@
 
 #import "ItunesConnectDownloaderOperation.h"
 #import "NSString+Helpers.h"
+#import "NSString+scraping.h"
 #import "Account.h"
 #import "DDData.h"
 #import "Database.h"
@@ -269,9 +270,110 @@
 	
 	if (!post_url)
 	{
-		[self setStatusError:@"No form post URL found! (Piano Screen)"];
-		//NSLog(@"%@", sourceSt);
-		return;
+		// might be vendor selection screen
+		
+		NSRange vendorCheck = [sourceSt rangeOfString:@"Vendor Options"];
+		
+		if (vendorCheck.length>0)
+		{
+			post_url = [sourceSt stringByFindingFormPostURLwithName:@"superPage"];
+			
+			
+			
+			NSRange selectRange = [sourceSt rangeOfString:@"<select Id=\"selectName\""];
+			if (selectRange.location==NSNotFound)
+			{
+				[self setStatusError:@"No vendor options found"];
+				return;
+			}
+			
+			NSRange endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
+
+			NSArray *vendorOptions = [[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect];
+			NSArray *sortedVendorOptions = [vendorOptions sortedArrayUsingSelector:@selector(compare:)];
+			
+			NSString *selectedVendor = [sortedVendorOptions lastObject];
+			
+			// get wosid
+			
+			NSString *wosid = nil;
+			NSArray *inputs = [sourceSt arrayOfInputsForForm:@"superPage"];
+			
+			for (NSDictionary *oneDict in inputs)
+			{
+				NSString *attrName = [oneDict objectForKey:@"name"];
+				if ([attrName isEqualToString:@"wosid"])
+				{
+					wosid = [oneDict objectForKey:@"value"];
+				}
+			}
+			
+			URL = [@"https://itts.apple.com" stringByAppendingString:post_url];
+			
+			request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
+											cachePolicy:NSURLRequestUseProtocolCachePolicy
+										timeoutInterval:30.0];
+			[request setHTTPMethod:@"POST"];
+			[request addValue:@"multipart/form-data; boundary=----WebKitFormBoundaryVEGJrwgXACBaxvAp" forHTTPHeaderField: @"Content-Type"];
+			
+			// build the body as string
+			
+			NSMutableString *bodyString = [NSMutableString string];
+			
+			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\n"];
+			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"9.6.0\"\n\n%@\n", selectedVendor];
+
+			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\n"];
+			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"vndrid\"\n\n%@\n", selectedVendor];
+
+			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\n"];
+			[bodyString appendString:@"Content-Disposition: form-data; name=\"9.18\"\n\n\n"];
+
+			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\n"];
+			[bodyString appendString:@"Content-Disposition: form-data; name=\"SubmitBtn\"\n\nSubmit\n"];
+
+			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\n"];
+			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"wosid\"\n\n%@\n", wosid];
+
+			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp--"];
+
+			//create the body
+			postBody = [NSMutableData data];
+			[postBody appendData:[bodyString dataUsingEncoding:NSUTF8StringEncoding]];
+			[request setHTTPBody:postBody];
+
+			[self setStatus:@"Selecting Vendor"];
+
+			data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+			
+			if (error)
+			{
+				[self setStatusError:[error localizedDescription]];
+				return;
+			}
+			
+			if (!data) 
+			{
+				[self setStatusError:@"No data received (vendor selection)"];
+				return;
+			}
+			sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+			
+			// search for outer post url
+			post_url = [sourceSt stringByFindingFormPostURLwithName:@"frmVendorPage"];
+			
+			if (!post_url)
+			{
+				[self setStatusError:@"No post URL found! (After Vendor Screen)"];
+				return;
+			}
+		}
+		else 
+		{
+			[self setStatusError:@"No form post URL found! (Piano Screen)"];
+			//NSLog(@"%@", sourceSt);
+			return;
+		}
 	}
 	
 	// DAY OPTIONS
