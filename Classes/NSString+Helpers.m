@@ -217,6 +217,11 @@
 	if (formName)
 	{
 		formRange = [self rangeOfString:[NSString stringWithFormat:@"method=\"post\" name=\"%@\" action=\"", formName]];
+
+		if (formRange.location==NSNotFound)
+		{
+			formRange = [self rangeOfString:[NSString stringWithFormat:@"method=\"post\" name=\"%@\" enctype=\"multipart/form-data\" action=\"", formName]];
+		}
 	}
 	else 
 	{

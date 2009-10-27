@@ -276,6 +276,7 @@
 		
 		if (vendorCheck.length>0)
 		{
+			//NSLog(@"%@", sourceSt);
 			post_url = [sourceSt stringByFindingFormPostURLwithName:@"superPage"];
 			
 			
@@ -308,42 +309,134 @@
 				}
 			}
 			
+			NSLog(@"url: %@", post_url);
+
+			// replace 0.9 with 2.9
+//			post_url = [post_url stringByReplacingOccurrencesOfString:@"/0.9" withString:@"/2.9"];
 			URL = [@"https://itts.apple.com" stringByAppendingString:post_url];
+			//URL = [@"http://www.drobnik.com" stringByAppendingString:post_url];
 			
-			request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
+			NSLog(@"URL: %@", URL);
+			
+			NSMutableURLRequest *request2=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
 											cachePolicy:NSURLRequestUseProtocolCachePolicy
 										timeoutInterval:30.0];
-			[request setHTTPMethod:@"POST"];
-			[request addValue:@"multipart/form-data; boundary=----WebKitFormBoundaryVEGJrwgXACBaxvAp" forHTTPHeaderField: @"Content-Type"];
+			[request2 setHTTPMethod:@"POST"];
+			[request2 addValue:@"multipart/form-data; boundary=----WebKitFormBoundaryVEGJrwgXACBaxvAp" forHTTPHeaderField: @"Content-Type"];
+			[request2 addValue:@"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_1; en-us) AppleWebKit/531.9 (KHTML, like Gecko) Version/4.0.3 Safari/531.9" forHTTPHeaderField:@"User-Agent"];
 			
 			// build the body as string
 			
 			NSMutableString *bodyString = [NSMutableString string];
 			
-			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\n"];
-			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"9.6.0\"\n\n%@\n", selectedVendor];
+			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
+			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"9.6.0\"\r\n\r\n%@\r\n", selectedVendor];
+
+			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
+			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"vndrid\"\r\n\r\n%@\r\n", selectedVendor];
+
+			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
+			[bodyString appendString:@"Content-Disposition: form-data; name=\"9.18\"\r\n\r\n\r\n"];
 
 			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\n"];
-			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"vndrid\"\n\n%@\n", selectedVendor];
+			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"wosid\"\r\n\r\n%@\r\n", wosid];
 
-			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\n"];
-			[bodyString appendString:@"Content-Disposition: form-data; name=\"9.18\"\n\n\n"];
-
-			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\n"];
-			[bodyString appendString:@"Content-Disposition: form-data; name=\"SubmitBtn\"\n\nSubmit\n"];
-
-			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\n"];
-			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"wosid\"\n\n%@\n", wosid];
-
-			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp--"];
+			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp--\r\n"];
 
 			//create the body
 			postBody = [NSMutableData data];
 			[postBody appendData:[bodyString dataUsingEncoding:NSUTF8StringEncoding]];
-			[request setHTTPBody:postBody];
+			[request2 setHTTPBody:postBody];
 
 			[self setStatus:@"Selecting Vendor"];
 
+			data = [NSURLConnection sendSynchronousRequest:request2 returningResponse:&response error:&error];
+			
+			if (error)
+			{
+				[self setStatusError:[error localizedDescription]];
+				return;
+			}
+			
+			if (!data) 
+			{
+				[self setStatusError:@"No data received (vendor selection)"];
+				return;
+			}
+			sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+			
+			NSLog(@"--------------------------------------------");
+			NSLog(@"%@", sourceSt);
+			
+			post_url = [sourceSt stringByFindingFormPostURLwithName:@"superPage"];
+			
+			
+			
+			 selectRange = [sourceSt rangeOfString:@"<select Id=\"selectName\""];
+			if (selectRange.location==NSNotFound)
+			{
+				[self setStatusError:@"No vendor options found"];
+				return;
+			}
+			
+			// get wosid
+			
+			inputs = [sourceSt arrayOfInputsForForm:@"superPage"];
+			
+			for (NSDictionary *oneDict in inputs)
+			{
+				NSString *attrName = [oneDict objectForKey:@"name"];
+				if ([attrName isEqualToString:@"wosid"])
+				{
+					wosid = [oneDict objectForKey:@"value"];
+				}
+			}
+			
+			NSLog(@"url: %@", post_url);
+			
+			// replace 0.9 with 2.9
+			//			post_url = [post_url stringByReplacingOccurrencesOfString:@"/0.9" withString:@"/2.9"];
+			URL = [@"https://itts.apple.com" stringByAppendingString:post_url];
+			//URL = [@"http://www.drobnik.com" stringByAppendingString:post_url];
+			
+			NSLog(@"URL: %@", URL);
+			
+			request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
+											cachePolicy:NSURLRequestUseProtocolCachePolicy
+										timeoutInterval:30.0];
+			[request setHTTPMethod:@"POST"];
+			[request addValue:@"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_1; en-us) AppleWebKit/531.9 (KHTML, like Gecko) Version/4.0.3 Safari/531.9" forHTTPHeaderField:@"User-Agent"];
+
+			[request addValue:@"multipart/form-data; boundary=----WebKitFormBoundaryVEGJrwgXACBaxvAp" forHTTPHeaderField: @"Content-Type"];
+			
+			// build the body as string
+			
+			bodyString = [NSMutableString string];
+			
+			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
+			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"9.6.0\"\r\n\r\n0\r\n"];
+			
+			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
+			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"vndrid\"\r\n\r\n%@\r\n", selectedVendor];
+			
+			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
+			[bodyString appendString:@"Content-Disposition: form-data; name=\"9.18\"\r\n\r\n\r\n"];
+			
+			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
+			[bodyString appendString:@"Content-Disposition: form-data; name=\"SubmitBtn\"\r\n\r\nSubmit\r\n"];
+			
+			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
+			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"wosid\"\r\n\r\n%@\r\n", wosid];
+			
+			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp--\r\n"];
+			
+			//create the body
+			postBody = [NSMutableData data];
+			[postBody appendData:[bodyString dataUsingEncoding:NSUTF8StringEncoding]];
+			[request setHTTPBody:postBody];
+			
+			[self setStatus:@"Selecting Vendor"];
+			
 			data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 			
 			if (error)
@@ -359,12 +452,17 @@
 			}
 			sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
 			
+			
+			
+			
+			
 			// search for outer post url
 			post_url = [sourceSt stringByFindingFormPostURLwithName:@"frmVendorPage"];
 			
 			if (!post_url)
 			{
 				[self setStatusError:@"No post URL found! (After Vendor Screen)"];
+				NSLog(@"%@", sourceSt);
 				return;
 			}
 		}
