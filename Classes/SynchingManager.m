@@ -139,12 +139,29 @@ static SynchingManager * _sharedInstance;
 }
 
 
+- (void) cancelAllOperationsOfClass:(Class)class
+{
+	NSArray *allOps = [self queuedOperationsOfClass:class];
+	
+	for (id oneOp in allOps)
+	{
+		[oneOp cancel];
+	}
+	
+	[self updateIndicators]; // update counter
+}
+
+
+
 #pragma mark Call-Backs
 
 - (void) downloadStartedForOperation:(NSOperation *)operation
 {
 	[self updateIndicators];
 }
+
+
+
 
 // Translation Downloader
 - (void) translateReview:(Review *)review delegate:(id<TranslationScraperDelegate>)scraperDelegate
@@ -167,17 +184,7 @@ static SynchingManager * _sharedInstance;
 
 - (void) cancelAllTranslations
 {
-	NSArray *allOps = [queue operations];
-	
-	for (id oneOp in allOps)
-	{
-		if ([oneOp isKindOfClass:[TranslationScraperOperation class]])
-		{
-			[oneOp cancel];
-		}
-	}
-	
-	[self updateIndicators]; // update counter
+	[self cancelAllOperationsOfClass:[TranslationScraperOperation class]];
 }
 
 - (void) cancelAllSynching

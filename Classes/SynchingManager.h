@@ -26,13 +26,16 @@
 - (void) subscribeToNotificationsWithAccount:(Account *)notificationsAccount;
 - (void) unsubscribeToNotificationsWithAccount:(Account *)notificationsAccount;
 
+// cancelling
+- (void) cancelAllOperationsOfClass:(Class)class;
+- (void) cancelAllSynching;
+
 // iTunes Review Scraper
 - (void) scrapeForApp:(App *)reviewApp country:(Country *)reviewCountry delegate:(id<ReviewScraperDelegate>)scraperDelegate;
 
 // Translation Downloader
 - (void) translateReview:(Review *)review delegate:(id<TranslationScraperDelegate>)scraperDelegate;
 - (void) cancelAllTranslations;
-- (void) cancelAllSynching;
 
 // iTunes Connect Downloader
 - (void) downloadForAccount:(Account *)itcAccount reportsToIgnore:(NSArray *)reportsArray;
