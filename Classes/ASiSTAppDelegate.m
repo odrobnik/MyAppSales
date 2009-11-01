@@ -185,6 +185,37 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportRead:) name:@"NewReportRead" object:nil];
 	
 	
+	// Review Downloading
+	
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DownloadReviews"])
+	{
+		NSDate *lastScraped = [[NSUserDefaults standardUserDefaults] objectForKey:@"ReviewsLastDownloaded"];
+		NSInteger scrapeFrequency = [[NSUserDefaults standardUserDefaults] integerForKey:@"ReviewFrequency"]; 
+		
+		if (!lastScraped||!scrapeFrequency)
+		{
+			
+			// scrape now
+			[self scrapeReviews];
+		}
+		else
+		{
+			// check interval
+			NSCalendar *gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+			NSDateComponents *comps = [gregorian components:NSDayCalendarUnit fromDate:[lastScraped dateAtBeginningOfDay] toDate:[[NSDate date] dateAtBeginningOfDay] options:0];
+			
+			if ([comps day]>scrapeFrequency)
+			{
+				// scrape now
+				[self scrapeReviews];
+				
+			}
+		}
+	}
+	
+	
+	
+	
 	//NSString *user = [keychainWrapper objectForKey:(id)kSecAttrAccount];
 	//NSString *pass = [keychainWrapper objectForKey:(id)kSecValueData];
 	
@@ -244,33 +275,6 @@
 	
 	
 	
-	// Review Downloading
-	
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DownloadReviews"])
-	{
-		NSDate *lastScraped = [[NSUserDefaults standardUserDefaults] objectForKey:@"ReviewsLastDownloaded"];
-		NSInteger scrapeFrequency = [[NSUserDefaults standardUserDefaults] integerForKey:@"ReviewFrequency"]; 
-		
-		if (!lastScraped||!scrapeFrequency)
-		{
-			
-			// scrape now
-			[self scrapeReviews];
-		}
-		else
-		{
-			// check interval
-			NSCalendar *gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
-			NSDateComponents *comps = [gregorian components:NSDayCalendarUnit fromDate:[lastScraped dateAtBeginningOfDay] toDate:[[NSDate date] dateAtBeginningOfDay] options:0];
-			
-			if ([comps day]>scrapeFrequency)
-			{
-				// scrape now
-				[self scrapeReviews];
-				
-			}
-		}
-	}
 	
 	return YES;
 }
