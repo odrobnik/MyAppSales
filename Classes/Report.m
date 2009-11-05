@@ -355,7 +355,19 @@ static sqlite3_stmt *hydrate_statement = nil;
 			NSString *vendor_identifier = [oneLine getValueForNamedColumn:@"Vendor Identifier" headerNames:column_names];
 			NSString *company_name = [oneLine getValueForNamedColumn:@"Artist / Show" headerNames:column_names];
 			NSString *title	= [oneLine getValueForNamedColumn:@"Title / Episode / Season" headerNames:column_names];
-			NSUInteger type_id = [[oneLine getValueForNamedColumn:@"Product Type Identifier" headerNames:column_names] intValue];
+			
+			NSUInteger type_id;
+			NSString *typeString = [oneLine getValueForNamedColumn:@"Product Type Identifier" headerNames:column_names];
+			if ([typeString hasPrefix:@"IA"])
+			{
+				// in app purchase!
+				type_id = 100;
+			}
+			else
+			{
+				type_id = [typeString intValue];
+			}
+			
 			NSInteger units = [[oneLine getValueForNamedColumn:@"Units" headerNames:column_names] intValue];
 			double royalty_price = [[oneLine getValueForNamedColumn:@"Royalty Price" headerNames:column_names] doubleValue];
 			NSString *royalty_currency	= [oneLine getValueForNamedColumn:@"Royalty Currency" headerNames:column_names];
@@ -1066,8 +1078,11 @@ static sqlite3_stmt *hydrate_statement = nil;
 		// one report line
 		
 		App *tmpApp = oneSale.app;
-		[ret appendFormat:@"APPLE\tUS\t%@\t\t\t%@\t%@\t\t%d\t%d\t%.2f\t%@\t%@\t%@\t%@\t%@\t\t\t\t%d\t%.2f\t\t\r\n", tmpApp.vendor_identifier, tmpApp.company_name, tmpApp.title, 
-		 (int)oneSale.transactionType, oneSale.unitsSold, oneSale.royaltyPrice, [df stringFromDate:fromDate], [df stringFromDate:untilDate], oneSale.customerCurrency, oneSale.country.iso2,
+		
+		NSString *typeString = (oneSale.transactionType==100)?@"IA1":[NSString stringWithFormat:@"%d",(int)oneSale.transactionType];
+		
+		[ret appendFormat:@"APPLE\tUS\t%@\t\t\t%@\t%@\t\t%@\t%d\t%.2f\t%@\t%@\t%@\t%@\t%@\t\t\t\t%d\t%.2f\t\t\r\n", tmpApp.vendor_identifier, tmpApp.company_name, tmpApp.title, 
+		 typeString, oneSale.unitsSold, oneSale.royaltyPrice, [df stringFromDate:fromDate], [df stringFromDate:untilDate], oneSale.customerCurrency, oneSale.country.iso2,
 		 oneSale.royaltyCurrency, oneSale.app.apple_identifier, oneSale.customerPrice];
 	}
 	
