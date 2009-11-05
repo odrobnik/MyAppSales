@@ -361,7 +361,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 			if ([typeString hasPrefix:@"IA"])
 			{
 				// in app purchase!
-				type_id = 100;
+				type_id = 101;
 			}
 			else
 			{
@@ -1079,7 +1079,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		
 		App *tmpApp = oneSale.app;
 		
-		NSString *typeString = (oneSale.transactionType==100)?@"IA1":[NSString stringWithFormat:@"%d",(int)oneSale.transactionType];
+		NSString *typeString = (oneSale.transactionType==101)?@"IA1":[NSString stringWithFormat:@"%d",(int)oneSale.transactionType];
 		
 		[ret appendFormat:@"APPLE\tUS\t%@\t\t\t%@\t%@\t\t%@\t%d\t%.2f\t%@\t%@\t%@\t%@\t%@\t\t\t\t%d\t%.2f\t\t\r\n", tmpApp.vendor_identifier, tmpApp.company_name, tmpApp.title, 
 		 typeString, oneSale.unitsSold, oneSale.royaltyPrice, [df stringFromDate:fromDate], [df stringFromDate:untilDate], oneSale.customerCurrency, oneSale.country.iso2,
