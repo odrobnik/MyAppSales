@@ -217,6 +217,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
 															cachePolicy:NSURLRequestUseProtocolCachePolicy
 														timeoutInterval:600.0];
+	[theRequest addValue:@"iTunes/9.0.2" forHTTPHeaderField:@"User-Agent"];
 	theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
 	if (theConnection) 
 	{
