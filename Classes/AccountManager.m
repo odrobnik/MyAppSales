@@ -45,6 +45,28 @@ static AccountManager *_sharedInstance = nil;
 	if (self = [super init])
 	{
 		[self loadAllGenericAccounts];
+		
+		// migrate old version primary account
+		
+		if ([accounts count]==1)
+		{
+			Account *singleAccount = [accounts objectAtIndex:0];
+			if ([singleAccount.service isEqualToString:@"HomeDir"])
+			{
+				NSLog(@"Migrating old account %@ to new ITC Service", singleAccount.account);
+
+				/*
+				Account *newAccount = [[Account alloc] initWithService:@"iTunes Connect" user:singleAccount.account];
+				newAccount.description = singleAccount.description;
+				newAccount.label = singleAccount.label;
+				newAccount.comment = singleAccount.account;
+				newAccount.password = singleAccount.password;
+				 */
+				
+				singleAccount.service = @"iTunes Connect";
+				singleAccount.description = singleAccount.account;
+			}
+		}
 	}
 	
 	return self;
