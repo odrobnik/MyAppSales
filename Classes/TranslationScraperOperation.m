@@ -55,7 +55,7 @@
 	
 	NSString *translatedText;
 	
-	if (fromLanguage)
+	if (fromLanguage && ![fromLanguage isEqualToString:toLanguage])
 	{
 		translatedText = [translator translateText:textToTranslate fromLanguage:fromLanguage toLanguage:toLanguage];
 	}
