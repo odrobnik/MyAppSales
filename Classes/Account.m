@@ -232,16 +232,16 @@ static const UInt8 kKeychainIdentifier[]    = "com.drobnik.asist.KeychainUI\0";
 		 acct = "oliver@drobnik.com";
 		 agrp = "6P2Z3HB85N.com.drobnik.MyAppSales";
 		 class = genp;
-		 gena = <636f6d2e 64726f62 6e696b2e 61736973 742e4b65 79636861 696e5549>;
-		 svce = "iTunes Connect4";
+		 gena = <636f6d2e ... >;
+		 svce = "iTunes Connect";
 		 }
 		
 		 
 		 keychain: {
 		 acct = "oliver@drobnik.com";
 		 agrp = "6P2Z3HB85N.com.drobnik.MyAppSales";
-		 gena = <636f6d2e 64726f62 6e696b2e 61736973 742e4b65 79636861 696e5549>;
-		 svce = "iTunes Connect4";
+		 gena = <636f6d2e ...>;
+		 svce = "iTunes Connect";
 		 
 		 ---> class missing causes delete to fail
 		 
