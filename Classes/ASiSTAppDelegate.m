@@ -234,7 +234,7 @@
 		Report *lastDailyReport = [[Database sharedInstance] latestReportOfType:ReportTypeDay];
 		if (forceSynch || ![lastDailyReport.downloadedDate sameDateAs:[NSDate date]])
 		{
-			for (Account *oneAccount in itunesAccounts)
+			for (GenericAccount *oneAccount in itunesAccounts)
 			{
 				[[SynchingManager sharedInstance] downloadForAccount:oneAccount reportsToIgnore:[[Database sharedInstance] allReportsWithAppGrouping:[oneAccount appGrouping]]];
 			}
@@ -384,7 +384,7 @@
 	
 	if ([itunesAccounts count]>0)
 	{
-		for (Account *oneAccount in itunesAccounts)
+		for (GenericAccount *oneAccount in itunesAccounts)
 		{
 			[[SynchingManager sharedInstance] downloadForAccount:oneAccount reportsToIgnore:[[Database sharedInstance] allReportsWithAppGrouping:[oneAccount appGrouping]]];
 		}
