@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-@class Account;
+@class GenericAccount;
 
 @interface NotificationsSubscribeOperation : NSOperation 
 {
-		Account *account;
+		GenericAccount *account;
 		
 		NSObject *delegate;
 		
@@ -23,7 +23,7 @@
 	@property (nonatomic, assign) NSObject *delegate;
 	
 	
-- (id) initForAccount:(Account *)notificationsAccount subscribe:(BOOL)doSubscribe;
+- (id) initForAccount:(GenericAccount *)notificationsAccount subscribe:(BOOL)doSubscribe;
 	
 	// status utility
 	- (void) sendFinishToDelegate;

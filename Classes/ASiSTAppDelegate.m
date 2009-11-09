@@ -29,8 +29,8 @@
 #import "ZipArchive.h"
 
 #import "AccountManager.h"
-#import "Account.h"
-#import "Account+MyAppSales.h"
+#import "GenericAccount.h"
+#import "GenericAccount+MyAppSales.h"
 #import "Country.h"
 #import "App.h"
 
@@ -41,6 +41,7 @@
 #import "NSURL+Helpers.h"
 #import "NSString+Helpers.h"
 
+#import "GenericAccount.h"
 
 @implementation ASiSTAppDelegate
 
@@ -83,8 +84,6 @@
 {
 	NSURL *launchURL;
 	BOOL forceSynch = NO;
-	
-	
 	
 	
 	if (launchOptions)

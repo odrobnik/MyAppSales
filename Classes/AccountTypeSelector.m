@@ -152,7 +152,7 @@
 		{
 			controller.typeForNewAccount = AccountTypeNotifications;
 			
-			NSArray *previousAccounts = [[AccountManager sharedAccountManager] accountsOfType:[Account stringForAccountType:AccountTypeNotifications]];
+			NSArray *previousAccounts = [[AccountManager sharedAccountManager] accountsOfType:[GenericAccount stringForAccountType:AccountTypeNotifications]];
 			
 			if ([previousAccounts count])
 			{

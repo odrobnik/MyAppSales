@@ -9,7 +9,7 @@
 #import "ItunesConnectDownloaderOperation.h"
 #import "NSString+Helpers.h"
 #import "NSString+scraping.h"
-#import "Account.h"
+#import "GenericAccount.h"
 #import "DDData.h"
 #import "Database.h"
 
@@ -21,7 +21,7 @@
 
 @synthesize reportsToIgnore, delegate;
 
-- (id) initForAccount:(Account *)itcAccount
+- (id) initForAccount:(GenericAccount *)itcAccount
 {
 	if (self = [super init])
 	{

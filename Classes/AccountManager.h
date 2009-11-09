@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@class Account;
+#import "GenericAccount.h"
+#import "GenericAccount+MyAppSales.h"
+
 @interface AccountManager : NSObject {
 	NSMutableArray *accounts;
 
@@ -18,8 +20,8 @@
 
 + (AccountManager *) sharedAccountManager;
 
-- (Account *) addAccountForService:(NSString*)aService user:(NSString *)aUser;
-- (void) removeAccount:(Account *)accountToRemove;
+- (GenericAccount *) addAccountForService:(NSString*)aService user:(NSString *)aUser;
+- (void) removeAccount:(GenericAccount *)accountToRemove;
 
 - (NSArray *)accountsOfType:(NSString *)type;
 

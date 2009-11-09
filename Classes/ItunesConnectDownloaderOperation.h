@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class Account;
+@class GenericAccount;
 
 @interface ItunesConnectDownloaderOperation : NSOperation 
 {
-	Account *account;
+	GenericAccount *account;
 	
 	NSArray *reportsToIgnore;
 	
@@ -25,7 +25,7 @@
 @property (nonatomic, assign) NSObject *delegate;
  
 
-- (id) initForAccount:(Account *)itcAccount;
+- (id) initForAccount:(GenericAccount *)itcAccount;
 
 // status utility
 - (void) sendFinishToDelegate;

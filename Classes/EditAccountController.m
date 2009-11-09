@@ -7,8 +7,8 @@
 //
 
 #import "EditAccountController.h"
-#import "Account.h"
-#import "Account+MyAppSales.h"
+#import "GenericAccount.h"
+#import "GenericAccount+MyAppSales.h"
 #import "EditableCell.h"
 #import "PushButtonCell.h"
 #import "AccountManager.h"
@@ -19,7 +19,7 @@
 
 @synthesize myAccount, delegate, typeForNewAccount;
 
-- (id) initWithAccount:(Account *)account
+- (id) initWithAccount:(GenericAccount *)account
 {
 	if (self = [super initWithStyle:UITableViewStyleGrouped])
 	{
@@ -81,7 +81,7 @@
 		typeForNewAccount = [myAccount accountType];
 	}
 	
-	NSString *accountTypeString = [Account stringForAccountType:typeForNewAccount];
+	NSString *accountTypeString = [GenericAccount stringForAccountType:typeForNewAccount];
 	self.title = accountTypeString;
 	
 	if (!myAccount)
@@ -248,7 +248,7 @@
 					cell.titleLabel.text = @"Description";
 					if (myAccount)
 						cell.textField.text = myAccount.description;
-					cell.textField.placeholder = [NSString stringWithFormat:@"My %@ account", [Account stringForAccountType:typeForNewAccount]];
+					cell.textField.placeholder = [NSString stringWithFormat:@"My %@ account", [GenericAccount stringForAccountType:typeForNewAccount]];
 					
 					cell.textField.secureTextEntry = NO;
 					cell.textField.keyboardType = UIKeyboardTypeDefault;
@@ -344,7 +344,7 @@
 	NSString *password = passwordCell.textField.text;
 	NSString *description = descriptionCell.textField.text;
 	
-	Account *newAccount = [[AccountManager sharedAccountManager] addAccountForService:[Account stringForAccountType:typeForNewAccount] user:account];
+	GenericAccount *newAccount = [[AccountManager sharedAccountManager] addAccountForService:[GenericAccount stringForAccountType:typeForNewAccount] user:account];
 	newAccount.password = password;
 	newAccount.description = description;
 	

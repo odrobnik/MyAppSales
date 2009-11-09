@@ -285,7 +285,6 @@
 		A7ACC8370F10F342004EEA7A /* CountrySummary.m in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC8360F10F342004EEA7A /* CountrySummary.m */; };
 		A7B12CEE104D2EAA004639C9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7B12CED104D2EAA004639C9 /* Security.framework */; };
 		A7B424BD10553718007BC954 /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B424BC10553718007BC954 /* AccountManager.m */; };
-		A7B424F310553E8F007BC954 /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B424F210553E8F007BC954 /* Account.m */; };
 		A7B42C2010567F2C007BC954 /* EditAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B42C1F10567F2C007BC954 /* EditAccountController.m */; };
 		A7B42DA210569AFB007BC954 /* PushButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B42DA110569AFB007BC954 /* PushButtonCell.m */; };
 		A7B42E351056A190007BC954 /* button_red.png in Resources */ = {isa = PBXBuildFile; fileRef = A7B42E341056A190007BC954 /* button_red.png */; };
@@ -310,9 +309,10 @@
 		A7C23D0910656D6800D544BA /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C23D0610656D6800D544BA /* SBJSON.m */; };
 		A7C23D7E106575BC00D544BA /* TranslationScraperOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C23D7D106575BC00D544BA /* TranslationScraperOperation.m */; };
 		A7C7E92B10459E3000D413D0 /* DayReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C7E92A10459E3000D413D0 /* DayReportCell.m */; };
-		A7CCCEAE109357C10091FCE1 /* Account+MyAppSales.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CCCEAD109357C10091FCE1 /* Account+MyAppSales.m */; };
+		A7CCCEAE109357C10091FCE1 /* GenericAccount+MyAppSales.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CCCEAD109357C10091FCE1 /* GenericAccount+MyAppSales.m */; };
 		A7CD0666105A7014005F9166 /* cover_mask_rounded_100x100.png in Resources */ = {isa = PBXBuildFile; fileRef = A7CD0665105A7014005F9166 /* cover_mask_rounded_100x100.png */; };
 		A7CD06EA105A7882005F9166 /* UIImage+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CD06E9105A7882005F9166 /* UIImage+Helpers.m */; };
+		A7D75DC410A8C03C00889B79 /* GenericAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D75DC310A8C03C00889B79 /* GenericAccount.m */; };
 		A7E0F9F3106BB684003B93FE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E0F9F2106BB684003B93FE /* QuartzCore.framework */; };
 		A7E4E98610A89E2400CE4673 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4E98510A89E2400CE4673 /* MessageUI.framework */; };
 		A7E7F16D1094413600C9C3DC /* AccountTypeSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E7F16C1094413600C9C3DC /* AccountTypeSelector.m */; };
@@ -674,8 +674,6 @@
 		A7B12CED104D2EAA004639C9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A7B424BB10553718007BC954 /* AccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManager.h; sourceTree = "<group>"; };
 		A7B424BC10553718007BC954 /* AccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManager.m; sourceTree = "<group>"; };
-		A7B424F110553E8F007BC954 /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
-		A7B424F210553E8F007BC954 /* Account.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Account.m; sourceTree = "<group>"; };
 		A7B42C1E10567F2C007BC954 /* EditAccountController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAccountController.h; sourceTree = "<group>"; };
 		A7B42C1F10567F2C007BC954 /* EditAccountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAccountController.m; sourceTree = "<group>"; };
 		A7B42DA010569AFB007BC954 /* PushButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushButtonCell.h; sourceTree = "<group>"; };
@@ -718,11 +716,13 @@
 		A7C23F161065928E00D544BA /* update_3_to_4.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = update_3_to_4.sql; sourceTree = "<group>"; };
 		A7C7E92910459E3000D413D0 /* DayReportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DayReportCell.h; sourceTree = "<group>"; };
 		A7C7E92A10459E3000D413D0 /* DayReportCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DayReportCell.m; sourceTree = "<group>"; };
-		A7CCCEAC109357C10091FCE1 /* Account+MyAppSales.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Account+MyAppSales.h"; sourceTree = "<group>"; };
-		A7CCCEAD109357C10091FCE1 /* Account+MyAppSales.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Account+MyAppSales.m"; sourceTree = "<group>"; };
+		A7CCCEAC109357C10091FCE1 /* GenericAccount+MyAppSales.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GenericAccount+MyAppSales.h"; sourceTree = "<group>"; };
+		A7CCCEAD109357C10091FCE1 /* GenericAccount+MyAppSales.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GenericAccount+MyAppSales.m"; sourceTree = "<group>"; };
 		A7CD0665105A7014005F9166 /* cover_mask_rounded_100x100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover_mask_rounded_100x100.png; sourceTree = "<group>"; };
 		A7CD06E8105A7882005F9166 /* UIImage+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Helpers.h"; sourceTree = "<group>"; };
 		A7CD06E9105A7882005F9166 /* UIImage+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Helpers.m"; sourceTree = "<group>"; };
+		A7D75DC210A8C03C00889B79 /* GenericAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericAccount.h; sourceTree = "<group>"; };
+		A7D75DC310A8C03C00889B79 /* GenericAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericAccount.m; sourceTree = "<group>"; };
 		A7E0F9F2106BB684003B93FE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A7E4E98510A89E2400CE4673 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		A7E7F16B1094413600C9C3DC /* AccountTypeSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountTypeSelector.h; sourceTree = "<group>"; };
@@ -1351,10 +1351,10 @@
 			children = (
 				A7B424BB10553718007BC954 /* AccountManager.h */,
 				A7B424BC10553718007BC954 /* AccountManager.m */,
-				A7B424F110553E8F007BC954 /* Account.h */,
-				A7B424F210553E8F007BC954 /* Account.m */,
-				A7CCCEAC109357C10091FCE1 /* Account+MyAppSales.h */,
-				A7CCCEAD109357C10091FCE1 /* Account+MyAppSales.m */,
+				A7CCCEAC109357C10091FCE1 /* GenericAccount+MyAppSales.h */,
+				A7CCCEAD109357C10091FCE1 /* GenericAccount+MyAppSales.m */,
+				A7D75DC210A8C03C00889B79 /* GenericAccount.h */,
+				A7D75DC310A8C03C00889B79 /* GenericAccount.m */,
 			);
 			name = "Account Manager";
 			sourceTree = "<group>";
@@ -1833,7 +1833,6 @@
 				A7C7E92B10459E3000D413D0 /* DayReportCell.m in Sources */,
 				A7EB519410481BE6005452BE /* Database.m in Sources */,
 				A7B424BD10553718007BC954 /* AccountManager.m in Sources */,
-				A7B424F310553E8F007BC954 /* Account.m in Sources */,
 				A7B42C2010567F2C007BC954 /* EditAccountController.m in Sources */,
 				A7B42DA210569AFB007BC954 /* PushButtonCell.m in Sources */,
 				A7B434E21058C9AC007BC954 /* PinLockController.m in Sources */,
@@ -1857,7 +1856,7 @@
 				A7C23D7E106575BC00D544BA /* TranslationScraperOperation.m in Sources */,
 				A70582721085E07A0060BF64 /* NSURL+Helpers.m in Sources */,
 				A7C15A7D108F127300693757 /* AppGrouping.m in Sources */,
-				A7CCCEAE109357C10091FCE1 /* Account+MyAppSales.m in Sources */,
+				A7CCCEAE109357C10091FCE1 /* GenericAccount+MyAppSales.m in Sources */,
 				A7E7F16D1094413600C9C3DC /* AccountTypeSelector.m in Sources */,
 				A7E7F2471094577B00C9C3DC /* BigProgressView.m in Sources */,
 				A7E7F2481094577B00C9C3DC /* GrayRoundRectView.m in Sources */,
@@ -1870,6 +1869,7 @@
 				A7E7F3AC10946BC600C9C3DC /* NSDate+xml.m in Sources */,
 				A7E7F3E210946DFB00C9C3DC /* MyAppSales.m in Sources */,
 				A7294C041095EB7B004A2258 /* NSString+scraping.m in Sources */,
+				A7D75DC410A8C03C00889B79 /* GenericAccount.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

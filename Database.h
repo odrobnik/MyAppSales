@@ -15,7 +15,7 @@
 typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, ReportTypeFree = 3, ReportTypeUnknown = 99 } ReportType;
 typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope = 2, ReportRegionCanada = 3, ReportRegionAustralia = 4, ReportRegionUK = 5, ReportRegionJapan = 6, ReportRegionRestOfWorld = 7} ReportRegion;
 
-@class App, Report, Country, AppGrouping, Account;
+@class App, Report, Country, AppGrouping, GenericAccount;
 
 @interface Database : NSObject 
 {
@@ -74,7 +74,7 @@ typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope 
 //- (Report *) insertReportWithType:(ReportType)type from_date:(NSDate *)from_date until_date:(NSDate *)until_date downloaded_date:(NSDate *)downloaded_date region:(ReportRegion)region;
 
 - (void) insertMonthlyFreeReportFromFromDict:(NSDictionary *)dict;
-- (void) insertReportFromText:(NSString *)string fromAccount:(Account *)account;
+- (void) insertReportFromText:(NSString *)string fromAccount:(GenericAccount *)account;
 - (void) insertReportFromDict:(NSDictionary *)dict;
 
 

@@ -10,7 +10,7 @@
 
 
 
-@class App, Country, Account, Review;
+@class App, Country, GenericAccount, Review;
 @protocol ReviewScraperDelegate, TranslationScraperDelegate;
 
 
@@ -23,8 +23,8 @@
 + (SynchingManager *) sharedInstance;
 
 // Notifications
-- (void) subscribeToNotificationsWithAccount:(Account *)notificationsAccount;
-- (void) unsubscribeToNotificationsWithAccount:(Account *)notificationsAccount;
+- (void) subscribeToNotificationsWithAccount:(GenericAccount *)notificationsAccount;
+- (void) unsubscribeToNotificationsWithAccount:(GenericAccount *)notificationsAccount;
 
 // cancelling
 - (void) cancelAllOperationsOfClass:(Class)class;
@@ -38,7 +38,7 @@
 - (void) cancelAllTranslations;
 
 // iTunes Connect Downloader
-- (void) downloadForAccount:(Account *)itcAccount reportsToIgnore:(NSArray *)reportsArray;
+- (void) downloadForAccount:(GenericAccount *)itcAccount reportsToIgnore:(NSArray *)reportsArray;
 
 - (void) updateIndicators;
 - (NSArray *) queuedOperationsOfClass:(Class)opClass;

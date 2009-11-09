@@ -16,7 +16,7 @@
 #import "ASiSTAppDelegate.h"
 #import "Review.h"
 #import "Country.h"
-#import "Account+MyAppSales.h"
+#import "GenericAccount+MyAppSales.h"
 
 @implementation SynchingManager
 
@@ -61,7 +61,7 @@ static SynchingManager * _sharedInstance;
 
 #pragma mark Notifications
 
-- (void) subscribeToNotificationsWithAccount:(Account *)notificationsAccount
+- (void) subscribeToNotificationsWithAccount:(GenericAccount *)notificationsAccount
 {
 	NotificationsSubscribeOperation *wu = [[NotificationsSubscribeOperation alloc] initForAccount:notificationsAccount subscribe:YES];
 	[wu setQueuePriority:NSOperationQueuePriorityVeryHigh];
@@ -74,7 +74,7 @@ static SynchingManager * _sharedInstance;
 	[wu release];
 }
 
-- (void) unsubscribeToNotificationsWithAccount:(Account *)notificationsAccount
+- (void) unsubscribeToNotificationsWithAccount:(GenericAccount *)notificationsAccount
 {
 	NotificationsSubscribeOperation *wu = [[NotificationsSubscribeOperation alloc] initForAccount:notificationsAccount subscribe:NO];
 	[wu setQueuePriority:NSOperationQueuePriorityVeryHigh];
@@ -115,7 +115,7 @@ static SynchingManager * _sharedInstance;
 }
 
 
-- (void) downloadForAccount:(Account *)itcAccount reportsToIgnore:(NSArray *)reportsArray
+- (void) downloadForAccount:(GenericAccount *)itcAccount reportsToIgnore:(NSArray *)reportsArray
 {
 	NSArray *previousITC = [self queuedOperationsOfClass:[ItunesConnectDownloaderOperation class]];
 	

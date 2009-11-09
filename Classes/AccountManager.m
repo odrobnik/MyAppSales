@@ -8,7 +8,8 @@
 
 #import "AccountManager.h"
 #import <Security/Security.h>
-#import "Account.h"
+#import "GenericAccount.h"
+#import "GenericAccount+MyAppSales.h"
 
 @interface AccountManager ()
 
@@ -50,13 +51,13 @@ static AccountManager *_sharedInstance = nil;
 		
 		if ([accounts count]==1)
 		{
-			Account *singleAccount = [accounts objectAtIndex:0];
+			GenericAccount *singleAccount = [accounts objectAtIndex:0];
 			if ([singleAccount.service isEqualToString:@"HomeDir"])
 			{
 				NSLog(@"Migrating old account %@ to new ITC Service", singleAccount.account);
 
 				/*
-				Account *newAccount = [[Account alloc] initWithService:@"iTunes Connect" user:singleAccount.account];
+				GenericAccount *newAccount = [[GenericAccount alloc] initWithService:@"iTunes Connect" user:singleAccount.account];
 				newAccount.description = singleAccount.description;
 				newAccount.label = singleAccount.label;
 				newAccount.comment = singleAccount.account;
@@ -150,7 +151,7 @@ static AccountManager *_sharedInstance = nil;
 		{
 			NSDictionary *resultAsDictionary = (NSDictionary *)result;
 			
-			Account *tmpAcct = [[Account alloc] initFromKeychainDictionary:resultAsDictionary];
+			GenericAccount *tmpAcct = [[GenericAccount alloc] initFromKeychainDictionary:resultAsDictionary];
 			[accounts addObject:tmpAcct];
 			[tmpAcct release];
 		}
@@ -160,7 +161,7 @@ static AccountManager *_sharedInstance = nil;
 			
 			for (NSDictionary *oneAccount in resultsAsArray)
 			{
-				Account *tmpAcct = [[Account alloc] initFromKeychainDictionary:oneAccount];
+				GenericAccount *tmpAcct = [[GenericAccount alloc] initFromKeychainDictionary:oneAccount];
 				[accounts addObject:tmpAcct];
 				[tmpAcct release];
 			}
@@ -174,16 +175,16 @@ static AccountManager *_sharedInstance = nil;
 #pragma mark Adding/Removing Accounts
 
 
-- (Account *) addAccountForService:(NSString*)aService user:(NSString *)aUser
+- (GenericAccount *) addAccountForService:(NSString*)aService user:(NSString *)aUser
 {
-	Account *tmpAccount = [[Account alloc] initWithService:aService user:aUser];
+	GenericAccount *tmpAccount = [[GenericAccount alloc] initService:aService forUser:aUser];
 	
 	[accounts addObject:tmpAccount];
 	
 	return [tmpAccount autorelease];
 }
 
-- (void) removeAccount:(Account *)accountToRemove
+- (void) removeAccount:(GenericAccount *)accountToRemove
 {
 	[accountToRemove removeFromKeychain];
 	[self.accounts removeObject:accountToRemove];
@@ -194,7 +195,7 @@ static AccountManager *_sharedInstance = nil;
 {
 	NSMutableArray *tmpArray = [NSMutableArray array];
 	
-	for (Account *oneAccount in accounts)
+	for (GenericAccount *oneAccount in accounts)
 	{
 		if ([oneAccount.service isEqualToString:type])
 		{

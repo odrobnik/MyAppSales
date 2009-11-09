@@ -26,7 +26,7 @@
 #import <Security/Security.h>
 
 #import "AccountManager.h"
-#import "Account.h"
+#import "GenericAccount.h"
 
 #import "EditAccountController.h"
 #import "AccountTypeSelector.h"
@@ -251,7 +251,7 @@
 			{
 				// account line
 				
-				Account *rowAccount = [accounts objectAtIndex:indexPath.row];
+				GenericAccount *rowAccount = [accounts objectAtIndex:indexPath.row];
 
 				NSString *CellIdentifier = @"AccountCell";
 				
@@ -509,7 +509,7 @@
 			{
 				// account line
 				
-				Account *rowAccount = [accounts objectAtIndex:indexPath.row];
+				GenericAccount *rowAccount = [accounts objectAtIndex:indexPath.row];
 				
 				EditAccountController *controller = [[EditAccountController alloc] initWithAccount:rowAccount];
 				controller.title = @"Edit Account";
@@ -841,7 +841,7 @@
 }
 
 #pragma mark EditAccount Delegate
-- (void) deleteAccount:(Account *)deletedAccount
+- (void) deleteAccount:(GenericAccount *)deletedAccount
 {
 	if ([deletedAccount accountType]==AccountTypeNotifications)
 	{
@@ -856,7 +856,7 @@
 	[self.tableView	deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
 }
 
-- (void) insertedAccount:(Account *)insertedAccount
+- (void) insertedAccount:(GenericAccount *)insertedAccount
 {
 	/*
 	AccountManager *am = [AccountManager sharedAccountManager];
@@ -872,7 +872,7 @@
 	}
 }
 
-- (void) modifiedAccount:(Account *)modifiedAccount
+- (void) modifiedAccount:(GenericAccount *)modifiedAccount
 {
 	if ([modifiedAccount accountType]==AccountTypeNotifications)
 	{

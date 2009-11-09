@@ -7,7 +7,7 @@
 //
 
 #import "NotificationsSubscribeOperation.h"
-#import "Account.h"
+#import "GenericAccount.h"
 #import "NSString+Helpers.h"
 #import "XMLdocument.h"
 #import "MyAppSales.h"
@@ -16,7 +16,7 @@
 
 @synthesize delegate;
 
-- (id) initForAccount:(Account *)notificationsAccount subscribe:(BOOL)doSubscribe;
+- (id) initForAccount:(GenericAccount *)notificationsAccount subscribe:(BOOL)doSubscribe;
 {
 	if (self = [super init])
 	{

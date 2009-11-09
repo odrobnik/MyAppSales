@@ -10,8 +10,8 @@
 #import "App.h"
 #import "Report.h"
 #import "Country.h"
-#import "Account.h"
-#import "Account+MyAppSales.h"
+#import "GenericAccount.h"
+#import "GenericAccount+MyAppSales.h"
 
 #import "NSString+Helpers.h"
 #import "NSDate+Helpers.h"
@@ -789,7 +789,7 @@ static Database *_sharedInstance;
 - (void) insertReportFromDict:(NSDictionary *)dict
 {
 		NSString *text = [dict objectForKey:@"Text"];
-	Account *account = [dict objectForKey:@"Account"];
+	GenericAccount *account = [dict objectForKey:@"Account"];
 	ReportRegion region = [[dict objectForKey:@"Region"] intValue];
 	NSDate *fallbackDate = [dict objectForKey:@"FallbackDate"];
 
@@ -853,7 +853,7 @@ static Database *_sharedInstance;
 {
 	// Make a report from the text, nothing added to DB yet
 	Report *newReport = [[[Report alloc] initAsFreeReportWithDict:dict] autorelease];
-	Account *account = [dict objectForKey:@"Account"];
+	GenericAccount *account = [dict objectForKey:@"Account"];
 	AppGrouping *appGrouping = [self appGroupingForReport:newReport];
 	if (appGrouping)
 	{
@@ -910,7 +910,7 @@ static Database *_sharedInstance;
 	
 }
 
-- (void) insertReportFromText:(NSString *)string fromAccount:(Account *)account
+- (void) insertReportFromText:(NSString *)string fromAccount:(GenericAccount *)account
 {
 	// Make a report from the text, nothing added to DB yet
 	Report *newReport = [[[Report alloc] initWithReportText:string] autorelease];

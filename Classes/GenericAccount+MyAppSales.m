@@ -6,11 +6,12 @@
 //  Copyright 2009 Drobnik.com. All rights reserved.
 //
 
-#import "Account+MyAppSales.h"
+#import "GenericAccount.h"
+#import "GenericAccount+MyAppSales.h"
 #import "Database.h"
 #import "AppGrouping.h"
 
-@implementation Account (MyAppSales)
+@implementation GenericAccount (MyAppSales)
 
 
 - (void) setAppGrouping:(AppGrouping *)newAppGrouping
@@ -24,7 +25,7 @@
 }
 
 
-+ (NSString *)stringForAccountType:(AccountType)anAccountType
++ (NSString *)stringForAccountType:(GenericAccountType)anAccountType
 {
 	switch (anAccountType) 
 	{
@@ -40,9 +41,9 @@
 }
 
 
-- (void) setAccountType:(AccountType)newAccountType
+- (void) setAccountType:(GenericAccountType)newAccountType
 {
-	NSString *accountTypeString = [Account stringForAccountType:newAccountType];
+	NSString *accountTypeString = [GenericAccount stringForAccountType:newAccountType];
 	
 	if (accountTypeString)
 	{
@@ -50,7 +51,7 @@
 	}
 }
 
-- (AccountType) accountType
+- (GenericAccountType) accountType
 {
 	if ([service isEqualToString:@"iTunes Connect"])
 	{
