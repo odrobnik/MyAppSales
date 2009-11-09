@@ -314,6 +314,7 @@
 		A7CD0666105A7014005F9166 /* cover_mask_rounded_100x100.png in Resources */ = {isa = PBXBuildFile; fileRef = A7CD0665105A7014005F9166 /* cover_mask_rounded_100x100.png */; };
 		A7CD06EA105A7882005F9166 /* UIImage+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CD06E9105A7882005F9166 /* UIImage+Helpers.m */; };
 		A7E0F9F3106BB684003B93FE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E0F9F2106BB684003B93FE /* QuartzCore.framework */; };
+		A7E4E98610A89E2400CE4673 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4E98510A89E2400CE4673 /* MessageUI.framework */; };
 		A7E7F16D1094413600C9C3DC /* AccountTypeSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E7F16C1094413600C9C3DC /* AccountTypeSelector.m */; };
 		A7E7F18910944A4B00C9C3DC /* apple_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A7E7F18710944A4B00C9C3DC /* apple_logo.png */; };
 		A7E7F18A10944A4B00C9C3DC /* notifications_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A7E7F18810944A4B00C9C3DC /* notifications_logo.png */; };
@@ -723,6 +724,7 @@
 		A7CD06E8105A7882005F9166 /* UIImage+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Helpers.h"; sourceTree = "<group>"; };
 		A7CD06E9105A7882005F9166 /* UIImage+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Helpers.m"; sourceTree = "<group>"; };
 		A7E0F9F2106BB684003B93FE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		A7E4E98510A89E2400CE4673 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		A7E7F16B1094413600C9C3DC /* AccountTypeSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountTypeSelector.h; sourceTree = "<group>"; };
 		A7E7F16C1094413600C9C3DC /* AccountTypeSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountTypeSelector.m; sourceTree = "<group>"; };
 		A7E7F18710944A4B00C9C3DC /* apple_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = apple_logo.png; sourceTree = "<group>"; };
@@ -780,6 +782,7 @@
 				A7745DC70F08D6740009DD76 /* CFNetwork.framework in Frameworks */,
 				A7B12CEE104D2EAA004639C9 /* Security.framework in Frameworks */,
 				A7E0F9F3106BB684003B93FE /* QuartzCore.framework in Frameworks */,
+				A7E4E98610A89E2400CE4673 /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -829,7 +832,6 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				A700AA9E0F2B5B6C0014885D /* Entitlements.plist */,
-				A7E0F9F2106BB684003B93FE /* QuartzCore.framework */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -861,6 +863,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A7E0F9F2106BB684003B93FE /* QuartzCore.framework */,
+				A7E4E98510A89E2400CE4673 /* MessageUI.framework */,
 				A7745DC60F08D6740009DD76 /* CFNetwork.framework */,
 				A74A71E90EFB0806003B5191 /* libsqlite3.dylib */,
 				A78E2C3C0EFA7EB3002EB6D9 /* libz.dylib */,
