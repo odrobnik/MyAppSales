@@ -178,6 +178,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
 	Query *myQuery = [[Query alloc] initWithDatabase:[DB database]];
 	
 	NSDictionary *tmpData = nil;
