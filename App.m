@@ -58,6 +58,26 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	}
 }
 
+- (NSString *) reviewsAsHTML
+{
+	NSMutableString *tmpString = [NSMutableString string];
+	
+	for (Review *oneReview in reviews)
+	{
+		[tmpString appendString:[oneReview stringAsHTML]];
+	}
+	
+	if ([tmpString length])
+	{
+		return [NSString stringWithString:tmpString];
+	}
+	else 
+	{
+		return @"<p>No reviews in Database</p>";
+	}
+}
+
+
 - (id)init
 {
 	// default images

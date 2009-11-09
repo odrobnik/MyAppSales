@@ -221,6 +221,10 @@
 	
 	AccountManager *acc = [AccountManager sharedAccountManager];
 	
+	
+	
+	
+	
 	NSArray *itunesAccounts = [acc accountsOfType:@"iTunes Connect"];
 	
 	if ([itunesAccounts count]>0)

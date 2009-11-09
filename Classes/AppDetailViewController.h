@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
 
 @class App;
 
-@interface AppDetailViewController : UITableViewController 
+@interface AppDetailViewController : UITableViewController <MFMailComposeViewControllerDelegate>
 {
 	App *myApp;
 }

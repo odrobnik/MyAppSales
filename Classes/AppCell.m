@@ -42,15 +42,15 @@
 
 		UIFont *smallerFont = [UIFont systemFontOfSize:14.0];
 		UIColor *darkColor = [UIColor colorWithRed:58.0/256.0 green:58.0/256.0 blue:58.0/256.0 alpha:1.0];
-		UIColor *darkShadowColor = [UIColor colorWithRed:145.0/256.0 green:145.0/256.0 blue:145.0/256.0 alpha:1.0];
+		//UIColor *darkShadowColor = [UIColor colorWithRed:145.0/256.0 green:145.0/256.0 blue:145.0/256.0 alpha:1.0];
 		
 		
 		subTextLabel = [[UILabel alloc] initWithFrame:CGRectZero];	// layoutSubViews will decide the final frame
 		subTextLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
 		subTextLabel.backgroundColor = [UIColor clearColor];
 		subTextLabel.textColor = darkColor; //[UIColor colorWithWhite:0.3 alpha:1.0];
-		subTextLabel.shadowColor = darkShadowColor;
-		subTextLabel.shadowOffset = CGSizeMake(1, 1);
+		//subTextLabel.shadowColor = darkShadowColor;
+		//subTextLabel.shadowOffset = CGSizeMake(1, 1);
 		subTextLabel.adjustsFontSizeToFitWidth = YES;
 		subTextLabel.font = smallerFont;
 		[self.contentView addSubview:subTextLabel];
@@ -60,8 +60,8 @@
 		royaltiesLabel.baselineAdjustment = UIBaselineAdjustmentAlignBaselines;
 		royaltiesLabel.backgroundColor = [UIColor clearColor];
 		royaltiesLabel.textColor = darkColor; //[UIColor colorWithWhite:0.3 alpha:1.0];
-		royaltiesLabel.shadowColor = darkShadowColor;
-		royaltiesLabel.shadowOffset = CGSizeMake(1, 1);
+		//royaltiesLabel.shadowColor = darkShadowColor;
+		//royaltiesLabel.shadowOffset = CGSizeMake(1, 1);
 		royaltiesLabel.adjustsFontSizeToFitWidth = YES;
 		royaltiesLabel.textAlignment = UITextAlignmentRight;
 		royaltiesLabel.font = smallerFont;
@@ -71,8 +71,8 @@
 		totalUnitsLabel.baselineAdjustment = UIBaselineAdjustmentAlignBaselines;
 		totalUnitsLabel.backgroundColor = [UIColor clearColor];
 		totalUnitsLabel.textColor = darkColor; //[UIColor colorWithWhite:0.3 alpha:1.0];
-		totalUnitsLabel.shadowColor = darkShadowColor;
-		totalUnitsLabel.shadowOffset = CGSizeMake(1, 1);
+		//totalUnitsLabel.shadowColor = darkShadowColor;
+		//totalUnitsLabel.shadowOffset = CGSizeMake(1, 1);
 		totalUnitsLabel.adjustsFontSizeToFitWidth = YES;
 		totalUnitsLabel.font = smallerFont;
 		[self.contentView addSubview:totalUnitsLabel];

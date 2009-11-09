@@ -155,6 +155,19 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	return [NSString stringWithFormat:@"Title: %@, Name: %@, Version: %@, Date: %@, Stars: %.2f, Review: %@", title, name, version, date, stars*5.0, review];
 }
 
+- (NSString *)stringAsHTML
+{
+	NSMutableString *tmpString = [NSMutableString string];
+	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
+	[df setDateStyle:NSDateFormatterMediumStyle];
+	[df setTimeStyle:NSDateFormatterNoStyle];
+	
+	[tmpString appendFormat:@"<p><b>%@</b> (%.0f of 5)\n<br />", title, stars*5.0];
+	[tmpString appendFormat:@"by %@ (%@)\n<br />Version %@ - %@\n<br />", name, country.name, version, [df stringFromDate:date]];
+	[tmpString appendFormat:@"<blockquote>%@</blockquote></p>", translated_review?translated_review:review];
+
+	return [NSString stringWithString:tmpString];
+}
 
 - (void)insertIntoDatabase:(sqlite3 *)db {
     database = db;

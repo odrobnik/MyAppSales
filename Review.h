@@ -54,4 +54,6 @@
 - (void)insertIntoDatabase:(sqlite3 *)db;
 - (void)updateDatabase;
 
+- (NSString *)stringAsHTML;
+
 @end

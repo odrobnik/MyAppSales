@@ -12,6 +12,14 @@
 #import "Country.h"
 #import "ReviewCell.h"
 
+@interface AppDetailViewController ()
+
+- (BOOL) hasMailAndCanSendWithIt;
+
+@end
+
+
+
 @implementation AppDetailViewController
 
 @synthesize myApp;
@@ -25,6 +33,12 @@
 		self.title = app.title;
    
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appReviewsUpdated:) name:@"AppReviewsUpdated" object:nil];
+		
+		// this defines the back button leading BACK TO THIS controller
+		UIBarButtonItem *forwardButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(forwardReviews:)];
+		self.navigationItem.rightBarButtonItem = forwardButtonItem;
+		
+		forwardButtonItem.enabled = [self hasMailAndCanSendWithIt]&&[myApp.reviews count];
 
 	}
     return self;
@@ -83,7 +97,7 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
+- (void)viewDidLoad {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
 }
@@ -269,6 +283,71 @@
 	
 }
 
+#pragma mark Actions
+- (BOOL) hasMailAndCanSendWithIt
+{
+	Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
+	if (mailClass != nil)
+	{
+		// We must always check whether the current device is configured for sending emails
+		if ([mailClass canSendMail])
+		{
+			return YES;
+		}
+		else
+		{
+			return NO;
+		}
+	}
+	else
+	{
+		return NO;
+	}
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error 
+{	
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+-(void)displayComposerSheetTo:(NSString*)toString subject:(NSString *)subject body:(NSString *)body
+
+{
+	MFMailComposeViewController *mailView = [[[MFMailComposeViewController alloc] init] autorelease];
+	//NSString *reportHTML = [NSString stringWithFormat:NSLocalizedString(@"EMAILTEXT", @"HTML"), dateOfSwitch.text, (int)clock.fromHour, (int)clock.toHour, hint.text];
+	
+	
+	if (body)
+	{
+		[mailView setMessageBody:body isHTML:YES];
+	}
+	
+	if (toString)
+	{
+		[mailView setToRecipients:[NSArray arrayWithObject:toString]];
+	}
+	
+	if (subject)
+	{
+		[mailView setSubject:subject];
+	}
+	
+	[mailView.navigationBar setBarStyle:UIBarStyleBlackOpaque];
+	mailView.mailComposeDelegate = self;
+	
+	[self presentModalViewController:mailView animated:YES];
+}
+
+- (void)forwardReviews:(id)sender
+{
+	if ([self hasMailAndCanSendWithIt])
+	{
+		NSString *reviewHTML = [myApp reviewsAsHTML];
+		NSString *subject = [NSString stringWithFormat:@"Reviews for %@", myApp.title];
+		
+		[self displayComposerSheetTo:nil subject:subject body:reviewHTML];
+	}
+}
 
 @end
 

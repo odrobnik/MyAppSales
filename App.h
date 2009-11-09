@@ -94,6 +94,6 @@
 
 - (void) getAllReviews;
 - (void) removeReviewTranslations;
-
+- (NSString *) reviewsAsHTML;
 
 @end
