@@ -42,6 +42,14 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 	[self.tableView reloadData];
+	
+	// this defines the back button leading BACK TO THIS controller
+	UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc]
+										  initWithTitle:@"Apps"
+										  style:UIBarButtonItemStyleBordered
+										  target:nil
+										  action:nil];
+	self.navigationItem.backBarButtonItem = backBarButtonItem;
 }
 
 /*
