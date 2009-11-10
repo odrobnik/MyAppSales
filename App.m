@@ -408,19 +408,8 @@ static NSDateFormatter *dateFormatterToRead = nil;
     int success = sqlite3_step(insert_statement);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
     sqlite3_reset(insert_statement);
-    if (success == SQLITE_ERROR) {
-        NSAssert1(0, @"Error: failed to insert into the database with message '%s'.", sqlite3_errmsg(database));
-    } else {
-        // SQLite provides a method which retrieves the value of the most recently auto-generated primary key sequence
-        // in the database. To access this functionality, the table should have a column declared of type 
-        // "INTEGER PRIMARY KEY"
-        
-		// Primary key already set!
-		// apple_identifier = sqlite3_last_insert_rowid(database);
-    }
-    // All data for the book is already in memory, but has not be written to the database
-    // Mark as hydrated to prevent empty/default values from overwriting what is in memory
-    //hydrated = YES;
+	
+	NSAssert2((success == SQLITE_OK) || (success >= SQLITE_ROW), @"Error: sqlite3_step failed with error %d (%s).", success, sqlite3_errmsg(database));
 }
 
 - (void)deleteFromDatabase {
