@@ -8,7 +8,7 @@ drop index if exists app_name;
 
 /* update schema_version */ 
 
-/*
-update meta set schema_version = 4; 
-*/
+
+update meta set schema_version = 5; 
+
 commit;
