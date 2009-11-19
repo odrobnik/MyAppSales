@@ -445,7 +445,9 @@
 	}
 
 	NSRange endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
-	NSArray *dayOptions = [[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect];
+	NSString *selectString = [sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)];
+	NSArray *dayOptions = [selectString optionsFromSelect];
+	NSString *dayorweekdropdownName = [[selectString dictionaryOfAttributesFromTag] objectForKey:@"name"];	
 	
 	for (NSString *oneDayOption in dayOptions)
 	{
@@ -472,7 +474,7 @@
 			postBody = [NSMutableData data];
 			
 			// 11.9=Summary&11.11=Daily&11.13.1=11%2F18%2F2009&hiddenDayOrWeekSelection=11%2F18%2F2009&hiddenSubmitTypeName=Download&wosid=Mtdy6wbxuKXHn18hhgv17M
-			NSString *body = [NSString stringWithFormat:@"11.9=Summary&11.11=Daily&11.13.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download&wosid=%@", formDate, formDate, wosid];
+			NSString *body = [NSString stringWithFormat:@"11.9=Summary&11.11=Daily&%@=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download&wosid=%@", dayorweekdropdownName, formDate, formDate, wosid];
 			[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
 			
 			//add the body to the post
@@ -548,9 +550,10 @@
 	}
 	
 	
-	
 	endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
-	NSArray *weekOptions = [[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect];
+	selectString = [sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)];
+	NSArray *weekOptions = [selectString optionsFromSelect];
+	dayorweekdropdownName = [[selectString dictionaryOfAttributesFromTag] objectForKey:@"name"];	
 	
 	
 	for (NSString *oneWeekOption in weekOptions)
@@ -575,7 +578,7 @@
 			
 			//create the body
 			postBody = [NSMutableData data];
-			NSString *body = [NSString stringWithFormat:@"11.9=Summary&11.11=Weekly&11.16.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download&wosid=%@", formDate, formDate, wosid];
+			NSString *body = [NSString stringWithFormat:@"11.9=Summary&11.11=Weekly&%@=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download&wosid=%@", dayorweekdropdownName, formDate, formDate, wosid];
 			[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
 			
 			//add the body to the post
@@ -646,11 +649,12 @@
 		[self setStatusError:@"No monthly free options found"];
 		return;
 	}
-	
+
 	endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
-	NSArray *monthlyFreeOptions = [[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect];
-	
-	
+	selectString = [sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)];
+	NSArray *monthlyFreeOptions = [selectString optionsFromSelect];
+	dayorweekdropdownName = [[selectString dictionaryOfAttributesFromTag] objectForKey:@"name"];	
+
 	//NSLog(@"%@", sourceSt);
 
 	
@@ -683,7 +687,7 @@
 			
 			//create the body
 			postBody = [NSMutableData data];
-			NSString *body = [NSString stringWithFormat:@"11.9=Summary&11.11=Monthly%%20Free&11.16.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download&wosid=%@", formDate, formDate, wosid];
+			NSString *body = [NSString stringWithFormat:@"11.9=Summary&11.11=Monthly%%20Free&%@=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download&wosid=%@", dayorweekdropdownName, formDate, formDate, wosid];
 			[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
 			
 			//add the body to the post
