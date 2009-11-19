@@ -520,8 +520,6 @@
 		return;
 	}
 
-	NSLog(@"%@", sourceSt);
-
 	NSRange endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
 	NSArray *dayOptions = [[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect];
 	
@@ -593,7 +591,7 @@
 	
 	//create the body
 	postBody = [NSMutableData data];
-	body = [NSString stringWithFormat:@"11.9=Summary&11.11=Weekly&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown&wosid=%@", wosid];
+	body = [NSString stringWithFormat:@"11.9=Summary&11.11=Weekly&hiddenDayOrWeekSelection=Weekly&hiddenSubmitTypeName=ShowDropDown&wosid=%@", wosid];
 
 	[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
 	[request setHTTPBody:postBody];
@@ -690,7 +688,7 @@
 	
 	//create the body
 	postBody = [NSMutableData data];
-	body = [NSString stringWithFormat:@"11.9=Summary&11.11=Monthly%%20Free&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown&wosid=%@", wosid];
+	body = [NSString stringWithFormat:@"11.9=Summary&11.11=Monthly%%20Free&hiddenDayOrWeekSelection=Monthly%%20Free&hiddenSubmitTypeName=ShowDropDown&wosid=%@", wosid];
 	
 	[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
 	
