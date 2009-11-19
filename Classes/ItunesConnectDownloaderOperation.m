@@ -357,83 +357,7 @@
 				return;
 			}
 			sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-		/*	
-			
-			post_url = [sourceSt stringByFindingFormPostURLwithName:@"superPage"];
-			
-			 selectRange = [sourceSt rangeOfString:@"<select Id=\"selectName\""];
-			if (selectRange.location==NSNotFound)
-			{
-				[self setStatusError:@"No vendor options found"];
-				return;
-			}
-			
-			// get wosid
-			
-			inputs = [sourceSt arrayOfInputsForForm:@"superPage"];
-			
-			for (NSDictionary *oneDict in inputs)
-			{
-				NSString *attrName = [oneDict objectForKey:@"name"];
-				if ([attrName isEqualToString:@"wosid"])
-				{
-					wosid = [oneDict objectForKey:@"value"];
-				}
-			}
-			
-			URL = [@"https://itts.apple.com" stringByAppendingString:post_url];
-			
-			request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-											cachePolicy:NSURLRequestUseProtocolCachePolicy
-										timeoutInterval:30.0];
-			[request setHTTPMethod:@"POST"];
-			[request addValue:@"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_1; en-us) AppleWebKit/531.9 (KHTML, like Gecko) Version/4.0.3 Safari/531.9" forHTTPHeaderField:@"User-Agent"];
 
-			[request addValue:@"multipart/form-data; boundary=----WebKitFormBoundaryVEGJrwgXACBaxvAp" forHTTPHeaderField: @"Content-Type"];
-			
-			// build the body as string
-			
-			bodyString = [NSMutableString string];
-			
-			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
-			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"9.6.0\"\r\n\r\n0\r\n"];
-			
-			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
-			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"vndrid\"\r\n\r\n%@\r\n", selectedVendor];
-			
-			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
-			[bodyString appendString:@"Content-Disposition: form-data; name=\"9.18\"\r\n\r\n\r\n"];
-			
-			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
-			[bodyString appendString:@"Content-Disposition: form-data; name=\"SubmitBtn\"\r\n\r\nSubmit\r\n"];
-			
-			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
-			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"wosid\"\r\n\r\n%@\r\n", wosid];
-			
-			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp--\r\n"];
-			
-			//create the body
-			postBody = [NSMutableData data];
-			[postBody appendData:[bodyString dataUsingEncoding:NSUTF8StringEncoding]];
-			[request setHTTPBody:postBody];
-			
-			[self setStatus:@"Selecting Vendor"];
-			
-			data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-			
-			if (error)
-			{
-				[self setStatusError:[error localizedDescription]];
-				return;
-			}
-			
-			if (!data) 
-			{
-				[self setStatusError:@"No data received (vendor selection)"];
-				return;
-			}
-			sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-			*/
 			// search for outer post url
 			post_url = [sourceSt stringByFindingFormPostURLwithName:@"frmVendorPage"];
 			
@@ -546,6 +470,8 @@
 			
 			//create the body
 			postBody = [NSMutableData data];
+			
+			// 11.9=Summary&11.11=Daily&11.13.1=11%2F18%2F2009&hiddenDayOrWeekSelection=11%2F18%2F2009&hiddenSubmitTypeName=Download&wosid=Mtdy6wbxuKXHn18hhgv17M
 			NSString *body = [NSString stringWithFormat:@"11.9=Summary&11.11=Daily&11.13.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download&wosid=%@", formDate, formDate, wosid];
 			[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
 			
@@ -617,9 +543,11 @@
 	
 	if (selectRange.location==NSNotFound)
 	{
-		[self setStatusError:@"No day options found"];
+		[self setStatusError:@"No week options found"];
 		return;
 	}
+	
+	
 	
 	endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
 	NSArray *weekOptions = [[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect];
@@ -647,7 +575,7 @@
 			
 			//create the body
 			postBody = [NSMutableData data];
-			NSString *body = [NSString stringWithFormat:@"11.9=Summary&11.11=Weekly&11.13.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download&wosid=%@", formDate, formDate, wosid];
+			NSString *body = [NSString stringWithFormat:@"11.9=Summary&11.11=Weekly&11.16.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download&wosid=%@", formDate, formDate, wosid];
 			[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
 			
 			//add the body to the post
@@ -663,7 +591,7 @@
 			
 			if (!data) 
 			{
-				[self setStatusError:@"No data received from request day report"];
+				[self setStatusError:@"No data received from request week report"];
 				return;
 			}
 			
@@ -723,6 +651,9 @@
 	NSArray *monthlyFreeOptions = [[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect];
 	
 	
+	//NSLog(@"%@", sourceSt);
+
+	
 	for (NSString *oneMonthlyFreeOption in monthlyFreeOptions)
 	{
 		NSString *formDate = [oneMonthlyFreeOption stringByUrlEncoding];
@@ -752,7 +683,7 @@
 			
 			//create the body
 			postBody = [NSMutableData data];
-			NSString *body = [NSString stringWithFormat:@"11.9=Summary&11.11=Monthly%%20Free&11.14.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download&wosid=%@", formDate, formDate, wosid];
+			NSString *body = [NSString stringWithFormat:@"11.9=Summary&11.11=Monthly%%20Free&11.16.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download&wosid=%@", formDate, formDate, wosid];
 			[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
 			
 			//add the body to the post
