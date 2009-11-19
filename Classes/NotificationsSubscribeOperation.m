@@ -58,6 +58,16 @@
 		[delegate performSelectorOnMainThread:@selector(downloadStartedForOperation:) withObject:self waitUntilDone:NO];
 	}
 	
+	// check if already subscribed
+	MyAppSales *service = [[[MyAppSales alloc] init] autorelease];
+	
+	if (subscribeMode&&[account.label length]&&[service isSubscribedToNotificationsWithEmail:nil token:account.label])
+	{
+		// Token is already subscribed
+		workInProgress = NO;
+		[self sendFinishToDelegate];
+		return;
+	}
 	
 	// get credential directly from Notifications
 	NSString *URL = @"https://www.appnotifications.com/user_session.xml";
@@ -128,7 +138,6 @@
 
 	if (token)
 	{
-		MyAppSales *service = [[[MyAppSales alloc] init] autorelease];
 		
 		if (subscribeMode)
 		{

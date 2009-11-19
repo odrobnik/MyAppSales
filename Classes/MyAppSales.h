@@ -21,6 +21,7 @@
 }
 
 - (BOOL) subscribeNotificationsWithEmail:(NSString *)email token:(NSString *)token;
+- (BOOL) isSubscribedToNotificationsWithEmail:(NSString *)email token:(NSString *)token;
 - (BOOL) unsubscribeNotificationsWithEmail:(NSString *)email token:(NSString *)token;
 - (NSDate *) latestReportDateWithReportType:(NSInteger)reportType reportRegionID:(NSInteger)reportRegionID;
 - (BOOL) seenReportWithReportType:(NSInteger)reportType reportDate:(NSDate *)reportDate reportRegionID:(NSInteger)reportRegionID;
