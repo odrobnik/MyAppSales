@@ -14,4 +14,9 @@
 - (NSDictionary *)dictionaryOfAttributesFromTag;
 - (NSArray *)arrayOfInputs;
 - (NSArray *)arrayOfInputsForForm:(NSString *)formName;
+
+- (NSString *)tagHTMLforTag:(NSString *)tag WithName:(NSString *)name;
+- (NSString *)tagHTMLforTag:(NSString *)tag WithID:(NSString *)identifier;
+- (NSString *)nameForTag:(NSString *)tag WithID:(NSString *)identifier;
+
 @end

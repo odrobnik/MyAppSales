@@ -128,6 +128,76 @@
 	return nil;
 }
 
+- (NSString *)tagHTMLforTag:(NSString *)tag WithName:(NSString *)name
+{
+	NSScanner *inputScanner = [NSScanner scannerWithString:self];
+	
+	NSString *beginTag = [NSString stringWithFormat:@"<%@ ", tag];
+	NSString *endTag = [NSString stringWithFormat:@"</%@>", tag];
+	
+	
+	while (![inputScanner isAtEnd]) 
+	{
+		[inputScanner scanUpToString:beginTag intoString:nil];
+		if ([inputScanner scanString:beginTag intoString:nil])
+		{
+			
+			NSString *inputAttributes;
+			
+			[inputScanner scanUpToString:endTag intoString:&inputAttributes];
+			
+			NSDictionary *formAttributes = [inputAttributes dictionaryOfAttributesFromTag];
+			
+			if ([[formAttributes objectForKey:@"name"] isEqualToString:name])
+			{
+				return [NSString stringWithFormat:@"%@%@%@", beginTag, inputAttributes, endTag];
+			}
+		}
+	}
+	return nil;
+}
 
+- (NSString *)tagHTMLforTag:(NSString *)tag WithID:(NSString *)identifier
+{
+	NSScanner *inputScanner = [NSScanner scannerWithString:self];
+	
+	NSString *beginTag = [NSString stringWithFormat:@"<%@ ", tag];
+	NSString *endTag = [NSString stringWithFormat:@"</%@>", tag];
+	
+	
+	while (![inputScanner isAtEnd]) 
+	{
+		[inputScanner scanUpToString:beginTag intoString:nil];
+		if ([inputScanner scanString:beginTag intoString:nil])
+		{
+			
+			NSString *inputAttributes;
+			
+			[inputScanner scanUpToString:endTag intoString:&inputAttributes];
+			
+			NSDictionary *formAttributes = [inputAttributes dictionaryOfAttributesFromTag];
+			
+			for (NSString *oneAttributeKey in [formAttributes allKeys])
+			{
+				if ([[oneAttributeKey lowercaseString] isEqualToString:@"id"])
+				{
+					if ([[formAttributes objectForKey:oneAttributeKey] isEqualToString:identifier])
+					{
+						return [NSString stringWithFormat:@"%@%@%@", beginTag, inputAttributes, endTag];
+					}
+				}
+			}
+		}
+	}
+	return nil;
+}
+
+- (NSString *)nameForTag:(NSString *)tag WithID:(NSString *)identifier
+{
+	NSString *html = [self tagHTMLforTag:tag WithID:identifier];
+	NSDictionary *attributes = [html dictionaryOfAttributesFromTag];
+	
+	return [attributes objectForKey:@"name"];
+}
 
 @end
