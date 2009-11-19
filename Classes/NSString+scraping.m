@@ -16,9 +16,22 @@
 {
 	NSMutableDictionary *tmpDict = [NSMutableDictionary dictionary];
 	
-	NSScanner *attributeScanner = [NSScanner scannerWithString:self];
+	NSString *stringToScan = self;
+	
+	NSScanner *attributeScanner = [NSScanner scannerWithString:stringToScan];
 	
 	//NSMutableArray *attributeArray = [NSMutableArray array];
+	
+	// skip leading <tagname
+
+	NSString *temp;
+
+	if ([attributeScanner scanString:@"<" intoString:&temp])
+	{
+		[attributeScanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:&temp];
+		[attributeScanner scanCharactersFromSet:[NSCharacterSet alphanumericCharacterSet] intoString:&temp];
+		[attributeScanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:&temp];
+	}
 	
 	while (![attributeScanner isAtEnd])
 	{
@@ -26,17 +39,16 @@
 		NSString *attrName;
 		NSString *attrValue;
 		
-		
-		[attributeScanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:nil];
+		[attributeScanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:&temp];
 		[attributeScanner scanCharactersFromSet:[NSCharacterSet alphanumericCharacterSet] intoString:&attrName];
-		[attributeScanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:nil];
+		[attributeScanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:&temp];
 		[attributeScanner scanString:@"=" intoString:nil];
-		[attributeScanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:nil];
+		[attributeScanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:&temp];
 		
-		if ([attributeScanner scanString:@"\"" intoString:nil])
+		if ([attributeScanner scanString:@"\"" intoString:&temp])
 		{
 			[attributeScanner scanUpToString:@"\"" intoString:&attrValue];	
-			[attributeScanner scanString:@"\"" intoString:nil];
+			[attributeScanner scanString:@"\"" intoString:&temp];
 			
 			[tmpDict setObject:attrValue forKey:attrName];
 		}

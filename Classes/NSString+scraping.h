@@ -11,6 +11,7 @@
 
 @interface NSString (scraping)
 
+- (NSDictionary *)dictionaryOfAttributesFromTag;
 - (NSArray *)arrayOfInputs;
 - (NSArray *)arrayOfInputsForForm:(NSString *)formName;
 @end
