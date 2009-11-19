@@ -220,7 +220,7 @@
 	
 	AccountManager *acc = [AccountManager sharedAccountManager];
 	
-	
+	/*
 	// refresh notification
 	NSArray *notificationsAccounts = [acc accountsOfType:@"Notifications"];
 	
@@ -228,6 +228,7 @@
 	{
 		[[SynchingManager sharedInstance] subscribeToNotificationsWithAccount:[notificationsAccounts lastObject]];
 	}
+	 */
 	
 	NSArray *itunesAccounts = [acc accountsOfType:@"iTunes Connect"];
 	
