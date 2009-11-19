@@ -452,6 +452,21 @@
 	
 	// DAY OPTIONS
 	
+	// get wosid
+	
+	NSString *wosid = nil;
+	NSArray *inputs = [sourceSt arrayOfInputsForForm:@"superPage"];
+	
+	for (NSDictionary *oneDict in inputs)
+	{
+		NSString *attrName = [oneDict objectForKey:@"name"];
+		if ([attrName isEqualToString:@"wosid"])
+		{
+			wosid = [oneDict objectForKey:@"value"];
+		}
+	}
+	
+	
 	URL = [@"https://itts.apple.com" stringByAppendingString:post_url];
 	
 	request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
@@ -462,7 +477,8 @@
 	
 	//create the body
 	postBody = [NSMutableData data];
-	[postBody appendData:[@"11.7=Summary&11.9=Daily&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
+	NSString *body = [NSString stringWithFormat:@"11.9=Summary&11.11=Daily&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown&wosid=%@", wosid];
+	[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
 	[request setHTTPBody:postBody];
 	
 	[self setStatus:@"Retrieving Day Options"];
@@ -503,7 +519,9 @@
 		[self setStatusError:@"No day options found"];
 		return;
 	}
-	
+
+	NSLog(@"%@", sourceSt);
+
 	NSRange endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
 	NSArray *dayOptions = [[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect];
 	
@@ -530,7 +548,7 @@
 			
 			//create the body
 			postBody = [NSMutableData data];
-			NSString *body = [NSString stringWithFormat:@"11.7=Summary&11.9=Daily&11.11.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download", formDate, formDate];
+			NSString *body = [NSString stringWithFormat:@"11.9=Summary&11.11=Daily&11.13.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download&wosid=%@", formDate, formDate, wosid];
 			[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
 			
 			//add the body to the post
@@ -575,7 +593,9 @@
 	
 	//create the body
 	postBody = [NSMutableData data];
-	[postBody appendData:[@"11.7=Summary&11.9=Weekly&hiddenDayOrWeekSelection=Weekly&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
+	body = [NSString stringWithFormat:@"11.9=Summary&11.11=Weekly&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown&wosid=%@", wosid];
+
+	[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
 	[request setHTTPBody:postBody];
 	
 	[self setStatus:@"Retrieving Week Options"];
@@ -629,7 +649,7 @@
 			
 			//create the body
 			postBody = [NSMutableData data];
-			NSString *body = [NSString stringWithFormat:@"11.7=Summary&11.9=Weekly&11.13.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download", formDate, formDate];
+			NSString *body = [NSString stringWithFormat:@"11.9=Summary&11.11=Weekly&11.13.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download&wosid=%@", formDate, formDate, wosid];
 			[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
 			
 			//add the body to the post
@@ -670,7 +690,10 @@
 	
 	//create the body
 	postBody = [NSMutableData data];
-	[postBody appendData:[@"11.7=Summary&11.9=Monthly%20Free&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=ShowDropDown" dataUsingEncoding:NSUTF8StringEncoding]];
+	body = [NSString stringWithFormat:@"11.9=Summary&11.11=Monthly%%20Free&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown&wosid=%@", wosid];
+	
+	[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
+	
 	[request setHTTPBody:postBody];
 	
 	[self setStatus:@"Retrieving Free Options"];
@@ -731,7 +754,7 @@
 			
 			//create the body
 			postBody = [NSMutableData data];
-			NSString *body = [NSString stringWithFormat:@"11.7=Summary&11.9=Monthly%%20Free&11.14.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download", formDate, formDate];
+			NSString *body = [NSString stringWithFormat:@"11.9=Summary&11.11=Monthly%%20Free&11.14.1=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download&wosid=%@", formDate, formDate, wosid];
 			[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
 			
 			//add the body to the post
