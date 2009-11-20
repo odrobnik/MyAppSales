@@ -212,6 +212,8 @@ static Database *_sharedInstance;
 			[self executeSchemaUpdate:@"update_3_to_4.sql"];
 		case 4:
 			[self executeSchemaUpdate:@"update_4_to_5.sql"];
+		case 5:
+			[self executeSchemaUpdate:@"update_5_to_6.sql"];
 		default:
 			break;
 	}
