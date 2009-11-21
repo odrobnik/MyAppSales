@@ -100,6 +100,7 @@ static sqlite3_stmt *init_statement = nil;
 		[cntry_code isEqualToString:@"BR"]||
 		[cntry_code isEqualToString:@"AR"]||
 		[cntry_code isEqualToString:@"CR"]||
+		[cntry_code isEqualToString:@"CO"]||
 		[cntry_code isEqualToString:@"UY"]) region=ReportRegionUSA;
 	else if ([cntry_code isEqualToString:@"AT"]||
 			 [cntry_code isEqualToString:@"BE"]||
