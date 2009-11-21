@@ -340,6 +340,8 @@
 		A7EDD38C0FA4E8C40079FE78 /* Country.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EDD3840FA4E8C40079FE78 /* Country.m */; };
 		A7EDD38D0FA4E8C40079FE78 /* Report.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EDD3860FA4E8C40079FE78 /* Report.m */; };
 		A7EDD38E0FA4E8C40079FE78 /* ReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */; };
+		A7F05BB610B6B1050047A708 /* update_5_to_6.sql in Resources */ = {isa = PBXBuildFile; fileRef = A7F05BB510B6B0520047A708 /* update_5_to_6.sql */; };
+		A7F9AACA10A971AE00EC9BF5 /* update_4_to_5.sql in Resources */ = {isa = PBXBuildFile; fileRef = A7F9AAC910A971AC00EC9BF5 /* update_4_to_5.sql */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -767,6 +769,8 @@
 		A7EDD3860FA4E8C40079FE78 /* Report.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Report.m; path = Classes/Report.m; sourceTree = "<group>"; };
 		A7EDD3870FA4E8C40079FE78 /* ReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportViewController.h; sourceTree = "<group>"; };
 		A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportViewController.m; sourceTree = "<group>"; };
+		A7F05BB510B6B0520047A708 /* update_5_to_6.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = update_5_to_6.sql; sourceTree = "<group>"; };
+		A7F9AAC910A971AC00EC9BF5 /* update_4_to_5.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = update_4_to_5.sql; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1182,8 +1186,8 @@
 		A79272500F2D95F9009AF9B2 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				A7294C021095EB7B004A2258 /* NSString+scraping.m */,
 				A7294C031095EB7B004A2258 /* NSString+scraping.h */,
+				A7294C021095EB7B004A2258 /* NSString+scraping.m */,
 				A7A84CED105E353700CAD54F /* NSArray+Reports.h */,
 				A7A84CEE105E353700CAD54F /* NSArray+Reports.m */,
 				A7ACC3210FE6290E0014DB41 /* NSString+Helpers.h */,
@@ -1483,6 +1487,8 @@
 				A7BD65DB105AB4D00021B6CF /* update_1_to_2.sql */,
 				A78DEC96105FD81E00786950 /* update_2_to_3.sql */,
 				A7C23F161065928E00D544BA /* update_3_to_4.sql */,
+				A7F9AAC910A971AC00EC9BF5 /* update_4_to_5.sql */,
+				A7F05BB510B6B0520047A708 /* update_5_to_6.sql */,
 			);
 			name = "SQL Scripts";
 			sourceTree = "<group>";
@@ -1774,6 +1780,8 @@
 				A7C15C15108F69B900693757 /* update_3_to_4.sql in Resources */,
 				A7E7F18910944A4B00C9C3DC /* apple_logo.png in Resources */,
 				A7E7F18A10944A4B00C9C3DC /* notifications_logo.png in Resources */,
+				A7F9AACA10A971AE00EC9BF5 /* update_4_to_5.sql in Resources */,
+				A7F05BB610B6B1050047A708 /* update_5_to_6.sql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
