@@ -141,7 +141,7 @@
 	NSString *URL=[NSString stringWithFormat:@"https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa"];
 	NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
 														 cachePolicy:NSURLRequestReloadIgnoringCacheData
-													 timeoutInterval:30.0];	
+													 timeoutInterval:60.0];	
 	NSURLResponse* response; 
 	NSError* error;
 	
@@ -176,7 +176,7 @@
 	
 	request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
 									cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-								timeoutInterval:30.0];
+								timeoutInterval:60.0];
 	[request setHTTPMethod:@"POST"];
 	[request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
 	
@@ -293,7 +293,7 @@
 			
 			request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
 											cachePolicy:NSURLRequestUseProtocolCachePolicy
-										timeoutInterval:30.0];
+										timeoutInterval:60.0];
 			[request setHTTPMethod:@"POST"];
 			[request addValue:@"multipart/form-data; boundary=----WebKitFormBoundaryVEGJrwgXACBaxvAp" forHTTPHeaderField: @"Content-Type"];
 			[request addValue:@"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_1; en-us) AppleWebKit/531.9 (KHTML, like Gecko) Version/4.0.3 Safari/531.9" forHTTPHeaderField:@"User-Agent"];
@@ -397,7 +397,7 @@
 	
 	request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
 									cachePolicy:NSURLRequestUseProtocolCachePolicy
-								timeoutInterval:30.0];
+								timeoutInterval:60.0];
 	[request setHTTPMethod:@"POST"];
 	[request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
 	
@@ -470,7 +470,7 @@
 			
 			request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
 											cachePolicy:NSURLRequestUseProtocolCachePolicy
-										timeoutInterval:30.0];
+										timeoutInterval:60.0];
 			
 			[request setHTTPMethod:@"POST"];
 			[request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
@@ -503,12 +503,38 @@
 				return;
 			}
 			
-			NSData *decompressed = [data gzipInflate];
-			NSString *decompStr = [[[NSString alloc] initWithBytes:[decompressed bytes] length:[decompressed length] encoding:NSASCIIStringEncoding] autorelease];
+			if ([response isKindOfClass:[NSHTTPURLResponse class]])
+			{
+				NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+				NSDictionary *headers = [httpResponse allHeaderFields];
+				
+				NSInteger statusCode = [httpResponse statusCode];
+				if (statusCode==200)
+				{
+ 					NSString *contentType = [headers objectForKey:@"Content-Type"];
+					
+					if ([contentType isEqualToString:@"application/x-gzip"])
+					{
+						NSData *decompressed = [data gzipInflate];
+						NSString *decompStr = [[[NSString alloc] initWithBytes:[decompressed bytes] length:[decompressed length] encoding:NSASCIIStringEncoding] autorelease];
+						
+						NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:decompStr, @"Text", account, @"Account", nil];
+						
+						[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
+					}
+					else 
+					{
+						NSLog(@"Got Content Type: %@", contentType);
+						sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+						NSLog(@"%@", sourceSt);
+					}
+				}
+				else
+				{
+					NSLog(@"Got status code %d", statusCode);
+				}
+			}
 			
-			NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:decompStr, @"Text", account, @"Account", nil];
-
-			[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
 		}
 	}
 	
@@ -518,7 +544,7 @@
 	URL = [@"https://itts.apple.com" stringByAppendingString:post_url];		  
 	request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
 									cachePolicy:NSURLRequestUseProtocolCachePolicy
-								timeoutInterval:30.0];
+								timeoutInterval:60.0];
 	[request setHTTPMethod:@"POST"];
 	[request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
 	
@@ -578,7 +604,7 @@
 			URL = [@"https://itts.apple.com" stringByAppendingString:post_url];
 			request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
 											cachePolicy:NSURLRequestUseProtocolCachePolicy
-										timeoutInterval:30.0];
+										timeoutInterval:60.0];
 			
 			[request setHTTPMethod:@"POST"];
 			[request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
@@ -605,14 +631,39 @@
 				return;
 			}
 			
-			NSData *decompressed = [data gzipInflate];
-			NSString *decompStr = [[[NSString alloc] initWithBytes:[decompressed bytes] length:[decompressed length] encoding:NSASCIIStringEncoding] autorelease];
-			
-			NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:decompStr, @"Text", account, @"Account", nil];
-
-			[DB performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
+			if ([response isKindOfClass:[NSHTTPURLResponse class]])
+			{
+				NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+				NSDictionary *headers = [httpResponse allHeaderFields];
+				
+				NSInteger statusCode = [httpResponse statusCode];
+				if (statusCode==200)
+				{
+ 					NSString *contentType = [headers objectForKey:@"Content-Type"];
+					
+					if ([contentType isEqualToString:@"application/x-gzip"])
+					{
+						NSData *decompressed = [data gzipInflate];
+						NSString *decompStr = [[[NSString alloc] initWithBytes:[decompressed bytes] length:[decompressed length] encoding:NSASCIIStringEncoding] autorelease];
+						
+						NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:decompStr, @"Text", account, @"Account", nil];
+						
+						[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
+					}
+					else 
+					{
+						NSLog(@"Got Content Type: %@", contentType);
+						sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+						NSLog(@"%@", sourceSt);
+						
+					}
+				}
+				else
+				{
+					NSLog(@"Got status code %d", statusCode);
+				}
+			}
 		}
-		
 	}	
 	
 	// select week options
@@ -620,7 +671,7 @@
 	URL = [@"https://itts.apple.com" stringByAppendingString:post_url];		  
 	request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
 									cachePolicy:NSURLRequestUseProtocolCachePolicy
-								timeoutInterval:30.0];
+								timeoutInterval:60.0];
 	[request setHTTPMethod:@"POST"];
 	[request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
 	
@@ -689,7 +740,7 @@
 			URL = [@"https://itts.apple.com" stringByAppendingString:post_url];
 			request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
 											cachePolicy:NSURLRequestUseProtocolCachePolicy
-										timeoutInterval:30.0];
+										timeoutInterval:60.0];
 			
 			[request setHTTPMethod:@"POST"];
 			[request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
@@ -716,12 +767,46 @@
 				return;
 			}
 			
-			NSData *decompressed = [data gzipInflate];
-			NSString *decompStr = [[[NSString alloc] initWithBytes:[decompressed bytes] length:[decompressed length] encoding:NSASCIIStringEncoding] autorelease];
-			
-			NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:decompStr, @"Text", untilDate, @"UntilDate", fromDate, @"FromDate", account, @"Account", nil];
-			
-			[DB performSelectorOnMainThread:@selector(insertMonthlyFreeReportFromFromDict:) withObject:tmpDict waitUntilDone:YES];
+			if ([response isKindOfClass:[NSHTTPURLResponse class]])
+			{
+				NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+				NSDictionary *headers = [httpResponse allHeaderFields];
+				
+				NSInteger statusCode = [httpResponse statusCode];
+				if (statusCode==200)
+				{
+ 					NSString *contentType = [headers objectForKey:@"Content-Type"];
+					
+					if ([contentType isEqualToString:@"application/x-gzip"])
+					{
+						NSData *decompressed = [data gzipInflate];
+						NSString *decompStr = [[[NSString alloc] initWithBytes:[decompressed bytes] length:[decompressed length] encoding:NSASCIIStringEncoding] autorelease];
+						
+						NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:decompStr, @"Text", untilDate, @"UntilDate", fromDate, @"FromDate", account, @"Account", nil];
+						
+						[DB performSelectorOnMainThread:@selector(insertMonthlyFreeReportFromFromDict:) withObject:tmpDict waitUntilDone:YES];
+					}
+					else 
+					{
+						/*
+						NSLog(@"Got Content Type: %@", contentType);
+						sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+						NSLog(@"%@", sourceSt);
+						*/
+							
+						// no free transactions to report
+						
+						NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:untilDate, @"UntilDate", fromDate, @"FromDate", account, @"Account", nil];
+						[DB performSelectorOnMainThread:@selector(insertMonthlyFreeReportFromFromDict:) withObject:tmpDict waitUntilDone:YES];
+						
+						
+					}
+				}
+				else
+				{
+					NSLog(@"Got status code %d", statusCode);
+				}
+			}			
 		}
 		
 	}	

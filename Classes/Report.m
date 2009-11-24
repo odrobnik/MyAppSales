@@ -59,9 +59,46 @@ static sqlite3_stmt *hydrate_statement = nil;
         sqlite3_bind_int(init_statement, 1, primaryKey);
         if (sqlite3_step(init_statement) == SQLITE_ROW) 
 		{
-			self.fromDate = [NSDate dateFromRFC2822String:[NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 0)]];
-			self.untilDate = [NSDate dateFromRFC2822String:[NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 1)]];
-			self.downloadedDate = [NSDate dateFromRFC2822String:[NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 2)]];
+			char *from_date = sqlite3_column_text(init_statement, 0);
+			
+			if (from_date)
+			{
+				self.fromDate = [NSDate dateFromRFC2822String:[NSString stringWithUTF8String:from_date]];
+			}
+			else
+			{
+				NSLog(@"Encountered NULL fromDate in report with ID %d", primaryKey);
+				[self release];
+				return nil;
+			}
+
+			
+			char *until_date = sqlite3_column_text(init_statement, 1);
+			
+			if (until_date)
+			{
+				self.untilDate = [NSDate dateFromRFC2822String:[NSString stringWithUTF8String:until_date]];
+			}
+			else
+			{
+				NSLog(@"Encountered NULL untilDate in report with ID %d", primaryKey);
+				[self release];
+				return nil;
+			}
+			
+			char *downloaded_date = sqlite3_column_text(init_statement, 2);
+			
+			if (downloaded_date)
+			{
+				self.downloadedDate = [NSDate dateFromRFC2822String:[NSString stringWithUTF8String:downloaded_date]];
+			}
+			else
+			{
+				NSLog(@"Encountered NULL downloadedDate in report with ID %d", primaryKey);
+				[self release];
+				return nil;
+			}
+			
 			self.reportType = sqlite3_column_int(init_statement, 3);
 			self.region = sqlite3_column_int(init_statement, 4);
         } else {
@@ -560,7 +597,8 @@ static sqlite3_stmt *hydrate_statement = nil;
 }
 
 #pragma mark Database
-- (void)insertIntoDatabase:(sqlite3 *)db {
+- (void)insertIntoDatabase:(sqlite3 *)db 
+{
     database = db;
     // This query may be performed many times during the run of the application. As an optimization, a static
     // variable is used to store the SQLite compiled byte-code for the query, which is generated one time - the first
