@@ -11,7 +11,7 @@
 
 @class Country, App, Report;
 
-typedef enum { TransactionTypeSale = 1, TransactionTypeFreeUpdate = 7 } TransactionType;
+typedef enum { TransactionTypeSale = 1, TransactionTypeFreeUpdate = 7, TransactionTypeIAP = 101 } TransactionType;
 
 
 @interface Sale : NSObject {

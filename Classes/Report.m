@@ -59,7 +59,7 @@ static sqlite3_stmt *hydrate_statement = nil;
         sqlite3_bind_int(init_statement, 1, primaryKey);
         if (sqlite3_step(init_statement) == SQLITE_ROW) 
 		{
-			char *from_date = sqlite3_column_text(init_statement, 0);
+			char *from_date = (char *)sqlite3_column_text(init_statement, 0);
 			
 			if (from_date)
 			{
@@ -73,7 +73,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 			}
 
 			
-			char *until_date = sqlite3_column_text(init_statement, 1);
+			char *until_date = (char *)sqlite3_column_text(init_statement, 1);
 			
 			if (until_date)
 			{
@@ -86,7 +86,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 				return nil;
 			}
 			
-			char *downloaded_date = sqlite3_column_text(init_statement, 2);
+			char *downloaded_date = (char *)sqlite3_column_text(init_statement, 2);
 			
 			if (downloaded_date)
 			{
@@ -336,9 +336,17 @@ static sqlite3_stmt *hydrate_statement = nil;
 						countrySummaryForThisApp.sumUpdates += units;
 						sumUnitsUpdated += units;
 					}
-						
-					default:
+					
+					case TransactionTypeIAP:
+					{
+						// to do: sum it seperately from unit sales
 						break;
+					}	
+					default:
+					{
+						NSLog(@"Unkown Type ID %d", type_id);
+						break;
+					}
 				}	
 			}
 			
@@ -1187,7 +1195,6 @@ static sqlite3_stmt *hydrate_statement = nil;
 		}
 	}
 	
-	
 	return ret;
 }
 
@@ -1204,7 +1211,10 @@ static sqlite3_stmt *hydrate_statement = nil;
 		
 		while (aSale = [en nextObject]) 
 		{
-			ret += [[YahooFinance sharedInstance] convertToEuro:(aSale.royaltyPrice * aSale.unitsSold) fromCurrency:aSale.royaltyCurrency]; 
+			if (ttype==aSale.transactionType)
+			{
+				ret += [[YahooFinance sharedInstance] convertToEuro:(aSale.royaltyPrice * aSale.unitsSold) fromCurrency:aSale.royaltyCurrency]; 
+			}
 		}
 	}
 	
@@ -1224,7 +1234,10 @@ static sqlite3_stmt *hydrate_statement = nil;
 		
 		while (aSale = [en nextObject]) 
 		{
-			ret += [[YahooFinance sharedInstance] convertToCurrency:curCode amount:(aSale.royaltyPrice * aSale.unitsSold) fromCurrency:aSale.royaltyCurrency];
+			if (aSale.transactionType==TransactionTypeSale)
+			{
+				ret += [[YahooFinance sharedInstance] convertToCurrency:curCode amount:(aSale.royaltyPrice * aSale.unitsSold) fromCurrency:aSale.royaltyCurrency];
+			}
 		}
 	}
 	
