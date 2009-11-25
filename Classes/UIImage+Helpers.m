@@ -80,7 +80,9 @@ static void addRoundedRectToPath(CGContextRef context, CGRect rect, float ovalWi
 	
 	CGImageRef masked = CGImageCreateWithMask([self CGImage], mask);
 	CGImageRelease(mask);
-	return [UIImage imageWithCGImage:masked];
+	UIImage *retImage = [UIImage imageWithCGImage:masked];
+	CGImageRelease(masked);
+	return retImage;
 }
 
 
