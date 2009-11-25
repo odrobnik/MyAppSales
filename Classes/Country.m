@@ -109,6 +109,7 @@ static sqlite3_stmt *init_statement = nil;
 			 [cntry_code isEqualToString:@"DK"]||
 			 [cntry_code isEqualToString:@"EE"]||
 			 [cntry_code isEqualToString:@"ES"]||
+			 [cntry_code isEqualToString:@"FI"]||
 			 [cntry_code isEqualToString:@"FR"]||
 			 [cntry_code isEqualToString:@"GR"]||
 			 [cntry_code isEqualToString:@"HU"]||
