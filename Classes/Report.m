@@ -846,13 +846,13 @@ static sqlite3_stmt *hydrate_statement = nil;
 	return [NSString stringWithFormat:@"%@ %@", region_name, monthString];
 }
 
-- (NSString *)listDescription
+- (NSString *)listDescriptionShorter:(BOOL)shorter
 {
 	switch (reportType) {
 		case ReportTypeDay:
 		{
 			NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
-			[formatter setDateStyle:NSDateFormatterLongStyle];
+			[formatter setDateStyle:shorter?NSDateFormatterMediumStyle:NSDateFormatterLongStyle];
 			[formatter setTimeStyle:NSDateFormatterNoStyle];
 			return [formatter stringFromDate:fromDate];
 			break;
@@ -873,6 +873,11 @@ static sqlite3_stmt *hydrate_statement = nil;
 		}
 		case ReportTypeFinancial:
 		{
+			if (shorter)
+			{
+				return [self descriptionFinancialShort];
+			}
+			
 			NSString *region_name;
 			
 			switch (region) {
@@ -915,7 +920,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 
 - (NSString *)description
 {
-	return [self listDescription];
+	return [self listDescriptionShorter:NO];
 }
 
 - (NSUInteger) day

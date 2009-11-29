@@ -76,8 +76,8 @@
 - (void)updateInDatabase; 
 - (void)hydrate;
 
-- (NSString *)listDescription;
-- (NSString *)descriptionFinancialShort;  // ultra-short for financial reports
+- (NSString *)listDescriptionShorter:(BOOL)shorter;
+//- (NSString *)descriptionFinancialShort;  // ultra-short for financial reports
 
 // Property exposure for primary key and other attributes. The primary key is 'assign' because it is not an object, 
 // nonatomic because there is no need for concurrent access, and readonly because it cannot be changed without 

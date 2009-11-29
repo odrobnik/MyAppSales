@@ -27,7 +27,7 @@
 	if (self = [super initWithStyle:UITableViewStylePlain]) {
 		report = aReport;
 		[report hydrate];
-		self.title = [aReport listDescription];
+		self.title = [aReport listDescriptionShorter:NO];
 		sumImage = [UIImage imageNamed:@"Sum.png"];
 		filteredApp = nil;
 		

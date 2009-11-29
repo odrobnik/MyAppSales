@@ -150,7 +150,7 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 	Report *tmpReport;
 	
 	while (tmpReport = [enu nextObject]) {
-		[outdata appendFormat:@"<li><a href=\"/report?id=%d\">%@</a></li>\n", tmpReport.primaryKey, [self htmlEncodeUmlaute:[tmpReport listDescription]]];
+		[outdata appendFormat:@"<li><a href=\"/report?id=%d\">%@</a></li>\n", tmpReport.primaryKey, [self htmlEncodeUmlaute:[tmpReport listDescriptionShorter:NO]]];
 	}
     [outdata appendString:@"</ul>"];
 	[outdata appendString:@"<p>Download all <a href=\"/export?type=0\">daily reports</a> as ZIP archive.</p>"];
@@ -167,7 +167,7 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 	enu = [sortedArray objectEnumerator];
 	
 	while (tmpReport = [enu nextObject]) {
-		[outdata appendFormat:@"<li><a href=\"/report?id=%d\">%@</a></li>", tmpReport.primaryKey, [tmpReport listDescription]];
+		[outdata appendFormat:@"<li><a href=\"/report?id=%d\">%@</a></li>", tmpReport.primaryKey, [tmpReport listDescriptionShorter:NO]];
 	}
     [outdata appendString:@"</ul>"];
 	

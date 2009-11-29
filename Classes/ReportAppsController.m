@@ -34,11 +34,11 @@
 
 	if (report.reportType == ReportTypeFinancial)
 	{
-		self.title = [report descriptionFinancialShort];
+		self.title = [report listDescriptionShorter:YES];
 	}
 	else
 	{
-		self.title = [report listDescription];
+		self.title = [report listDescriptionShorter:YES];
 	}
 
 	[self.tableView reloadData];
@@ -489,7 +489,7 @@
 	switch (indexPath.section) {
 		case 0:
 		{
-			genericReportController.title = @"All Apps";
+			genericReportController.title = @"All Products";
 			break;
 		}
 		default:

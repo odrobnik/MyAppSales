@@ -425,7 +425,7 @@
 			tmpReport = [report_array objectAtIndex:indexPath.row];
 		}
 		
-		cell.CELL_LABEL = [tmpReport listDescription];
+		cell.CELL_LABEL = [tmpReport listDescriptionShorter:NO];
 		if (tmpReport.isNew)
 		{
 			cell.CELL_IMAGE = report_icon_new;
