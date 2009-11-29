@@ -40,7 +40,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 
 @implementation App
 
-@synthesize iconImage, iconImageNano, isNew, averageRoyaltiesPerDay, apple_identifier, totalRoyalties, totalUnitsSold, totalUnitsFree;
+@synthesize iconImage, iconImageNano;
 @synthesize reviews, countNewReviews;
 
 - (void) getAllReviews

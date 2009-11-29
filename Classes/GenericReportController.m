@@ -100,11 +100,20 @@
     // Release anything that's not essential, such as cached data
 }
 
+
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
-	return [sortedProducts count] + 1; // one extra section for totals over all apps
+	if ([sortedProducts count]>1)
+	{
+		return [sortedProducts count] + 1; // one extra section for totals over all apps
+	}
+	else
+	{
+		return [sortedProducts count]; // one extra section for totals over all apps
+	}
+
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -119,6 +128,20 @@
 	//ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	// section 0 = totals
+	
+	if ([sortedProducts count]==1)
+	{
+		if ([[sortedProducts lastObject] isKindOfClass:[App class]])
+		{
+			return nil; // we skip header
+		}
+		else
+		{
+			section++;
+		}
+
+	}
+	
 	if (section)
 	{
 		App *tmpApp = [sortedProducts objectAtIndex:section - 1];  // minus one because of totals section
@@ -128,7 +151,7 @@
 		{
 			if ([tmpApp isKindOfClass:[InAppPurchase class]])
 			{
-				return [NSString stringWithFormat:@"(IAP) %@", tmpApp.title];
+				return [NSString stringWithFormat:@"%@ (IAP)", tmpApp.title];
 			}
 			else
 			{
@@ -161,6 +184,11 @@
 		return [thisArray count]+1+1;  // add one for app summary plus one for header
 	}
 	 */
+	
+	if ([sortedProducts count]==1)
+	{
+		section++; // we skip header
+	}
 	
 	// we don't filter
 	if (section)
@@ -229,8 +257,16 @@
 	else
 
 	 */
+	
+	NSUInteger section = indexPath.section;
+	
+	if ([sortedProducts count]==1)
+	{
+		section++; // we skip header
+	}
+	
 	 {
-		if (!indexPath.section)   // extra section for totals over all apps
+		if (!section)   // extra section for totals over all apps
 		{
 			if (!indexPath.row)  // first row is header row
 			{
@@ -331,7 +367,7 @@
 		
 		// below this line: detail lines
 		
-		rowApp = [sortedProducts objectAtIndex:indexPath.section - 1];  // minus one because of totals section
+		rowApp = [sortedProducts objectAtIndex:section - 1];  // minus one because of totals section
 		app_id = [NSNumber numberWithInt:rowApp.apple_identifier];  // minus one because of totals section
 		
 	}	
@@ -522,6 +558,8 @@
 		[sortedProducts release];
 		sortedProducts = [filteredProducts retain];
 		
+		self.title = filteredApp.title;
+		
 		[self.tableView reloadData];
 	}
 }
@@ -533,6 +571,8 @@
 		[filteredApp release];
 		filteredApp = [app retain];
 
+		self.title = filteredApp.title;
+		
 		shouldShowApps = showApps;
 		shouldShowIAPs = showIAPs;
 		
