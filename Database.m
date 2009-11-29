@@ -8,6 +8,7 @@
 
 #import "Database.h"
 #import "App.h"
+#import "InAppPurchase.h"
 #import "Report.h"
 #import "Country.h"
 #import "GenericAccount.h"
@@ -37,6 +38,7 @@
 
 
 @property (nonatomic, retain, readwrite) NSMutableDictionary *apps;
+@property (nonatomic, retain, readwrite) NSMutableDictionary *iaps;
 @property (nonatomic, retain, readwrite) NSMutableDictionary *reports;
 @property (nonatomic, retain, readwrite) NSMutableDictionary *countries;
 
@@ -51,7 +53,7 @@ static Database *_sharedInstance;
 @implementation Database
 
 @synthesize database;
-@synthesize apps, reports, countries, languages;
+@synthesize apps, iaps, reports, countries, languages;
 @synthesize reportsByReportType;
 @synthesize dataToImport;
 
@@ -101,6 +103,7 @@ static Database *_sharedInstance;
 	
 	// release tables
 	[apps release];
+	[iaps release];
 	[reports release];
 	[countries release];
 	[languages release];
@@ -309,6 +312,33 @@ static Database *_sharedInstance;
 	// "Finalize" the statement - releases the resources associated with the statement.
 	sqlite3_finalize(statement); 
 	
+	// Load all IAP Products
+    self.iaps = [NSMutableDictionary dictionary];
+	sql = "SELECT id FROM InAppPurchase";
+	
+	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) 
+	{
+		// We "step" through the results - once for each row.
+		while (sqlite3_step(statement) == SQLITE_ROW) 
+		{
+			// The second parameter indicates the column index into the result set.
+			int primaryKey = sqlite3_column_int(statement, 0);
+			
+			// We avoid the alloc-init-autorelease pattern here because we are in a tight loop and
+			// autorelease is slightly more expensive than release. This design choice has nothing to do with
+			// actual memory management - at the end of this block of code, all the book objects allocated
+			// here will be in memory regardless of whether we use autorelease or release, because they are
+			// retained by the books array.
+			InAppPurchase *iap = [[InAppPurchase alloc] initWithPrimaryKey:primaryKey database:database];
+			
+			[iaps setObject:iap forKey:[NSNumber numberWithInt:primaryKey]];
+			[iap release];
+		}
+	}
+	// "Finalize" the statement - releases the resources associated with the statement.
+	sqlite3_finalize(statement); 
+	
+	
 	
 	// Load all AppGroupings
 	// needed before the reports
@@ -514,6 +544,55 @@ static Database *_sharedInstance;
 	return [apps objectForKey:app_key];
 }
 
+- (App *) appForVendorID:(NSString *)vendorID
+{
+	NSArray *appKeys = [apps allKeys];
+	
+	for (NSNumber *oneKey in appKeys)
+	{
+		App *oneApp = [apps objectForKey:oneKey];
+		
+		if ([oneApp.vendor_identifier isEqualToString:vendorID])
+		{
+			return oneApp;
+		}
+	}
+	
+	return nil; 
+}
+
+
+- (InAppPurchase *) iapForID:(NSUInteger)iapID
+{
+	NSNumber *iap_key = [NSNumber numberWithInt:iapID];
+	return [iaps objectForKey:iap_key];
+}
+
+- (NSArray *) iapsForApp:(App *)app
+{
+	NSArray *iapKeys = [iaps allKeys];
+	NSMutableArray *tmpArray = [NSMutableArray array];
+	
+	for (NSNumber *oneKey in iapKeys)
+	{
+		InAppPurchase *oneIAP = [iaps objectForKey:oneKey];
+		
+		if (oneIAP.parent == app)
+		{
+			[tmpArray addObject:oneIAP];
+		}
+	}
+	
+	if ([tmpArray count])
+	{
+		return [NSArray arrayWithArray:tmpArray];
+	}
+	else
+	{
+		return nil; 
+	}
+}
+
 - (Report *) reportForID:(NSUInteger)reportID
 {
 	NSNumber *report_key = [NSNumber numberWithInt:reportID];
@@ -640,6 +719,12 @@ static Database *_sharedInstance;
 	return sortedKeys;
 }
 
+- (NSArray *) iapKeysSortedBySales
+{
+	NSArray *sortedKeys = [iaps keysSortedByValueUsingSelector:@selector(compareBySales:)];
+	return sortedKeys;
+}
+
 - (NSArray *) appsSortedBySales
 {
 	NSArray *sortedKeys = [self appKeysSortedBySales];
@@ -658,6 +743,59 @@ static Database *_sharedInstance;
 	
 	return ret;
 }
+
+- (NSArray *) appsSortedBySalesWithGrouping:(AppGrouping *)grouping
+{
+	NSArray *sortedKeys = [self appKeysSortedBySales];
+	NSEnumerator *enu = [sortedKeys objectEnumerator];
+	NSNumber *oneKey;
+	NSMutableArray *tmpArray = [[NSMutableArray alloc] initWithCapacity:[sortedKeys count]];
+	
+	
+	while (oneKey = [enu nextObject]) {
+		App *oneApp = [apps objectForKey:oneKey];
+		
+		if ([self appGroupingForProduct:oneApp]==grouping)
+		{
+			[tmpArray addObject:oneApp];
+		}
+	}
+	
+	NSArray *ret = [NSArray arrayWithArray:tmpArray];
+	[tmpArray release];
+	
+	return ret;
+}
+
+- (NSArray *) productsSortedBySalesForGrouping:(AppGrouping *)grouping
+{
+	NSMutableDictionary *combinedAppAndIAP = [NSMutableDictionary dictionaryWithDictionary:apps];
+	[combinedAppAndIAP addEntriesFromDictionary:iaps];
+
+	NSArray *sortedKeys = [combinedAppAndIAP keysSortedByValueUsingSelector:@selector(compareBySales:)];
+	
+	NSEnumerator *enu = [sortedKeys objectEnumerator];
+	NSNumber *oneKey;
+	NSMutableArray *tmpArray = [[NSMutableArray alloc] initWithCapacity:[sortedKeys count]];
+	
+	
+	while (oneKey = [enu nextObject]) {
+		Product *oneProduct = [combinedAppAndIAP objectForKey:oneKey];
+		
+		if ([self appGroupingForProduct:oneProduct]==grouping)
+		{
+			[tmpArray addObject:oneProduct];
+		}
+	}
+	
+	
+	NSArray *ret = [NSArray arrayWithArray:tmpArray];
+	[tmpArray release];
+	
+	return ret;
+}
+
+
 
 - (BOOL) hasNewReportsOfType:(ReportType)type
 {
@@ -678,6 +816,31 @@ static Database *_sharedInstance;
 	
 	return nil;
 }
+
+- (AppGrouping *) appGroupingForProduct:(Product *)product
+{
+	NSSet *checkSet;
+	
+	if ([product isKindOfClass:[InAppPurchase class]])
+	{
+		checkSet = [NSSet setWithObjects:product, ((InAppPurchase *)product).parent, nil];
+	}
+	else
+	{
+		checkSet = [NSSet setWithObject:product];
+	}
+
+	for (AppGrouping *oneGrouping in appGroupings)
+	{
+		if ([oneGrouping containsAppsOfSet:checkSet])
+		{
+			return oneGrouping;
+		}
+	}
+	
+	return nil;
+}
+
 
 - (AppGrouping *) appGroupingForReport:(Report *)report
 {
@@ -1017,6 +1180,17 @@ static Database *_sharedInstance;
 	return [tmpApp autorelease];
 }
 
+- (InAppPurchase *) insertIAPWithTitle:(NSString *)title vendor_identifier:(NSString *)vendor_identifier apple_identifier:(NSUInteger)apple_identifier company_name:(NSString *)company_name parent:(App *)parentApp
+{
+	NSLog(@"Added IAP: %@", title);
+	// this also adds it to the database
+	InAppPurchase *tmpIAP = [[InAppPurchase alloc] initWithTitle:title vendor_identifier:vendor_identifier apple_identifier:apple_identifier company_name:company_name parent:(App *)parentApp database:database];
+	
+	[iaps setObject:tmpIAP forKey:[NSNumber numberWithInt:apple_identifier]];
+	
+	return [tmpIAP autorelease];
+}
+
 #pragma mark Misc
 
 - (void) reloadAllAppIcons
@@ -1147,18 +1321,6 @@ static Database *_sharedInstance;
 				[self.dataToImport addObjectsFromArray:datas];
 			}
 			
-			/*
-			 NSEnumerator *enu = [datas objectEnumerator];
-			 NSData *oneData;
-			 
-			 while (oneData = [enu nextObject]) 
-			 {
-			 NSString *string = [[NSString alloc] initWithBytes:[oneData bytes] length:[oneData length] encoding:NSUTF8StringEncoding];
-			 [self addReportToDBfromString:string];
-			 [string release];
-			 }
-			 */
-			
 			[zip CloseZipFile2];
 			[zip release];
 			[fileManager removeItemAtPath:pathOfFile error:NULL];
@@ -1168,15 +1330,12 @@ static Database *_sharedInstance;
 										   selector: @selector(workImportQueue:)
 										   userInfo: nil
 											repeats: NO];
-			
-			
-			//NSString *string = [NSString stringWithContentsOfFile:pathOfFile];
-			//[self addReportToDBfromString:string];
-			//[fileManager removeItemAtPath:pathOfFile error:NULL];
 		}
-		
-		
 	}
+	
+	// update sums
+	[self calcAvgRoyaltiesForApps];  // this causes avgRoyalties calc
+	[self getTotals];
 }
 
 
@@ -1231,7 +1390,11 @@ static Database *_sharedInstance;
 	NSArray *dayReports = [self sortedReportsOfType:ReportTypeDay];
 	
 	
-	NSArray *appIDs = [apps allKeys];
+	NSMutableDictionary *combinedAppAndIAP = [NSMutableDictionary dictionaryWithDictionary:apps];
+	[combinedAppAndIAP addEntriesFromDictionary:iaps];
+	NSArray *appIDs = [combinedAppAndIAP allKeys];
+
+	
 	App *tmpApp;
 	NSNumber *app_id;
 	
@@ -1254,12 +1417,23 @@ static Database *_sharedInstance;
 		
 		while (app_id = [keyEnum nextObject])
 		{
-			tmpApp = [apps objectForKey:app_id];
+			tmpApp = [combinedAppAndIAP objectForKey:app_id];
 			
 			if (!i) tmpApp.averageRoyaltiesPerDay = 0;
 			
-			double dayRoyalties = [tmpReport sumRoyaltiesForAppId:[app_id intValue] transactionType:TransactionTypeSale];
-			tmpApp.averageRoyaltiesPerDay += dayRoyalties;
+			double dayRoyalties;
+			
+			if ([tmpApp isKindOfClass:[App class]])
+			{
+				dayRoyalties = [tmpReport sumRoyaltiesForProduct:tmpApp transactionType:TransactionTypeSale];
+				dayRoyalties += [tmpReport sumRoyaltiesForInAppPurchasesOfApp:tmpApp];
+			}
+			else if ([tmpApp isKindOfClass:[InAppPurchase class]])
+			{
+				dayRoyalties = [tmpReport sumRoyaltiesForProduct:tmpApp transactionType:TransactionTypeIAP];
+			}
+
+				tmpApp.averageRoyaltiesPerDay += dayRoyalties;
 			
 			if (i==(num_reports-1)) tmpApp.averageRoyaltiesPerDay = tmpApp.averageRoyaltiesPerDay/(double)num_reports;
 		}
@@ -1282,7 +1456,7 @@ static Database *_sharedInstance;
 		// Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
 		// This is a great way to optimize because frequently used queries can be compiled once, then with each
 		// use new variable values can be bound to placeholders.
-		const char *sql = "SELECT app_id, royalty_currency, sum(units), sum(units*royalty_price), report_id, min(report_type_id) FROM report r, sale s WHERE r.id = s.report_id and type_id=1 group by report_id, app_id, royalty_currency";
+		const char *sql = "SELECT app_id, royalty_currency, sum(units), sum(units*royalty_price), report_id, min(report_type_id) FROM report r, sale s WHERE r.id = s.report_id and (type_id=1 or type_id=101) group by report_id, app_id, royalty_currency";
 		if (sqlite3_prepare_v2(database, sql, -1, &total_statement, NULL) != SQLITE_OK) {
 			NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
 		}
@@ -1432,7 +1606,12 @@ static Database *_sharedInstance;
 		App *oneApp = [apps objectForKey:oneAppKey];
 		[oneApp updateTotalsFromDict:retDict];
 	}
-	
+
+	for (NSNumber *oneIAPKey in [iaps allKeys])
+	{
+		InAppPurchase *oneIAP = [iaps objectForKey:oneIAPKey];
+		[oneIAP updateTotalsFromDict:retDict];
+	}
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"AppTotalsUpdated" object:nil userInfo:(id)retDict];
 }
 

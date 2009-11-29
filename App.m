@@ -7,6 +7,7 @@
 //
 
 #import "App.h"
+#import "InAppPurchase.h"
 #import "UIImage+Helpers.h"
 #import "ASiSTAppDelegate.h"
 #import "YahooFinance.h"
@@ -499,22 +500,80 @@ static NSDateFormatter *dateFormatterToRead = nil;
     vendor_identifier = [aString copy];
 }
 
-#pragma mark Sorting
-- (NSComparisonResult)compareBySales:(App *)otherApp
+- (UIImage *)iconImage
 {
-	if (self.averageRoyaltiesPerDay < otherApp.averageRoyaltiesPerDay)
+	if (iconImage)
 	{
-		return NSOrderedDescending;
+		return iconImage;
+	}
+	else
+	{
+		return [UIImage imageNamed:@"Empty.png"];
+	}
+}
+
+- (UIImage *)iconImageNano
+{
+	if (iconImageNano)
+	{
+		return iconImageNano;
+	}
+	else
+	{
+		return [UIImage imageNamed:@"EmptyNano.png"];
+	}
+}
+
+- (NSArray *)inAppPurchases
+{
+	return [DB iapsForApp:self];
+}
+
+
+// override to include IAPs
+-(double) totalRoyalties
+{
+	double ret = totalRoyalties;
+	
+	for (InAppPurchase *oneIAP in [self inAppPurchases])
+	{
+		ret += oneIAP.totalRoyalties;
+	}
+
+	return ret;
+}
+
+/*
+// override to include IAPs
+-(double) averageRoyaltiesPerDay
+{
+	double ret = averageRoyaltiesPerDay;
+	double i = 1;
+	
+	for (InAppPurchase *oneIAP in [self inAppPurchases])
+	{
+		ret += oneIAP.averageRoyaltiesPerDay;
+		i++;
 	}
 	
-	if (self.averageRoyaltiesPerDay > otherApp.averageRoyaltiesPerDay)
+	return ret/i;
+}
+ */
+ 
+
+// override to include IAPs
+-(NSInteger) totalUnitsSold
+{
+	double ret = totalUnitsSold;
+	
+	for (InAppPurchase *oneIAP in [self inAppPurchases])
 	{
-		return NSOrderedAscending;
+		ret += oneIAP.totalUnitsSold;
 	}
 	
-	return [self.title compare:otherApp.title];  // if sales equal (maybe 0), sort by name
-	//return NSOrderedSame;
-}	
+	return ret;
+}
+
 
 #pragma mark Notifications
 - (void) updateTotalsFromDict:(NSDictionary *)totalsDict

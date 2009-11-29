@@ -10,6 +10,9 @@
 #import "Sale.h"
 #import "CountrySummary.h"
 #import "App.h"
+#import "Product.h"
+#import "InAppPurchase.h"
+#import "InAppPurchase.h"
 #import "Country.h"
 #import "Database.h"
 
@@ -33,6 +36,13 @@ static sqlite3_stmt *delete_statement = nil;
 static sqlite3_stmt *hydrate_statement = nil;
 //static sqlite3_stmt *dehydrate_statement = nil;
 
+@interface Report ()  // private
+
+-(void)resetSummaries;
+- (void) addSaleToSummaries:(Sale *)oneSale;
+
+@end
+
 @implementation Report
 
 @synthesize isNew, sales, salesByApp, summariesByApp;
@@ -40,6 +50,8 @@ static sqlite3_stmt *hydrate_statement = nil;
 @synthesize appsInReport;
 @synthesize region, appGrouping;
 
+
+#pragma mark Initialization
 // Creates the object with primary key and title is brought into memory.
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db {
     if (self = [super init]) 
@@ -147,6 +159,7 @@ static sqlite3_stmt *hydrate_statement = nil;
     return self;
 }
 
+/*
 - (id)initWithType:(ReportType)type from_date:(NSDate *)from_date until_date:(NSDate *)until_date downloaded_date:(NSDate *)downloaded_date region:(ReportRegion)report_region database:(sqlite3 *)db
 {
 	if (self = [super init])
@@ -177,7 +190,8 @@ static sqlite3_stmt *hydrate_statement = nil;
 		return nil;
 	}
 }
-
+*/
+ 
 // monthly free reports dont have beginning and end dates, thus they need to be supplied
 - (id)initAsFreeReportWithDict:(NSDictionary *)dict
 {
@@ -199,10 +213,8 @@ static sqlite3_stmt *hydrate_statement = nil;
 		self.downloadedDate = [NSDate date];
 		
 		salesByApp = [[NSMutableDictionary alloc] init];
-		summariesByApp = [[NSMutableDictionary alloc] init];
-		sumUnitsSold = 0;
-		sumUnitsUpdated = 0;
-		sumUnitsRefunded = 0;
+		
+		[self resetSummaries];
 		
 		reportType = ReportTypeFree;
 		
@@ -259,7 +271,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 				// add sale
 				Sale *newSale = [[Sale alloc] initWithCountry:saleCountry 
 													   report:self 
-														  app:saleApp 
+														  product:saleApp 
 														units:units 
 												 royaltyPrice:royalty_price 
 											  royaltyCurrency:royalty_currency 
@@ -283,71 +295,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 				[salesForThisAppArray addObject:newSale];
 				[newSale release];
 				
-				// add it to the summaries
-				NSMutableDictionary *summaryForThisApp = [summariesByApp objectForKey:[NSNumber numberWithInt:appID]];
-				
-				if (!summaryForThisApp)
-				{ 
-					// not yet a summary array for this app
-					summaryForThisApp = [[NSMutableDictionary alloc] init];
-					[summariesByApp setObject:summaryForThisApp forKey:[NSNumber numberWithInt:appID]];
-					[summaryForThisApp release];
-				}
-				
-				// in the summary array we add the current sale's data
-				
-				CountrySummary *countrySummaryForThisApp = [summaryForThisApp objectForKey:country_code];
-				
-				if (!countrySummaryForThisApp)
-				{
-					countrySummaryForThisApp = [[CountrySummary alloc] initWithCountry:saleCountry sumSales:0 sumUpdates:0 sumRefunds:0];
-					[summaryForThisApp setObject:countrySummaryForThisApp forKey:country_code];  // just an array, no key for adding
-					[countrySummaryForThisApp release];
-				}
-				
-				switch (type_id) {
-					case TransactionTypeSale:
-					{
-						if (units>0)
-						{
-							countrySummaryForThisApp.sumSales+=units;
-							countrySummaryForThisApp.sumRoyalites+= royalty_price*units;
-							countrySummaryForThisApp.royaltyCurrency = royalty_currency;
-							
-							if (royalty_price)
-							{
-								sumUnitsSold+=units;
-							}
-							else
-							{
-								sumUnitsFree+=units;
-							}
-						}
-						else
-						{
-							countrySummaryForThisApp.sumRefunds +=units;
-							sumUnitsRefunded +=units;
-						}
-						
-						break;
-					}
-					case TransactionTypeFreeUpdate:
-					{
-						countrySummaryForThisApp.sumUpdates += units;
-						sumUnitsUpdated += units;
-					}
-					
-					case TransactionTypeIAP:
-					{
-						// to do: sum it seperately from unit sales
-						break;
-					}	
-					default:
-					{
-						NSLog(@"Unkown Type ID %d", type_id);
-						break;
-					}
-				}	
+				[self addSaleToSummaries:newSale];
 			}
 			
 		}
@@ -377,10 +325,8 @@ static sqlite3_stmt *hydrate_statement = nil;
 		self.downloadedDate = [NSDate date];
 
 		salesByApp = [[NSMutableDictionary alloc] init];
-		summariesByApp = [[NSMutableDictionary alloc] init];
-		sumUnitsSold = 0;
-		sumUnitsUpdated = 0;
-		sumUnitsRefunded = 0;
+		
+		[self resetSummaries];
 		
 		NSArray *lines = [string componentsSeparatedByString:@"\n"];
 		NSEnumerator *enu = [lines objectEnumerator];
@@ -403,6 +349,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 			
 			NSUInteger type_id;
 			NSString *typeString = [oneLine getValueForNamedColumn:@"Product Type Identifier" headerNames:column_names];
+			NSString *parentIDString = [oneLine getValueForNamedColumn:@"Parent Identifier" headerNames:column_names];
 			if ([typeString hasPrefix:@"IA"])
 			{
 				// in app purchase!
@@ -446,18 +393,45 @@ static sqlite3_stmt *hydrate_statement = nil;
 				
 				saleCountry.usedInReport = YES; // makes sure we have an icon
 
-				App *saleApp = [DB appForID:appID];
+				Product *saleProduct;
 				
-				if (!saleApp)
+				if (type_id==1 || type_id==7)
 				{
-					saleApp = [DB insertAppWithTitle:title vendor_identifier:vendor_identifier apple_identifier:appID company_name:company_name];
-				}
+					saleProduct = (Product *)[DB appForID:appID];
 				
-				if (![tmpAppsInReport containsObject:saleApp])
-				{
-					[tmpAppsInReport addObject:saleApp];
+					if (!saleProduct)
+					{
+						saleProduct = (Product *)[DB insertAppWithTitle:title vendor_identifier:vendor_identifier apple_identifier:appID company_name:company_name];
+					}
+				
+					if (![tmpAppsInReport containsObject:saleProduct])
+					{
+						[tmpAppsInReport addObject:saleProduct];
+					}
 				}
-					  
+				else
+				{
+					InAppPurchase *iap =[DB iapForID:appID];
+					
+					App *parentApp = [DB appForVendorID:parentIDString];
+					
+					if (!iap)
+					{
+						iap = [DB insertIAPWithTitle:title vendor_identifier:vendor_identifier apple_identifier:appID company_name:company_name parent:parentApp];
+					}
+					else
+					{
+						if (!iap.parent)
+						{
+							iap.parent = parentApp;
+							[iap updateInDatabase];
+						}
+					}
+					
+					saleProduct = iap;
+
+				}
+
 				
 				// detect region for financial reports
 				if ((reportType == ReportTypeFinancial)&&(!region))
@@ -489,7 +463,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 				// add sale
 				Sale *newSale = [[Sale alloc] initWithCountry:saleCountry 
 													   report:self 
-														  app:saleApp 
+														  product:saleProduct 
 														units:units 
 												 royaltyPrice:royalty_price 
 											  royaltyCurrency:royalty_currency 
@@ -514,64 +488,8 @@ static sqlite3_stmt *hydrate_statement = nil;
 				[newSale release];
 				
 				// add it to the summaries
-				NSMutableDictionary *summaryForThisApp = [summariesByApp objectForKey:[NSNumber numberWithInt:appID]];
-				
-				if (!summaryForThisApp)
-				{ 
-					// not yet a summary array for this app
-					summaryForThisApp = [[NSMutableDictionary alloc] init];
-					[summariesByApp setObject:summaryForThisApp forKey:[NSNumber numberWithInt:appID]];
-					[summaryForThisApp release];
-				}
-				
-				// in the summary array we add the current sale's data
-				
-				CountrySummary *countrySummaryForThisApp = [summaryForThisApp objectForKey:country_code];
-				
-				if (!countrySummaryForThisApp)
-				{
-					countrySummaryForThisApp = [[CountrySummary alloc] initWithCountry:saleCountry sumSales:0 sumUpdates:0 sumRefunds:0];
-					[summaryForThisApp setObject:countrySummaryForThisApp forKey:country_code];  // just an array, no key for adding
-					[countrySummaryForThisApp release];
-				}
-				
-				switch (type_id) {
-					case TransactionTypeSale:
-					{
-						if (units>0)
-						{
-							countrySummaryForThisApp.sumSales+=units;
-							countrySummaryForThisApp.sumRoyalites+= royalty_price*units;
-							countrySummaryForThisApp.royaltyCurrency = royalty_currency;
-							
-							if (royalty_price)
-							{
-								sumUnitsSold+=units;
-							}
-							else
-							{
-								sumUnitsFree+=units;
-							}
-						}
-						else
-						{
-							countrySummaryForThisApp.sumRefunds +=units;
-							sumUnitsRefunded +=units;
-						}
-						
-						break;
-					}
-					case TransactionTypeFreeUpdate:
-					{
-						countrySummaryForThisApp.sumUpdates += units;
-						sumUnitsUpdated += units;
-					}
-						
-					default:
-						break;
-				}	
+				[self addSaleToSummaries:newSale];
 			}
-				
 		}
 		
 		hydrated = YES;
@@ -740,110 +658,6 @@ static sqlite3_stmt *hydrate_statement = nil;
 }
 
 
-- (void) makeSummariesFromSales
-{
-	// reset
-	
-	if (!summariesByApp)
-	{
-		summariesByApp = [[NSMutableDictionary alloc] init];
-	}
-	else
-	{
-		[summariesByApp removeAllObjects];
-	}
-	
-	sumUnitsSold = 0;
-	sumUnitsUpdated = 0;
-	sumUnitsRefunded = 0;
-	
-	
-	
-	// go through all sales
-	
-	for (Sale *oneSale in sales)
-	{
-		NSUInteger app_id = oneSale.app.apple_identifier;
-		NSString *cntry_code = oneSale.country.iso2;
-		Country *country = oneSale.country;
-		NSUInteger ttype = oneSale.transactionType;
-		NSInteger units = oneSale.unitsSold;
-		double royalty_price = oneSale.royaltyPrice;
-		NSString *royalty_currency = oneSale.royaltyCurrency;
-		//double customer_price = oneSale.customerPrice;
-		//NSString *customer_currency = oneSale.customerCurrency;
-		
-		
-		// create a summary by app
-		
-		// 1) get or create app 
-		NSMutableDictionary *tmpSummaries = [summariesByApp objectForKey:[NSNumber numberWithInt:app_id]];
-		
-		if (!tmpSummaries)
-		{  // not yet a summary array for this app
-			tmpSummaries = [[NSMutableDictionary alloc] init];
-			[summariesByApp setObject:tmpSummaries forKey:[NSNumber numberWithInt:app_id]];
-			[tmpSummaries release];
-		}
-		
-		// 2) in the summary array we add the current sale's data
-		
-		CountrySummary *tmpSummary = [tmpSummaries objectForKey:cntry_code];
-		
-		if (!tmpSummary)
-		{
-			tmpSummary = [[CountrySummary alloc] initWithCountry:country sumSales:0 sumUpdates:0 sumRefunds:0];
-			[tmpSummaries setObject:tmpSummary forKey:cntry_code];  // just an array, no key for adding
-			[tmpSummary release];
-		}
-		
-		switch (ttype) {
-			case TransactionTypeSale:
-			{
-				if (units>0)
-				{
-					tmpSummary.sumSales+=units;
-					tmpSummary.sumRoyalites+= royalty_price*units;
-					tmpSummary.royaltyCurrency = royalty_currency;
-					
-					if (royalty_price)
-					{
-						sumUnitsSold+=units;
-					}
-					else
-					{
-						sumUnitsFree+=units;
-					}
-					
-				}
-				else
-				{
-					tmpSummary.sumRefunds +=units;
-					sumUnitsRefunded +=units;
-				}
-				
-				
-				// get's calculated when needed
-				//sumRoyaltiesEarned += [[YahooFinance sharedInstance] convertToEuro:(royalty_price*units) fromCurrency:royalty_currency]; 
-				
-				
-				break;
-			}
-			case TransactionTypeFreeUpdate:
-			{
-				tmpSummary.sumUpdates += units;
-				sumUnitsUpdated += units;
-			}
-				
-			default:
-				break;
-		}	
-	}
-}
-
-
-
-
 
 // get all detail info
 - (void) hydrate
@@ -907,13 +721,25 @@ static sqlite3_stmt *hydrate_statement = nil;
 			region = [country reportRegion];
 		}
 		
-		App *app = [DB appForID:app_id];
-		if (![tmpAppsInReport containsObject:app])
-		{
-			[tmpAppsInReport addObject:app];
-		}
+		Product *saleProduct;
 		
-		Sale *tmpSale = [[Sale alloc] initWithCountry:country report:self app:app units:units royaltyPrice:royalty_price royaltyCurrency:royalty_currency customerPrice:customer_price customerCurrency:customer_currency transactionType:ttype];
+		if (ttype == 1 || ttype == 7)
+		{
+			
+			App *app = [DB appForID:app_id];
+			if (app && ![tmpAppsInReport containsObject:app])
+			{
+				[tmpAppsInReport addObject:app];
+			}
+			
+			saleProduct = app;
+		}
+		else if (ttype == 101)
+		{
+			saleProduct = [DB iapForID:app_id];
+		}
+
+		Sale *tmpSale = [[Sale alloc] initWithCountry:country report:self product:saleProduct units:units royaltyPrice:royalty_price royaltyCurrency:royalty_currency customerPrice:customer_price customerCurrency:customer_currency transactionType:ttype];
 		
 		[sales addObject:tmpSale];
 		
@@ -1049,8 +875,6 @@ static sqlite3_stmt *hydrate_statement = nil;
 		{
 			NSString *region_name;
 			
-			//[self hydrate];  // to estimate the region until there is a table for it
-			
 			switch (region) {
 				case ReportRegionUK:
 					region_name = @"UK";
@@ -1108,9 +932,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	
 	NSMutableString *ret = [[NSMutableString alloc] init];
 	
-	[ret appendString:@"Provider	Provider Country	Vendor Identifier	UPC	ISRC	Artist / Show	Title / Episode / Season	Label/Studio/Network	Product Type Identifier	Units	Royalty Price	Begin Date	End Date	Customer Currency	Country Code	Royalty Currency	Preorder	Season Pass	ISAN	Apple Identifier	Customer Price	CMA	Asset/Content Flavor\r\n"];
-	
-	
+	[ret appendString:@"Provider	Provider Country	Vendor Identifier	UPC	ISRC	Artist / Show	Title / Episode / Season	Label/Studio/Network	Product Type Identifier	Units	Royalty Price	Begin Date	End Date	Customer Currency	Country Code	Royalty Currency	Preorder	Season Pass	ISAN	Apple Identifier	Customer Price	CMA	Asset/Content Flavor	Vendor Offer Code	Grid	Promo Code	Parent Identifier\r\n"];
 	
 	NSEnumerator *enu = [sales objectEnumerator];
 	Sale *oneSale;
@@ -1123,13 +945,22 @@ static sqlite3_stmt *hydrate_statement = nil;
 	{
 		// one report line
 		
-		App *tmpApp = oneSale.app;
-		
 		NSString *typeString = (oneSale.transactionType==101)?@"IA1":[NSString stringWithFormat:@"%d",(int)oneSale.transactionType];
+		NSString *parentID;
 		
-		[ret appendFormat:@"APPLE\tUS\t%@\t\t\t%@\t%@\t\t%@\t%d\t%.2f\t%@\t%@\t%@\t%@\t%@\t\t\t\t%d\t%.2f\t\t\r\n", tmpApp.vendor_identifier, tmpApp.company_name, tmpApp.title, 
+		if ([oneSale.product isKindOfClass:[InAppPurchase class]])
+		{
+			parentID = ((InAppPurchase *)oneSale.product).parent.vendor_identifier;
+		}
+		else 
+		{
+			parentID = @"";
+		}
+
+		
+		[ret appendFormat:@"APPLE\tUS\t%@\t\t\t%@\t%@\t\t%@\t%d\t%.2f\t%@\t%@\t%@\t%@\t%@\t\t\t\t%d\t%.2f\t\t\t\t\t\t%@\r\n", oneSale.product.vendor_identifier, oneSale.product.company_name, oneSale.product.title, 
 		 typeString, oneSale.unitsSold, oneSale.royaltyPrice, [df stringFromDate:fromDate], [df stringFromDate:untilDate], oneSale.customerCurrency, oneSale.country.iso2,
-		 oneSale.royaltyCurrency, oneSale.app.apple_identifier, oneSale.customerPrice];
+		 oneSale.royaltyCurrency, oneSale.product.apple_identifier, oneSale.customerPrice, parentID];
 	}
 	
 	[df release];
@@ -1138,47 +969,141 @@ static sqlite3_stmt *hydrate_statement = nil;
 	[ret release];
 	
 	return retStatic;
+}
+
+#pragma mark Summing
+
+- (void) resetSummaries
+{
+	// reset
+	
+	if (!summariesByApp)
+	{
+		summariesByApp = [[NSMutableDictionary alloc] init];
+	}
+	else
+	{
+		[summariesByApp removeAllObjects];
+	}
+	
+	sumUnitsSold = 0;
+	sumUnitsUpdated = 0;
+	sumUnitsRefunded = 0;
+}
+
+- (void) addSaleToSummaries:(Sale *)oneSale
+{
+	// get or create app 
+	NSNumber *productKey = [oneSale.product identifierAsNumber];
+	NSMutableDictionary *tmpSummaries = [summariesByApp objectForKey:productKey];
+	
+	if (!tmpSummaries)
+	{  // not yet a summary array for this app
+		tmpSummaries = [[NSMutableDictionary alloc] init];
+		[summariesByApp setObject:tmpSummaries forKey:productKey];
+		[tmpSummaries release];
+	}
+	
+	// in the summary array we add the current sale's data
+	
+	CountrySummary *tmpSummary = [tmpSummaries objectForKey:oneSale.country.iso2];  // sum per country
+	//CountrySummary *totalSummary = [tmpSummaries objectForKey:@"___"]; // sum total
 	
 	
-	//select 'APPLE','US', vendor_identifier, '','',company_name, app.title, type_id, units, royalty_price, from_date, until_date, customer_currency, country_code, royalty_currency,'','', app.id, customer_price, '', '' from app, report, sale where app.id = sale.app_id and sale.report_id = report.id and report_id = 1;
+	if (!tmpSummary)
+	{
+		tmpSummary = [CountrySummary blankSummary];
+		tmpSummary.country = oneSale.country;
+		[tmpSummaries setObject:tmpSummary forKey:oneSale.country.iso2];  // just an array, no key for adding
+	}
 	
-	/*	
-	 if (!countries)
-	 {
-	 countries = [[NSMutableDictionary alloc] init];
-	 }
-	 sqlite3_stmt *statement = nil;
-	 const char *sql = "select 'APPLE','US', vendor_identifier, i'','',company_name, app.title, type_id, units, royalty_price, from_date, until_date, customer_currency, country_code, royalty_currency,'','', app.id, customer_price, '', '' from app, report, sale where app.id = sale.app_id and sale.report_id = report.id and report_id = ?;";
-	 if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) 
-	 {
-	 NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-	 
-	 }
-	 
-	 sqlite3_bind_int(statement, 1, primaryKey);
-	 
-	 while (sqlite3_step(statement) == SQLITE_ROW) 
-	 {
-	 NSString *cntry = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
-	 Country *tmpCountry = [[Country alloc] initWithISO3:cntry database:database];
-	 [countries setObject:tmpCountry forKey:tmpCountry.iso2],
-	 [tmpCountry release];
-	 } 
-	 
-	 // Finalize the statement, no reuse.
-	 sqlite3_finalize(statement);
-	 
-	 */
+	/*
+	if (!totalSummary)
+	{
+		totalSummary = [CountrySummary blankSummary];
+		totalSummary.royaltyCurrency = [[YahooFinance sharedInstance] mainCurrency];
+
+		[tmpSummaries setObject:totalSummary forKey:@"___"];  // just an array, no key for adding
+	}
+	*/
 	
-	return @"";
-	
+	switch (oneSale.transactionType) {
+		case TransactionTypeSale:
+		case TransactionTypeIAP:
+		{
+			if (oneSale.unitsSold>0)
+			{
+				tmpSummary.sumSales+=oneSale.unitsSold;
+				tmpSummary.sumRoyalites+= oneSale.royaltyPrice*oneSale.unitsSold;
+				tmpSummary.royaltyCurrency = oneSale.royaltyCurrency;
+				
+				//totalSummary.sumSales+=oneSale.unitsSold;
+				//totalSummary.sumRoyalites+= [[YahooFinance sharedInstance] convertToMainCurrencyAmount:oneSale.royaltyPrice*oneSale.unitsSold fromCurrency:oneSale.royaltyCurrency];
+				
+				if (oneSale.royaltyPrice)
+				{
+					sumUnitsSold+=oneSale.unitsSold;
+				}
+				else
+				{
+					sumUnitsFree+=oneSale.unitsSold;
+				}
+				
+			}
+			else
+			{
+				tmpSummary.sumRefunds +=oneSale.unitsSold;
+				//totalSummary.sumRefunds +=oneSale.unitsSold;
+				
+				
+				sumUnitsRefunded +=oneSale.unitsSold;
+			}
+			
+			// sumRoyaltiesEarned get's calculated when needed
+			
+			break;
+		}
+		case TransactionTypeFreeUpdate:
+		{
+			tmpSummary.sumUpdates += oneSale.unitsSold;
+			//totalSummary.sumUpdates += oneSale.unitsSold;
+			sumUnitsUpdated += oneSale.unitsSold;
+		}
+			
+		default:
+			break;
+	}
 }
 
 
-#pragma mark Sums
-- (NSInteger) sumUnitsForAppId:(NSUInteger)app_id transactionType:(TransactionType)ttype
+- (void) makeSummariesFromSales
 {
-	NSMutableArray *tmpArray = [salesByApp objectForKey:[NSNumber numberWithInt:app_id]];
+	[self resetSummaries];
+	
+	// go through all sales
+	
+	for (Sale *oneSale in sales)
+	{
+		[self addSaleToSummaries:oneSale];
+	}
+}
+
+
+
+#pragma mark Sums
+- (NSInteger) sumUnitsForProduct:(Product *)product transactionType:(TransactionType)ttype
+{
+	NSArray *tmpArray;
+	
+	if (product)
+	{
+		tmpArray = [salesByApp objectForKey:[product identifierAsNumber]];
+	}
+	else
+	{
+		tmpArray = sales;
+	}
+	
 	NSInteger ret = 0;
 	
 	if (tmpArray)
@@ -1198,9 +1123,19 @@ static sqlite3_stmt *hydrate_statement = nil;
 	return ret;
 }
 
-- (double) sumRoyaltiesForAppId:(NSUInteger)app_id transactionType:(TransactionType)ttype
+- (double) sumRoyaltiesForProduct:(Product *)product transactionType:(TransactionType)ttype
 {
-	NSMutableArray *tmpArray = [salesByApp objectForKey:[NSNumber numberWithInt:app_id]];
+	NSArray *tmpArray;
+	
+	if (product)
+	{
+		tmpArray = [salesByApp objectForKey:[product identifierAsNumber]];
+	}
+	else
+	{
+		tmpArray = sales;
+	}
+
 	double ret = 0;
 	
 	if (tmpArray)
@@ -1220,6 +1155,31 @@ static sqlite3_stmt *hydrate_statement = nil;
 	
 	return ret;
 }
+
+- (double) sumRoyaltiesForInAppPurchasesOfApp:(App *)app
+{
+	NSArray *iaps = [app inAppPurchases];
+	double ret = 0;
+	
+	for (InAppPurchase *iap in iaps)
+	{
+		ret += [self sumRoyaltiesForProduct:iap transactionType:TransactionTypeIAP];
+	}
+	return ret;
+}
+
+- (NSInteger) sumUnitsForInAppPurchasesOfApp:(App *)app
+{
+	NSArray *iaps = [app inAppPurchases];
+	NSInteger ret = 0;
+	
+	for (InAppPurchase *iap in iaps)
+	{
+		ret += [self sumUnitsForProduct:iap transactionType:TransactionTypeIAP];
+	}
+	return ret;
+}
+
 
 - (double) sumRoyaltiesForAppId:(NSUInteger)app_id inCurrency:(NSString *)curCode
 {
@@ -1284,8 +1244,136 @@ static sqlite3_stmt *hydrate_statement = nil;
 		}
 	}
 	
-	
 	return ret;
+}
+
+- (CountrySummary *)summaryForIAPofApp:(App *)app
+{
+	CountrySummary *tmpSummary = [CountrySummary blankSummary];
+	
+	NSArray *iaps = [DB iapsForApp:app];
+	
+	for (InAppPurchase *oneIAP in iaps)
+	{
+		CountrySummary *oneSummary = [[self.summariesByApp objectForKey:[oneIAP identifierAsNumber]] objectForKey:@"___"];
+		
+		// copy main currency from first one
+		if (!tmpSummary.royaltyCurrency)
+		{
+			tmpSummary.royaltyCurrency = oneSummary.royaltyCurrency;
+		}
+		
+		tmpSummary.sumRefunds += oneSummary.sumRefunds;
+		tmpSummary.sumSales += oneSummary.sumSales;
+		tmpSummary.sumUpdates += oneSummary.sumUpdates;
+		tmpSummary.sumRoyalites += oneSummary.sumRoyalites;
+	}
+	
+	
+	return tmpSummary;
+}
+
+
+#pragma mark Report Displaying
+
+- (NSArray *)sectionsForReportDisplay
+{
+	NSMutableArray *sectionArray = [NSMutableArray array];
+	
+	
+	// each section is a dictionary
+	
+	// first section is trans total
+	
+	CountrySummary *grandTotalSummary = [CountrySummary blankSummary];
+	{
+		NSMutableDictionary *sectionDict = [NSMutableDictionary dictionary];
+		[sectionDict setObject:@"Grand Total" forKey:@"Title"];
+		[sectionDict setObject:[NSMutableArray arrayWithObject:[NSMutableDictionary dictionaryWithObject:grandTotalSummary forKey:@"Summary"]] forKey:@"Rows"];
+		
+		[sectionArray addObject:sectionDict];
+		
+	}
+
+	// sections 1..n are the apps for this appgrouping sorted by income
+	
+	NSArray *sortedApps = [DB appsSortedBySalesWithGrouping:self.appGrouping];
+	
+	// loop through apps and add 1 row for regular or 3 rows for IAP-apps
+	for (App* oneApp in sortedApps)
+	{
+		NSMutableDictionary *sectionDict = [NSMutableDictionary dictionary];
+		[sectionDict setObject:oneApp.title forKey:@"Title"];
+		[sectionDict setObject:oneApp forKey:@"App"];
+		[sectionArray addObject:sectionDict];
+		
+		NSMutableArray *rowArray = [NSMutableArray array];
+		[sectionDict setObject:rowArray forKey:@"Rows"];
+
+		
+		NSArray *oneAppIAPs = [oneApp inAppPurchases];
+		if (oneAppIAPs)
+		{
+			// need to sum IAPs
+			
+			CountrySummary *appSummary = [[summariesByApp objectForKey:[oneApp identifierAsNumber]] objectForKey:@"___"];
+			CountrySummary *allIAPSummary = [self summaryForIAPofApp:oneApp];
+			CountrySummary *totalSummary = [appSummary summaryByAddingSummary:allIAPSummary];
+			
+			if (!totalSummary.royaltyCurrency)
+			{
+				totalSummary.royaltyCurrency = [[YahooFinance sharedInstance] mainCurrency];
+			}
+			// 3 rows
+			
+			// first: total sales + IAPs
+			[rowArray addObject:totalSummary];
+
+			[grandTotalSummary addSummary:totalSummary];
+			
+			// second: total sales
+			[rowArray addObject:appSummary];
+			
+			
+			// third: IAPs
+			[rowArray addObject:allIAPSummary];
+			
+		}
+		else
+		{
+			// 1 row
+			NSDictionary *summariesForApp = [summariesByApp objectForKey:[oneApp identifierAsNumber]];
+			CountrySummary *appSummary = [summariesForApp objectForKey:@"___"];
+			[grandTotalSummary addSummary:appSummary];
+
+			
+			NSMutableDictionary *rowDict = [NSMutableDictionary dictionary];
+			[rowDict setObject:appSummary forKey:@"Summary"];
+				
+			NSArray *sortedKeys = [summariesForApp keysSortedByValueUsingSelector:@selector(compareBySales:)];
+
+			NSMutableDictionary *detailSectionDict = [NSMutableDictionary dictionary];
+			NSMutableArray *detailRowsArray = [NSMutableArray array];
+			
+			
+			for (NSString *oneKey in sortedKeys)
+			{
+				CountrySummary *oneSummary = [summariesForApp objectForKey:oneKey];
+				[detailRowsArray addObject:oneSummary];
+			}
+			
+			[detailSectionDict setObject:detailRowsArray forKey:@"Rows"];
+
+			[rowDict setObject:detailSectionDict forKey:@"Detail"];
+			[rowArray addObject:rowDict];
+		}
+		
+	}
+	
+	
+	NSLog(@"%@", sectionArray);
+	
+	return [NSArray arrayWithArray:sectionArray];
 }
 
 #pragma mark Properties

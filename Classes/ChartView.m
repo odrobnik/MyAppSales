@@ -218,7 +218,7 @@
 	double one_unit_y = (size.height-20.0-bottom_inset)/max_chart_value;   // 20 to not touch top
 	
 
-	double pos_y = size.height;
+	double pos_y; // = size.height;
 	// if less then width move x so that chart is right aligned
 	
 	NSArray *rowLabels = [myData objectForKey:@"Rows"];
@@ -352,7 +352,7 @@
 	NSArray *data = [myData objectForKey:@"Data"];
 
 	NSEnumerator *colEnu = [colLabels objectEnumerator];
-	NSString *col;
+	//NSString *col;
 
 	int idx = 0;
 	BOOL first_date = YES;
@@ -364,14 +364,14 @@
 	
 	
 	// for all columns
-	while (col = [colEnu nextObject]) 
+	while ([colEnu nextObject]) 
 	{
 		NSEnumerator *rowEnu = [data objectEnumerator];
 		NSArray *row;
 	
 		// reset drawing position to the left border
 		pos_x = left_border_x;
-		pos_y = size.height - bottom_inset;
+		//pos_y = size.height - bottom_inset;
 
 		first_date = YES;  // first point needs to move as well
 		

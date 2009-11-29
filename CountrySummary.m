@@ -7,7 +7,7 @@
 //
 
 #import "CountrySummary.h"
-
+#import "Country.h"
 
 @implementation CountrySummary
 
@@ -25,10 +25,41 @@
 	return self;
 }
 
++ (CountrySummary *) blankSummary
+{
+	return [[[CountrySummary alloc] initWithCountry:nil sumSales:0 sumUpdates:0 sumRefunds:0] autorelease];
+}
+
 - (void) dealloc
 {
 	[country release];
 	[super dealloc];
+}
+
+- (NSString *) description
+{
+	return [NSString stringWithFormat:@"%@ - %d/%d/%d %.2f %@", country.iso3, sumSales, sumUpdates, sumRefunds, sumRoyalites, royaltyCurrency];
+	
+}
+
+- (CountrySummary *) summaryByAddingSummary:(CountrySummary *)otherSummary
+{
+	CountrySummary *tmpSummary = [CountrySummary blankSummary];
+	
+	tmpSummary.sumSales = self.sumSales + otherSummary.sumSales;
+	tmpSummary.sumUpdates = self.sumUpdates + otherSummary.sumUpdates;
+	tmpSummary.sumRefunds = self.sumRefunds + otherSummary.sumRefunds;
+	tmpSummary.sumRoyalites = self.sumRoyalites + otherSummary.sumRoyalites;
+	
+	return tmpSummary;
+}
+
+- (void) addSummary:(CountrySummary *)otherSummary
+{
+	self.sumSales += otherSummary.sumSales;
+	self.sumUpdates += otherSummary.sumUpdates;
+	self.sumRefunds += otherSummary.sumRefunds;
+	self.sumRoyalites += otherSummary.sumRoyalites;
 }
 
 - (NSComparisonResult)compareBySales:(CountrySummary *)otherSummary

@@ -67,11 +67,18 @@
 		
 		self.navigationItem.rightBarButtonItem = segmentBarItem;
 		[segmentBarItem release];
+		
+		sortedApps = [[DB appsSortedBySalesWithGrouping:report.appGrouping] retain];
     }
     return self;
 }
 
-
+- (void)dealloc 
+{
+	[sortedApps release];
+	[segmentedControl release];
+    [super dealloc];
+}
 
 
 /*
@@ -155,7 +162,6 @@
 	// section 0 = totals
 	if (section)
 	{
-		NSArray *sortedApps = [DB appsSortedBySales];
 		App *tmpApp = [sortedApps objectAtIndex:section - 1];  // minus one because of totals section
 		
 		if (tmpApp)
@@ -183,8 +189,20 @@
 			return 2;   // summary also has explanation cell
 			break;
 		default:
-			return 2;
+		{
+			App* sectionApp = [sortedApps objectAtIndex:section-1];
+			
+			if ([sectionApp inAppPurchases])
+			{
+				return 4;  // header + sum + app + iap
+			}
+			else
+			{
+				return 2;  // header + app
+			}
+			
 			break;
+		}
 	}
 }
 
@@ -248,7 +266,7 @@
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
     // Set up the cell...
-	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
+	//ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	if (!indexPath.section)   // extra section for totals over all apps
 	{
@@ -256,7 +274,14 @@
 		{
 			cell.CELL_IMAGE = sumImage;
 			
-			cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", report.sumUnitsSold];
+			NSInteger units = [report sumUnitsForProduct:nil transactionType:TransactionTypeSale] +
+								[report sumUnitsForProduct:nil transactionType:TransactionTypeIAP];			
+			
+			double royalties = [report sumRoyaltiesForProduct:nil transactionType:TransactionTypeSale] +
+								[report sumRoyaltiesForProduct:nil transactionType:TransactionTypeIAP];
+
+			
+			cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", units];
 			cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", report.sumUnitsUpdated];
 			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 			NSInteger refunds = report.sumUnitsRefunded;
@@ -269,7 +294,7 @@
 				cell.unitsRefundedLabel.text = @"";
 			}
 			
-			double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesEarned] fromCurrency:@"EUR"];
+			double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:royalties fromCurrency:@"EUR"];
 			cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
 		}
 
@@ -279,33 +304,105 @@
 	}
 	
 	
-	NSArray *sortedApps = [DB appsSortedBySales];
 	App *rowApp = [sortedApps objectAtIndex:indexPath.section-1];  // minus one because of totals section
 	
 	
-	NSMutableDictionary *thisDict = [report.summariesByApp objectForKey:[NSNumber numberWithInt:rowApp.apple_identifier]];
+	//NSMutableDictionary *thisDict = [report.summariesByApp objectForKey:[NSNumber numberWithInt:rowApp.apple_identifier]];
 
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 
-	
-	if (indexPath.row==1)
-	{ // summary
-		
-		//cell.CELL_IMAGE = sumImage;
-	//	cell.CELL_IMAGE = rowApp.iconImageNano;
-		
-		if (rowApp.iconImageNano)
+
+	if ([rowApp inAppPurchases])
+	{
+		switch (indexPath.row) 
 		{
-			cell.CELL_IMAGE = rowApp.iconImageNano;
-		}
-		else
-		{
-			cell.CELL_IMAGE = [UIImage imageNamed:@"EmptyNano.png"];
+			case 0:
+				// header
+				break;
+			case 1:
+			{
+				// sum IAP + APP
+				cell.CELL_IMAGE = sumImage;
+				
+				NSInteger appUnits = [report sumUnitsForProduct:rowApp transactionType:TransactionTypeSale];
+				NSInteger appUpdates = [report sumUnitsForProduct:rowApp transactionType:TransactionTypeFreeUpdate];
+				double appRoyalites = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesForProduct:rowApp transactionType:TransactionTypeSale] fromCurrency:@"EUR"];
+				double iapRoyalites = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesForInAppPurchasesOfApp:rowApp] fromCurrency:@"EUR"];
+				
+				NSInteger iapUnits = [report sumUnitsForInAppPurchasesOfApp:rowApp];
+
+				cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", appUnits + iapUnits];
+				cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", appUpdates];
+
+				cell.unitsRefundedLabel.text = nil;
+				
+				
+				//double salesRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesEarned] fromCurrency:@"EUR"];
+				//cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
+
+				
+				cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:appRoyalites + iapRoyalites];
+				break;
+			}
+			case 2:
+			{
+				// APP
+				
+				// summary for one app
+				cell.CELL_IMAGE = rowApp.iconImageNano;
+				
+				cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForProduct:rowApp transactionType:TransactionTypeSale]];
+				cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForProduct:rowApp transactionType:TransactionTypeFreeUpdate]];
+				NSInteger refunds = [report  sumRefundsForAppId:rowApp.apple_identifier];
+				if (refunds)
+				{
+					cell.unitsRefundedLabel.text = [NSString stringWithFormat:@"%d", refunds];
+				}
+				else
+				{
+					cell.unitsRefundedLabel.text = @"";
+				}
+				
+				double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesForProduct:rowApp transactionType:TransactionTypeSale] fromCurrency:@"EUR"];
+				cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
+				
+				break;
+			}
+			case 3:
+			{
+				// IAP
+				
+				cell.CELL_IMAGE = [UIImage imageNamed:@"IAP_nano.png"];
+				
+				cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForInAppPurchasesOfApp:rowApp]];
+				cell.unitsUpdatedLabel.text = nil;
+				cell.unitsRefundedLabel.text = nil;
+				
+				double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report  sumRoyaltiesForInAppPurchasesOfApp:rowApp] fromCurrency:@"EUR"];
+				cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
+				
+				break;
+				
+				
+			}
+				
+				
+			default:
+				break;
 		}
 		
-		//NSNumber *app_id = [keys objectAtIndex:indexPath.section-1]; 
-		cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", [report  sumUnitsForAppId:rowApp.apple_identifier transactionType:TransactionTypeSale]];
-		cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForAppId:rowApp.apple_identifier transactionType:TransactionTypeFreeUpdate]];
+		
+		
+		
+		return cell;
+	}
+	else 
+	{
+		// summary for one app
+		cell.CELL_IMAGE = rowApp.iconImageNano;
+		
+		cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", [report  sumUnitsForProduct:rowApp transactionType:TransactionTypeSale]];
+		cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForProduct:rowApp transactionType:TransactionTypeFreeUpdate]];
 		NSInteger refunds = [report  sumRefundsForAppId:rowApp.apple_identifier];
 		if (refunds)
 		{
@@ -316,11 +413,15 @@
 			cell.unitsRefundedLabel.text = @"";
 		}
 		
-		double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report  sumRoyaltiesForAppId:rowApp.apple_identifier transactionType:TransactionTypeSale] fromCurrency:@"EUR"];
+		double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesForProduct:rowApp transactionType:TransactionTypeSale] fromCurrency:@"EUR"];
 		cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
 		
 		return cell;
 	}
+	
+	return cell;
+	
+	/*
 	
 	NSArray *dictKeys = [thisDict keysSortedByValueUsingSelector:@selector(compareBySales:)];  // all countries
 	CountrySummary *tmpSummary = [thisDict objectForKey:[dictKeys objectAtIndex:indexPath.row-1]];
@@ -375,6 +476,7 @@
 	//NSLog( [NSString stringWithFormat:@"%@ s: %d = %.2f %@, u: %d, r: %d",  tmpSummary.country.iso3,tmpSummary.sumSales, tmpSummary.sumRoyalites, tmpSummary.royaltyCurrency, tmpSummary.sumUpdates, tmpSummary.sumRefunds]);
 	//NSLog(@"ok");
     return cell;
+	 */
 }
 
 
@@ -392,11 +494,37 @@
 		}
 		default:
 		{
-			NSArray *sortedApps = [DB appsSortedBySales];
 			App *app =  [sortedApps objectAtIndex:indexPath.section-1];
-			genericReportController.title = app.title;
-			genericReportController.filteredApp = app;
-			break;
+			
+			if ([app inAppPurchases])
+			{
+				genericReportController.title = app.title;
+
+				switch (indexPath.row) 
+				{
+					case 1:
+						// app + iap
+						genericReportController.filteredApp = app;  // shows both
+						break;
+					case 2:
+						// app
+						[genericReportController setFilteredApp:app showApps:YES showIAPs:NO];
+						break;
+					case 3:
+						// iap
+						[genericReportController setFilteredApp:app showApps:NO showIAPs:YES];
+						break;
+					default:
+						break;
+				}
+			}
+			else
+			{
+				// app
+				[genericReportController setFilteredApp:app showApps:YES showIAPs:NO];
+				break;
+			}
+
 		}
 	}
 	[self.navigationController pushViewController:genericReportController animated:YES];
@@ -446,11 +574,7 @@
 
 
 
-- (void)dealloc 
-{
-	[segmentedControl release];
-    [super dealloc];
-}
+
 
 #pragma mark Actions
 - (void) upDownPushed:(id)sender

@@ -283,6 +283,10 @@
 		A7AB0B930F3120B500085D99 /* VNM.png in Resources */ = {isa = PBXBuildFile; fileRef = A7AB0B8D0F3120B500085D99 /* VNM.png */; };
 		A7ACC3230FE6290E0014DB41 /* NSString+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC3220FE6290E0014DB41 /* NSString+Helpers.m */; };
 		A7ACC8370F10F342004EEA7A /* CountrySummary.m in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC8360F10F342004EEA7A /* CountrySummary.m */; };
+		A7AE190F10BD500B00E38C5B /* IAP_nano.png in Resources */ = {isa = PBXBuildFile; fileRef = A7AE190E10BD500B00E38C5B /* IAP_nano.png */; };
+		A7AE19DB10BD698B00E38C5B /* IAP.png in Resources */ = {isa = PBXBuildFile; fileRef = A7AE19DA10BD698B00E38C5B /* IAP.png */; };
+		A7AE1A1110BD813D00E38C5B /* InAppPurchase.m in Sources */ = {isa = PBXBuildFile; fileRef = A7AE1A1010BD813D00E38C5B /* InAppPurchase.m */; };
+		A7AE1A8510BD9B8500E38C5B /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = A7AE1A8410BD9B8500E38C5B /* Product.m */; };
 		A7B12CEE104D2EAA004639C9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7B12CED104D2EAA004639C9 /* Security.framework */; };
 		A7B424BD10553718007BC954 /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B424BC10553718007BC954 /* AccountManager.m */; };
 		A7B42C2010567F2C007BC954 /* EditAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B42C1F10567F2C007BC954 /* EditAccountController.m */; };
@@ -673,6 +677,12 @@
 		A7ACC3220FE6290E0014DB41 /* NSString+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helpers.m"; sourceTree = "<group>"; };
 		A7ACC8350F10F342004EEA7A /* CountrySummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountrySummary.h; sourceTree = "<group>"; };
 		A7ACC8360F10F342004EEA7A /* CountrySummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountrySummary.m; sourceTree = "<group>"; };
+		A7AE190E10BD500B00E38C5B /* IAP_nano.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IAP_nano.png; sourceTree = "<group>"; };
+		A7AE19DA10BD698B00E38C5B /* IAP.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IAP.png; sourceTree = "<group>"; };
+		A7AE1A0F10BD813D00E38C5B /* InAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchase.h; sourceTree = "<group>"; };
+		A7AE1A1010BD813D00E38C5B /* InAppPurchase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchase.m; sourceTree = "<group>"; };
+		A7AE1A8310BD9B8500E38C5B /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
+		A7AE1A8410BD9B8500E38C5B /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Product.m; sourceTree = "<group>"; };
 		A7B12CED104D2EAA004639C9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A7B424BB10553718007BC954 /* AccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManager.h; sourceTree = "<group>"; };
 		A7B424BC10553718007BC954 /* AccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManager.m; sourceTree = "<group>"; };
@@ -918,6 +928,7 @@
 		A707A33F0FA61305004060D9 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				A7AE1DE410C0242300E38C5B /* Reports */,
 				A7E7F2421094577B00C9C3DC /* Big Progress */,
 				A7E7F16A1094411900C9C3DC /* Accounts */,
 				A7B434DF1058C98E007BC954 /* PIN Lock */,
@@ -925,16 +936,10 @@
 				A79D81F50EFEA913006C37FC /* AppViewController.m */,
 				A7A84B21105D1F3700CAD54F /* AppDetailViewController.h */,
 				A7A84B22105D1F3700CAD54F /* AppDetailViewController.m */,
-				A7EDD37F0FA4E8C40079FE78 /* GenericReportController.h */,
-				A7EDD3800FA4E8C40079FE78 /* GenericReportController.m */,
-				A7325B9E0F21C9920053AEB1 /* ReportRootController.h */,
-				A7325B9F0F21C9920053AEB1 /* ReportRootController.m */,
 				28C286DF0D94DF7D0034E888 /* RootViewController.h */,
 				28C286E00D94DF7D0034E888 /* RootViewController.m */,
 				A7EDD3870FA4E8C40079FE78 /* ReportViewController.h */,
 				A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */,
-				A7061AC60F3712A300F605C1 /* ReportAppsController.h */,
-				A7061AC70F3712A300F605C1 /* ReportAppsController.m */,
 				A780D1330F25D1A100C796FB /* ChartRootController.h */,
 				A780D1340F25D1A100C796FB /* ChartRootController.m */,
 				A780D16E0F25D2D400C796FB /* ChartViewController.h */,
@@ -1110,13 +1115,12 @@
 		A74A71D40EFB0651003B5191 /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				A7AE1A8610BD9BA200E38C5B /* Products */,
 				A7BD65D8105AB47B0021B6CF /* Review.h */,
 				A7BD65D9105AB47B0021B6CF /* Review.m */,
 				A7EDD3830FA4E8C40079FE78 /* Country.h */,
 				A7EDD3840FA4E8C40079FE78 /* Country.m */,
 				A74A75070EFD5FA3003B5191 /* apps.db */,
-				A74A75450EFD7117003B5191 /* App.h */,
-				A74A75460EFD7117003B5191 /* App.m */,
 				A7EDD3850FA4E8C40079FE78 /* Report.h */,
 				A7EDD3860FA4E8C40079FE78 /* Report.m */,
 				A79D88FE0F029628006C37FC /* Sale.h */,
@@ -1125,10 +1129,10 @@
 				A7ACC8360F10F342004EEA7A /* CountrySummary.m */,
 				A780D1C50F26219800C796FB /* Query.h */,
 				A780D1C60F26219800C796FB /* Query.m */,
-				A7EB519210481BE6005452BE /* Database.h */,
-				A7EB519310481BE6005452BE /* Database.m */,
 				A7C15A7B108F127300693757 /* AppGrouping.h */,
 				A7C15A7C108F127300693757 /* AppGrouping.m */,
+				A7EB519210481BE6005452BE /* Database.h */,
+				A7EB519310481BE6005452BE /* Database.m */,
 			);
 			name = Database;
 			path = ..;
@@ -1236,6 +1240,32 @@
 			name = Sync;
 			sourceTree = "<group>";
 		};
+		A7AE1A8610BD9BA200E38C5B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A74A75450EFD7117003B5191 /* App.h */,
+				A74A75460EFD7117003B5191 /* App.m */,
+				A7AE1A8310BD9B8500E38C5B /* Product.h */,
+				A7AE1A8410BD9B8500E38C5B /* Product.m */,
+				A7AE1A0F10BD813D00E38C5B /* InAppPurchase.h */,
+				A7AE1A1010BD813D00E38C5B /* InAppPurchase.m */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A7AE1DE410C0242300E38C5B /* Reports */ = {
+			isa = PBXGroup;
+			children = (
+				A7325B9E0F21C9920053AEB1 /* ReportRootController.h */,
+				A7325B9F0F21C9920053AEB1 /* ReportRootController.m */,
+				A7061AC60F3712A300F605C1 /* ReportAppsController.h */,
+				A7061AC70F3712A300F605C1 /* ReportAppsController.m */,
+				A7EDD37F0FA4E8C40079FE78 /* GenericReportController.h */,
+				A7EDD3800FA4E8C40079FE78 /* GenericReportController.m */,
+			);
+			name = Reports;
+			sourceTree = "<group>";
+		};
 		A7B3B4030F169C9100D211A0 /* artwork */ = {
 			isa = PBXGroup;
 			children = (
@@ -1246,6 +1276,8 @@
 				A78DEB2E105FB1B700786950 /* down.png */,
 				A7CD0665105A7014005F9166 /* cover_mask_rounded_100x100.png */,
 				A7B42E341056A190007BC954 /* button_red.png */,
+				A7AE19DA10BD698B00E38C5B /* IAP.png */,
+				A7AE190E10BD500B00E38C5B /* IAP_nano.png */,
 				A73CEB37104340A5008778BF /* EmptyNano.png */,
 				A707A3380FA61238004060D9 /* Default.png */,
 				A707A2BB0FA5BBFA004060D9 /* apps_bw.png */,
@@ -1782,6 +1814,8 @@
 				A7E7F18A10944A4B00C9C3DC /* notifications_logo.png in Resources */,
 				A7F9AACA10A971AE00EC9BF5 /* update_4_to_5.sql in Resources */,
 				A7F05BB610B6B1050047A708 /* update_5_to_6.sql in Resources */,
+				A7AE190F10BD500B00E38C5B /* IAP_nano.png in Resources */,
+				A7AE19DB10BD698B00E38C5B /* IAP.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1878,6 +1912,8 @@
 				A7E7F3E210946DFB00C9C3DC /* MyAppSales.m in Sources */,
 				A7294C041095EB7B004A2258 /* NSString+scraping.m in Sources */,
 				A7D75DC410A8C03C00889B79 /* GenericAccount.m in Sources */,
+				A7AE1A1110BD813D00E38C5B /* InAppPurchase.m in Sources */,
+				A7AE1A8510BD9B8500E38C5B /* Product.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

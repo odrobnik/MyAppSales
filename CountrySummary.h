@@ -31,4 +31,9 @@
 
 - (id)initWithCountry:(Country *)country sumSales:(NSInteger)sales sumUpdates:(NSInteger)updates sumRefunds:(NSInteger)refunds; 
 - (NSComparisonResult)compareBySales:(CountrySummary *)otherSummary;
+
++ (CountrySummary *) blankSummary;
+- (CountrySummary *) summaryByAddingSummary:(CountrySummary *)otherSummary;
+- (void) addSummary:(CountrySummary *)otherSummary;
+
 @end

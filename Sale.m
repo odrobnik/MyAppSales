@@ -8,6 +8,7 @@
 
 #import "Sale.h"
 #import "App.h"
+#import "Product.h"
 #import "Database.h"
 #import "Country.h"
 #import "Report.h"
@@ -18,12 +19,12 @@
 
 @implementation Sale
 
-@synthesize country, unitsSold, app, report, royaltyPrice, royaltyCurrency,customerPrice, customerCurrency, transactionType;
+@synthesize country, unitsSold, product, report, royaltyPrice, royaltyCurrency,customerPrice, customerCurrency, transactionType;
 
 static sqlite3_stmt *insert_statement_sale = nil;
 
 
-- (id) initWithCountry:(Country *)acountry report:(Report *)areport app:(App *)aapp units:(NSInteger)aunits royaltyPrice:(double)aprice royaltyCurrency:(NSString *)acurrency customerPrice:(double)c_price customerCurrency:(NSString *)c_currency transactionType:(TransactionType)ttype
+- (id) initWithCountry:(Country *)acountry report:(Report *)areport product:(Product *)saleProduct units:(NSInteger)aunits royaltyPrice:(double)aprice royaltyCurrency:(NSString *)acurrency customerPrice:(double)c_price customerCurrency:(NSString *)c_currency transactionType:(TransactionType)ttype
 {
 	if (self = [super init]) 
 	{
@@ -31,7 +32,7 @@ static sqlite3_stmt *insert_statement_sale = nil;
 		NSAssert(country, @"Country must not be null");
 		self.report = areport;
 		self.unitsSold = aunits;
-		self.app = aapp;
+		self.product = saleProduct;
 		self.royaltyPrice = aprice;
 		self.royaltyCurrency = acurrency;
 		self.customerPrice = c_price;
@@ -46,7 +47,7 @@ static sqlite3_stmt *insert_statement_sale = nil;
 {
 	[customerCurrency release];
 	[royaltyCurrency release];
-	[app release];
+	[product release];
 	[country release];
 	[super dealloc];
 }
@@ -64,7 +65,7 @@ static sqlite3_stmt *insert_statement_sale = nil;
         }
     }
 	
-	sqlite3_bind_int(insert_statement_sale, 1, app.apple_identifier);
+	sqlite3_bind_int(insert_statement_sale, 1, product.apple_identifier);
 	sqlite3_bind_int(insert_statement_sale, 2, transactionType);
 	sqlite3_bind_int(insert_statement_sale, 3, unitsSold);
 	sqlite3_bind_double(insert_statement_sale, 4, royaltyPrice);

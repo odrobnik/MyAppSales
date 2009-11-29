@@ -14,10 +14,17 @@
 	Report *report;
 	UIImage *sumImage;
 	App *filteredApp;
+	
+	BOOL shouldShowApps;
+	BOOL shouldShowIAPs;
+	
+	NSArray *sortedProducts;
 }
 
 - (id) initWithReport:(Report *)aReport;
 
 @property (nonatomic, retain) App *filteredApp;
+
+- (void) setFilteredApp:(App *)app showApps:(BOOL)showApps showIAPs:(BOOL)showIAPs;
 
 @end

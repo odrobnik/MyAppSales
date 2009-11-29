@@ -141,6 +141,7 @@
     
     // Set up the cell...
 	NSArray *sortedApps = [DB appsSortedBySales];
+	//NSLog(@"%@", sortedApps);
 	cell.app = [sortedApps objectAtIndex:indexPath.row];
 	
     return cell;
@@ -165,10 +166,14 @@
 	NSArray *sortedApps = [DB appsSortedBySales];
 	App *rowApp = [sortedApps objectAtIndex:indexPath.row];
 	
-    // Navigation logic may go here. Create and push another view controller.
-	AppDetailViewController *anotherViewController = [[AppDetailViewController alloc] initForApp:rowApp];
-	[self.navigationController pushViewController:anotherViewController animated:YES];
-	 [anotherViewController release];
+	if ([rowApp.reviews count])
+	{
+	
+		// Navigation logic may go here. Create and push another view controller.
+		AppDetailViewController *anotherViewController = [[AppDetailViewController alloc] initForApp:rowApp];
+		[self.navigationController pushViewController:anotherViewController animated:YES];
+		[anotherViewController release];
+	}
 }
 
 

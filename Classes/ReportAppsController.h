@@ -15,6 +15,7 @@
 	UIImage *sumImage;
 	
 	UISegmentedControl *segmentedControl;
+	NSArray *sortedApps;
 }
 
 @property (nonatomic, retain) Report *report;

@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "Database.h"
 
-@class Country, App, Report;
+@class Country, Product, Report;
 
 typedef enum { TransactionTypeSale = 1, TransactionTypeFreeUpdate = 7, TransactionTypeIAP = 101 } TransactionType;
 
 
 @interface Sale : NSObject {
-	App *app;
+	Product *product;
 	Country *country;
 	Report *report;
 	NSInteger unitsSold;
@@ -31,7 +31,7 @@ typedef enum { TransactionTypeSale = 1, TransactionTypeFreeUpdate = 7, Transacti
 }
 
 @property(nonatomic, retain) Country *country;
-@property(nonatomic, retain) App *app;
+@property(nonatomic, retain) Product *product;
 @property(nonatomic, assign) Report *report;  // report owns sales, not other way around
 @property(nonatomic, assign) double royaltyPrice;
 @property(nonatomic, retain) NSString *royaltyCurrency;
@@ -40,7 +40,7 @@ typedef enum { TransactionTypeSale = 1, TransactionTypeFreeUpdate = 7, Transacti
 @property(nonatomic, assign) NSInteger unitsSold;
 @property(nonatomic, assign) TransactionType transactionType;
 
-- (id) initWithCountry:(Country *)acountry report:(Report *)areport app:(App *)aapp units:(NSInteger)aunits royaltyPrice:(double)aprice royaltyCurrency:(NSString *)acurrency customerPrice:(double)c_price customerCurrency:(NSString *)c_currency transactionType:(TransactionType)ttype;
+- (id) initWithCountry:(Country *)acountry report:(Report *)areport product:(Product *)saleProduct units:(NSInteger)aunits royaltyPrice:(double)aprice royaltyCurrency:(NSString *)acurrency customerPrice:(double)c_price customerCurrency:(NSString *)c_currency transactionType:(TransactionType)ttype;
 
 - (void)insertIntoDatabase:(sqlite3 *)db;  // needs to be extra so that report hydrate does not insert
 

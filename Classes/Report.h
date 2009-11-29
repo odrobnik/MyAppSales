@@ -10,7 +10,7 @@
 #import "Sale.h"
 #import "Database.h"
 #import "AppGrouping.h"
-
+#import "CountrySummary.h"
 
 @interface Report : NSObject 
 {
@@ -57,7 +57,7 @@
 
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db;
-- (id)initWithType:(ReportType)type from_date:(NSDate *)from_date until_date:(NSDate *)until_date downloaded_date:(NSDate *)downloaded_date region:(ReportRegion)report_region database:(sqlite3 *)db;
+//- (id)initWithType:(ReportType)type from_date:(NSDate *)from_date until_date:(NSDate *)until_date downloaded_date:(NSDate *)downloaded_date region:(ReportRegion)report_region database:(sqlite3 *)db;
 - (id)initAsFreeReportWithDict:(NSDictionary *)dict;
 - (id)initWithReportText:(NSString *)text;
 
@@ -108,9 +108,14 @@
 
 //@property (assign, nonatomic) double sumRoyaltiesEarned;  // replaced with method
 
-- (NSInteger) sumUnitsForAppId:(NSUInteger)app_id transactionType:(TransactionType)ttype;
+- (NSInteger) sumUnitsForProduct:(Product *)product transactionType:(TransactionType)ttype;
 - (NSInteger) sumRefundsForAppId:(NSUInteger)app_id;
-- (double) sumRoyaltiesForAppId:(NSUInteger)app_id transactionType:(TransactionType)ttype;
+- (double) sumRoyaltiesForProduct:(Product *)product transactionType:(TransactionType)ttype;
+
+- (double) sumRoyaltiesForInAppPurchasesOfApp:(App *)app;
+- (NSInteger) sumUnitsForInAppPurchasesOfApp:(App *)app;
+
+- (CountrySummary *)summaryForIAPofApp:(App *)app;
 
 - (double) sumRoyaltiesForAppId:(NSUInteger)app_id inCurrency:(NSString *)curCode;
 - (double) sumRoyaltiesEarned;
@@ -118,6 +123,8 @@
 - (NSString *) reconstructText;
 
 - (void) makeSummariesFromSales;
+
+- (NSArray *)sectionsForReportDisplay;
 
 - (void) hydrate;
 - (void) dehydrate;

@@ -11,6 +11,7 @@
 #import "Sale.h"
 #import "Country.h"
 #import "App.h"
+#import "InAppPurchase.h"
 #import "ASiSTAppDelegate.h"
 #import "YahooFinance.h"
 //#import "iTunesConnect.h"
@@ -30,10 +31,19 @@
 		sumImage = [UIImage imageNamed:@"Sum.png"];
 		filteredApp = nil;
 		
+		shouldShowApps = YES;
+		shouldShowIAPs = YES;
+		sortedProducts = [[DB productsSortedBySalesForGrouping:report.appGrouping] retain];
     }
     return self;
 }
 
+- (void)dealloc 
+{
+	[sortedProducts release];
+	[filteredApp release];
+    [super dealloc];
+}
 
 
 
@@ -92,38 +102,38 @@
 
 #pragma mark Table view methods
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	if (filteredApp)
-	{
-		return 1;
-	}
-	else
-	{
-		return [DB countOfApps] + 1; // one extra section for totals over all apps
-	}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
+{
+	return [sortedProducts count] + 1; // one extra section for totals over all apps
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	
+	/*
 	// if we want to see only one app, then ...
 	if (filteredApp)
 	{
 		return nil;
 	}
-	
+	*/
 	//ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	// section 0 = totals
 	if (section)
 	{
-		NSArray *sortedApps = [DB appsSortedBySales];
-		App *tmpApp = [sortedApps objectAtIndex:section - 1];  // minus one because of totals section
+		App *tmpApp = [sortedProducts objectAtIndex:section - 1];  // minus one because of totals section
 		//NSNumber *app_id = [NSNumber numberWithInt:tmpApp.apple_identifier];  // minus one because of totals section
 		
 		if (tmpApp)
 		{
-			return tmpApp.title;
+			if ([tmpApp isKindOfClass:[InAppPurchase class]])
+			{
+				return [NSString stringWithFormat:@"(IAP) %@", tmpApp.title];
+			}
+			else
+			{
+				return tmpApp.title;
+			}
 		}
 		else
 		{
@@ -141,7 +151,7 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-	
+	/*
 	// we filter for one app
 	if (filteredApp)
 	{
@@ -150,16 +160,15 @@
 		NSArray *thisArray = [report.summariesByApp objectForKey:app_id];
 		return [thisArray count]+1+1;  // add one for app summary plus one for header
 	}
+	 */
 	
 	// we don't filter
 	if (section)
 	{
-		NSArray *sortedApps = [DB appsSortedBySales];
-		App *tmpApp = [sortedApps objectAtIndex:section - 1];  // minus one because of totals section
-		NSNumber *app_id = [NSNumber numberWithInt:tmpApp.apple_identifier];  // minus one because of totals section
+		Product *sectionProduct= [sortedProducts objectAtIndex:section - 1];  // minus one because of totals section
 		
 		
-		NSArray *thisArray = [report.summariesByApp objectForKey:app_id];
+		NSArray *thisArray = [report.summariesByApp objectForKey:[sectionProduct identifierAsNumber]];
 		return [thisArray count]+1+1;  // add one for app summary and one header
 		
 	}
@@ -210,13 +219,17 @@
 	NSNumber *app_id;
 	App *rowApp = nil;
 	
+	/*
 	if (filteredApp)
 	{
 		app_id = [NSNumber numberWithInt:filteredApp.apple_identifier];
 		rowApp = filteredApp;
 	}
+	 
 	else
-	{
+
+	 */
+	 {
 		if (!indexPath.section)   // extra section for totals over all apps
 		{
 			if (!indexPath.row)  // first row is header row
@@ -244,20 +257,73 @@
 				cell.CELL_IMAGE = sumImage;
 				cell.countryCodeLabel.text = @"";
 				
-				cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", report.sumUnitsSold];
-				cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", report.sumUnitsUpdated];
-				NSInteger refunds = report.sumUnitsRefunded;
-				if (refunds)
+				if (filteredApp)
 				{
-					cell.unitsRefundedLabel.text = [NSString stringWithFormat:@"%d", refunds];
+					NSInteger units = 0;
+					double royalties = 0;
+					NSInteger updates = 0;
+					NSInteger refunds = 0;
+
+					
+					if (shouldShowApps)
+					{
+						units += [report sumUnitsForProduct:filteredApp transactionType:TransactionTypeSale];
+						royalties += [report sumRoyaltiesForProduct:filteredApp transactionType:TransactionTypeSale];
+						updates += [report sumUnitsForProduct:filteredApp transactionType:TransactionTypeFreeUpdate];
+						refunds += [report sumRefundsForAppId:filteredApp.apple_identifier];
+
+					}
+					
+					if (shouldShowIAPs)
+					{
+						units += [report sumUnitsForInAppPurchasesOfApp:filteredApp];;
+						royalties += [report sumRoyaltiesForInAppPurchasesOfApp:filteredApp];
+					}
+					
+					
+					cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", units];
+					cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", updates];
+					if (refunds)
+					{
+						cell.unitsRefundedLabel.text = [NSString stringWithFormat:@"%d", refunds];
+					}
+					else
+					{
+						cell.unitsRefundedLabel.text = @"";
+					}
+				
+					double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:royalties fromCurrency:@"EUR"];
+					cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
 				}
 				else
 				{
-					cell.unitsRefundedLabel.text = @"";
+					cell.CELL_IMAGE = sumImage;
+					
+					NSInteger units = [report sumUnitsForProduct:nil transactionType:TransactionTypeSale] +
+					[report sumUnitsForProduct:nil transactionType:TransactionTypeIAP];			
+					
+					double royalties = [report sumRoyaltiesForProduct:nil transactionType:TransactionTypeSale] +
+					[report sumRoyaltiesForProduct:nil transactionType:TransactionTypeIAP];
+					
+					NSInteger updates = [report sumUnitsForProduct:nil transactionType:TransactionTypeFreeUpdate];
+					cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", units];
+					cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", updates];
+					cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+					NSInteger refunds = report.sumUnitsRefunded;
+					if (refunds)
+					{
+						cell.unitsRefundedLabel.text = [NSString stringWithFormat:@"%d", refunds];
+					}
+					else
+					{
+						cell.unitsRefundedLabel.text = @"";
+					}
+					
+					double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:royalties fromCurrency:@"EUR"];
+					cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
 				}
+
 				
-				double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesEarned] fromCurrency:@"EUR"];
-				cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
 			}
 			return cell;
 		}
@@ -265,8 +331,7 @@
 		
 		// below this line: detail lines
 		
-		NSArray *sortedApps = [DB appsSortedBySales];
-		rowApp = [sortedApps objectAtIndex:indexPath.section - 1];  // minus one because of totals section
+		rowApp = [sortedProducts objectAtIndex:indexPath.section - 1];  // minus one because of totals section
 		app_id = [NSNumber numberWithInt:rowApp.apple_identifier];  // minus one because of totals section
 		
 	}	
@@ -276,8 +341,21 @@
 		
 		cell.CELL_IMAGE = sumImage;
 		cell.countryCodeLabel.text = @"";
-		cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForAppId:rowApp.apple_identifier transactionType:TransactionTypeSale]];
-		cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForAppId:rowApp.apple_identifier transactionType:TransactionTypeFreeUpdate]];
+		
+		if ([rowApp isKindOfClass:[InAppPurchase class]])
+		{
+			cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d",[report sumUnitsForProduct:rowApp transactionType:TransactionTypeIAP]];
+			double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesForProduct:rowApp transactionType:TransactionTypeIAP] fromCurrency:@"EUR"];
+			cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
+		}
+		else
+		{
+			cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForProduct:rowApp transactionType:TransactionTypeSale]];
+			double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesForProduct:rowApp transactionType:TransactionTypeSale] fromCurrency:@"EUR"];
+			cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
+		}
+
+		cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForProduct:rowApp transactionType:TransactionTypeFreeUpdate]];
 		NSInteger refunds = [report  sumRefundsForAppId:rowApp.apple_identifier];
 		if (refunds)
 		{
@@ -288,8 +366,6 @@
 			cell.unitsRefundedLabel.text = @"";
 		}
 		
-		double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesForAppId:rowApp.apple_identifier transactionType:TransactionTypeSale] fromCurrency:@"EUR"];
-		cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
 		
 		return cell;
 	}
@@ -421,11 +497,66 @@
  */
 
 
+#pragma mark Filtering
 
+- (void) setFilteredApp:(App *)app
+{
+	if (filteredApp!=app)
+	{
+		[filteredApp release];
+		filteredApp = [app retain];
+		
+		// take all products for this grouping and boil it down to filtered app-related
+		
+		NSArray *allProducts = [DB productsSortedBySalesForGrouping:report.appGrouping];
+		NSMutableArray *filteredProducts = [NSMutableArray array];
+		
+		for (Product *oneProduct in allProducts)
+		{
+			if ((oneProduct == app)||([oneProduct isKindOfClass:[InAppPurchase class]]&&((InAppPurchase *)oneProduct).parent == app))
+			{
+				[filteredProducts addObject: oneProduct];
+			}
+		}
+		
+		[sortedProducts release];
+		sortedProducts = [filteredProducts retain];
+		
+		[self.tableView reloadData];
+	}
+}
 
-- (void)dealloc {
-	[filteredApp release];
-    [super dealloc];
+- (void) setFilteredApp:(App *)app showApps:(BOOL)showApps showIAPs:(BOOL)showIAPs
+{
+	if (filteredApp!=app)
+	{
+		[filteredApp release];
+		filteredApp = [app retain];
+
+		shouldShowApps = showApps;
+		shouldShowIAPs = showIAPs;
+		
+		// take all products for this grouping and boil it down to filtered app-related
+		
+		NSArray *allProducts = [DB productsSortedBySalesForGrouping:report.appGrouping];
+		NSMutableArray *filteredProducts = [NSMutableArray array];
+		
+		for (Product *oneProduct in allProducts)
+		{
+			if ((oneProduct == app)||([oneProduct isKindOfClass:[InAppPurchase class]]&&((InAppPurchase *)oneProduct).parent == app))
+			{
+				if ((showApps&&[oneProduct isKindOfClass:[App class]])||(showIAPs&&[oneProduct isKindOfClass:[InAppPurchase class]]))
+				{
+					[filteredProducts addObject: oneProduct];
+				}
+			}
+		}
+		
+		[sortedProducts release];
+		sortedProducts = [filteredProducts retain];
+		
+		[self.tableView reloadData];
+	}
 }
 
 
