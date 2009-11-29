@@ -41,6 +41,9 @@
 		self.title = [report listDescriptionShorter:YES];
 	}
 
+	[sortedApps release];
+	sortedApps = [[DB appsSortedBySalesWithGrouping:report.appGrouping] retain];
+
 	[self.tableView reloadData];
 }
 
@@ -68,7 +71,6 @@
 		self.navigationItem.rightBarButtonItem = segmentBarItem;
 		[segmentBarItem release];
 		
-		sortedApps = [[DB appsSortedBySalesWithGrouping:report.appGrouping] retain];
     }
     return self;
 }
@@ -154,7 +156,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
-	return [DB countOfApps] + 1; // one extra section for totals over all apps
+	return [sortedApps count] + 1; // one extra section for totals over all apps
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section

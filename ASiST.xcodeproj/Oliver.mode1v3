@@ -216,7 +216,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>A7738D6D10C2F6EA00233BF7</string>
+						<string>A7738D8410C2F8D100233BF7</string>
 						<key>history</key>
 						<array>
 							<string>A7AE1ABA10BD9ECE00E38C5B</string>
@@ -347,7 +347,7 @@
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 793}, {269, 707}}</string>
+							<string>{{0, 2676}, {269, 707}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -528,7 +528,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>A7738D6C10C2F6EA00233BF7</string>
+										<string>A7738D8310C2F8D100233BF7</string>
 										<key>history</key>
 										<array>
 											<string>A72486290F1B24FF003DADDD</string>
@@ -788,7 +788,7 @@
 											<string>A7738D5310C2F66E00233BF7</string>
 											<string>A7738D6610C2F6BC00233BF7</string>
 											<string>A7738D6A10C2F6EA00233BF7</string>
-											<string>A7738D6B10C2F6EA00233BF7</string>
+											<string>A7738D7D10C2F89900233BF7</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -988,12 +988,13 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>A7738D8510C2F8D100233BF7</string>
 		<string>A7738A0F10C1515400233BF7</string>
 		<string>A7738A0710C1511900233BF7</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>A7AE1A8810BD9BE900E38C5B</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>A78E2B7C0EFA2263002EB6D9</string>
+		<string>1CD10A99069EF8BA00B06720</string>
+		<string>1C78EAAD065D492600B07095</string>
 		<string>/Users/Oliver/Documents/iphone/Projects/Own Apps/ASiST/trunk/ASiST.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -1211,7 +1212,7 @@
 			<key>WindowToolGUID</key>
 			<string>1CD10A99069EF8BA00B06720</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
