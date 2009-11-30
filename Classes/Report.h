@@ -109,11 +109,14 @@
 //@property (assign, nonatomic) double sumRoyaltiesEarned;  // replaced with method
 
 - (NSInteger) sumUnitsForProduct:(Product *)product transactionType:(TransactionType)ttype;
-- (NSInteger) sumRefundsForAppId:(NSUInteger)app_id;
+- (NSInteger) sumRefundsForProduct:(Product *)product;
+//- (NSInteger) sumRefundsForAppId:(NSUInteger)app_id;
 - (double) sumRoyaltiesForProduct:(Product *)product transactionType:(TransactionType)ttype;
+
 
 - (double) sumRoyaltiesForInAppPurchasesOfApp:(App *)app;
 - (NSInteger) sumUnitsForInAppPurchasesOfApp:(App *)app;
+- (NSInteger) sumRefundsForInAppPurchasesOfApp:(App *)app;
 
 - (CountrySummary *)summaryForIAPofApp:(App *)app;
 

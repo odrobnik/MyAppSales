@@ -282,11 +282,15 @@
 			double royalties = [report sumRoyaltiesForProduct:nil transactionType:TransactionTypeSale] +
 								[report sumRoyaltiesForProduct:nil transactionType:TransactionTypeIAP];
 
+			NSInteger refunds = [report sumRefundsForProduct:nil];
 			
 			cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", units];
 			cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", report.sumUnitsUpdated];
 			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-			NSInteger refunds = report.sumUnitsRefunded;
+			
+			
+			
+			
 			if (refunds)
 			{
 				cell.unitsRefundedLabel.text = [NSString stringWithFormat:@"%d", refunds];
@@ -326,23 +330,28 @@
 				// sum IAP + APP
 				cell.CELL_IMAGE = sumImage;
 				
+				NSInteger refunds = [report sumRefundsForProduct:rowApp];
+				
 				NSInteger appUnits = [report sumUnitsForProduct:rowApp transactionType:TransactionTypeSale];
+				NSInteger iapUnits = [report sumUnitsForInAppPurchasesOfApp:rowApp];
+				
 				NSInteger appUpdates = [report sumUnitsForProduct:rowApp transactionType:TransactionTypeFreeUpdate];
 				double appRoyalites = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesForProduct:rowApp transactionType:TransactionTypeSale] fromCurrency:@"EUR"];
 				double iapRoyalites = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesForInAppPurchasesOfApp:rowApp] fromCurrency:@"EUR"];
 				
-				NSInteger iapUnits = [report sumUnitsForInAppPurchasesOfApp:rowApp];
 
 				cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", appUnits + iapUnits];
 				cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", appUpdates];
 
-				cell.unitsRefundedLabel.text = nil;
-				
-				
-				//double salesRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report sumRoyaltiesEarned] fromCurrency:@"EUR"];
-				//cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
+				if (refunds)
+				{
+					cell.unitsRefundedLabel.text = [NSString stringWithFormat:@"%d", refunds];
+				}
+				else
+				{
+					cell.unitsRefundedLabel.text = @"";
+				}
 
-				
 				cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:appRoyalites + iapRoyalites];
 				break;
 			}
@@ -355,7 +364,8 @@
 				
 				cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForProduct:rowApp transactionType:TransactionTypeSale]];
 				cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForProduct:rowApp transactionType:TransactionTypeFreeUpdate]];
-				NSInteger refunds = [report  sumRefundsForAppId:rowApp.apple_identifier];
+				
+				NSInteger refunds = [report sumRefundsForProduct:rowApp];
 				if (refunds)
 				{
 					cell.unitsRefundedLabel.text = [NSString stringWithFormat:@"%d", refunds];
@@ -378,8 +388,17 @@
 				
 				cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForInAppPurchasesOfApp:rowApp]];
 				cell.unitsUpdatedLabel.text = nil;
-				cell.unitsRefundedLabel.text = nil;
 				
+				NSInteger refunds = [report sumRefundsForInAppPurchasesOfApp:rowApp];
+				
+				if (refunds)
+				{
+					cell.unitsRefundedLabel.text = [NSString stringWithFormat:@"%d", refunds];
+				}
+				else
+				{
+					cell.unitsRefundedLabel.text = @"";
+				}				
 				double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[report  sumRoyaltiesForInAppPurchasesOfApp:rowApp] fromCurrency:@"EUR"];
 				cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
 				
@@ -405,7 +424,7 @@
 		
 		cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", [report  sumUnitsForProduct:rowApp transactionType:TransactionTypeSale]];
 		cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForProduct:rowApp transactionType:TransactionTypeFreeUpdate]];
-		NSInteger refunds = [report  sumRefundsForAppId:rowApp.apple_identifier];
+		NSInteger refunds = [report sumRefundsForProduct:rowApp];
 		if (refunds)
 		{
 			cell.unitsRefundedLabel.text = [NSString stringWithFormat:@"%d", refunds];

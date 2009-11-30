@@ -282,7 +282,6 @@ static NSDateFormatter *dateFormatterToRead = nil;
 #pragma mark Notifications
 - (void) updateTotalsFromDict:(NSDictionary *)totalsDict
 {
-	NSLog(@"%@", totalsDict);
 	NSDictionary *tmpDict = [totalsDict objectForKey:@"ByApp"];
 	
 	NSDictionary *appDict = [tmpDict objectForKey:[self identifierAsNumber]];

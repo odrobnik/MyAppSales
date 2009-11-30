@@ -306,7 +306,7 @@
 						units += [report sumUnitsForProduct:filteredApp transactionType:TransactionTypeSale];
 						royalties += [report sumRoyaltiesForProduct:filteredApp transactionType:TransactionTypeSale];
 						updates += [report sumUnitsForProduct:filteredApp transactionType:TransactionTypeFreeUpdate];
-						refunds += [report sumRefundsForAppId:filteredApp.apple_identifier];
+						refunds += [report sumRefundsForProduct:filteredApp];
 
 					}
 					
@@ -392,7 +392,7 @@
 		}
 
 		cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", [report sumUnitsForProduct:rowApp transactionType:TransactionTypeFreeUpdate]];
-		NSInteger refunds = [report  sumRefundsForAppId:rowApp.apple_identifier];
+		NSInteger refunds = [report  sumRefundsForProduct:rowApp];
 		if (refunds)
 		{
 			cell.unitsRefundedLabel.text = [NSString stringWithFormat:@"%d", refunds];

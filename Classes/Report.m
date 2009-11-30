@@ -1128,6 +1128,51 @@ static sqlite3_stmt *hydrate_statement = nil;
 	return ret;
 }
 
+- (NSInteger) sumRefundsForProduct:(Product *)product
+{
+	NSArray *tmpArray;
+	TransactionType ttype;
+	
+	if ([product isKindOfClass:[App class]])
+	{
+		ttype = TransactionTypeSale;
+	}
+	else if ([product isKindOfClass:[InAppPurchase class]])
+	{
+		ttype = TransactionTypeIAP;
+	}
+	
+	if (product)
+	{
+		tmpArray = [salesByApp objectForKey:[product identifierAsNumber]];
+	}
+	else
+	{
+		tmpArray = sales;
+	}
+	
+	NSInteger ret = 0;
+	
+	if (tmpArray)
+	{
+		NSEnumerator *en = [tmpArray objectEnumerator];
+		Sale *aSale;
+		
+		while (aSale = [en nextObject]) 
+		{
+			if ((!product)||(product&&(ttype==aSale.transactionType)))
+			{
+				if (aSale.unitsSold<0)
+				{
+					ret += aSale.unitsSold;
+				}
+			}
+		}
+	}
+	
+	return ret;
+}
+
 - (double) sumRoyaltiesForProduct:(Product *)product transactionType:(TransactionType)ttype
 {
 	NSArray *tmpArray;
@@ -1151,7 +1196,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		
 		while (aSale = [en nextObject]) 
 		{
-			if (ttype==aSale.transactionType)
+			if ((ttype==aSale.transactionType))
 			{
 				ret += [[YahooFinance sharedInstance] convertToEuro:(aSale.royaltyPrice * aSale.unitsSold) fromCurrency:aSale.royaltyCurrency]; 
 			}
@@ -1160,6 +1205,8 @@ static sqlite3_stmt *hydrate_statement = nil;
 	
 	return ret;
 }
+
+
 
 - (double) sumRoyaltiesForInAppPurchasesOfApp:(App *)app
 {
@@ -1181,6 +1228,18 @@ static sqlite3_stmt *hydrate_statement = nil;
 	for (InAppPurchase *iap in iaps)
 	{
 		ret += [self sumUnitsForProduct:iap transactionType:TransactionTypeIAP];
+	}
+	return ret;
+}
+
+- (NSInteger) sumRefundsForInAppPurchasesOfApp:(App *)app
+{
+	NSArray *iaps = [app inAppPurchases];
+	NSInteger ret = 0;
+	
+	for (InAppPurchase *iap in iaps)
+	{
+		ret += [self sumRefundsForProduct:iap];
 	}
 	return ret;
 }
@@ -1230,6 +1289,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	return ret;
 }
 
+/*
 - (NSInteger) sumRefundsForAppId:(NSUInteger)app_id
 {
 	NSMutableArray *tmpArray = [salesByApp objectForKey:[NSNumber numberWithInt:app_id]];
@@ -1251,7 +1311,8 @@ static sqlite3_stmt *hydrate_statement = nil;
 	
 	return ret;
 }
-
+*/
+ 
 - (CountrySummary *)summaryForIAPofApp:(App *)app
 {
 	CountrySummary *tmpSummary = [CountrySummary blankSummary];
