@@ -33,6 +33,7 @@
 		A707A3390FA61238004060D9 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A707A3380FA61238004060D9 /* Default.png */; };
 		A709DD9E105F7C8A00FD8909 /* TableListSelectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = A709DD9D105F7C8A00FD8909 /* TableListSelectorView.m */; };
 		A70D5A7C0F17A66700A6FE9B /* YahooFinance.m in Sources */ = {isa = PBXBuildFile; fileRef = A70D5A7B0F17A66700A6FE9B /* YahooFinance.m */; };
+		A7113E6F10C3AE3E007BF151 /* PRY.png in Resources */ = {isa = PBXBuildFile; fileRef = A7113E6E10C3AE3E007BF151 /* PRY.png */; };
 		A72482810F1A0BA3003DADDD /* Report_Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A724827F0F1A0BA3003DADDD /* Report_Icon.png */; };
 		A72482820F1A0BA3003DADDD /* Report_Icon_New.png in Resources */ = {isa = PBXBuildFile; fileRef = A72482800F1A0BA3003DADDD /* Report_Icon_New.png */; };
 		A7248AC50F1BEEC9003DADDD /* AppCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7248AC40F1BEEC9003DADDD /* AppCell.m */; };
@@ -392,6 +393,7 @@
 		A709DD9D105F7C8A00FD8909 /* TableListSelectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableListSelectorView.m; sourceTree = "<group>"; };
 		A70D5A7A0F17A66700A6FE9B /* YahooFinance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YahooFinance.h; sourceTree = "<group>"; };
 		A70D5A7B0F17A66700A6FE9B /* YahooFinance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YahooFinance.m; sourceTree = "<group>"; };
+		A7113E6E10C3AE3E007BF151 /* PRY.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PRY.png; sourceTree = "<group>"; };
 		A724827F0F1A0BA3003DADDD /* Report_Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Report_Icon.png; sourceTree = "<group>"; };
 		A72482800F1A0BA3003DADDD /* Report_Icon_New.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Report_Icon_New.png; sourceTree = "<group>"; };
 		A7248AC30F1BEEC9003DADDD /* AppCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppCell.h; sourceTree = "<group>"; };
@@ -1302,6 +1304,7 @@
 		A7B3B4040F169CA000D211A0 /* countries */ = {
 			isa = PBXGroup;
 			children = (
+				A7113E6E10C3AE3E007BF151 /* PRY.png */,
 				A78DED2D105FDEF800786950 /* DOM.png */,
 				A78DED2E105FDEF800786950 /* ECU.png */,
 				A78DED2F105FDEF800786950 /* EGY.png */,
@@ -1816,6 +1819,7 @@
 				A7F05BB610B6B1050047A708 /* update_5_to_6.sql in Resources */,
 				A7AE190F10BD500B00E38C5B /* IAP_nano.png in Resources */,
 				A7AE19DB10BD698B00E38C5B /* IAP.png in Resources */,
+				A7113E6F10C3AE3E007BF151 /* PRY.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

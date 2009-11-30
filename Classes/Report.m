@@ -224,7 +224,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		
 		// first line = headers
 		oneLine = [enu nextObject];
-		NSArray *column_names = [oneLine componentsSeparatedByString:@"\t"];
+		NSArray *column_names = [oneLine arrayOfColumnNames];
 		
 		//	NSString *prev_until_date = @"";
 		
@@ -334,7 +334,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		
 		// first line = headers
 		oneLine = [enu nextObject];
-		NSArray *column_names = [oneLine componentsSeparatedByString:@"\t"];
+		NSArray *column_names = [oneLine arrayOfColumnNames];
 		
 		// work off all lines
 		

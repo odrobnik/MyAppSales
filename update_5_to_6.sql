@@ -20,14 +20,14 @@ CREATE TABLE IF NOT EXISTS InAppPurchase ('id' INTEGER PRIMARY KEY, 'title' VARC
 /* move existing IAP */
 
 replace into InAppPurchase (id, title, vendor_identifier, company_name) select id, title, vendor_identifier, company_name from app where id in (select distinct app_id from sale where type_id = 101);
-delete from app where id in (select id from InAppPurchase );
+delete from app where id in (select id from InAppPurchase);
 delete from AppAppGrouping where app_id in (select id from InAppPurchase );
 
 
 /* update schema_version */ 
 
 /*
-update meta set schema_version = 5; 
+update meta set schema_version = 6; 
 */
 
 commit;

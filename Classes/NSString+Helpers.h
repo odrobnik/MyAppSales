@@ -12,6 +12,7 @@
 @interface NSString (Helpers)
 
 // helper function
+- (NSArray *) arrayOfColumnNames;
 - (NSString *) getValueForNamedColumn:(NSString *)column_name  headerNames:(NSArray *)header_names;
 - (NSDate *) dateFromString;
 - (NSDate *) dateFromISO8601;

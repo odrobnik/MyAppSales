@@ -105,6 +105,31 @@
 	return retArray;
 }
 
+- (NSArray *) arrayOfColumnNames
+{
+	NSArray *column_names = [self componentsSeparatedByString:@"\t"];	
+	
+	NSMutableArray *tmpArray = [NSMutableArray array];
+	
+	
+	for (NSString *oneName in column_names)
+	{
+		NSString *cleanName = [oneName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		
+		[tmpArray addObject:cleanName];
+	}
+	
+	if ([tmpArray count])
+	{
+		return [NSArray arrayWithArray:tmpArray];
+	}
+	else 
+	{
+		return nil;
+	}
+
+}
+
 - (NSString *) getValueForNamedColumn:(NSString *)column_name headerNames:(NSArray *)header_names
 {
 	NSArray *columns = [self componentsSeparatedByString:@"\t"];
@@ -114,7 +139,7 @@
 		return nil;
 	}
 	
-	return [columns objectAtIndex:idx];
+	return [[columns objectAtIndex:idx] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 - (NSString *) stringByUrlEncoding
