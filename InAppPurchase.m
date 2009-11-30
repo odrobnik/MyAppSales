@@ -130,7 +130,11 @@ static sqlite3_stmt *update_statement = nil;
     sqlite3_bind_text(insert_statement, 2, [title UTF8String], -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(insert_statement, 3, [vendor_identifier UTF8String], -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(insert_statement, 4, [company_name UTF8String], -1, SQLITE_TRANSIENT);
-	sqlite3_bind_int(insert_statement, 5, parent.apple_identifier);
+	
+	if (parent)
+	{
+		sqlite3_bind_int(insert_statement, 5, parent.apple_identifier);
+	}
 	
     int success = sqlite3_step(insert_statement);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
@@ -170,8 +174,8 @@ static sqlite3_stmt *update_statement = nil;
     }
     // Bind the primary key variable.
     sqlite3_bind_text(update_statement, 1, [title UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int(update_statement, 2, apple_identifier);
-    sqlite3_bind_int(update_statement, 3, parent.apple_identifier);
+    sqlite3_bind_int(update_statement, 2, parent.apple_identifier);
+    sqlite3_bind_int(update_statement, 3, apple_identifier);
 	
     // Execute the query.
     int success = sqlite3_step(update_statement);
