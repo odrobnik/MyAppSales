@@ -226,6 +226,8 @@ static Database *_sharedInstance;
 // Load all apps and reports
 - (void)initializeDatabase 
 {
+	NSLog(@"Begin Init DB");
+
 	char *sql;
 	sqlite3_stmt *statement;
 	
@@ -284,6 +286,8 @@ static Database *_sharedInstance;
 	// Finalize the statement, no reuse.
 	sqlite3_finalize(statement);
 	
+	NSLog(@"- Country");
+	
 	languages = [tmpDict retain];
 	
 	// Load all apps
@@ -312,6 +316,9 @@ static Database *_sharedInstance;
 	// "Finalize" the statement - releases the resources associated with the statement.
 	sqlite3_finalize(statement); 
 	
+	NSLog(@"- Apps");
+
+	
 	// Load all IAP Products
     self.iaps = [NSMutableDictionary dictionary];
 	sql = "SELECT id FROM InAppPurchase";
@@ -338,7 +345,8 @@ static Database *_sharedInstance;
 	// "Finalize" the statement - releases the resources associated with the statement.
 	sqlite3_finalize(statement); 
 	
-	
+	NSLog(@"- IAPs");
+
 	
 	// Load all AppGroupings
 	// needed before the reports
@@ -367,6 +375,8 @@ static Database *_sharedInstance;
 	// "Finalize" the statement - releases the resources associated with the statement.
 	sqlite3_finalize(statement);
 	
+	NSLog(@"- Groupings");
+
 	
 	// Load all reports
 	
@@ -414,9 +424,10 @@ static Database *_sharedInstance;
 	// "Finalize" the statement - releases the resources associated with the statement.
 	sqlite3_finalize(statement);
 	
+	NSLog(@"- Reports");
+
 	
-	
-	
+	NSLog(@"End Init DB");
 }
 
 #pragma mark Accessing Database
@@ -1378,14 +1389,7 @@ static Database *_sharedInstance;
 #pragma mark Summing
 - (void)calcAvgRoyaltiesForApps
 {
-	// for calculations wee need the latest reports hydrated
-	
-	
-	[[self latestReportOfType:ReportTypeDay] hydrate];
-	[[self latestReportOfType:ReportTypeWeek] hydrate];
-	
-	
-	
+	NSLog(@"Start Average");
 	// day reports, they are sorted newest first
 	NSArray *dayReports = [self sortedReportsOfType:ReportTypeDay];
 	
@@ -1440,11 +1444,15 @@ static Database *_sharedInstance;
 	}
 	
 	// we could refresh the app table
+	NSLog(@"End Average");
+
 }
 
 
 - (void)getTotals
 {
+	NSLog(@"Start Totals");
+	
 	// return dictionary
 	NSMutableDictionary *byAppDict = [NSMutableDictionary dictionary];
 	NSMutableDictionary *byReportDict = [NSMutableDictionary dictionary];
@@ -1613,6 +1621,8 @@ static Database *_sharedInstance;
 		[oneIAP updateTotalsFromDict:retDict];
 	}
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"AppTotalsUpdated" object:nil userInfo:(id)retDict];
+	
+	NSLog(@"End Totals");
 }
 
 

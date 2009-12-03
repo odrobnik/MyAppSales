@@ -82,6 +82,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	NSLog(@"Start App Delegate");
+
+	
 	NSURL *launchURL;
 	BOOL forceSynch = NO;
 	
@@ -282,7 +285,7 @@
 	}
 	
 	
-	
+	NSLog(@"End App Delegate -----------------------------");
 	
 	return YES;
 }
