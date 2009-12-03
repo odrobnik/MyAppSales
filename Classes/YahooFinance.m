@@ -58,51 +58,7 @@ static YahooFinance *_sharedInstance = nil;
 			[nameIndex setObject:key forKey:[tmpDict objectForKey:@"Name"]];
 		}
 		
-		
-		
-/*		
-		NSMutableArray *tmpArray = [NSMutableArray arrayWithContentsOfFile:path];
-		NSEnumerator *enu = [tmpArray objectEnumerator];
-		NSMutableDictionary *one;
-		
-		
-	
-		
-		symbolDict = [[NSMutableDictionary alloc] initWithCapacity:[allCurrencies count]];
-		
-		curDict = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
-		
-		NSMutableDictionary *tmpDict = [[NSMutableDictionary alloc] init];
-		
-		while (one = [enu nextObject]) 
-		{
-			NSString *currency = [one objectForKey:@"countryCode"];
-			NSString *name = [one objectForKey:@"name"];
-			NSString *symbol = [one objectForKey:@"symbol"];
-			NSNumber *rate = [curDict objectForKey:[currency uppercaseString]];
 
-			[one setObject:rate forKey:@"rate"];
-			
-			NSMutableDictionary *tmpDictCur = [[NSMutableDictionary alloc] init];
-			[tmpDictCur setObject:name forKey:@"Name"];
-			[tmpDictCur setObject:rate forKey:@"Rate"];
-			[tmpDictCur setObject:symbol forKey:@"Symbol"];
-			
-			[tmpDict setObject:tmpDictCur forKey:currency];
-		}
-		
-		
-		path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"NewCurrencies.plist"];
-		NSLog(@"Write to %@", path);
-		[tmpDict writeToFile:path atomically:YES];
-		
-		
-		
-		if (!curDict)
-		{
-			curDict = [[NSMutableDictionary alloc] initWithCapacity:[allCurrencies count]];
-		}
-		*/
 		// make query string
 		NSMutableString *string = [NSMutableString string];
 		
