@@ -6,6 +6,10 @@ begin exclusive transaction;
 
 update country set name = 'Vietnam' where iso2 = 'VN';
 
+/* Fix incorrect language code for China */
+
+update country set language = 'zh-CN' where iso2 = 'CN';
+
 
 /* Remove reports without dates */
 
