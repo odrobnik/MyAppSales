@@ -47,18 +47,33 @@
     return result;
 }
 
+// OD: modified to use POST to prevent length error
 - (NSString*)translateText:(NSString*)sourceText fromLanguage:(NSString*)sourceLanguage toLanguage:(NSString*)targetLanguage
 {
-	NSMutableString* urlString = [NSMutableString string];
-	[urlString appendString:URL_STRING];
-	[urlString appendString:sourceLanguage];
-	[urlString appendString:@"%7C"];
-	[urlString appendString:targetLanguage];
-	[urlString appendString:TEXT_VAR];
+	NSString* urlString = @"http://ajax.googleapis.com/ajax/services/language/translate";
+
+	NSMutableString *bodyString = [NSMutableString stringWithString:@"v=1.0&langpair="];
+	
+	[bodyString appendString:sourceLanguage];
+	[bodyString appendString:@"|"];
+	[bodyString appendString:targetLanguage];
+	[bodyString appendString:TEXT_VAR];
 	NSString *encodedString = [sourceText stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
-	[urlString appendString:[self urlencode:encodedString]];
-	NSURL* url = [NSURL URLWithString: urlString];
-	NSURLRequest* request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+	[bodyString appendString:[self urlencode:encodedString]];
+	
+	NSMutableURLRequest *request =[NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]
+									cachePolicy:NSURLRequestUseProtocolCachePolicy
+								timeoutInterval:60.0];
+	[request setHTTPMethod:@"POST"];
+	[request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
+	
+	//create the body
+	NSMutableData *postBody = [NSMutableData data];
+	
+	[postBody appendData:[bodyString dataUsingEncoding:NSUTF8StringEncoding]];
+	
+	[request setHTTPBody:postBody];
+	
 	NSHTTPURLResponse* response; NSError* error;
 	NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error: &error];
 	
@@ -74,13 +89,13 @@
 		
 		NSNumber *responseStatus = [[contents JSONValue] objectForKey:@"responseStatus"];
 		
-		if([responseStatus integerValue] != 200)
+		if([responseStatus integerValue] != 200) 
 		{
 			NSLog(@"Response status: %d", [responseStatus integerValue]);
 			
 			return nil;
 		}
-				
+		
 		return [self translateCharacters:[[[contents JSONValue] objectForKey:@"responseData"] objectForKey:@"translatedText"]];
 	}
 }
