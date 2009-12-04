@@ -143,5 +143,6 @@
 
 - (void) notifyServerAboutReportAvailability;
 
+- (NSString *)stubAsString;
 
 @end

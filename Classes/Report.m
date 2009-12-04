@@ -1015,6 +1015,16 @@ static sqlite3_stmt *hydrate_statement = nil;
 	return retStatic;
 }
 
+- (NSString *)stubAsString
+{
+	return [NSString stringWithFormat:@"%d/%.0f/%.0f/%.0f/%d/%d/%d", primaryKey, 
+			[fromDate timeIntervalSinceReferenceDate], 
+			[untilDate timeIntervalSinceReferenceDate],
+			[downloadedDate timeIntervalSinceReferenceDate],
+			region, reportType, appGrouping.primaryKey];
+}
+
+
 #pragma mark Summing
 
 - (void) resetSummaries
