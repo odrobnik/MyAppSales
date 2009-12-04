@@ -113,6 +113,7 @@ static sqlite3_stmt *init_statement = nil;
 	else if ([cntry_code isEqualToString:@"AT"]||
 			 [cntry_code isEqualToString:@"BE"]||
 			 [cntry_code isEqualToString:@"CH"]||
+			 [cntry_code isEqualToString:@"CZ"]||
 			 [cntry_code isEqualToString:@"DE"]||
 			 [cntry_code isEqualToString:@"DK"]||
 			 [cntry_code isEqualToString:@"EE"]||
@@ -126,9 +127,11 @@ static sqlite3_stmt *init_statement = nil;
 			 [cntry_code isEqualToString:@"LT"]||
 			 [cntry_code isEqualToString:@"LU"]||
 			 [cntry_code isEqualToString:@"LV"]||
+			 [cntry_code isEqualToString:@"MT"]||
 			 [cntry_code isEqualToString:@"NL"]||
 			 [cntry_code isEqualToString:@"NO"]||
 			 [cntry_code isEqualToString:@"PL"]||
+			 [cntry_code isEqualToString:@"PT"]||
 			 [cntry_code isEqualToString:@"RO"]||
 			 [cntry_code isEqualToString:@"SE"]||
 			 [cntry_code isEqualToString:@"SI"]||
