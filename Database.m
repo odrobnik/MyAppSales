@@ -607,6 +607,14 @@ static Database *_sharedInstance;
 }
 
 #pragma mark Accessing Database
+- (BOOL)hasLoadedReportsOfType:(ReportType)reportType
+{
+	if (!reportsByReportType) return NO;
+	
+	return ([[reportsByReportType objectForKey:[NSNumber numberWithInt:reportType]] count]>0);
+}
+
+
 - (NSMutableArray *) reportsOfType:(ReportType)reportType
 {
 	if (!reportsByReportType)
@@ -1804,6 +1812,10 @@ static Database *_sharedInstance;
 
 -(void)cacheStubsForReportsOfType:(ReportType)reportType
 {
+	if (![self hasLoadedReportsOfType:reportType]) return;
+	
+	NSLog(@"Cache type %d", reportType);
+	
 	NSMutableString *tmpStr = [NSMutableString string];
 	
 	NSMutableArray *tmpReports = [self reportsOfType:reportType];
