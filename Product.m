@@ -332,8 +332,6 @@ static NSDateFormatter *dateFormatterToRead = nil;
 
 - (void) exchangeRatesChanged:(NSNotification *)notification
 {
-	totalRoyalties = [[YahooFinance sharedInstance] convertToEuroFromDictionary:sumsByCurrency];
-	
 	// force recalc on next time it is accessed
 	averageRoyaltiesPerDay = 0; 
 	
