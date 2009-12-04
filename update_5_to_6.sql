@@ -28,6 +28,14 @@ delete from app where id in (select id from InAppPurchase);
 delete from AppAppGrouping where app_id in (select id from InAppPurchase );
 
 
+/* Create Sum table per app/IAP total */
+
+CREATE TABLE IF NOT EXISTS ProductTotals (product_id INTEGER, currency char(3), sum_units INTEGER, sum_royalties REAL, PRIMARY KEY (product_id, currency));
+
+
+
+
+
 /* update schema_version */ 
 
 /*

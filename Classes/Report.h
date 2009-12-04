@@ -57,6 +57,9 @@
 
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db;
+- (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db fromDate:(NSDate *)aFromDate untilDate:(NSDate *)aUntilDate aDownloadedDate:(NSDate *)aDownloadedDate reportTypeID:(ReportType)reportTypeID reportRegionID:(ReportRegion)reportRegionID appGroupingID:(NSUInteger)appGroupingID;
+
+
 //- (id)initWithType:(ReportType)type from_date:(NSDate *)from_date until_date:(NSDate *)until_date downloaded_date:(NSDate *)downloaded_date region:(ReportRegion)report_region database:(sqlite3 *)db;
 - (id)initAsFreeReportWithDict:(NSDictionary *)dict;
 - (id)initWithReportText:(NSString *)text;

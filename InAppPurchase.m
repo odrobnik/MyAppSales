@@ -77,7 +77,8 @@ static sqlite3_stmt *update_statement = nil;
         sqlite3_reset(init_statement);
         dirty = NO;
 		
-		
+		[self loadSumsFromCache];
+
     }
 	
 	

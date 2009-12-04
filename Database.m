@@ -28,8 +28,8 @@
 - (void) updateSchemaIfNeeded;
 - (void)initializeDatabase;
 
-- (void)calcAvgRoyaltiesForApps;
-- (void)getTotals;
+//- (void)calcAvgRoyaltiesForApps;
+//- (void)getTotals;
 
 - (void) sendNewAppNotification:(App *)app;
 - (void) sendNewReportNotification:(Report *)report;
@@ -80,8 +80,8 @@ static Database *_sharedInstance;
 		[self updateSchemaIfNeeded];
 		[self initializeDatabase];
 		
-		[self calcAvgRoyaltiesForApps];
-		[self getTotals];
+		// [self calcAvgRoyaltiesForApps]; // deferred
+		//[self getTotals];
 		
 		// subscribe to change of exchange rates
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exchangeRatesChanged:) name:@"ExchangeRatesChanged" object:nil];
@@ -223,6 +223,95 @@ static Database *_sharedInstance;
 }
 
 #pragma mark Loading of Tables
+
+- (void) bulkLoadReports
+{
+	// Load all reports
+	
+    self.reports = [NSMutableDictionary dictionary];
+	self.reportsByReportType = [NSMutableDictionary dictionary];
+	
+	char *sql;
+	sqlite3_stmt *statement;
+
+	sql = "SELECT from_date, until_date, downloaded_date, report_type_id, report_region_id, appgrouping_id, report.id from report left join reportappgrouping on report_id = report.id";
+	
+	
+	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) 
+	{
+		// We "step" through the results - once for each row.
+		while (sqlite3_step(statement) == SQLITE_ROW) 
+		{
+			char *from_date = (char *)sqlite3_column_text(statement, 0);
+			NSDate *fromDate = nil;
+			
+			if (from_date)
+			{
+				fromDate = [NSDate dateFromRFC2822String:[NSString stringWithUTF8String:from_date]];
+			}
+			
+			
+			char *until_date = (char *)sqlite3_column_text(statement, 1);
+			NSDate *untilDate = nil;
+			
+			if (until_date)
+			{
+				untilDate = [NSDate dateFromRFC2822String:[NSString stringWithUTF8String:until_date]];
+			}
+			
+			char *downloaded_date = (char *)sqlite3_column_text(statement, 2);
+			NSDate *downloadedDate;
+			
+			if (downloaded_date)
+			{
+				downloadedDate = [NSDate dateFromRFC2822String:[NSString stringWithUTF8String:downloaded_date]];
+			}
+			
+			ReportType reportType = sqlite3_column_int(statement, 3);
+			ReportRegion region = sqlite3_column_int(statement, 4);
+			
+			NSUInteger groupingID = sqlite3_column_int(statement, 5);
+			NSUInteger primaryKey = sqlite3_column_int(statement, 6);
+			
+			
+			
+			Report *report = [[Report alloc] initWithPrimaryKey:primaryKey database:database
+													   fromDate:fromDate 
+													  untilDate:untilDate 
+												aDownloadedDate:downloadedDate
+												   reportTypeID:reportType
+												 reportRegionID:region 
+												  appGroupingID:groupingID];
+			
+			if (report)
+			{
+				[reports setObject:report forKey:[NSNumber numberWithInt:primaryKey]];
+				
+				// also add to the indexes
+				
+				NSNumber *reportTypeKey = [NSNumber numberWithInt:(int)report.reportType];
+				
+				NSMutableArray *arrayForThisType = [reportsByReportType objectForKey:reportTypeKey];
+				
+				if (!arrayForThisType)
+				{
+					// this is the first report of this type, create corresponding array
+					arrayForThisType = [NSMutableArray array];
+					[reportsByReportType setObject:arrayForThisType forKey:reportTypeKey];
+				}
+				
+				[arrayForThisType addObject:report];
+				[report release];
+			}
+		}
+	}
+	// "Finalize" the statement - releases the resources associated with the statement.
+	sqlite3_finalize(statement);
+}
+
+
+
+
 // Load all apps and reports
 - (void)initializeDatabase 
 {
@@ -379,10 +468,10 @@ static Database *_sharedInstance;
 
 	
 	// Load all reports
-	
+	/*
     self.reports = [NSMutableDictionary dictionary];
 	self.reportsByReportType = [NSMutableDictionary dictionary];
-	sql = "SELECT id FROM report order by from_date";
+	sql = "SELECT id FROM report";
 	
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) 
 	{
@@ -423,7 +512,9 @@ static Database *_sharedInstance;
 	}
 	// "Finalize" the statement - releases the resources associated with the statement.
 	sqlite3_finalize(statement);
+	*/
 	
+	[self bulkLoadReports];
 	NSLog(@"- Reports");
 
 	
@@ -964,7 +1055,7 @@ static Database *_sharedInstance;
 		
 		newReports ++;
 		
-		[self calcAvgRoyaltiesForApps];
+		//[self calcAvgRoyaltiesForApps];
 		[self sendNewReportNotification:newReport];
 		
 		// local number of daily/weekly new Reports tracking
@@ -1345,8 +1436,8 @@ static Database *_sharedInstance;
 	}
 	
 	// update sums
-	[self calcAvgRoyaltiesForApps];  // this causes avgRoyalties calc
-	[self getTotals];
+	//[self calcAvgRoyaltiesForApps];  // this causes avgRoyalties calc
+	//[self getTotals];
 }
 
 
@@ -1380,12 +1471,13 @@ static Database *_sharedInstance;
 		[dataToImport release];
 		dataToImport = nil;
 		
-		[self calcAvgRoyaltiesForApps];  // this causes avgRoyalties calc
-		[self getTotals];
+		//[self calcAvgRoyaltiesForApps];  // this causes avgRoyalties calc
+		//[self getTotals];
 		
 	}
 }
 
+/*
 #pragma mark Summing
 - (void)calcAvgRoyaltiesForApps
 {
@@ -1447,8 +1539,8 @@ static Database *_sharedInstance;
 	NSLog(@"End Average");
 
 }
-
-
+*/
+/*
 - (void)getTotals
 {
 	NSLog(@"Start Totals");
@@ -1624,7 +1716,7 @@ static Database *_sharedInstance;
 	
 	NSLog(@"End Totals");
 }
-
+*/
 
 #pragma mark Notification Sending
 - (void) sendNewAppNotification:(App *)app
@@ -1707,7 +1799,7 @@ static Database *_sharedInstance;
 - (void)exchangeRatesChanged:(NSNotification *) notification
 {
 	// different exchange rates require that we redo the totals
-	[DB getTotals]; 
+	//[DB getTotals]; // no longer necessary
 }
 
 

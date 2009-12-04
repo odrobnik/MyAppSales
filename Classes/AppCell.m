@@ -171,12 +171,12 @@
 		if (royalties_converted)
 		{
 			royaltiesLabel.text = [NSString stringWithFormat:@"%0@", [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:royalties_converted]];
-			totalUnitsLabel.text = [NSString stringWithFormat:@"%d sold", app.totalUnitsSold];
+			totalUnitsLabel.text = [NSString stringWithFormat:@"%d sold", app.totalUnits];
 		}
 		else
 		{
 			royaltiesLabel.text = @"free";
-			totalUnitsLabel.text = [NSString stringWithFormat:@"%d downloaded", app.totalUnitsFree];
+			totalUnitsLabel.text = [NSString stringWithFormat:@"%d downloaded", app.totalUnits];
 		}
 
 		[self setBadge];

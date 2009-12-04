@@ -346,11 +346,24 @@ static YahooFinance *_sharedInstance = nil;
 
 - (double) convertToEuroFromDictionary:(NSDictionary *)amountDict
 {
+	if (!amountDict) return 0;
+	
 	double ret = 0;
 	// root is a dictionary, we get the codes first
 	for (NSString *currency_code in [amountDict allKeys])
 	{
-		double original_amount = [[amountDict objectForKey:currency_code] doubleValue];
+		id val = [amountDict objectForKey:currency_code];
+		double original_amount = 0;
+		
+		if ([val isKindOfClass:[NSNumber class]])
+		{
+			 original_amount = [[amountDict objectForKey:currency_code] doubleValue];
+		}
+		else
+		{
+			 original_amount = [[[amountDict objectForKey:currency_code] objectForKey:@"Royalties"] doubleValue];
+		}
+
 		double converted_amount = [self convertToEuro:original_amount fromCurrency:currency_code];
 		ret += converted_amount;
 	}

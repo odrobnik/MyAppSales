@@ -16,6 +16,8 @@
 #import "SynchingManager.h"
 
 #import "App.h"
+#import "Report.h"
+#import "NSString+Helpers.h"
 
 
 // Static variables for compiled SQL queries. This implementation choice is to be able to share a one time
@@ -30,16 +32,22 @@ static sqlite3_stmt *update_statement = nil;
 
 //static sqlite3_stmt *delete_points_statement = nil;
 
-//static sqlite3_stmt *hydrate_statement = nil;
+static sqlite3_stmt *total_statement = nil;
 //static sqlite3_stmt *dehydrate_statement = nil;
 
 // Date formatter for XML files
 static NSDateFormatter *dateFormatterToRead = nil;
 
 
+@interface Product ()
+
+- (void) getTotalsFromCacheIfPossible:(BOOL)canUseCache;
+@end
+
+
 
 @implementation Product
-@synthesize isNew, averageRoyaltiesPerDay, apple_identifier, totalRoyalties, totalUnitsSold, totalUnitsFree;
+@synthesize isNew, averageRoyaltiesPerDay, apple_identifier, totalRoyalties, totalUnits;
 
 - (id)init
 {
@@ -49,7 +57,10 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		// subscribe to total update notifications
 		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appTotalsUpdated:) name:@"AppTotalsUpdated" object:nil];
 		// subscribe to cache emptying
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(emptyCache:) name:@"EmptyCache" object:nil];
+		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(emptyCache:) name:@"EmptyCache" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exchangeRatesChanged:) name:@"ExchangeRatesChanged" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:@"UIApplicationWillTerminateNotification" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportAdded:) name:@"NewReportAdded" object:nil];
 	}
 	
 	return self;
@@ -262,6 +273,28 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	return [NSNumber numberWithInt:apple_identifier];
 }
 
+-(double) totalRoyalties
+{
+	if (!sumsByCurrency)
+	{
+		[self getTotalsFromCacheIfPossible:YES];
+	}
+	
+	return totalRoyalties;
+}
+
+-(NSInteger) totalUnits
+{
+	if (!sumsByCurrency)
+	{
+		[self getTotalsFromCacheIfPossible:YES];
+	}
+	
+	return totalUnits;
+}
+
+
+
 #pragma mark Sorting
 - (NSComparisonResult)compareBySales:(Product *)otherProduct
 {
@@ -280,6 +313,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 }	
 
 #pragma mark Notifications
+/*
 - (void) updateTotalsFromDict:(NSDictionary *)totalsDict
 {
 	NSDictionary *tmpDict = [totalsDict objectForKey:@"ByApp"];
@@ -292,6 +326,259 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	sumsByCurrency = [[appDict objectForKey:@"SumsByCurrency"] retain];
 	totalRoyalties = [[YahooFinance sharedInstance] convertToEuroFromDictionary:sumsByCurrency];
 	
+	averageRoyaltiesPerDay = 0; // force recalc on next time it is accessed
+}
+*/
+
+- (void) exchangeRatesChanged:(NSNotification *)notification
+{
+	totalRoyalties = [[YahooFinance sharedInstance] convertToEuroFromDictionary:sumsByCurrency];
+	
+	// force recalc on next time it is accessed
+	averageRoyaltiesPerDay = 0; 
+	
+	totalRoyalties = [[YahooFinance sharedInstance] convertToEuroFromDictionary:sumsByCurrency];
+}
+
+
+#pragma mark Totals and Caching
+
+// save sums to cache
+-(void)applicationWillTerminate:(NSNotification *)notification
+{
+	if (sumsByCurrency)
+	{
+		/*
+		NSString *path = [NSString pathForFileInDocuments:[NSString stringWithFormat:@"%d_sums.dat", apple_identifier]];
+		
+		NSDictionary *saveDict = [NSDictionary dictionaryWithObjectsAndKeys:sumsByCurrency, @"SumsByCurrency", 
+								  [NSNumber numberWithInt:totalUnitsFree], @"TotalUnitsFree",
+								  [NSNumber numberWithInt:totalUnitsSold], @"TotalUnitsSold", nil];
+		
+		[saveDict writeToFile:path atomically:NO];
+		*/
+		
+		NSArray *currencies = [sumsByCurrency allKeys];
+		
+		sqlite3_stmt *statement;
+		
+		static char *sql = "REPLACE INTO ProductTotals(product_id, currency, sum_units, sum_royalties) VALUES(?, ?, ?, ?)";
+		if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) {
+			NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+		}
+		
+		sqlite3_bind_int(statement, 1, apple_identifier);
+		
+		for (NSString *oneCurrency in currencies)
+		{
+			id val = [sumsByCurrency objectForKey:oneCurrency];
+			double royalties = 0;
+			NSInteger units = 0;
+			
+			if ([val isKindOfClass:[NSNumber class]])
+			{
+				royalties = [val doubleValue];
+			}
+			else
+			{
+				royalties = [[val objectForKey:@"Royalties"] doubleValue];
+				units = [[val objectForKey:@"Units"] intValue];
+			}
+			
+			sqlite3_bind_text(statement, 2, [oneCurrency UTF8String], -1, SQLITE_TRANSIENT);
+			sqlite3_bind_int(statement, 3, units);
+			sqlite3_bind_double(statement, 4, royalties);
+			
+			int success = sqlite3_step(statement);
+			
+			NSAssert2((success == SQLITE_OK) || (success >= SQLITE_ROW), @"Error: sqlite3_step failed with error %d (%s).", success, sqlite3_errmsg(database));
+			
+			sqlite3_reset(statement);
+		}
+		
+		sqlite3_finalize(statement);
+		
+		
+	}
+}
+
+
+
+-(void)getTotalsFromCacheIfPossible:(BOOL)canUseCache
+{
+	if (!sumsByCurrency&&canUseCache)
+	{
+		[self loadSumsFromCache];
+		
+		if (sumsByCurrency)
+		{
+			NSLog(@"Loaded sums for %@ from DB", title);
+			return;
+		}
+	}
+	
+	NSLog(@"Start Totals for %@ %d", title, apple_identifier);
+	
+	sumsByCurrency = [[NSMutableDictionary alloc] init];
+	
+	// Compile the query for retrieving book data. See insertNewBookIntoDatabase: for more detail.
+	if (total_statement == nil) 
+	{
+		// Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
+		// This is a great way to optimize because frequently used queries can be compiled once, then with each
+		// use new variable values can be bound to placeholders.
+		const char *sql = "SELECT royalty_currency, sum(units), sum(units*royalty_price) FROM report r, sale s WHERE r.id = s.report_id and (type_id=1 or type_id=101) and report_type_id = 0 and app_id = ? group by royalty_currency";
+		if (sqlite3_prepare_v2(database, sql, -1, &total_statement, NULL) != SQLITE_OK) {
+			NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+		}
+		
+	}
+	// For this query, we bind the primary key to the first (and only) placeholder in the statement.
+	// Note that the parameters are numbered from 1, not from 0.
+	
+	sqlite3_bind_int(total_statement, 1, apple_identifier);
+	
+	totalRoyalties = 0;
+	totalUnits = 0;
+	
+	while (sqlite3_step(total_statement) == SQLITE_ROW) 
+	{
+		NSString *currency_code = [NSString stringWithUTF8String:(char *)sqlite3_column_text(total_statement, 0)];
+		NSUInteger units = sqlite3_column_int(total_statement, 1);
+		double royalties = sqlite3_column_double(total_statement, 2);
+		
+		NSMutableDictionary *sumDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithDouble:royalties], @"Royalties", 
+								 [NSNumber numberWithInt:units], @"Units", nil];
+		
+		[sumsByCurrency setObject:sumDict forKey:currency_code];
+		
+		totalUnits += units;
+	}
+	// Reset the statement for future reuse.
+	sqlite3_reset(total_statement);
+	
+	totalRoyalties = [[YahooFinance sharedInstance] convertToEuroFromDictionary:sumsByCurrency];	
+	
+	NSLog(@"Stop Totals");
+}
+
+-(void)loadSumsFromCache
+{
+		[sumsByCurrency release];
+	sumsByCurrency = nil;
+		
+		totalRoyalties = 0;
+		totalUnits = 0;
+		
+		sqlite3_stmt *statement;
+		
+		static char *sql = "SELECT currency, sum_units, sum_royalties FROM ProductTotals where product_id = ?";
+		if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) 
+		{
+			NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+		}
+		
+		sqlite3_bind_int(statement, 1, apple_identifier);
+		
+		while (sqlite3_step(statement) == SQLITE_ROW) 
+		{
+			NSString *currency = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+			NSInteger units = sqlite3_column_int(statement, 1);
+			NSInteger royalties = sqlite3_column_double(statement, 2);
+			
+			NSMutableDictionary *sumDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithDouble:royalties], @"Royalties",
+											[NSNumber numberWithInt:units], @"Units", nil];
+
+			
+			if (!sumsByCurrency)
+			{
+				sumsByCurrency = [[NSMutableDictionary alloc] init];
+			}
+				
+			[sumsByCurrency setObject:sumDict forKey:currency];
+			totalUnits += units;
+		}
+		
+		if (sumsByCurrency)
+		{
+			totalRoyalties = [[YahooFinance sharedInstance] convertToEuroFromDictionary:sumsByCurrency];
+		}
+		
+		sqlite3_finalize(statement);
+}	
+
+- (void) newReportAdded:(NSNotification *)notification
+{
+	if (notification)
+	{
+		NSDictionary *tmpDict = [notification userInfo];
+		
+		BOOL didUpdate = NO;
+		
+		Report *newReport = [tmpDict objectForKey:@"Report"];
+		
+		// we're only summing daily reports
+		if (newReport.reportType != ReportTypeDay) return;
+		
+		NSArray *mySales = [newReport.salesByApp objectForKey:[self identifierAsNumber]];
+
+		if (!sumsByCurrency)
+		{
+			sumsByCurrency = [[NSMutableDictionary alloc] init];
+		}
+		
+		for (Sale *oneSale in mySales)
+		{
+			if (oneSale.transactionType == TransactionTypeSale || oneSale.transactionType == TransactionTypeIAP)
+			{
+				NSInteger units = oneSale.unitsSold;
+				double royalties = oneSale.unitsSold * oneSale.royaltyPrice;
+
+				totalUnits += units;
+				
+				NSMutableDictionary *sumDict = [sumsByCurrency objectForKey:oneSale.royaltyCurrency];
+				
+				didUpdate = YES;
+				
+				if (!sumDict)
+				{
+					sumDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithDouble:royalties], @"Royalties",
+											[NSNumber numberWithInt:units], @"Units", nil];
+					
+					
+					[sumsByCurrency setObject:sumDict forKey:oneSale.royaltyCurrency];
+				}
+				else
+				{
+					units += [[sumDict objectForKey:@"Units"] intValue];
+					royalties += [[sumDict objectForKey:@"Royalties"] doubleValue];
+					
+					[sumDict setObject:[NSNumber numberWithInt:units] forKey:@"Units"];
+					[sumDict setObject:[NSNumber numberWithDouble:royalties] forKey:@"Royalties"];
+				}
+				
+			}
+			
+		}
+		
+		if (didUpdate)
+		{
+			totalRoyalties = [[YahooFinance sharedInstance] convertToEuroFromDictionary:sumsByCurrency];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"AppTotalsUpdated" object:nil userInfo:(id)self];
+		}
+	} 
+}
+
+- (void)emptyCache:(NSNotification *) notification
+{
+	[sumsByCurrency release];
+	sumsByCurrency = nil;
+	
+	averageRoyaltiesPerDay = 0;
+	totalUnits = 0;
+	totalRoyalties = 0;
+	
+	[self getTotalsFromCacheIfPossible:NO];
 }
 
 @end

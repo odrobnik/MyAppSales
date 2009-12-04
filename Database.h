@@ -95,7 +95,7 @@ typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope 
 
 - (void) importReportsFromDocumentsFolder;
 - (NSString *) createZipFromReportsOfType:(ReportType)type;
-- (void) getTotals; 
+//- (void) getTotals; 
 
 // used by iTunesConnect to check if report has been downloaded already
 - (Report *) reportForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion appGrouping:(AppGrouping *)appGrouping;

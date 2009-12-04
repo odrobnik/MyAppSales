@@ -34,10 +34,9 @@
 	
 	// sums
 	double totalRoyalties;
-	int totalUnitsSold;
-	int totalUnitsFree;
+	int totalUnits;
 	
-	NSDictionary *sumsByCurrency; // this dictionary is passed from the totals notification
+	NSMutableDictionary *sumsByCurrency; // this dictionary is passed from the totals notification
 }
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db;
@@ -59,14 +58,16 @@
 
 @property (assign, nonatomic) double averageRoyaltiesPerDay;
 @property (assign, readonly, nonatomic) double totalRoyalties;
-@property (assign, readonly, nonatomic) int totalUnitsSold;
-@property (assign, readonly, nonatomic) int totalUnitsFree;
+@property (assign, readonly, nonatomic) int totalUnits;
+
 
 - (NSComparisonResult)compareBySales:(Product *)otherIAP;
 
 
-- (void) updateTotalsFromDict:(NSDictionary *)totalsDict;
+//- (void) updateTotalsFromDict:(NSDictionary *)totalsDict;
 
 - (NSNumber *) identifierAsNumber;
+
+-(void)loadSumsFromCache;
 
 @end

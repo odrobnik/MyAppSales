@@ -209,7 +209,8 @@ static SynchingManager * _sharedInstance;
 	{
 		
 		// update sums
-		[[Database sharedInstance] getTotals];
+		//[[Database sharedInstance] getTotals];
+		
 		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
 		
 		//NSLog(@"synching done");

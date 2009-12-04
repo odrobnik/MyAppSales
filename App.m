@@ -15,6 +15,7 @@
 #import "Review.h"
 #import "Database.h"
 #import "Country.h"
+#import "Report.h"
 #import "SynchingManager.h"
 
 
@@ -43,40 +44,6 @@ static NSDateFormatter *dateFormatterToRead = nil;
 @synthesize iconImage, iconImageNano;
 @synthesize reviews, countNewReviews;
 
-- (void) getAllReviews
-{
-	
-	NSMutableDictionary *countries = [[Database sharedInstance] countries];
-	NSArray *allKeys = [countries allKeys];
-	
-	for (NSString *oneKey in allKeys)
-	{
-		Country *oneCountry = [countries objectForKey:oneKey];
-		if (oneCountry.appStoreID)
-		{
-			[[SynchingManager sharedInstance] scrapeForApp:self country:oneCountry delegate:self];
-		}
-	}
-}
-
-- (NSString *) reviewsAsHTML
-{
-	NSMutableString *tmpString = [NSMutableString string];
-	
-	for (Review *oneReview in reviews)
-	{
-		[tmpString appendString:[oneReview stringAsHTML]];
-	}
-	
-	if ([tmpString length])
-	{
-		return [NSString stringWithString:tmpString];
-	}
-	else 
-	{
-		return @"<p>No reviews in Database</p>";
-	}
-}
 
 
 - (id)init
@@ -187,6 +154,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
     }
 	
 	[self loadImageFromBirne];
+	//[self loadSumsFromCache];
 	
     return self;
 }
@@ -217,6 +185,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	
 }
 
+#pragma mark Loading Icon 
 - (void) loadImageFromBirne
 {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -387,7 +356,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	}
 }
 
-
+#pragma mark Database
 
 - (void)insertIntoDatabase:(sqlite3 *)db {
     database = db;
@@ -533,7 +502,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 // override to include IAPs
 -(double) totalRoyalties
 {
-	double ret = totalRoyalties;
+	double ret = super.totalRoyalties;
 	
 	for (InAppPurchase *oneIAP in [self inAppPurchases])
 	{
@@ -562,54 +531,59 @@ static NSDateFormatter *dateFormatterToRead = nil;
  
 
 // override to include IAPs
--(NSInteger) totalUnitsSold
+-(NSInteger) totalUnits
 {
-	double ret = totalUnitsSold;
+	double ret = super.totalUnits;
 	
 	for (InAppPurchase *oneIAP in [self inAppPurchases])
 	{
-		ret += oneIAP.totalUnitsSold;
+		ret += oneIAP.totalUnits;
 	}
 	
 	return ret;
 }
 
-
-#pragma mark Notifications
-- (void) updateTotalsFromDict:(NSDictionary *)totalsDict
+- (double) averageRoyaltiesPerDay
 {
-	NSDictionary *tmpDict = [totalsDict objectForKey:@"ByApp"];
+	double sum = 0;
+
+	if (!averageRoyaltiesPerDay)
+	{
+		NSArray *sortedReports = [DB sortedReportsOfType:ReportTypeDay];
+		
+		NSInteger reportsToAvg = MIN(7,[sortedReports count]);
+		
+		for (int i=0; i<reportsToAvg; i++)
+		{
+			Report *report = [sortedReports objectAtIndex:i];
+			
+			double appRoyalites = [report sumRoyaltiesForProduct:self transactionType:TransactionTypeSale];  // in EUR
+			double iapRoyalites = [report sumRoyaltiesForInAppPurchasesOfApp:self];  // in EUR
+			
+			sum += appRoyalites + iapRoyalites;
+		}
+		
+		if (reportsToAvg>0)
+		{
+			averageRoyaltiesPerDay = sum / (double)reportsToAvg;
+		}
+		
+	}
 	
-	NSDictionary *appDict = [tmpDict objectForKey:[NSNumber numberWithInt:apple_identifier]];
-	
-	totalUnitsSold = [[appDict objectForKey:@"UnitsPaid"] intValue];
-	totalUnitsFree = [[appDict objectForKey:@"UnitsFree"] intValue];
-	
-	sumsByCurrency = [[appDict objectForKey:@"SumsByCurrency"] retain];
-	totalRoyalties = [[YahooFinance sharedInstance] convertToEuroFromDictionary:sumsByCurrency];
-	
+	return averageRoyaltiesPerDay;
 }
+
+
+
 
 - (void)emptyCache:(NSNotification *) notification
 {
+	[super emptyCache:notification];
 	[iconImage release];
 	iconImage = nil;
 	[iconImageNano release];
 	iconImageNano = nil;
 }
-
-- (void) removeReviewTranslations
-{
-	for (Review *oneReview in reviews)
-	{
-		oneReview.translated_review = nil;
-		//[oneReview updateDatabase]; // unnecessary
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"AppReviewsUpdated" object:nil userInfo:(id)self];
-
-		[[SynchingManager sharedInstance] translateReview:oneReview delegate:oneReview];
-	}
-}
-
 
 #pragma mark ReviewScraper
 
@@ -636,6 +610,53 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	reviews = [[tmpArray sortedArrayUsingSelector:@selector(compareByReviewDate:)] retain];
 
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"AppReviewsUpdated" object:nil userInfo:(id)self];
+}
+
+- (void) removeReviewTranslations
+{
+	for (Review *oneReview in reviews)
+	{
+		oneReview.translated_review = nil;
+		//[oneReview updateDatabase]; // unnecessary
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"AppReviewsUpdated" object:nil userInfo:(id)self];
+		
+		[[SynchingManager sharedInstance] translateReview:oneReview delegate:oneReview];
+	}
+}
+
+- (void) getAllReviews
+{
+	
+	NSMutableDictionary *countries = [[Database sharedInstance] countries];
+	NSArray *allKeys = [countries allKeys];
+	
+	for (NSString *oneKey in allKeys)
+	{
+		Country *oneCountry = [countries objectForKey:oneKey];
+		if (oneCountry.appStoreID)
+		{
+			[[SynchingManager sharedInstance] scrapeForApp:self country:oneCountry delegate:self];
+		}
+	}
+}
+
+- (NSString *) reviewsAsHTML
+{
+	NSMutableString *tmpString = [NSMutableString string];
+	
+	for (Review *oneReview in reviews)
+	{
+		[tmpString appendString:[oneReview stringAsHTML]];
+	}
+	
+	if ([tmpString length])
+	{
+		return [NSString stringWithString:tmpString];
+	}
+	else 
+	{
+		return @"<p>No reviews in Database</p>";
+	}
 }
 
 @end

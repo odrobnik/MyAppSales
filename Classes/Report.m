@@ -28,7 +28,7 @@
 // can be closed.
 static sqlite3_stmt *insert_statement = nil;
 static sqlite3_stmt *init_statement = nil;
-static sqlite3_stmt *init_grouping_statement = nil;
+//static sqlite3_stmt *init_grouping_statement = nil;
 static sqlite3_stmt *update_statement = nil;
 static sqlite3_stmt *delete_statement = nil;
 //static sqlite3_stmt *delete_points_statement = nil;
@@ -52,16 +52,97 @@ static sqlite3_stmt *hydrate_statement = nil;
 
 
 #pragma mark Initialization
+
+// bulk load experiment
+
+-(id)init
+{
+	if (self = [super init])
+	{
+		dirty = NO;
+		hydrated = NO;
+		
+		isNew = NO;
+		
+		// subscribe to total update notifications
+		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appTotalsUpdated:) name:@"AppTotalsUpdated" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainCurrencyNotification:) name:@"MainCurrencyChanged" object:nil];
+	}
+	
+	return self;
+}
+
+
+- (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db fromDate:(NSDate *)aFromDate untilDate:(NSDate *)aUntilDate aDownloadedDate:(NSDate *)aDownloadedDate reportTypeID:(ReportType)reportTypeID reportRegionID:(ReportRegion)reportRegionID appGroupingID:(NSUInteger)appGroupingID
+{
+	if (self = [self init])
+	{
+        primaryKey = pk;
+        database = db;
+		
+		if (aFromDate)
+		{
+			self.fromDate = aFromDate;
+		}
+		else
+		{
+			NSLog(@"Encountered NULL fromDate in report with ID %d", primaryKey);
+			[self release];
+			return nil;
+		}
+		
+		
+		if (aUntilDate)
+		{
+			self.untilDate = aUntilDate;
+		}
+		else
+		{
+			NSLog(@"Encountered NULL untilDate in report with ID %d", primaryKey);
+			[self release];
+			return nil;
+		}
+		
+		if (aDownloadedDate)
+		{
+			self.downloadedDate = aDownloadedDate;
+		}
+		else
+		{
+			NSLog(@"Encountered NULL downloadedDate in report with ID %d", primaryKey);
+			[self release];
+			return nil;
+		}
+		
+		self.reportType = reportTypeID;
+		self.region = reportRegionID;
+		
+		self.appGrouping = [DB appGroupingForID:appGroupingID];
+		
+		if (!appGrouping)
+		{
+			[self hydrate];
+			
+			self.appGrouping = [DB appGroupingForReport:self];
+			[self updateInDatabase];
+		}
+		
+	}
+	
+	return self;
+}
+
+
 // Creates the object with primary key and title is brought into memory.
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db {
-    if (self = [super init]) 
+    if (self = [self init]) 
 	{
         primaryKey = pk;
         database = db;
   
         if (init_statement == nil) 
 		{
-            const char *sql = "SELECT from_date, until_date, downloaded_date, report_type_id, report_region_id FROM report WHERE report.id=?";
+            const char *sql = "SELECT from_date, until_date, downloaded_date, report_type_id, report_region_id, appgrouping_id from report left join reportappgrouping on report_id = report.id where report.id = ?;";
             if (sqlite3_prepare_v2(database, sql, -1, &init_statement, NULL) != SQLITE_OK) {
                 NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
             }
@@ -113,89 +194,30 @@ static sqlite3_stmt *hydrate_statement = nil;
 			
 			self.reportType = sqlite3_column_int(init_statement, 3);
 			self.region = sqlite3_column_int(init_statement, 4);
-        } else {
+			
+			NSUInteger groupingID = sqlite3_column_int(init_statement, 5);
+			
+			self.appGrouping = [DB appGroupingForID:groupingID];
+			
+			if (!appGrouping)
+			{
+				[self hydrate];
+			
+				self.appGrouping = [DB appGroupingForReport:self];
+				[self updateInDatabase];
+			}
         }
+		
         // Reset the statement for future reuse.
         sqlite3_reset(init_statement);
-		
-		if (init_grouping_statement == nil) 
-		{
-            const char *sql = "SELECT appgrouping_id FROM ReportAppGrouping WHERE report_id=?";
-            if (sqlite3_prepare_v2(database, sql, -1, &init_grouping_statement, NULL) != SQLITE_OK) {
-                NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-            }
-        }
-        // For this query, we bind the primary key to the first (and only) placeholder in the statement.
-        // Note that the parameters are numbered from 1, not from 0.
-        sqlite3_bind_int(init_grouping_statement, 1, primaryKey);
-        if (sqlite3_step(init_grouping_statement) == SQLITE_ROW) 
-		{
-			NSUInteger groupingID = sqlite3_column_int(init_grouping_statement, 0);
-			self.appGrouping = [DB appGroupingForID:groupingID];
-        } 
-		else 
-		{
-			[self hydrate];
-			
-			self.appGrouping = [DB appGroupingForReport:self];
-			[self updateInDatabase];
-        }
-        // Reset the statement for future reuse.
-        sqlite3_reset(init_grouping_statement);		
-		
-		
-		
-        dirty = NO;
-		hydrated = NO;
-		
-		isNew = NO;
-		
-		// subscribe to total update notifications
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appTotalsUpdated:) name:@"AppTotalsUpdated" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainCurrencyNotification:) name:@"MainCurrencyChanged" object:nil];
-		
-		
     }
     return self;
 }
-
-/*
-- (id)initWithType:(ReportType)type from_date:(NSDate *)from_date until_date:(NSDate *)until_date downloaded_date:(NSDate *)downloaded_date region:(ReportRegion)report_region database:(sqlite3 *)db
-{
-	if (self = [super init])
-	{
-		database = db;
-		self.reportType = type;
-		self.fromDate = from_date;  // property copies it anyway, app is "dirty" after setting
-		self.untilDate = until_date;
-		self.downloadedDate = downloaded_date;
-		region = report_region;
-		
-		[self insertIntoDatabase:database];  // insert into DB right away
-		
-		hydrated = NO;
-		dirty = NO;
-		
-		isNew = YES;
-		
-		// subscribe to total update notifications
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appTotalsUpdated:) name:@"AppTotalsUpdated" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainCurrencyNotification:) name:@"MainCurrencyChanged" object:nil];
-		
-		
-		return self;
-	}
-	else
-	{
-		return nil;
-	}
-}
-*/
  
 // monthly free reports dont have beginning and end dates, thus they need to be supplied
 - (id)initAsFreeReportWithDict:(NSDictionary *)dict
 {
-	if (self = [super init])
+	if (self = [self init])
 	{
 		NSDate *fromDateIn = [dict objectForKey:@"FromDate"];
 		NSDate *untilDateIn = [dict objectForKey:@"UntilDate"];
@@ -797,12 +819,20 @@ static sqlite3_stmt *hydrate_statement = nil;
 	return [NSDate dateWithTimeIntervalSince1970:middle];
 }
 
-- (NSString *)monthForMonthlyReports
+- (NSString *)monthForMonthlyReports:(BOOL)shorter
 {
 	NSDate *tmpDate = [self dateInMiddleOfReport];
 	
 	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
-	[df setDateFormat:@"MMMM YYYY"];
+	if (shorter)
+	{
+		[df setDateFormat:@"MMM YYYY"];
+	}
+	else
+	{
+		[df setDateFormat:@"MMMM YYYY"];
+	}
+
 	
 	return [df stringFromDate:tmpDate];
 }
@@ -868,7 +898,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		}
 		case ReportTypeFree:
 		{
-			return [self monthForMonthlyReports];
+			return [self monthForMonthlyReports:shorter];
 			break;
 		}
 		case ReportTypeFinancial:
@@ -906,7 +936,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 					region_name = @"Invalid Region";
 			}
 			
-			return [NSString stringWithFormat:@"%@ %@", [self monthForMonthlyReports], region_name];
+			return [NSString stringWithFormat:@"%@ %@", [self monthForMonthlyReports:shorter], region_name];
 			break;
 		}
 			
@@ -1102,7 +1132,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	
 	if (product)
 	{
-		tmpArray = [salesByApp objectForKey:[product identifierAsNumber]];
+		tmpArray = [self.salesByApp objectForKey:[product identifierAsNumber]];
 	}
 	else
 	{
@@ -1144,7 +1174,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	
 	if (product)
 	{
-		tmpArray = [salesByApp objectForKey:[product identifierAsNumber]];
+		tmpArray = [self.salesByApp objectForKey:[product identifierAsNumber]];
 	}
 	else
 	{
@@ -1179,7 +1209,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	
 	if (product)
 	{
-		tmpArray = [salesByApp objectForKey:[product identifierAsNumber]];
+		tmpArray = [self.salesByApp objectForKey:[product identifierAsNumber]];
 	}
 	else
 	{
@@ -1247,7 +1277,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 
 - (double) sumRoyaltiesForAppId:(NSUInteger)app_id inCurrency:(NSString *)curCode
 {
-	NSMutableArray *tmpArray = [salesByApp objectForKey:[NSNumber numberWithInt:app_id]];
+	NSMutableArray *tmpArray = [self.salesByApp objectForKey:[NSNumber numberWithInt:app_id]];
 	double ret = 0;
 	
 	if (tmpArray)
@@ -1279,7 +1309,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	
 	double ret = 0;
 	
-	for (NSNumber *oneKey in [salesByApp allKeys])
+	for (NSNumber *oneKey in [self.salesByApp allKeys])
 	{
 		ret += [self sumRoyaltiesForAppId:[oneKey intValue] inCurrency:@"EUR"];   // internally all is Euro
 	}
@@ -1451,6 +1481,17 @@ static sqlite3_stmt *hydrate_statement = nil;
 // dates, data buffers, etc. This ensures that subsequent changes to either the original or the copy don't violate 
 // the encapsulation of the owning object.
 
+- (NSMutableDictionary *)salesByApp
+{
+	if (!salesByApp)
+	{
+		[self hydrate];
+	}
+	
+	return salesByApp;
+}
+
+
 - (NSUInteger)primaryKey {
     return primaryKey;
 }
@@ -1516,6 +1557,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	return NSOrderedSame;
 }
 
+/*
 #pragma mark Notifications
 - (void)appTotalsUpdated:(NSNotification *) notification
 {
@@ -1533,6 +1575,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		sumRoyaltiesEarned = [[YahooFinance sharedInstance] convertToEuroFromDictionary:sumsByCurrency];	
 	}
 }
+*/
 
 - (void)mainCurrencyNotification:(NSNotification *) notification
 {
@@ -1543,6 +1586,8 @@ static sqlite3_stmt *hydrate_statement = nil;
 {
 	sumRoyaltiesEarned = 0;  // forces recalculation of this sum on next call
 }
+
+
 
 
 #pragma mark MyAppSales Web Service

@@ -43,8 +43,6 @@
 
 @property (nonatomic, readonly) NSUInteger countNewReviews;
 
-- (void) updateTotalsFromDict:(NSDictionary *)totalsDict;
-
 - (void) getAllReviews;
 - (void) removeReviewTranslations;
 - (NSString *) reviewsAsHTML;
