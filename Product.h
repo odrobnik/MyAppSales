@@ -69,5 +69,6 @@
 - (NSNumber *) identifierAsNumber;
 
 -(void)loadSumsFromCache;
+- (void)emptyCache:(NSNotification *) notification;
 
 @end
