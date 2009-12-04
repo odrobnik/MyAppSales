@@ -90,6 +90,7 @@ typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope 
 
 - (void) newReportRead:(Report *)report;
 
+- (void) unloadReports;
 - (void) reloadAllAppIcons;
 - (void) removeAllReviewTranslations;
 

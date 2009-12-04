@@ -581,7 +581,9 @@
 	
 	
 	// reload app icons
+	[DB unloadReports];
 	[DB reloadAllAppIcons];
+	
 	
 }
 

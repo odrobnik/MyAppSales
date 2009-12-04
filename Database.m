@@ -331,47 +331,54 @@ static Database *_sharedInstance;
 			NSInteger reportType;
 			NSInteger groupingID;
 			
-			[scanner scanInteger:&primaryKey];
-			[scanner scanString:@"/" intoString:nil];
-			[scanner scanDouble:&fromDateTI];
-			[scanner scanString:@"/" intoString:nil];
-			[scanner scanDouble:&untilDateTI];
-			[scanner scanString:@"/" intoString:nil];
-			[scanner scanDouble:&downloadedDateTI];
-			[scanner scanString:@"/" intoString:nil];
-			[scanner scanInteger:&region];
-			[scanner scanString:@"/" intoString:nil];
-			[scanner scanInteger:&reportType];
-			[scanner scanString:@"/" intoString:nil];
-			[scanner scanInt:&groupingID];
-			
-			
-			NSDate *fromDate = [NSDate dateWithTimeIntervalSinceReferenceDate:fromDateTI];
-			NSDate *untilDate = [NSDate dateWithTimeIntervalSinceReferenceDate:untilDateTI];
-			NSDate *downloadedDate = [NSDate date];
-			
-			Report *report = [[Report alloc] initWithPrimaryKey:primaryKey database:database
-													   fromDate:fromDate 
-													  untilDate:untilDate 
-												aDownloadedDate:downloadedDate
-												   reportTypeID:reportType
-												 reportRegionID:region 
-												  appGroupingID:groupingID];
-			
-			if (report)
+			if ([scanner scanInteger:&primaryKey])
 			{
-				// also add to the indexes
-				[self addReportToIndex:report];
+				[scanner scanString:@"/" intoString:nil];
+				[scanner scanDouble:&fromDateTI];
+				[scanner scanString:@"/" intoString:nil];
+				[scanner scanDouble:&untilDateTI];
+				[scanner scanString:@"/" intoString:nil];
+				[scanner scanDouble:&downloadedDateTI];
+				[scanner scanString:@"/" intoString:nil];
+				[scanner scanInteger:&region];
+				[scanner scanString:@"/" intoString:nil];
+				[scanner scanInteger:&reportType];
+				[scanner scanString:@"/" intoString:nil];
+				[scanner scanInt:&groupingID];
 				
-				[report release];
-			}	
+				
+				NSDate *fromDate = [NSDate dateWithTimeIntervalSinceReferenceDate:fromDateTI];
+				NSDate *untilDate = [NSDate dateWithTimeIntervalSinceReferenceDate:untilDateTI];
+				NSDate *downloadedDate = [NSDate date];
+				
+				Report *report = [[Report alloc] initWithPrimaryKey:primaryKey database:database
+														   fromDate:fromDate 
+														  untilDate:untilDate 
+													aDownloadedDate:downloadedDate
+													   reportTypeID:reportType
+													 reportRegionID:region 
+													  appGroupingID:groupingID];
+				
+				if (report)
+				{
+					// also add to the indexes
+					[self addReportToIndex:report];
+					
+					[report release];
+				}	
+			}
+			else
+			{
+				NSLog(@"FIN");
+			}
+
 		}
 		
 		return;
 	}
 	
 	NSLog(@"Cache fail type %d, doing SELECT", reportType);
-
+	
 	
 	char *sql;
 	sqlite3_stmt *statement;
@@ -614,6 +621,15 @@ static Database *_sharedInstance;
 	return ([[reportsByReportType objectForKey:[NSNumber numberWithInt:reportType]] count]>0);
 }
 
+- (void)unloadReports
+{
+	[reports release];
+	reports = nil;
+	
+	[reportsByReportType release];
+	reportsByReportType = nil;
+}
+
 
 - (NSMutableArray *) reportsOfType:(ReportType)reportType
 {
@@ -640,6 +656,9 @@ static Database *_sharedInstance;
 - (void) addReportToIndex:(Report *)report
 {
 	NSMutableArray *arrayForThisType = [self reportsOfType:report.reportType];
+	
+	//NSLog(@"index: %d, add %@", [arrayForThisType count], report);
+	
 	[arrayForThisType addObject:report];
 	
 	if (!reports)
@@ -1302,7 +1321,6 @@ static Database *_sharedInstance;
 }
 
 #pragma mark Misc
-
 - (void) reloadAllAppIcons
 {
 	for (NSNumber *oneAppID in apps)
