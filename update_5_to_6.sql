@@ -33,13 +33,25 @@ delete from AppAppGrouping where app_id in (select id from InAppPurchase );
 CREATE TABLE IF NOT EXISTS ProductTotals (product_id INTEGER, currency char(3), sum_units INTEGER, sum_royalties REAL, PRIMARY KEY (product_id, currency));
 
 
+/* Move app grouping from own table to report table */
 
+DROP TABLE IF EXISTS tmp_report;
 
+CREATE TABLE tmp_report as select id, report_type_id, report_region_id, from_date, until_date, downloaded_date from report;
+
+DROP TABLE report;
+
+CREATE TABLE report (id INTEGER PRIMARY KEY, report_type_id INTEGER, report_region_id INTEGER, from_date DATE, until_date DATE, downloaded_date DATE, appgrouping_id INTEGER);
+
+INSERT INTO report (id, report_type_id, report_region_id, from_date, until_date, downloaded_date, appgrouping_id) select id, report_type_id, report_region_id, from_date, until_date, downloaded_date, reportappgrouping.appgrouping_id from tmp_report left join reportappgrouping on tmp_report.id = report_id; 
+
+DROP TABLE tmp_report;
+
+DROP TABLE ReportAppGrouping;
 
 /* update schema_version */ 
 
-/*
 update meta set schema_version = 6; 
-*/
+
 
 commit;

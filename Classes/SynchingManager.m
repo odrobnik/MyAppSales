@@ -123,6 +123,9 @@ static SynchingManager * _sharedInstance;
 	[wu setQueuePriority:NSOperationQueuePriorityVeryHigh];
 	
 	wu.reportsToIgnore = [[Database sharedInstance] allReportsWithAppGrouping:[itcAccount appGrouping]];
+	
+	NSLog(@"%@", wu.reportsToIgnore);
+	
 	wu.delegate = self;
 	
 	// if there are previous downloads we wait until they are done by making a new download dependent on them

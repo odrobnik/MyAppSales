@@ -142,7 +142,7 @@ static sqlite3_stmt *hydrate_statement = nil;
   
         if (init_statement == nil) 
 		{
-            const char *sql = "SELECT from_date, until_date, downloaded_date, report_type_id, report_region_id, appgrouping_id from report left join reportappgrouping on report_id = report.id where report.id = ?;";
+            const char *sql = "SELECT from_date, until_date, downloaded_date, report_type_id, report_region_id, appgrouping_id from report where report.id = ?;";
             if (sqlite3_prepare_v2(database, sql, -1, &init_statement, NULL) != SQLITE_OK) {
                 NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
             }
@@ -552,7 +552,7 @@ static sqlite3_stmt *hydrate_statement = nil;
     // variable is used to store the SQLite compiled byte-code for the query, which is generated one time - the first
     // time the method is executed by any Book object.
     if (insert_statement == nil) {
-        static char *sql = "INSERT INTO report(from_date, until_date, downloaded_date, report_type_id, report_region_id) VALUES(?, ?, ?, ?, ?)";
+        static char *sql = "INSERT INTO report(from_date, until_date, downloaded_date, report_type_id, report_region_id, appgrouping_id) VALUES(?, ?, ?, ?, ?, ?)";
         if (sqlite3_prepare_v2(database, sql, -1, &insert_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
@@ -563,6 +563,15 @@ static sqlite3_stmt *hydrate_statement = nil;
 	sqlite3_bind_text(insert_statement, 3, [[downloadedDate description]UTF8String], -1, SQLITE_TRANSIENT);
     sqlite3_bind_int(insert_statement, 4, reportType);
     sqlite3_bind_int(insert_statement, 5, region);
+	
+	if (appGrouping)
+	{
+		sqlite3_bind_int(insert_statement, 6, appGrouping.primaryKey);
+	}
+	else
+	{
+		sqlite3_bind_null(insert_statement, 6);
+	}
 	
     int success = sqlite3_step(insert_statement);
     // Because we want to reuse the statement, we "reset" it instead of "finalizing" it.
@@ -661,14 +670,14 @@ static sqlite3_stmt *hydrate_statement = nil;
     // Compile the delete statement if needed.
     if (update_statement == nil) 
 	{
-        const char *sql = "REPLACE INTO  ReportAppGrouping (report_id, appgrouping_id) values (?, ?)";
+        const char *sql = "UPDATE REPORT set appgrouping_id = ? WHERE id = ?";
         if (sqlite3_prepare_v2(database, sql, -1, &update_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
     }
     // Bind the primary key variable.
-    sqlite3_bind_int(update_statement, 1, primaryKey);
-    sqlite3_bind_int(update_statement, 2, appGrouping.primaryKey);
+    sqlite3_bind_int(update_statement, 1, appGrouping.primaryKey);
+    sqlite3_bind_int(update_statement, 2, primaryKey);
     // Execute the query.
     int success = sqlite3_step(update_statement);
     // Reset the statement for future use.

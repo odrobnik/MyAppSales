@@ -138,6 +138,7 @@
 		cell.CELL_IMAGE = report_icon;
 	}
 	
+	/*
 	if ([DB countOfReportsForType:indexPath.row])
 	{
 		cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
@@ -146,6 +147,11 @@
 	{
 		cell.accessoryType=UITableViewCellAccessoryNone;
 	}
+	 */
+	
+	cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+	
+	 
     return cell;
 }
 
