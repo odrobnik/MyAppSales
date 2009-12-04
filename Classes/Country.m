@@ -94,14 +94,22 @@ static sqlite3_stmt *init_statement = nil;
 	ReportRegion region = ReportRegionUnknown;
 	NSString *cntry_code = self.iso2;
 	
-	if ([cntry_code isEqualToString:@"US"]||
-		[cntry_code isEqualToString:@"MX"]||
-		[cntry_code isEqualToString:@"CR"]||
+	if ([cntry_code isEqualToString:@"AR"]||
 		[cntry_code isEqualToString:@"BR"]||
-		[cntry_code isEqualToString:@"AR"]||
-		[cntry_code isEqualToString:@"CR"]||
+		[cntry_code isEqualToString:@"CL"]||
 		[cntry_code isEqualToString:@"CO"]||
-		[cntry_code isEqualToString:@"UY"]) region=ReportRegionUSA;
+		[cntry_code isEqualToString:@"CR"]||
+		[cntry_code isEqualToString:@"DO"]||
+		[cntry_code isEqualToString:@"EC"]||
+		[cntry_code isEqualToString:@"GT"]||
+		[cntry_code isEqualToString:@"JM"]||
+		[cntry_code isEqualToString:@"MX"]||
+		[cntry_code isEqualToString:@"PE"]||
+		[cntry_code isEqualToString:@"SV"]||
+		[cntry_code isEqualToString:@"US"]||
+		[cntry_code isEqualToString:@"UY"]||
+		[cntry_code isEqualToString:@"VR"]	
+		) region=ReportRegionUSA;
 	else if ([cntry_code isEqualToString:@"AT"]||
 			 [cntry_code isEqualToString:@"BE"]||
 			 [cntry_code isEqualToString:@"CH"]||
