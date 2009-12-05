@@ -349,7 +349,7 @@ static Database *_sharedInstance;
 				
 				NSDate *fromDate = [NSDate dateWithTimeIntervalSinceReferenceDate:fromDateTI];
 				NSDate *untilDate = [NSDate dateWithTimeIntervalSinceReferenceDate:untilDateTI];
-				NSDate *downloadedDate = [NSDate date];
+				NSDate *downloadedDate = [NSDate dateWithTimeIntervalSinceReferenceDate:downloadedDateTI];
 				
 				Report *report = [[Report alloc] initWithPrimaryKey:primaryKey database:database
 														   fromDate:fromDate 
