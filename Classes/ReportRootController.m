@@ -14,15 +14,7 @@
 
 @implementation ReportRootController
 
-/*
-- (id)initWithStyle:(UITableViewStyle)style {
-    // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if (self = [super initWithStyle:style]) {
-    }
-    return self;
-}
-*/
-
+@synthesize reloadButtonItem;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,7 +26,9 @@
 	// after loading we can get the badges updated via notifications
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportNotification:) name:@"NewReportAdded" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportRead:) name:@"NewReportRead" object:nil];
-	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchingDone:) name:@"AllDownloadsFinished" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchingStarted:) name:@"SynchingStarted" object:nil];
+
 }
 
 
@@ -233,6 +227,7 @@
 	// Remove notification observer
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
+	[reloadButtonItem release];
 	[report_icon_new release];
 	[report_icon release];
     [super dealloc];
@@ -259,6 +254,23 @@
 	ReportViewController *reportViewController = [[ReportViewController alloc] initWithReportArray:tmpArray reportType:typeToShow style:UITableViewStylePlain];
 	[self.navigationController pushViewController:reportViewController animated:YES];
 	[reportViewController release];
+}
+
+#pragma mark Notifications
+- (void)synchingStarted:(NSNotification *)notification
+{
+	[reloadButtonItem setEnabled:NO];
+}
+
+- (void)synchingDone:(NSNotification *)notification
+{
+	[reloadButtonItem setEnabled:YES];
+}
+
+- (void)reloadReports:(id)sender
+{
+	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate startSync];
 }
 
 @end

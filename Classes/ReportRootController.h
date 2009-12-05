@@ -14,10 +14,16 @@
 @interface ReportRootController : UITableViewController {
 	UIImage *report_icon;
 	UIImage *report_icon_new;
-
+	
+	UIBarButtonItem* reloadButtonItem;
 }
+
+@property (nonatomic, retain) IBOutlet UIBarButtonItem* reloadButtonItem;
+
 
 - (void)gotoReport:(Report *)reportToShow;
 - (void)gotToReportType:(ReportType)typeToShow;
+
+- (IBAction)reloadReports:(id)sender;
 
 @end

@@ -43,5 +43,6 @@
 - (void) updateIndicators;
 - (NSArray *) queuedOperationsOfClass:(Class)opClass;
 
+- (BOOL) hasActiveOperations;
 
 @end

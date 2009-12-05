@@ -11,6 +11,7 @@
 #import "Review.h"
 #import "Country.h"
 #import "ReviewCell.h"
+#import "SynchingManager.h"
 
 @interface AppDetailViewController ()
 
@@ -34,18 +35,28 @@
    
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appReviewsUpdated:) name:@"AppReviewsUpdated" object:nil];
 		
-		// this defines the back button leading BACK TO THIS controller
-		UIBarButtonItem *forwardButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(forwardReviews:)];
-		self.navigationItem.rightBarButtonItem = forwardButtonItem;
+		UIBarButtonItem *left = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+		UIBarButtonItem *middle = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+		UIBarButtonItem *right = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+		
+		forwardButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(forwardReviews:)];
+		reloadButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadReviews:)];
+		
+		[self setToolbarItems:[NSArray arrayWithObjects:left, forwardButtonItem, middle, reloadButtonItem, right, nil] animated:YES];
 		
 		forwardButtonItem.enabled = [self hasMailAndCanSendWithIt]&&[myApp.reviews count];
-
+		reloadButtonItem.enabled = ![[SynchingManager sharedInstance] hasActiveOperations];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchingDone:) name:@"AllDownloadsFinished" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchingStarted:) name:@"SynchingStarted" object:nil];
 	}
     return self;
 }
 
 - (void)dealloc 
 {
+	[reloadButtonItem release];
+	[forwardButtonItem release];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[myApp release];
     [super dealloc];
@@ -61,21 +72,25 @@
 }
 */
 
-/*
-- (void)viewWillAppear:(BOOL)animated {
+
+- (void)viewWillAppear:(BOOL)animated 
+{
     [super viewWillAppear:animated];
+	[self.navigationController setToolbarHidden:NO animated:YES];
 }
-*/
+
 /*
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 }
 */
-/*
-- (void)viewWillDisappear:(BOOL)animated {
+
+- (void)viewWillDisappear:(BOOL)animated 
+{
 	[super viewWillDisappear:animated];
+	[self.navigationController setToolbarHidden:YES animated:YES];
 }
-*/
+
 /*
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
@@ -347,6 +362,22 @@
 		
 		[self displayComposerSheetTo:nil subject:subject body:reviewHTML];
 	}
+}
+
+- (void)synchingStarted:(NSNotification *)notification
+{
+	[reloadButtonItem setEnabled:NO];
+}
+
+- (void)synchingDone:(NSNotification *)notification
+{
+	[reloadButtonItem setEnabled:YES];
+}
+
+- (void)reloadReviews:(id)sender
+{
+	[reloadButtonItem setEnabled:NO];
+	[myApp getAllReviews];
 }
 
 @end

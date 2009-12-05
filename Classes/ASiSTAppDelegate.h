@@ -67,7 +67,6 @@
 
 @property (nonatomic, retain) IBOutlet SettingsViewController *settingsViewController;
 @property (nonatomic, retain) IBOutlet StatusInfoController *statusViewController;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem* refreshButton;
 
 
 //@property (nonatomic, retain) KeychainWrapper *keychainWrapper;
@@ -81,7 +80,7 @@
 - (void)newAppNotification:(NSNotification *) notification;
 - (void)newReportNotification:(NSNotification *) notification;
 
-- (void) refreshButton:(id)sender;
+- (void) startSync;
 - (void) emptyCache;
 
 

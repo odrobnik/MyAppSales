@@ -59,7 +59,7 @@ static SynchingManager * _sharedInstance;
 	application.networkActivityIndicatorVisible = isOn;
 }
 
-#pragma mark Notifications
+#pragma mark Push Notifications
 
 - (void) subscribeToNotificationsWithAccount:(GenericAccount *)notificationsAccount
 {
@@ -194,6 +194,20 @@ static SynchingManager * _sharedInstance;
 	[self updateIndicators]; // update counter
 }
 
+- (NSInteger) countOfActiveOperations
+{
+	int active_count = 0;
+	for (NSOperation *operation in [queue operations])
+	{
+		if (![operation isFinished]&&![operation isCancelled])
+		{
+			active_count ++;
+		}
+	}
+	
+	return active_count;
+}
+
 - (void) updateIndicators
 {
 	int active_count = 0;
@@ -208,25 +222,17 @@ static SynchingManager * _sharedInstance;
 	//NSLog(@"%d of %d", active_count, [[queue operations] count]);
 	if (!active_count)
 	{
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"AllDownloadsFinished" object:nil];
 		
-		// update sums
-		//[[Database sharedInstance] getTotals];
-		
-		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-		
-		//NSLog(@"synching done");
-		appDelegate.refreshButton.enabled = YES;
 		[self toggleNetworkIndicator:NO];
 		[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 		
 	}
 	else 
 	{
-		//NSLog(@"still active : %d of %d", active_count, [[queue operations] count]);
 		[self toggleNetworkIndicator:YES];
 
-		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-		appDelegate.refreshButton.enabled = NO;
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"SynchingStarted" object:nil];
 		
 		// disable idle time why synching active
 		[[UIApplication sharedApplication] setIdleTimerDisabled:YES];
@@ -262,6 +268,11 @@ static SynchingManager * _sharedInstance;
 		return nil;
 	}
 
+}
+
+- (BOOL) hasActiveOperations
+{
+	return ([self countOfActiveOperations]>0);
 }
 
 @end

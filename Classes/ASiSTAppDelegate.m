@@ -49,9 +49,9 @@
 @synthesize navigationController;
 @synthesize tabBarController;
 @synthesize appViewController, reportRootController, settingsViewController, statusViewController;
-@synthesize /*itts, keychainWrapper,*/ serverIsRunning, convertSalesToMainCurrency;
+@synthesize serverIsRunning, convertSalesToMainCurrency;
 @synthesize addresses, httpServer;
-@synthesize appBadgeItem, reportBadgeItem, refreshButton;
+@synthesize appBadgeItem, reportBadgeItem;
 
 
 
@@ -123,6 +123,8 @@
 	
 
 	// Configure and show the window
+	[navigationController.toolbar setTintColor:[UIColor blackColor]];
+
 	[window addSubview:[tabBarController view]];
 	[window addSubview:statusViewController.view];
 	[window makeKeyAndVisible];
@@ -378,14 +380,8 @@
 
 
 
-- (void) refreshButton:(id)sender
+- (void) startSync
 {
-	//itts.username = [keychainWrapper objectForKey:(id)kSecAttrAccount];
-	//itts.password = [keychainWrapper objectForKey:(id)kSecValueData];
-	
-	
-	// currently we always set the first account to be used
-	
 	AccountManager *acc = [AccountManager sharedAccountManager];
 	
 	NSArray *itunesAccounts = [acc accountsOfType:@"iTunes Connect"];

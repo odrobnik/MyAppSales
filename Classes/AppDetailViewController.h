@@ -15,6 +15,8 @@
 @interface AppDetailViewController : UITableViewController <MFMailComposeViewControllerDelegate>
 {
 	App *myApp;
+	UIBarButtonItem *forwardButtonItem;
+	UIBarButtonItem *reloadButtonItem;
 }
 
 @property (nonatomic, retain) App *myApp;
