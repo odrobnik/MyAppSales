@@ -17,6 +17,8 @@
 	App *myApp;
 	UIBarButtonItem *forwardButtonItem;
 	UIBarButtonItem *reloadButtonItem;
+	
+	NSArray *sortedReviews;
 }
 
 @property (nonatomic, retain) App *myApp;

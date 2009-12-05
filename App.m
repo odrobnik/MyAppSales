@@ -128,7 +128,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
             // Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
             // This is a great way to optimize because frequently used queries can be compiled once, then with each
             // use new variable values can be bound to placeholders.
-            const char *sql = "SELECT id FROM review WHERE app_id=? ORDER BY review_date DESC";
+            const char *sql = "SELECT id FROM review WHERE app_id=?";
             if (sqlite3_prepare_v2(database, sql, -1, &reviews_statement, NULL) != SQLITE_OK) {
                 NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
             }

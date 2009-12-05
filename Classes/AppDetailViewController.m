@@ -25,6 +25,15 @@
 
 @synthesize myApp;
 
+
+- (void)loadReviews
+{
+	NSArray *unsorted = myApp.reviews;
+	[sortedReviews release];
+	sortedReviews = [[unsorted sortedArrayUsingSelector:@selector(compareByReviewDate:)] retain];
+}
+
+
 - (id) initForApp:(App *)app
 {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -49,6 +58,8 @@
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchingDone:) name:@"AllDownloadsFinished" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchingStarted:) name:@"SynchingStarted" object:nil];
+		
+		[self loadReviews];
 	}
     return self;
 }
@@ -127,7 +138,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [myApp.reviews count];
+    return [sortedReviews count];
 }
 
 
@@ -142,14 +153,14 @@
     }
     
     // Set up the cell...
-	Review *rowReview = [myApp.reviews objectAtIndex:indexPath.row];
+	Review *rowReview = [sortedReviews objectAtIndex:indexPath.row];
 	
 	cell.reviewText.text = rowReview.review;
 	cell.reviewTitle.text = rowReview.title;
 	cell.reviewAuthor.text = rowReview.name;
 	
 	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
-	[df setDateStyle:NSDateFormatterShortStyle];
+	[df setDateStyle:NSDateFormatterMediumStyle];
 	
 	if (rowReview.isNew)
 	{
@@ -203,7 +214,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {	
-	Review *review = [myApp.reviews objectAtIndex:indexPath.row];
+	Review *review = [sortedReviews objectAtIndex:indexPath.row];
 	
 	UIFont *font = [UIFont systemFontOfSize:12];
 	CGRect contentRect = self.tableView.bounds;
@@ -294,6 +305,7 @@
 		
 		if (changedApp == myApp)
 		{
+			[self loadReviews];
 			[self.tableView reloadData];
 		}
 	}
