@@ -145,6 +145,13 @@
 - (void) showDisclosureIndicatorIfNeeded
 {
 	// show disclosure indicator if there are reviews
+	
+	// always show for now, we don't want to trigger loading of reviews
+	self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	
+	
+	
+	/*
 	if ([app.reviews count])
 	{
 		self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -153,6 +160,7 @@
 	{
 		self.accessoryType = UITableViewCellAccessoryNone;
 	}
+	 */
 }
 
 - (void)setApp:(App *)inApp

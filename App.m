@@ -55,7 +55,6 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		UIImage *tmpImageNanoResized = [self.iconImage scaleImageToSize:CGSizeMake(32.0,32.0)];
 		self.iconImageNano = tmpImageNanoResized;
 		
-		reviews = [[NSMutableArray array] retain];
 		
 		// subscribe to total update notifications
 		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appTotalsUpdated:) name:@"AppTotalsUpdated" object:nil];
@@ -124,31 +123,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
         dirty = NO;
 		
 		
-        if (reviews_statement == nil) {
-            // Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
-            // This is a great way to optimize because frequently used queries can be compiled once, then with each
-            // use new variable values can be bound to placeholders.
-            const char *sql = "SELECT id FROM review WHERE app_id=?";
-            if (sqlite3_prepare_v2(database, sql, -1, &reviews_statement, NULL) != SQLITE_OK) {
-                NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-            }
-        }
-        // For this query, we bind the primary key to the first (and only) placeholder in the statement.
-        // Note that the parameters are numbered from 1, not from 0.
-        sqlite3_bind_int(reviews_statement, 1, apple_identifier);
-		
-        while (sqlite3_step(reviews_statement) == SQLITE_ROW) {
-			NSUInteger review_id = sqlite3_column_int(reviews_statement, 0);
-			
-			Review *loadedReview = [[Review alloc] initWithPrimaryKey:review_id database:database];
-			loadedReview.app = self;
-			
-			[reviews addObject:loadedReview];
-			[loadedReview release];
-        }
-        // Reset the statement for future reuse.
-        sqlite3_reset(reviews_statement);
-		
+		// review loading deferred
 		
 		
     }
@@ -424,13 +399,46 @@ static NSDateFormatter *dateFormatterToRead = nil;
 }
 
 #pragma mark Properties
-// Accessors implemented below. All the "get" accessors simply return the value directly, with no additional
-// logic or steps for synchronization. The "set" accessors attempt to verify that the new value is definitely
-// different from the old value, to minimize the amount of work done. Any "set" which actually results in changing
-// data will mark the object as "dirty" - i.e., possessing data that has not been written to the database.
-// All the "set" accessors copy data, rather than retain it. This is common for value objects - strings, numbers, 
-// dates, data buffers, etc. This ensures that subsequent changes to either the original or the copy don't violate 
-// the encapsulation of the owning object.
+- (NSMutableArray *)reviews
+{
+	if (!reviews)
+	{
+		reviews = [[NSMutableArray array] retain];
+		
+		// load what's in the DB for this app
+		
+		NSLog(@"Loading Reviews for %@", title);
+		
+		if (reviews_statement == nil) 
+		{
+            // Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
+            // This is a great way to optimize because frequently used queries can be compiled once, then with each
+            // use new variable values can be bound to placeholders.
+            const char *sql = "SELECT id FROM review WHERE app_id=?";
+            if (sqlite3_prepare_v2(database, sql, -1, &reviews_statement, NULL) != SQLITE_OK) {
+                NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+            }
+        }
+        // For this query, we bind the primary key to the first (and only) placeholder in the statement.
+        // Note that the parameters are numbered from 1, not from 0.
+        sqlite3_bind_int(reviews_statement, 1, apple_identifier);
+		
+        while (sqlite3_step(reviews_statement) == SQLITE_ROW) {
+			NSUInteger review_id = sqlite3_column_int(reviews_statement, 0);
+			
+			Review *loadedReview = [[Review alloc] initWithPrimaryKey:review_id database:database];
+			loadedReview.app = self;
+			
+			[reviews addObject:loadedReview];
+			[loadedReview release];
+        }
+        // Reset the statement for future reuse.
+        sqlite3_reset(reviews_statement);
+	}
+	
+	return reviews;
+}
+
 
 - (NSUInteger)apple_identifier {
     return apple_identifier;
@@ -589,7 +597,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 
 - (void) didFinishRetrievingReviews:(NSArray *)scrapedReviews;
 {
-	NSMutableArray *tmpArray = [NSMutableArray arrayWithArray:reviews];
+	NSMutableArray *tmpArray = [NSMutableArray arrayWithArray:self.reviews];
 	
 	for (Review *oneReview in scrapedReviews)
 	{
@@ -605,7 +613,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		}
 	}
 	
-	[reviews release];
+	[self.reviews release];
 	
 	reviews = [[tmpArray sortedArrayUsingSelector:@selector(compareByReviewDate:)] retain];
 
@@ -614,7 +622,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 
 - (void) removeReviewTranslations
 {
-	for (Review *oneReview in reviews)
+	for (Review *oneReview in self.reviews)
 	{
 		oneReview.translated_review = nil;
 		//[oneReview updateDatabase]; // unnecessary
@@ -644,7 +652,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 {
 	NSMutableString *tmpString = [NSMutableString string];
 	
-	for (Review *oneReview in reviews)
+	for (Review *oneReview in self.reviews)
 	{
 		[tmpString appendString:[oneReview stringAsHTML]];
 	}
