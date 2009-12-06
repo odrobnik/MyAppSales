@@ -233,7 +233,7 @@ static sqlite3_stmt *delete_statement = nil;
 - (void)snatchReportsFromAppGrouping:(AppGrouping *)otherGrouping 
 {
 	sqlite3_stmt *statement;
-         const char *sql = "UPDATE ReportAppGrouping SET AppGrouping_id = ? WHERE AppGrouping_id=?";
+         const char *sql = "UPDATE Report SET AppGrouping_id = ? WHERE AppGrouping_id=?";
         if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) != SQLITE_OK) 
 		{
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
