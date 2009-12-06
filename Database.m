@@ -237,7 +237,7 @@ static Database *_sharedInstance;
 	char *sql;
 	sqlite3_stmt *statement;
 	
-	sql = "SELECT from_date, until_date, downloaded_date, report_type_id, report_region_id, appgrouping_id, report.id from report left join reportappgrouping on report_id = report.id";
+	sql = "SELECT from_date, until_date, downloaded_date, report_type_id, report_region_id, appgrouping_id, report.id from report";
 	
 	
 	if (sqlite3_prepare_v2(database, sql, -1, &statement, NULL) == SQLITE_OK) 
