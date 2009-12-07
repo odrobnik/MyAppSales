@@ -640,28 +640,6 @@ static sqlite3_stmt *hydrate_statement = nil;
 		}
 		
 	}
-	
-	// remove the grouping
-	tmp_statement = NULL;
-	const char *sql2 = "DELETE FROM ReportAppGrouping WHERE report_id=?";
-	
-	if (sqlite3_prepare_v2(database, sql2, -1, &tmp_statement, NULL) != SQLITE_OK) 
-	{
-		NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-	}
-	else
-	{
-		// Bind the primary key variable.
-		sqlite3_bind_int(tmp_statement, 1, primaryKey);
-		// Execute the query.
-		success = sqlite3_step(tmp_statement);
-		sqlite3_finalize(tmp_statement);
-		// Handle errors.
-		if (success != SQLITE_DONE) 
-		{
-			NSAssert1(0, @"Error: failed to delete from database with message '%s'.", sqlite3_errmsg(database));
-		}
-	}
 }
 
 // only the grouping is to be updated
