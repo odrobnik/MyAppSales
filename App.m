@@ -9,6 +9,7 @@
 #import "App.h"
 #import "InAppPurchase.h"
 #import "UIImage+Helpers.h"
+#import "NSString+Helpers.h"
 #import "ASiSTAppDelegate.h"
 #import "YahooFinance.h"
 #import "ReviewDownloaderOperation.h"
@@ -17,6 +18,7 @@
 #import "Country.h"
 #import "Report.h"
 #import "SynchingManager.h"
+#import "DDData.h"
 
 
 // Static variables for compiled SQL queries. This implementation choice is to be able to share a one time
@@ -60,6 +62,8 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appTotalsUpdated:) name:@"AppTotalsUpdated" object:nil];
 		// subscribe to cache emptying
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(emptyCache:) name:@"EmptyCache" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:@"UIApplicationWillTerminateNotification" object:nil];
+
 	}
 	
 	return self;
@@ -409,6 +413,86 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		
 		NSLog(@"Loading Reviews for %@", title);
 		
+		// try cache first
+		
+		NSString *path = [NSString pathForFileInDocuments:[NSString stringWithFormat:@"review_cache_%d.dat", apple_identifier]];
+		NSData *compressed = [NSData dataWithContentsOfFile:path];
+		
+		if (compressed)
+		{
+			NSLog(@"Cache hit Reviews for %@", title);
+			NSData *data = [compressed gzipInflate];
+			
+			NSString *string = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+			
+			NSArray *lines = [string componentsSeparatedByString:@"\n\r\n"];
+			
+			for (NSString *oneLine in lines)
+			{
+				NSScanner *scanner = [NSScanner scannerWithString:oneLine];
+				
+				NSInteger primaryKey;
+				NSInteger intStars;
+				NSString *countryCode;
+				NSString *reviewTitle;
+				NSString *reviewName;
+				NSString *reviewVersion;
+				NSTimeInterval reviewDateTI;
+				NSString *reviewText;
+				NSString *reviewTranslatedText;
+				
+				if ([scanner scanInteger:&primaryKey])
+				{
+					[scanner scanString:@"\t" intoString:nil];
+					[scanner scanInteger:&intStars];
+					[scanner scanString:@"\t" intoString:nil];
+					[scanner scanUpToString:@"\t" intoString:&countryCode];
+					[scanner scanString:@"\t" intoString:nil];
+					[scanner scanUpToString:@"\t" intoString:&reviewTitle];
+					[scanner scanString:@"\t" intoString:nil];
+					[scanner scanUpToString:@"\t" intoString:&reviewName];
+					[scanner scanString:@"\t" intoString:nil];
+					[scanner scanUpToString:@"\t" intoString:&reviewVersion];
+					[scanner scanString:@"\t" intoString:nil];
+					[scanner scanDouble:&reviewDateTI];
+					[scanner scanString:@"\t" intoString:nil];
+					[scanner scanUpToString:@"\t" intoString:&reviewText];
+					[scanner scanString:@"\t" intoString:nil];
+					[scanner scanUpToString:@"\t" intoString:&reviewTranslatedText];
+
+					NSDate *reviewDate = [NSDate dateWithTimeIntervalSinceReferenceDate:reviewDateTI];
+					Country *country = [DB countryForCode:countryCode];
+					
+					Review *review = [[Review alloc] initWithApp:self 
+														 country:country 
+														   title:reviewTitle 
+															name:reviewName 
+														 version:reviewVersion 
+															date:reviewDate 
+														  review:reviewText
+														   stars:((double)intStars)/5.0];
+					review.translated_review = reviewTranslatedText;
+					review.database = database;
+					
+					[reviews addObject:review];
+					[review release];
+				}
+				else
+				{
+					NSLog(@"FIN");
+				}
+				
+			}
+			
+			return reviews;
+		}
+		
+		NSLog(@"Cache fail reviews for %@, doing SELECT", title);
+		
+		
+		
+		
+		
 		if (reviews_statement == nil) 
 		{
             // Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
@@ -587,6 +671,8 @@ static NSDateFormatter *dateFormatterToRead = nil;
 - (void)emptyCache:(NSNotification *) notification
 {
 	[super emptyCache:notification];
+	[reviews release];
+	reviews = nil;
 	[iconImage release];
 	iconImage = nil;
 	[iconImageNano release];
@@ -667,4 +753,33 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	}
 }
 
+#pragma mark Caching
+-(void)cacheReviewsIfLoaded
+{
+	if (!reviews) return;
+	
+	NSLog(@"Cache reviews for %@", title);
+	
+	NSMutableString *tmpStr = [NSMutableString string];
+	
+	for (Review *oneReview in reviews)
+	{
+		NSString *stub = [oneReview encodedAsString];
+		
+		[tmpStr appendFormat:@"%@\n\r\n", stub];
+	}
+	
+	NSString *path = [NSString pathForFileInDocuments:[NSString stringWithFormat:@"review_cache_%d.dat", apple_identifier]];
+	NSData *data = [tmpStr dataUsingEncoding:NSUTF8StringEncoding];
+	NSData *compressed = [data gzipDeflate];
+	[compressed writeToFile:path atomically:NO];
+}
+
+
+-(void)applicationWillTerminate:(NSNotification *)notification
+{
+	[self cacheReviewsIfLoaded];
+	[reviews release];  // prevent caching a second time
+	reviews = nil;
+}
 @end

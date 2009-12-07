@@ -48,6 +48,7 @@
 @property (nonatomic, assign) BOOL isNew;
 @property (nonatomic, assign) NSUInteger primaryKey;
 
+@property (nonatomic, assign)  sqlite3 *database;
 
 - (id) initWithApp:(App *)reviewApp country:(Country *)reviewCountry title:(NSString *)aTitle name:(NSString *)aName version:(NSString *)aVersion date:(NSDate *)aDate review:(NSString *)aReview stars:(double)aStars;
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db;
@@ -55,5 +56,6 @@
 - (void)updateDatabase;
 
 - (NSString *)stringAsHTML;
+- (NSString *)encodedAsString;
 
 @end

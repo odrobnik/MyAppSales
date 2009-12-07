@@ -21,7 +21,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 @implementation Review
 
 @synthesize app, country, title, name, version, date, review, translated_review, stars, isNew, primaryKey;
-
+@synthesize database;
 
 
 - (id) initWithApp:(App *)reviewApp country:(Country *)reviewCountry title:(NSString *)aTitle name:(NSString *)aName version:(NSString *)aVersion date:(NSDate *)aDate review:(NSString *)aReview stars:(double)aStars
@@ -153,6 +153,11 @@ static NSDateFormatter *dateFormatterToRead = nil;
 - (NSString *)description
 {
 	return [NSString stringWithFormat:@"Title: %@, Name: %@, Version: %@, Date: %@, Stars: %.2f, Review: %@", title, name, version, date, stars*5.0, review];
+}
+
+- (NSString *)encodedAsString
+{
+	return [NSString stringWithFormat:@"%d\t%d\t%@\t%@\t%@\t%@\t%.0f\t%@\t%@", [app apple_identifier], (int)(stars*5.0), country.iso2, title, name, version, [date timeIntervalSinceReferenceDate], review, translated_review?translated_review:@""];
 }
 
 - (NSString *)stringAsHTML
