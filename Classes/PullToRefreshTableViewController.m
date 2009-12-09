@@ -178,11 +178,18 @@
 
 
 #pragma mark Scrolling Overrides
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView;{
-	checkForRefresh = YES;  //  only check offset when dragging 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+	if (!reloading)
+	{
+		checkForRefresh = YES;  //  only check offset when dragging 
+	}
 } 
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{	
+	if (reloading) return;
+	
 	if (checkForRefresh) {
 		if (refreshHeaderView.isFlipped && scrollView.contentOffset.y > -65.0f && scrollView.contentOffset.y < 0.0f && !reloading) {
 			[refreshHeaderView flipImageAnimated:YES];
@@ -220,7 +227,10 @@
 	NSLog(@"Please override reloadTableViewDataSource");
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+	if (reloading) return;
+	
 	if (scrollView.contentOffset.y <= - 65.0f) {
 		if([self.tableView.dataSource respondsToSelector:@selector(reloadTableViewDataSource)]){
 			[self showReloadAnimationAnimated:YES];

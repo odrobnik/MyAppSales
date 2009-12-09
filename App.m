@@ -462,13 +462,13 @@ static NSDateFormatter *dateFormatterToRead = nil;
 				
 				NSInteger primaryKey;
 				NSInteger intStars;
-				NSString *countryCode;
-				NSString *reviewTitle;
-				NSString *reviewName;
-				NSString *reviewVersion;
+				NSString *countryCode = nil;
+				NSString *reviewTitle = nil;
+				NSString *reviewName = nil;
+				NSString *reviewVersion = nil;
 				NSTimeInterval reviewDateTI;
-				NSString *reviewText;
-				NSString *reviewTranslatedText;
+				NSString *reviewText = nil;
+				NSString *reviewTranslatedText = nil;
 				
 				if ([scanner scanInteger:&primaryKey])
 				{
