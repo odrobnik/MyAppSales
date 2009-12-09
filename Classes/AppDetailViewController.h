@@ -9,16 +9,19 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
+#import "PullToRefreshTableViewController.h"
+
 
 @class App;
 
-@interface AppDetailViewController : UITableViewController <MFMailComposeViewControllerDelegate>
+@interface AppDetailViewController : PullToRefreshTableViewController <MFMailComposeViewControllerDelegate>
 {
 	App *myApp;
 	UIBarButtonItem *forwardButtonItem;
 	UIBarButtonItem *reloadButtonItem;
 	
 	NSArray *sortedReviews;
+	
 }
 
 @property (nonatomic, retain) App *myApp;

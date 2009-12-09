@@ -44,17 +44,18 @@
    
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appReviewsUpdated:) name:@"AppReviewsUpdated" object:nil];
 		
-		UIBarButtonItem *left = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
-		UIBarButtonItem *middle = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
-		UIBarButtonItem *right = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+		//UIBarButtonItem *left = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+		//UIBarButtonItem *middle = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+		//UIBarButtonItem *right = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
 		
 		forwardButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(forwardReviews:)];
-		reloadButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadReviews:)];
+		//reloadButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadReviews:)];
 		
-		[self setToolbarItems:[NSArray arrayWithObjects:left, forwardButtonItem, middle, reloadButtonItem, right, nil] animated:YES];
+		//[self setToolbarItems:[NSArray arrayWithObjects:left, forwardButtonItem, middle, reloadButtonItem, right, nil] animated:YES];
 		
 		forwardButtonItem.enabled = [self hasMailAndCanSendWithIt]&&[myApp.reviews count];
-		reloadButtonItem.enabled = ![[SynchingManager sharedInstance] hasActiveOperations];
+		//reloadButtonItem.enabled = ![[SynchingManager sharedInstance] hasActiveOperations];
+		self.navigationItem.rightBarButtonItem = forwardButtonItem;
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchingDone:) name:@"AllDownloadsFinished" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchingStarted:) name:@"SynchingStarted" object:nil];
@@ -87,7 +88,7 @@
 - (void)viewWillAppear:(BOOL)animated 
 {
     [super viewWillAppear:animated];
-	[self.navigationController setToolbarHidden:NO animated:YES];
+	//[self.navigationController setToolbarHidden:NO animated:YES];
 }
 
 /*
@@ -99,7 +100,7 @@
 - (void)viewWillDisappear:(BOOL)animated 
 {
 	[super viewWillDisappear:animated];
-	[self.navigationController setToolbarHidden:YES animated:YES];
+	//[self.navigationController setToolbarHidden:YES animated:YES];
 }
 
 /*
@@ -124,10 +125,9 @@
 }
 
 - (void)viewDidLoad {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
+    [super viewDidLoad];
+	
 }
-
 
 #pragma mark Table view methods
 
@@ -386,11 +386,19 @@
 - (void)synchingDone:(NSNotification *)notification
 {
 	[reloadButtonItem setEnabled:YES];
+	[super dataSourceDidFinishLoadingNewData];
 }
 
 - (void)reloadReviews:(id)sender
 {
 	[reloadButtonItem setEnabled:NO];
+	[myApp getAllReviews];
+}
+
+#pragma mark EGOTableViewPullRefresh
+
+- (void)reloadTableViewDataSource
+{
 	[myApp getAllReviews];
 }
 

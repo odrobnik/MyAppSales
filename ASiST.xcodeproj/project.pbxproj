@@ -42,6 +42,17 @@
 		A72B83A30F40B5B400297684 /* ASiST.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A72B83A10F40B5B400297684 /* ASiST.jpg */; };
 		A7325B260F21B77E0053AEB1 /* Graphique-32.png in Resources */ = {isa = PBXBuildFile; fileRef = A7325B250F21B77E0053AEB1 /* Graphique-32.png */; };
 		A7325BA00F21C9920053AEB1 /* ReportRootController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7325B9F0F21C9920053AEB1 /* ReportRootController.m */; };
+		A73552F010CFA60100F6DC0A /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A73552ED10CFA60100F6DC0A /* EGORefreshTableHeaderView.m */; };
+		A73552F610CFA63B00F6DC0A /* tick.wav in Resources */ = {isa = PBXBuildFile; fileRef = A73552F210CFA63B00F6DC0A /* tick.wav */; };
+		A73552F710CFA63B00F6DC0A /* psst2.wav in Resources */ = {isa = PBXBuildFile; fileRef = A73552F310CFA63B00F6DC0A /* psst2.wav */; };
+		A73552F810CFA63B00F6DC0A /* psst1.wav in Resources */ = {isa = PBXBuildFile; fileRef = A73552F410CFA63B00F6DC0A /* psst1.wav */; };
+		A73552F910CFA63B00F6DC0A /* pop.wav in Resources */ = {isa = PBXBuildFile; fileRef = A73552F510CFA63B00F6DC0A /* pop.wav */; };
+		A735532B10CFAC4300F6DC0A /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = A735532810CFAC4300F6DC0A /* whiteArrow.png */; };
+		A735532C10CFAC4300F6DC0A /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = A735532910CFAC4300F6DC0A /* blueArrow.png */; };
+		A735532D10CFAC4300F6DC0A /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = A735532A10CFAC4300F6DC0A /* blackArrow.png */; };
+		A735538110CFB07A00F6DC0A /* PullToRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A735538010CFB07A00F6DC0A /* PullToRefreshTableViewController.m */; };
+		A735540B10CFB70E00F6DC0A /* SoundEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = A735540A10CFB70E00F6DC0A /* SoundEffect.m */; };
+		A735542510CFB89100F6DC0A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A735542410CFB89100F6DC0A /* AudioToolbox.framework */; };
 		A7357AF80F3348C900502F15 /* StatusInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7357AF70F3348C900502F15 /* StatusInfoController.m */; };
 		A736BF360F4100B300126FD3 /* NIO.png in Resources */ = {isa = PBXBuildFile; fileRef = A736BF350F4100B300126FD3 /* NIO.png */; };
 		A73CEA021042E517008778BF /* ButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A73CEA011042E517008778BF /* ButtonCell.m */; };
@@ -405,6 +416,20 @@
 		A7325B250F21B77E0053AEB1 /* Graphique-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Graphique-32.png"; sourceTree = "<group>"; };
 		A7325B9E0F21C9920053AEB1 /* ReportRootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportRootController.h; sourceTree = "<group>"; };
 		A7325B9F0F21C9920053AEB1 /* ReportRootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportRootController.m; sourceTree = "<group>"; };
+		A73552EC10CFA60100F6DC0A /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		A73552ED10CFA60100F6DC0A /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
+		A73552F210CFA63B00F6DC0A /* tick.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = tick.wav; sourceTree = "<group>"; };
+		A73552F310CFA63B00F6DC0A /* psst2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = psst2.wav; sourceTree = "<group>"; };
+		A73552F410CFA63B00F6DC0A /* psst1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = psst1.wav; sourceTree = "<group>"; };
+		A73552F510CFA63B00F6DC0A /* pop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pop.wav; sourceTree = "<group>"; };
+		A735532810CFAC4300F6DC0A /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteArrow.png; sourceTree = "<group>"; };
+		A735532910CFAC4300F6DC0A /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
+		A735532A10CFAC4300F6DC0A /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
+		A735537F10CFB07A00F6DC0A /* PullToRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullToRefreshTableViewController.h; sourceTree = "<group>"; };
+		A735538010CFB07A00F6DC0A /* PullToRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullToRefreshTableViewController.m; sourceTree = "<group>"; };
+		A735540910CFB70E00F6DC0A /* SoundEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundEffect.h; sourceTree = "<group>"; };
+		A735540A10CFB70E00F6DC0A /* SoundEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundEffect.m; sourceTree = "<group>"; };
+		A735542410CFB89100F6DC0A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		A7357AF60F3348C900502F15 /* StatusInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusInfoController.h; sourceTree = "<group>"; };
 		A7357AF70F3348C900502F15 /* StatusInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusInfoController.m; sourceTree = "<group>"; };
 		A736BF350F4100B300126FD3 /* NIO.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NIO.png; sourceTree = "<group>"; };
@@ -799,6 +824,7 @@
 				A7B12CEE104D2EAA004639C9 /* Security.framework in Frameworks */,
 				A7E0F9F3106BB684003B93FE /* QuartzCore.framework in Frameworks */,
 				A7E4E98610A89E2400CE4673 /* MessageUI.framework in Frameworks */,
+				A735542510CFB89100F6DC0A /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -848,6 +874,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				A700AA9E0F2B5B6C0014885D /* Entitlements.plist */,
+				A735542410CFB89100F6DC0A /* AudioToolbox.framework */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -930,6 +957,7 @@
 		A707A33F0FA61305004060D9 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				A73552AA10CF998500F6DC0A /* PullToRefreshTableView */,
 				A7AE1DE410C0242300E38C5B /* Reports */,
 				A7E7F2421094577B00C9C3DC /* Big Progress */,
 				A7E7F16A1094411900C9C3DC /* Accounts */,
@@ -1100,6 +1128,26 @@
 				A7A84BC0105D64B500CAD54F /* ReviewCell.m */,
 			);
 			name = "Tableview Cells";
+			sourceTree = "<group>";
+		};
+		A73552AA10CF998500F6DC0A /* PullToRefreshTableView */ = {
+			isa = PBXGroup;
+			children = (
+				A735540910CFB70E00F6DC0A /* SoundEffect.h */,
+				A735540A10CFB70E00F6DC0A /* SoundEffect.m */,
+				A735532810CFAC4300F6DC0A /* whiteArrow.png */,
+				A735532910CFAC4300F6DC0A /* blueArrow.png */,
+				A735532A10CFAC4300F6DC0A /* blackArrow.png */,
+				A73552F210CFA63B00F6DC0A /* tick.wav */,
+				A73552F310CFA63B00F6DC0A /* psst2.wav */,
+				A73552F410CFA63B00F6DC0A /* psst1.wav */,
+				A73552F510CFA63B00F6DC0A /* pop.wav */,
+				A73552EC10CFA60100F6DC0A /* EGORefreshTableHeaderView.h */,
+				A73552ED10CFA60100F6DC0A /* EGORefreshTableHeaderView.m */,
+				A735537F10CFB07A00F6DC0A /* PullToRefreshTableViewController.h */,
+				A735538010CFB07A00F6DC0A /* PullToRefreshTableViewController.m */,
+			);
+			name = PullToRefreshTableView;
 			sourceTree = "<group>";
 		};
 		A73CEBC510444425008778BF /* Views */ = {
@@ -1820,6 +1868,13 @@
 				A7AE190F10BD500B00E38C5B /* IAP_nano.png in Resources */,
 				A7AE19DB10BD698B00E38C5B /* IAP.png in Resources */,
 				A7113E6F10C3AE3E007BF151 /* PRY.png in Resources */,
+				A73552F610CFA63B00F6DC0A /* tick.wav in Resources */,
+				A73552F710CFA63B00F6DC0A /* psst2.wav in Resources */,
+				A73552F810CFA63B00F6DC0A /* psst1.wav in Resources */,
+				A73552F910CFA63B00F6DC0A /* pop.wav in Resources */,
+				A735532B10CFAC4300F6DC0A /* whiteArrow.png in Resources */,
+				A735532C10CFAC4300F6DC0A /* blueArrow.png in Resources */,
+				A735532D10CFAC4300F6DC0A /* blackArrow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1918,6 +1973,9 @@
 				A7D75DC410A8C03C00889B79 /* GenericAccount.m in Sources */,
 				A7AE1A1110BD813D00E38C5B /* InAppPurchase.m in Sources */,
 				A7AE1A8510BD9B8500E38C5B /* Product.m in Sources */,
+				A73552F010CFA60100F6DC0A /* EGORefreshTableHeaderView.m in Sources */,
+				A735538110CFB07A00F6DC0A /* PullToRefreshTableViewController.m in Sources */,
+				A735540B10CFB70E00F6DC0A /* SoundEffect.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -247,6 +247,11 @@
 				thereIsMore = YES;
 				pageNumber++;
 			}
+			else 
+			{
+				NSLog(@"%@", oneReview);
+			}
+			
 			
 		} 
 		
