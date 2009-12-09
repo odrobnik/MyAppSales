@@ -104,9 +104,9 @@
 	
 	appTitleLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET, contentRect.origin.y + VERTICAL_MARGIN,  contentRect.size.width -  LEFT_COLUMN_OFFSET - RIGHT_MARGIN, lineHeight);
 	subTextLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET, contentRect.origin.y+lineHeight + VERTICAL_MARGIN,  contentRect.size.width -  LEFT_COLUMN_OFFSET - RIGHT_MARGIN, lineHeight);
-	CGFloat width = (contentRect.size.width -  LEFT_COLUMN_OFFSET - RIGHT_MARGIN - 5.0)/2.0;
-	royaltiesLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET + width, contentRect.origin.y+2.0*lineHeight + VERTICAL_MARGIN,  width, lineHeight);
-	totalUnitsLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET, contentRect.origin.y+2.0*lineHeight + VERTICAL_MARGIN,  width, lineHeight);
+	CGFloat width = (contentRect.size.width -  LEFT_COLUMN_OFFSET - RIGHT_MARGIN - 5.0);
+	royaltiesLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET + width*0.6, contentRect.origin.y+2.0*lineHeight + VERTICAL_MARGIN,  width*0.4, lineHeight);
+	totalUnitsLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET, contentRect.origin.y+2.0*lineHeight + VERTICAL_MARGIN,  width*0.6, lineHeight);
 }
 
 - (void)dealloc
