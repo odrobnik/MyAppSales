@@ -166,14 +166,10 @@
 	NSArray *sortedApps = [DB appsSortedBySales];
 	App *rowApp = [sortedApps objectAtIndex:indexPath.row];
 	
-	if ([rowApp.reviews count])
-	{
-	
-		// Navigation logic may go here. Create and push another view controller.
-		AppDetailViewController *anotherViewController = [[AppDetailViewController alloc] initForApp:rowApp];
-		[self.navigationController pushViewController:anotherViewController animated:YES];
-		[anotherViewController release];
-	}
+	//Always allow to go to reviews page
+	AppDetailViewController *anotherViewController = [[AppDetailViewController alloc] initForApp:rowApp];
+	[self.navigationController pushViewController:anotherViewController animated:YES];
+	[anotherViewController release];
 }
 
 
