@@ -249,7 +249,7 @@
 			}
 			else 
 			{
-				NSLog(@"%@", oneReview);
+				//NSLog(@"%@", oneReview);
 			}
 			
 			
