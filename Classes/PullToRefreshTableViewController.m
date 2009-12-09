@@ -242,7 +242,6 @@
 	[refreshHeaderView setStatus:kPullToReloadStatus];
 	[refreshHeaderView toggleActivityView];
 	[UIView commitAnimations];
-	[refreshHeaderView setCurrentDate];
 	[popSound play];
 }
 

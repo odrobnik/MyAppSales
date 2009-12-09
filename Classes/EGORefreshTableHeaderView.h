@@ -17,11 +17,14 @@
 	UIActivityIndicatorView *activityView;
 
 	BOOL isFlipped;
+	
+	NSDate *lastUpdatedDate;
 }
 @property BOOL isFlipped;
 
+@property (nonatomic, retain) NSDate *lastUpdatedDate;
+
 - (void)flipImageAnimated:(BOOL)animated;
-- (void)setCurrentDate;
 - (void)toggleActivityView;
 - (void)setStatus:(int)status;
 

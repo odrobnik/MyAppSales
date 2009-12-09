@@ -19,7 +19,7 @@
 
 @implementation EGORefreshTableHeaderView
 
-@synthesize isFlipped;
+@synthesize isFlipped, lastUpdatedDate;
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -33,11 +33,14 @@
 		lastUpdatedLabel.textAlignment = UITextAlignmentCenter;
 		[self addSubview:lastUpdatedLabel];
 		
-		if ([[NSUserDefaults standardUserDefaults] objectForKey:@"EGORefreshTableView_LastRefresh"]) {
-			lastUpdatedLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"EGORefreshTableView_LastRefresh"];
-		} else {
-			[self setCurrentDate];
-		}
+		/*
+		 if ([[NSUserDefaults standardUserDefaults] objectForKey:@"EGORefreshTableView_LastRefresh"]) {
+		 lastUpdatedLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"EGORefreshTableView_LastRefresh"];
+		 } else {
+		 [self setCurrentDate];
+		 }
+		 */
+		self.lastUpdatedDate = nil;
 		
 		[lastUpdatedLabel release];
 		
@@ -87,23 +90,32 @@
 	[UIView setAnimationDuration:animated ? .18 : 0.0];
 	[arrowImage layer].transform = isFlipped ? CATransform3DMakeRotation(M_PI, 0.0f, 0.0f, 1.0f) : CATransform3DMakeRotation(M_PI * 2, 0.0f, 0.0f, 1.0f);
 	[UIView commitAnimations];
-
+	
 	isFlipped = !isFlipped;
 }
 
-- (void)setCurrentDate {
-	NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-	[formatter setDateStyle:NSDateFormatterShortStyle];
-	[formatter setTimeStyle:NSDateFormatterShortStyle];
-	
-	/*
-	[formatter setAMSymbol:@"AM"];
-	[formatter setPMSymbol:@"PM"];
-	[formatter setDateFormat:@"MM/dd/yyyy hh:mm:a"]; */
-	lastUpdatedLabel.text = [NSString stringWithFormat:@"Last Updated: %@", [formatter stringFromDate:[NSDate date]]];
-	[[NSUserDefaults standardUserDefaults] setObject:lastUpdatedLabel.text forKey:@"EGORefreshTableView_LastRefresh"];
-	[[NSUserDefaults standardUserDefaults] synchronize];
-	[formatter release];
+- (void)setLastUpdatedDate:(NSDate *)newDate 
+{
+	if (newDate)
+	{
+		if (lastUpdatedDate != newDate)
+		{
+			[lastUpdatedDate release];
+		}
+		
+		lastUpdatedDate = [newDate retain];
+		
+		NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+		[formatter setDateStyle:NSDateFormatterShortStyle];
+		[formatter setTimeStyle:NSDateFormatterShortStyle];
+		lastUpdatedLabel.text = [NSString stringWithFormat:@"Last Updated: %@", [formatter stringFromDate:lastUpdatedDate]];
+		[formatter release];
+	}
+	else
+	{
+		lastUpdatedDate = nil;
+		lastUpdatedLabel.text = @"Last Updated: Never";
+	}
 }
 
 - (void)setStatus:(int)status{
@@ -131,7 +143,7 @@
 		arrowImage.hidden = YES;
 		[self setStatus:kLoadingStatus];
 	}
-
+	
 }
 
 - (void)dealloc {

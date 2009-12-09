@@ -105,6 +105,9 @@
 	{
 		[self showReloadAnimationAnimated:NO];
 	}
+	
+	refreshHeaderView.lastUpdatedDate = myApp.lastReviewRefresh;
+	
 	//[self.navigationController setToolbarHidden:NO animated:YES];
 }
 
@@ -403,6 +406,8 @@
 - (void)synchingDone:(NSNotification *)notification
 {
 	[reloadButtonItem setEnabled:YES];
+	
+	refreshHeaderView.lastUpdatedDate = myApp.lastReviewRefresh;
 	[super dataSourceDidFinishLoadingNewData];
 }
 

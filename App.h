@@ -25,6 +25,7 @@
 	UIImage *iconImage;
 	UIImage *iconImageNano;
 	
+	NSDate *lastReviewRefresh;
 }
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db;
@@ -42,7 +43,10 @@
 @property (assign, readonly, nonatomic) NSMutableArray *reviews;
 
 @property (nonatomic, readonly) NSUInteger countNewReviews;
+@property (nonatomic, retain) NSDate *lastReviewRefresh;
 
+
+- (NSDate *)lastReviewRefresh;
 - (void) getAllReviews;
 - (void) removeReviewTranslations;
 - (NSString *) reviewsAsHTML;

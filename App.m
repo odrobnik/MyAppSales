@@ -45,6 +45,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 
 @synthesize iconImage, iconImageNano;
 @synthesize reviews, countNewReviews;
+@synthesize lastReviewRefresh;
 
 
 
@@ -403,6 +404,34 @@ static NSDateFormatter *dateFormatterToRead = nil;
 }
 
 #pragma mark Properties
+- (NSDate *)lastReviewRefresh
+{
+	if (!lastReviewRefresh)
+	{
+		// get from user defaults
+		
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		
+		lastReviewRefresh = [defaults objectForKey:[NSString stringWithFormat:@"ReviewsLoaded_%d", apple_identifier]];
+	}
+	
+	return lastReviewRefresh;
+}
+
+- (void)setLastReviewRefresh:(NSDate *)newDate
+{
+	if (lastReviewRefresh!=newDate)
+	{
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		[defaults setObject:newDate forKey:[NSString stringWithFormat:@"ReviewsLoaded_%d", apple_identifier]];
+		
+		[lastReviewRefresh release];
+		lastReviewRefresh = [newDate retain];
+	}
+}
+
+
+
 - (NSMutableArray *)reviews
 {
 	if (!reviews)
@@ -703,6 +732,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	
 	reviews = [[tmpArray sortedArrayUsingSelector:@selector(compareByReviewDate:)] retain];
 
+	self.lastReviewRefresh = [NSDate date];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"AppReviewsUpdated" object:nil userInfo:(id)self];
 }
 
