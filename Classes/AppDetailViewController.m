@@ -61,6 +61,7 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchingStarted:) name:@"SynchingStarted" object:nil];
 		
 		[self loadReviews];
+		
 	}
     return self;
 }
@@ -88,6 +89,22 @@
 - (void)viewWillAppear:(BOOL)animated 
 {
     [super viewWillAppear:animated];
+	
+	NSInteger reviewDownloadOpsForThisApp = 0;
+	NSArray *reviewOps = [[SynchingManager sharedInstance] queuedOperationsOfClass:[ReviewDownloaderOperation class]];
+	
+	for (ReviewDownloaderOperation *oneOp in reviewOps)
+	{
+		if (oneOp.app == myApp)
+		{
+			reviewDownloadOpsForThisApp ++;
+		}
+	}
+
+	if (reviewDownloadOpsForThisApp)
+	{
+		[self showReloadAnimationAnimated:NO];
+	}
 	//[self.navigationController setToolbarHidden:NO animated:YES];
 }
 

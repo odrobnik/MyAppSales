@@ -226,7 +226,6 @@ static SynchingManager * _sharedInstance;
 		
 		[self toggleNetworkIndicator:NO];
 		[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
-		
 	}
 	else 
 	{
@@ -236,8 +235,6 @@ static SynchingManager * _sharedInstance;
 		
 		// disable idle time why synching active
 		[[UIApplication sharedApplication] setIdleTimerDisabled:YES];
-		
-		
 	}
 }
 
@@ -245,6 +242,8 @@ static SynchingManager * _sharedInstance;
 {
 	[self updateIndicators];
 }
+
+#pragma mark Querying the Queue
 
 - (NSArray *) queuedOperationsOfClass:(Class)opClass
 {
@@ -267,7 +266,6 @@ static SynchingManager * _sharedInstance;
 	{
 		return nil;
 	}
-
 }
 
 - (BOOL) hasActiveOperations

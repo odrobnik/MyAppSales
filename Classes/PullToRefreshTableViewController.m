@@ -7,7 +7,6 @@
 //
 
 #import "PullToRefreshTableViewController.h"
-#import "EGOTableViewPullRefresh.h"
 
 #define kReleaseToReloadStatus 0
 #define kPullToReloadStatus 1
@@ -198,17 +197,35 @@
 	}
 }
 
+- (void) showReloadAnimationAnimated:(BOOL)animated
+{
+	reloading = YES;
+	[refreshHeaderView toggleActivityView];
+	
+	if (animated)
+	{
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDuration:0.2];
+		self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
+		[UIView commitAnimations];
+	}
+	else
+	{
+		self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
+	}
+}
+
+- (void) reloadTableViewDataSource
+{
+	NSLog(@"Please override reloadTableViewDataSource");
+}
+
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
 	if (scrollView.contentOffset.y <= - 65.0f) {
 		if([self.tableView.dataSource respondsToSelector:@selector(reloadTableViewDataSource)]){
-			reloading = YES;
-			[(id)self.tableView.dataSource reloadTableViewDataSource];
-			[refreshHeaderView toggleActivityView];
-			[UIView beginAnimations:nil context:NULL];
-			[UIView setAnimationDuration:0.2];
-			self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
-			[UIView commitAnimations];
+			[self showReloadAnimationAnimated:YES];
 			[psst2Sound play];
+			[self reloadTableViewDataSource];
 		}
 	} 
 	checkForRefresh = NO;
