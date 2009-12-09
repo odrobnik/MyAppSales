@@ -34,7 +34,7 @@
 		// create label views to contain the various pieces of text that make up the cell.
 		// Add these as subviews.
 		appTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];	// layoutSubViews will decide the final frame
-		appTitleLabel.backgroundColor = [UIColor clearColor];  // otherwise it's in a white box
+		//appTitleLabel.backgroundColor = [UIColor clearColor];  // otherwise it's in a white box
 		appTitleLabel.font = [UIFont boldSystemFontOfSize:MAIN_FONT_SIZE + 4.0];
 		appTitleLabel.shadowColor = [UIColor whiteColor];
 		appTitleLabel.shadowOffset = CGSizeMake(0, 1);
@@ -47,7 +47,7 @@
 		
 		subTextLabel = [[UILabel alloc] initWithFrame:CGRectZero];	// layoutSubViews will decide the final frame
 		subTextLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
-		subTextLabel.backgroundColor = [UIColor clearColor];
+		//subTextLabel.backgroundColor = [UIColor clearColor];
 		subTextLabel.textColor = darkColor; //[UIColor colorWithWhite:0.3 alpha:1.0];
 		//subTextLabel.shadowColor = darkShadowColor;
 		//subTextLabel.shadowOffset = CGSizeMake(1, 1);
@@ -104,8 +104,9 @@
 	
 	appTitleLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET, contentRect.origin.y + VERTICAL_MARGIN,  contentRect.size.width -  LEFT_COLUMN_OFFSET - RIGHT_MARGIN, lineHeight);
 	subTextLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET, contentRect.origin.y+lineHeight + VERTICAL_MARGIN,  contentRect.size.width -  LEFT_COLUMN_OFFSET - RIGHT_MARGIN, lineHeight);
-	royaltiesLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET, contentRect.origin.y+2.0*lineHeight + VERTICAL_MARGIN,  contentRect.size.width -  LEFT_COLUMN_OFFSET - RIGHT_MARGIN, lineHeight);
-	totalUnitsLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET, contentRect.origin.y+2.0*lineHeight + VERTICAL_MARGIN,  contentRect.size.width -  LEFT_COLUMN_OFFSET - RIGHT_MARGIN, lineHeight);
+	CGFloat width = (contentRect.size.width -  LEFT_COLUMN_OFFSET - RIGHT_MARGIN - 5.0)/2.0;
+	royaltiesLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET + width, contentRect.origin.y+2.0*lineHeight + VERTICAL_MARGIN,  width, lineHeight);
+	totalUnitsLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET, contentRect.origin.y+2.0*lineHeight + VERTICAL_MARGIN,  width, lineHeight);
 }
 
 - (void)dealloc
@@ -124,6 +125,15 @@
 - (App *)app
 {
 	return app;
+}
+
+- (void)setBackgroundColor:(UIColor *)newColor
+{
+	[super setBackgroundColor:newColor];
+	appTitleLabel.backgroundColor = newColor;
+	royaltiesLabel.backgroundColor = newColor;
+	totalUnitsLabel.backgroundColor = newColor;
+	subTextLabel.backgroundColor = newColor;
 }
 
 - (void)setBadge
