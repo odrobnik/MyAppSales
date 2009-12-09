@@ -22,14 +22,18 @@
 @synthesize isFlipped, lastUpdatedDate;
 
 - (id)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
+    if (self = [super initWithFrame:frame]) 
+	{
+		self.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
+
         
 		lastUpdatedLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height - 30.0f, 320.0f, 20.0f)];
 		lastUpdatedLabel.font = [UIFont systemFontOfSize:12.0f];
 		lastUpdatedLabel.textColor = TEXT_COLOR;
 		lastUpdatedLabel.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
 		lastUpdatedLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
-		lastUpdatedLabel.backgroundColor = [UIColor clearColor];
+		lastUpdatedLabel.backgroundColor = self.backgroundColor;
+		lastUpdatedLabel.opaque = YES;
 		lastUpdatedLabel.textAlignment = UITextAlignmentCenter;
 		[self addSubview:lastUpdatedLabel];
 		
@@ -49,7 +53,8 @@
 		statusLabel.textColor = TEXT_COLOR;
 		statusLabel.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
 		statusLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
-		statusLabel.backgroundColor = [UIColor clearColor];
+		statusLabel.backgroundColor = self.backgroundColor;
+		statusLabel.opaque = YES;
 		statusLabel.textAlignment = UITextAlignmentCenter;
 		[self setStatus:kPullToReloadStatus];
 		[self addSubview:statusLabel];

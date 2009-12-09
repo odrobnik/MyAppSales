@@ -36,7 +36,6 @@
 	self.tableView.delegate = self;
 	*/
 	refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.view.bounds.size.height, 320.0f, self.view.bounds.size.height)];
-	refreshHeaderView.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
 	[self.tableView addSubview:refreshHeaderView];
 	self.tableView.showsVerticalScrollIndicator = YES;
 	
