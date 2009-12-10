@@ -126,6 +126,7 @@
 - (double) sumRoyaltiesForAppId:(NSUInteger)app_id inCurrency:(NSString *)curCode;
 - (double) sumRoyaltiesEarned;
 
+- (NSString *) reconstructedFileName;
 - (NSString *) reconstructText;
 
 - (void) makeSummariesFromSales;

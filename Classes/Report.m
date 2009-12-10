@@ -829,35 +829,32 @@ static sqlite3_stmt *hydrate_statement = nil;
 	return [df stringFromDate:tmpDate];
 }
 
+- (NSString *)shortNameForRegion:(ReportRegion)reportRegion
+{
+	switch (reportRegion) 
+	{
+		case ReportRegionUK:
+			return @"UK";
+		case ReportRegionUSA:
+			return @"US";
+		case ReportRegionEurope:
+			return @"EU";
+		case ReportRegionJapan:
+			return @"JP";
+		case ReportRegionCanada:
+			return @"CA";
+		case ReportRegionAustralia:
+			return @"AU";
+		case ReportRegionRestOfWorld:
+			return @"WW";
+		default:
+			return @"??";
+	}
+}
+
 - (NSString *)descriptionFinancialShort
 {
-	NSString *region_name;
-	
-	switch (region) {
-		case ReportRegionUK:
-			region_name = @"UK";
-			break;
-		case ReportRegionUSA:
-			region_name = @"US";
-			break;
-		case ReportRegionEurope:
-			region_name = @"EU";
-			break;
-		case ReportRegionJapan:
-			region_name = @"JP";
-			break;
-		case ReportRegionCanada:
-			region_name = @"CA";
-			break;
-		case ReportRegionAustralia:
-			region_name = @"AU";
-			break;
-		case ReportRegionRestOfWorld:
-			region_name = @"WW";
-			break;
-		default:
-			region_name = @"??";
-	}
+	NSString *region_name = [self shortNameForRegion:region];
 	
 	NSDate *tmpDate = [self dateInMiddleOfReport];
 	
@@ -950,6 +947,44 @@ static sqlite3_stmt *hydrate_statement = nil;
 	NSCalendar *gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
 	NSDateComponents *comps = [gregorian components:NSDayCalendarUnit fromDate:self.fromDate];
 	return comps.day;
+}
+
+- (NSString *) reconstructedFileName
+{
+	
+	switch (reportType) 
+	{
+		case ReportTypeDay:
+		{
+			NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
+			[df setDateFormat:@"yyyyMMdd"];
+			return [NSString stringWithFormat:@"S_D_%@.txt", [df stringFromDate:self.fromDate]];
+		}
+		case ReportTypeWeek:
+		{
+			NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
+			[df setDateFormat:@"yyyyMMdd"];
+			return [NSString stringWithFormat:@"S_W_%@.txt", [df stringFromDate:self.fromDate]];
+		}					
+		case ReportTypeFinancial:
+		{
+			NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
+			[df setDateFormat:@"MMyy"];
+			return [NSString stringWithFormat:@"%@_%@.txt", [df stringFromDate:self.fromDate], [self shortNameForRegion:region]];
+		}					
+							
+		case ReportTypeFree:
+		{
+			NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
+			[df setDateFormat:@"yyyyMMdd"];
+			return [NSString stringWithFormat:@"S_M_%@.txt", [df stringFromDate:self.fromDate]];
+		}
+		default:
+			// need to set a case for different types, because otherwise Analyze complains
+			return [NSString stringWithFormat:@"UnknownID%d", primaryKey];
+			
+			break;
+	}
 }
 
 

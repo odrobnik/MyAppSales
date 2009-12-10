@@ -134,44 +134,56 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 	
    // [outdata appendString:@"<bq>The following reports are in your ASiST database.</bq>"];
 	//[outdata appendString:@"<img src=\"/app/Report_Icon.png\" style=\"float:left; margin-right:10px;\"/>"];
-    [outdata appendString:@"<h2>Daily Reports</h2>"];
-	
-    [outdata appendString:@"<ul>"];
 	
 
 	// Daily Reports
-	NSArray *tmpArray = [DB sortedReportsOfType:ReportTypeDay];
-	
-	NSSortDescriptor *dateDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"fromDate" ascending:NO] autorelease];
-	NSArray *sortDescriptors = [NSArray arrayWithObject:dateDescriptor];
-	NSArray *sortedArray = [tmpArray sortedArrayUsingDescriptors:sortDescriptors];
+    [outdata appendString:@"<h2>Daily Reports</h2>"];
+	[outdata appendString:@"<ul>"];
 
-	NSEnumerator *enu = [sortedArray objectEnumerator];
-	Report *tmpReport;
-	
-	while (tmpReport = [enu nextObject]) {
-		[outdata appendFormat:@"<li><a href=\"/report?id=%d\">%@</a></li>\n", tmpReport.primaryKey, [self htmlEncodeUmlaute:[tmpReport listDescriptionShorter:NO]]];
+	for (Report *oneReport in [DB sortedReportsOfType:ReportTypeDay])
+	{
+		[outdata appendFormat:@"<li><a href=\"/report?id=%d\">%@</a></li>\n", oneReport.primaryKey, [self htmlEncodeUmlaute:[oneReport listDescriptionShorter:NO]]];
 	}
+	
     [outdata appendString:@"</ul>"];
 	[outdata appendString:@"<p>Download all <a href=\"/export?type=0\">daily reports</a> as ZIP archive.</p>"];
-//	[outdata appendString:@"<img src=\"/app/Report_Icon.png\" style=\"float:left; margin-right:10px;\"/>"];
-    [outdata appendString:@"<h2>Weekly Reports</h2>"];
-
-    [outdata appendString:@"<ul>"];
 
 	// Weekly Reports
-	tmpArray = [DB sortedReportsOfType:ReportTypeWeek];
+    [outdata appendString:@"<h2>Weekly Reports</h2>"];
+	[outdata appendString:@"<ul>"];
 	
-	sortedArray = [tmpArray sortedArrayUsingDescriptors:sortDescriptors];
-	
-	enu = [sortedArray objectEnumerator];
-	
-	while (tmpReport = [enu nextObject]) {
-		[outdata appendFormat:@"<li><a href=\"/report?id=%d\">%@</a></li>", tmpReport.primaryKey, [tmpReport listDescriptionShorter:NO]];
+	for (Report *oneReport in [DB sortedReportsOfType:ReportTypeWeek])
+	{
+		[outdata appendFormat:@"<li><a href=\"/report?id=%d\">%@</a></li>\n", oneReport.primaryKey, [self htmlEncodeUmlaute:[oneReport listDescriptionShorter:NO]]];
 	}
-    [outdata appendString:@"</ul>"];
 	
+    [outdata appendString:@"</ul>"];
 	[outdata appendString:@"<p>Download all <a href=\"/export?type=1\">weekly reports</a> as ZIP archive.</p>"];
+	
+	// Financial Reports
+    [outdata appendString:@"<h2>Financial Reports</h2>"];
+	[outdata appendString:@"<ul>"];
+	
+	for (Report *oneReport in [DB sortedReportsOfType:ReportTypeFinancial])
+	{
+		[outdata appendFormat:@"<li><a href=\"/report?id=%d\">%@</a></li>\n", oneReport.primaryKey, [self htmlEncodeUmlaute:[oneReport listDescriptionShorter:NO]]];
+	}
+	
+    [outdata appendString:@"</ul>"];
+	[outdata appendString:@"<p>Download all <a href=\"/export?type=2\">financial reports</a> as ZIP archive.</p>"];
+	
+	// Daily Reports
+    [outdata appendString:@"<h2>Monthly Free Reports</h2>"];
+	[outdata appendString:@"<ul>"];
+	
+	for (Report *oneReport in [DB sortedReportsOfType:ReportTypeFree])
+	{
+		[outdata appendFormat:@"<li><a href=\"/report?id=%d\">%@</a></li>\n", oneReport.primaryKey, [self htmlEncodeUmlaute:[oneReport listDescriptionShorter:NO]]];
+	}
+	
+    [outdata appendString:@"</ul>"];
+	[outdata appendString:@"<p>Download all <a href=\"/export?type=3\">monthly free reports</a> as ZIP archive.</p>"];
+	
 	
 
 	[outdata appendFormat:@"<p style=\"text-align:right;\"><small>%@ %@<br />&copy;2009 Drobnik.com</small></p>", title, version];

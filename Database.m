@@ -1326,21 +1326,23 @@ static Database *_sharedInstance;
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
 	NSString *type_string;
-	NSString *file_prefix;
 	
 	switch (type) {
 		case ReportTypeDay:
 			type_string = @"daily";
-			file_prefix = @"S_D_";
 			break;
 		case ReportTypeWeek:
 			type_string = @"weekly";
-			file_prefix = @"S_W_";
 			break;
+		case ReportTypeFinancial:
+			type_string = @"financial";
+			break;
+		case ReportTypeFree:
+			type_string = @"free";
+			break;		
 		default:
 			// need to set a case for different types, because otherwise Analyze complains
-			type_string = nil;
-			file_prefix = nil;
+			type_string = @"unknown";
 			
 			break;
 	}
@@ -1350,22 +1352,15 @@ static Database *_sharedInstance;
 	
 	[zip CreateZipFile2:path]; 
 	
-	NSEnumerator *enu = [[self sortedReportsOfType:type] objectEnumerator];
-	Report *oneReport;
 	
-	NSDateFormatter *df = [[NSDateFormatter alloc] init];
-	[df setDateFormat:@"yyyyMMdd"];
-	
-	
-	while (oneReport = [enu nextObject]) 
+	for (Report *oneReport in [self sortedReportsOfType:type])
 	{
 		NSString *s = [oneReport reconstructText];
 		NSData *d = [s dataUsingEncoding:NSUTF8StringEncoding];
-		NSString *nameInZip = [NSString stringWithFormat:@"reports/%@%@.txt", file_prefix, [df stringFromDate:oneReport.fromDate]];
+		NSString *nameInZip = [NSString stringWithFormat:@"reports/%@",[oneReport reconstructedFileName]];
 		[zip addDataAsFileToZip:d newname:nameInZip fileDate:oneReport.downloadedDate];
 	}
 	
-	[df release];
 	[zip CloseZipFile2];
 	[zip release];
 	
