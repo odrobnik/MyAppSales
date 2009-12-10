@@ -25,7 +25,7 @@
 @property (nonatomic, retain) NSDate *lastUpdatedDate;
 
 - (void)flipImageAnimated:(BOOL)animated;
-- (void)toggleActivityView;
+- (void)toggleActivityView:(BOOL)isON;
 - (void)setStatus:(int)status;
 
 @end

@@ -139,11 +139,15 @@
 	}
 }
 
-- (void)toggleActivityView{
-	if ([activityView isAnimating]) {
+- (void)toggleActivityView:(BOOL)isON
+{
+	if (isON) 
+	{
 		[activityView stopAnimating];
 		arrowImage.hidden = NO;
-	} else {
+	} 
+	else 
+	{
 		[activityView startAnimating];
 		arrowImage.hidden = YES;
 		[self setStatus:kLoadingStatus];

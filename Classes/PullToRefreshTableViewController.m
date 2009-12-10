@@ -206,7 +206,7 @@
 - (void) showReloadAnimationAnimated:(BOOL)animated
 {
 	reloading = YES;
-	[refreshHeaderView toggleActivityView];
+	[refreshHeaderView toggleActivityView:YES];
 	
 	if (animated)
 	{
@@ -249,7 +249,7 @@
 	[UIView setAnimationDuration:.3];
 	[self.tableView setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
 	[refreshHeaderView setStatus:kPullToReloadStatus];
-	[refreshHeaderView toggleActivityView];
+	[refreshHeaderView toggleActivityView:NO];
 	[UIView commitAnimations];
 	[popSound play];
 }
