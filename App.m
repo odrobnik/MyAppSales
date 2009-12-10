@@ -730,7 +730,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		if (existingReview)
 		{
 			BOOL textChanged = ![oneReview.review isEqualToString:existingReview.review];
-			BOOL starsChanged = !(oneReview.stars!=existingReview.stars);
+			BOOL starsChanged = (((int)(oneReview.stars*5.0))!=((int)(existingReview.stars*5.0)));
 			
 			if (textChanged||starsChanged)
 			{

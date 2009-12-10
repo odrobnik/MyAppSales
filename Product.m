@@ -453,8 +453,6 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	sqlite3_reset(total_statement);
 	
 	totalRoyalties = [[YahooFinance sharedInstance] convertToEuroFromDictionary:sumsByCurrency];	
-	
-	NSLog(@"Stop Totals");
 }
 
 -(void)loadSumsFromCache
@@ -573,7 +571,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	totalUnits = 0;
 	totalRoyalties = 0;
 	
-	[self getTotalsFromCacheIfPossible:NO];
+	//[self getTotalsFromCacheIfPossible:NO];
 }
 
 @end
