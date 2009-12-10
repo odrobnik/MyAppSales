@@ -729,20 +729,28 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		
 		if (existingReview)
 		{
-			if (![oneReview.review isEqualToString:existingReview.review]||(oneReview.stars!=existingReview.stars))
+			BOOL textChanged = ![oneReview.review isEqualToString:existingReview.review];
+			BOOL starsChanged = !(oneReview.stars!=existingReview.stars);
+			
+			if (textChanged||starsChanged)
 			{
-				existingReview.review = oneReview.review;
-				existingReview.translated_review = nil;
-				existingReview.stars = oneReview.stars;
-				[existingReview updateDatabase];
+				if (textChanged)
+				{
+					existingReview.review = oneReview.review;
+					existingReview.translated_review = nil;
+					[[SynchingManager sharedInstance]translateReview:existingReview delegate:existingReview];
+				}
 				
+				if (starsChanged)
+				{
+					existingReview.stars = oneReview.stars;
+				}
+				
+				[existingReview updateDatabase];
 				existingReview.isNew = YES;
 				countNewReviews ++;
-
 				modifiedReviews = YES;
 				existingReview.country.usedInReport = YES; // loads icon if we don't have it yet
-				
-				[[SynchingManager sharedInstance]translateReview:existingReview delegate:existingReview];
 			}
 		}
 		else
