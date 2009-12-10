@@ -722,8 +722,6 @@ static NSDateFormatter *dateFormatterToRead = nil;
 
 - (void) didFinishRetrievingReviews:(NSArray *)scrapedReviews;
 {
-	NSMutableArray *tmpArray = [NSMutableArray arrayWithArray:self.reviews];
-	
 	BOOL modifiedReviews = NO;
 	for (Review *oneReview in scrapedReviews)
 	{
@@ -744,7 +742,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 				modifiedReviews = YES;
 				existingReview.country.usedInReport = YES; // loads icon if we don't have it yet
 				
-				[[SynchingManager sharedInstance]translateReview:existingReview delegate:oneReview];
+				[[SynchingManager sharedInstance]translateReview:existingReview delegate:existingReview];
 			}
 		}
 		else
@@ -752,10 +750,10 @@ static NSDateFormatter *dateFormatterToRead = nil;
 			[oneReview insertIntoDatabase:database];
 			if (oneReview.isNew)
 			{
-				[tmpArray insertObject:oneReview atIndex:0];
 				countNewReviews++;
 				modifiedReviews = YES;
 				oneReview.country.usedInReport = YES; // loads icon if we don't have it yet
+				[self addReview:oneReview];
 				
 				[[SynchingManager sharedInstance]translateReview:oneReview delegate:oneReview];
 				

@@ -141,7 +141,7 @@
 
 - (void)toggleActivityView:(BOOL)isON
 {
-	if (isON) 
+	if (!isON) 
 	{
 		[activityView stopAnimating];
 		arrowImage.hidden = NO;

@@ -93,7 +93,10 @@ static NSDateFormatter *dateFormatterToRead = nil;
 			self.review = reviewText;
 			self.stars = ((double)intStars)/5.0;
 			
-			self.translated_review = reviewTranslatedText;
+			if (reviewTranslatedText)
+			{
+				self.translated_review = reviewTranslatedText;
+			}
 			self.primaryKey = pk;
 		}
 		else
@@ -136,7 +139,8 @@ static NSDateFormatter *dateFormatterToRead = nil;
         // Note that the parameters are numbered from 1, not from 0.
         sqlite3_bind_int(reviews_statement, 1, pk);
 		
-        while (sqlite3_step(reviews_statement) == SQLITE_ROW) {
+        while (sqlite3_step(reviews_statement) == SQLITE_ROW) 
+		{
 			//NSUInteger review_id = sqlite3_column_int(reviews_statement, 0);
 			//NSLog(@"%d", review_id);
 			NSString *country_code = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 1)];
