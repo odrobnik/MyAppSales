@@ -714,43 +714,6 @@
 	}
 }
 
-
-/*
-- (void)displayInfoUpdate:(NSNotification *) notification
-{
-	NSLog(@"displayInfoUpdate:");
-	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-
-	
-	
-	if(notification)
-	{
-		[appDelegate.addresses release];
-		appDelegate.addresses = [[notification object] copy];
-		NSLog(@"addresses: %@", appDelegate.addresses);
-	}
-	if(appDelegate.addresses == nil)
-	{
-		return;
-	}
-	
-	NSString *info;
-	UInt16 port = [appDelegate.httpServer port];
-	
-	NSString *localIP = [appDelegate.addresses objectForKey:@"en0"];
-	if (!localIP)
-		info = @"Wifi: No Connection !\n";
-	else
-		info = [NSString stringWithFormat:@"http://iphone.local:%d		http://%@:%d\n", port, localIP, port];
-	NSString *wwwIP = [appDelegate.addresses objectForKey:@"www"];
-	if (wwwIP)
-		info = [info stringByAppendingFormat:@"Web: %@:%d\n", wwwIP, port];
-	else
-		info = [info stringByAppendingString:@"Web: No Connection\n"];
-	
-	//displayInfo.text = info;
-} */
-
 - (void)serverStatusChanged:(NSNotification *) notification
 {
 	

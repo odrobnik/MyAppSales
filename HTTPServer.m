@@ -220,9 +220,6 @@
 		// Update our port number
 		[self setPort:[asyncSocket localPort]];
 		
-		// Output console message for debugging purposes
-		//NSLog(@"Started HTTP server on port %hu", port);
-		
 		// We can only publish our bonjour service if a type has been set
 		if(type != nil)
 		{
@@ -244,7 +241,7 @@
 	}
 	else
 	{
-		//NSLog(@"Failed to start HTTP Server: %@", *error);
+		NSLog(@"Failed to start HTTP Server: %@", *error);
 	}
 	
 	return success;

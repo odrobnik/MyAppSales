@@ -68,6 +68,9 @@
 
 	for (App *oneApp in allApps)
 	{
+		// to prevent problems with staged loading, we load the app's reviews now
+		[oneApp reviewsInStages:NO];
+		
 		for (NSString *oneKey in allKeys)
 		{
 			Country *oneCountry = [countries objectForKey:oneKey];
@@ -82,9 +85,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	NSLog(@"Start App Delegate");
-
-	
 	NSURL *launchURL;
 	BOOL forceSynch = NO;
 	
@@ -286,9 +286,6 @@
 		[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"ReviewFrequency"];
 	}
 	
-	
-	NSLog(@"End App Delegate -----------------------------");
-	
 	return YES;
 }
 
@@ -329,7 +326,6 @@
 		NSError *error;
 		if(![httpServer start:&error])
 		{
-			//NSLog(@"Error starting HTTP Server: %@", error);
 			serverIsRunning = NO;
 		}
 		else
@@ -361,7 +357,6 @@
 		NSError *error;
 		if(![httpServer start:&error])
 		{
-			//NSLog(@"Error starting HTTP Server: %@", error);
 			serverIsRunning = NO;
 		}
 		else
@@ -509,12 +504,10 @@
 #pragma mark Internal Server
 - (void)displayInfoUpdate:(NSNotification *) notification
 {
-	
 	if(notification)
 	{
 		[addresses release];
 		addresses = [[notification object] copy];
-		//NSLog(@"addresses: %@", addresses);
 	}
 	if(addresses == nil)
 	{
@@ -566,7 +559,6 @@
 		}
 		else
 		{
-			NSLog(@"removed %@", pathOfFile);
 			// all others removed
 			[fileManager removeItemAtPath:pathOfFile error:&error];
 		}
@@ -579,8 +571,6 @@
 	// reload app icons
 	[DB unloadReports];
 	[DB reloadAllAppIcons];
-	
-	
 }
 
 
@@ -613,6 +603,7 @@
 {
 	if (alertView.tag == 99)
 	{
+		[self emptyCache];
 		exit(0);
 	}
 }

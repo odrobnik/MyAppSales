@@ -94,34 +94,15 @@
 {
 	return myChart;
 }
-
-/*
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-	//NSLog(@"%f, %f", scrollView.contentSize.height,  scrollView.contentOffset.y);
-	float scale = scrollView.contentSize.height / 367.0;
-	
-	myAxis.scale = scale;
-	CGPoint tmpOffset = scrollView.contentOffset;
-	tmpOffset.y = scrollView.contentSize.height - 367.0 - tmpOffset.y;
-	myAxis.offset = tmpOffset;
-	[myAxis setNeedsDisplay];
-	
-}
- */
  
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(float)scale
 {
-//	NSLog(@"scale: %f", scale);
 	CGRect contentSize = [myChart chartDimensions];
 	CGSize newSize;
 	newSize.width = contentSize.size.width * scale;
 	newSize.height = contentSize.size.height * scale;
 	myAxis.scale = scale;
 	[myAxis setNeedsDisplay];
-	
-//	[myScroll setContentSize:newSize];
-	
 }
 
 

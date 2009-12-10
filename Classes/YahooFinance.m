@@ -110,113 +110,11 @@ static YahooFinance *_sharedInstance = nil;
 	self.mainCurrency = @"USD";
 	return self;
 }
-
-
-/*
-- (id) initWithCurrencyList:(NSArray *)currencies
-{
-	return [self initWithAllCurrencies];
-	
-	
-	if (self = [super init])
-	{
-		// the latested finance data is cached in the documents directory 
-		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-		NSString *documentsDirectory = [paths objectAtIndex:0];
-		NSString *path = [documentsDirectory stringByAppendingPathComponent:@"currencies.plist"];
-
-		curDict = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
-		
-		if (!curDict)
-		{
-			curDict = [[NSMutableDictionary alloc] initWithCapacity:[currencies count]];
-		}
-		
-		NSMutableArray *tmpArray;
-		
-		if ([currencies count]==0)
-		{
-			NSLog(@"No Currencies passed! Using standard list");
-			
-			tmpArray = [NSMutableArray arrayWithObjects:@"SEK",
-						@"USD",
-						@"AUD",
-						@"GBP",
-						@"NZD",
-						@"CAD",
-						@"MXN",
-						@"DKK",
-						@"JPY",
-						@"EUR",
-						@"CHF", nil];
-//			return self;
-		}
-		else
-		{
-			tmpArray = [NSMutableArray arrayWithArray:currencies];
-		}
-	
-		
-		// make query string
-		NSMutableString *string = [[NSMutableString alloc] init];
-		
-		NSEnumerator *en = [tmpArray objectEnumerator];
-		NSString *str;
-		
-		[string appendString:@"http://quote.yahoo.com/d/quotes.csv?s="];
-		
-		while (str = [en nextObject])
-		{
-			if (str == [tmpArray lastObject])
-			{
-				[string appendFormat:@"EUR%@=X", str];
-			}
-			else
-			{
-				[string appendFormat:@"EUR%@=X+", str];
-			}
-		}
-		
-		[string appendString:@"&f=nl1d1t1"];
-		
-		NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:string]
-																cachePolicy:NSURLRequestUseProtocolCachePolicy
-															timeoutInterval:60.0];
-		theConnection=[[[NSURLConnection alloc] initWithRequest:theRequest delegate:self] autorelease];
-		if (theConnection) 
-		{
-			
-			// Create the NSMutableData that will hold
-			// the received data
-			// receivedData is declared as a method instance elsewhere
-			if (!receivedData)
-			{
-				receivedData=[[NSMutableData data] retain];
-			}
-		}
-		else
-		{
-			// inform the user that the download could not be made
-		}
-	}
-	
-	NSLog(@"http request started");
-	
-	self.mainCurrency = @"EUR";
-	return self;
-}
-*/
  
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSHTTPURLResponse *)response
 {
     // this method is called when the server has determined that it
     // has enough information to create the NSURLResponse
-	
-    // it can be called multiple times, for example in the case of a
-    // redirect, so each time we reset the data.
-    // receivedData is declared as a method instance elsewhere
-    //[receivedData setLength:0];
-	//NSLog([[response allHeaderFields] description]);
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -225,7 +123,6 @@ static YahooFinance *_sharedInstance = nil;
     // receivedData is declared as a method instance elsewhere
     [receivedData appendData:data];
 	NSString *sourceSt = [[NSString alloc] initWithBytes:[receivedData bytes] length:[receivedData length] encoding:NSASCIIStringEncoding];
-	//NSLog(sourceSt);
 	[sourceSt release];
 }
 
@@ -235,18 +132,7 @@ static YahooFinance *_sharedInstance = nil;
     //[connection release]; is autoreleased
     // receivedData is declared as a method instance elsewhere
     [receivedData release];
-	receivedData = nil;
-	
- 	
-   // NSLog(@"Connection failed! Error - %@ %@",
-   //       [error localizedDescription],
-   //       [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
-	
-	/*	if (myDelegate && [myDelegate respondsToSelector:@selector(sendingDone:)]) {
-	 (void) [myDelegate performSelector:@selector(sendingDone:) 
-	 withObject:self];
-	 }
-	 */	
+	receivedData = nil;	
 }
 
 - (void) parseYahooString:(NSString *)string
@@ -276,14 +162,9 @@ static YahooFinance *_sharedInstance = nil;
 				
 				
 			}
-			else
-			{
-				//NSLog(oneLine);
-			}
 		}
 	}
 	
-	//NSLog([curDict description]);
 	[self save];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"ExchangeRatesChanged" object:nil userInfo:nil];
 	
@@ -291,11 +172,6 @@ static YahooFinance *_sharedInstance = nil;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-	//NSString *URL;
-	//NSMutableURLRequest *theRequest;
-	
-	//NSLog(@"Finish Yahoo");
-	
 	NSString *sourceSt = [[NSString alloc] initWithBytes:[receivedData bytes] length:[receivedData length] encoding:NSASCIIStringEncoding];
 	[self parseYahooString:sourceSt];
 	[sourceSt release];

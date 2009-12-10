@@ -114,10 +114,6 @@
 	[envelope appendFormat:@"</%@>\n", operation];
 	[envelope appendString:@"</soap:Body>\n"];
 	[envelope appendString:@"</soap:Envelope>\n"];
-
-	//NSLog(@"%@", parameters);
-	//NSLog(@"%@", envelope);
-
 	
 	NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]] autorelease];
 	

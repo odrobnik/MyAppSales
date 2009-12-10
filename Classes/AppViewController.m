@@ -163,6 +163,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	NSArray *sortedApps = [DB appsSortedBySales];
 	App *rowApp = [sortedApps objectAtIndex:indexPath.row];
 	

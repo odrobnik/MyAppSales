@@ -276,9 +276,6 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"NewFileUploaded" object:nil userInfo:tmpDict];
 		}
 		
-	/*	for (int n = 1; n < [multipartData count] - 1; n++)
-			NSLog(@"%@", [[NSString alloc] initWithBytes:[[multipartData objectAtIndex:n] bytes] length:[[multipartData objectAtIndex:n] length] encoding:NSUTF8StringEncoding]);
-	*/	
 		[postInfo release];
 		[multipartData release];
 		postContentLength = 0;

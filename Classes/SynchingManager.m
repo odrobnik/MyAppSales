@@ -219,7 +219,6 @@ static SynchingManager * _sharedInstance;
 		}
 	}
 	
-	//NSLog(@"%d of %d", active_count, [[queue operations] count]);
 	if (!active_count)
 	{
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"AllDownloadsFinished" object:nil];

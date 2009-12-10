@@ -175,7 +175,6 @@ static sqlite3_stmt *init_statement = nil;
 
 	if (theConnection)
 	{	
-		//NSLog(@"Already downloading flag for %@", iso3);
 		return;
 	}
 	
@@ -229,17 +228,6 @@ static sqlite3_stmt *init_statement = nil;
 	receivedData = nil;
 	[theConnection release];
 	theConnection = nil;
-	
- 	
-  //  NSLog(@"Connection failed! Error - %@ %@",
-  //        [error localizedDescription],
-  //        [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
-	
-	/*	if (myDelegate && [myDelegate respondsToSelector:@selector(sendingDone:)]) {
-	 (void) [myDelegate performSelector:@selector(sendingDone:) 
-	 withObject:self];
-	 }
-	 */	
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -270,18 +258,13 @@ static sqlite3_stmt *init_statement = nil;
 			NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", self.iso3]];
 		
 			[tmpData writeToFile:path atomically:YES];
-			NSLog(@"Written Icon to %@", path);
 			[tmpImage release];
 		}
 		else
 		{
-			//NSLog(@"Bad data for country image %@", iso3);
+			NSLog(@"Bad data for country image %@", iso3);
 		}
 	}
-/*	else
-	{
-		NSLog(sourceSt);
-	}*/
 }
 
 

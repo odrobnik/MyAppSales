@@ -441,63 +441,6 @@
 	}
 	
 	return cell;
-	
-	/*
-	
-	NSArray *dictKeys = [thisDict keysSortedByValueUsingSelector:@selector(compareBySales:)];  // all countries
-	CountrySummary *tmpSummary = [thisDict objectForKey:[dictKeys objectAtIndex:indexPath.row-1]];
-	
-	cell.CELL_IMAGE = tmpSummary.country.iconImage;
-	
-	
-	if (tmpSummary.sumSales>0)
-	{
-		cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", tmpSummary.sumSales];
-		
-		
-		if (appDelegate.convertSalesToMainCurrency)
-		{ 
-			double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:tmpSummary.sumRoyalites fromCurrency:tmpSummary.royaltyCurrency];
-			
-			cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
-		}
-		else
-		{
-			cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:tmpSummary.royaltyCurrency amount:tmpSummary.sumRoyalites];
-		}
-	}
-	else
-	{
-		cell.unitsSoldLabel.text = @"";
-		cell.royaltyEarnedLabel.text = @"";  // because of reuse we need to empty cells
-	}
-	
-	if (tmpSummary.sumUpdates>0)
-	{
-		cell.unitsUpdatedLabel.text = [NSString stringWithFormat:@"%d", tmpSummary.sumUpdates];
-	}
-	else
-	{
-		cell.unitsUpdatedLabel.text = @"";
-	}
-	
-	if (tmpSummary.sumRefunds)
-	{
-		cell.unitsRefundedLabel.text = [NSString stringWithFormat:@"%d", tmpSummary.sumRefunds];
-	}	
-	else
-	{
-		cell.unitsRefundedLabel.text = @"";
-	}
-	
-	
-	//Sale *tmpSale = [thisArray objectAtIndex:indexPath.row];
-	//cell.CELL_IMAGE = tmpSale.country.iconImage;
-	
-	//NSLog( [NSString stringWithFormat:@"%@ s: %d = %.2f %@, u: %d, r: %d",  tmpSummary.country.iso3,tmpSummary.sumSales, tmpSummary.sumRoyalites, tmpSummary.royaltyCurrency, tmpSummary.sumUpdates, tmpSummary.sumRefunds]);
-	//NSLog(@"ok");
-    return cell;
-	 */
 }
 
 

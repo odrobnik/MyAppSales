@@ -124,7 +124,6 @@ static Database *_sharedInstance;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:@"apps.db"];
-	//NSLog(@"DB: %@", writableDBPath);
     success = [fileManager fileExistsAtPath:writableDBPath];
     if (success) return;
     // The writable database does not exist, so copy the default to the appropriate location.
@@ -263,7 +262,7 @@ static Database *_sharedInstance;
 			}
 			
 			char *downloaded_date = (char *)sqlite3_column_text(statement, 2);
-			NSDate *downloadedDate;
+			NSDate *downloadedDate = nil;
 			
 			if (downloaded_date)
 			{
@@ -302,8 +301,6 @@ static Database *_sharedInstance;
 - (void) bulkLoadReportsOfType:(ReportType)reportType
 {
 	// Load all reports
-	NSLog(@"Bulk Loading type: %d", reportType);
-	
 	
 	// try cache first
 	
@@ -312,7 +309,6 @@ static Database *_sharedInstance;
 	
 	if (compressed)
 	{
-		NSLog(@"Cache hit type %d", reportType);
 		NSData *data = [compressed gzipInflate];
 		
 		NSString *string = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
@@ -367,18 +363,10 @@ static Database *_sharedInstance;
 					[report release];
 				}	
 			}
-			else
-			{
-				NSLog(@"FIN");
-			}
-
 		}
 		
 		return;
 	}
-	
-	NSLog(@"Cache fail type %d, doing SELECT", reportType);
-	
 	
 	char *sql;
 	sqlite3_stmt *statement;
@@ -460,8 +448,6 @@ static Database *_sharedInstance;
 // Load all apps and reports
 - (void)initializeDatabase 
 {
-	NSLog(@"Begin Init DB");
-	
 	char *sql;
 	sqlite3_stmt *statement;
 	
@@ -520,8 +506,6 @@ static Database *_sharedInstance;
 	// Finalize the statement, no reuse.
 	sqlite3_finalize(statement);
 	
-	NSLog(@"- Country");
-	
 	languages = [tmpDict retain];
 	
 	// Load all apps
@@ -550,9 +534,6 @@ static Database *_sharedInstance;
 	// "Finalize" the statement - releases the resources associated with the statement.
 	sqlite3_finalize(statement); 
 	
-	NSLog(@"- Apps");
-	
-	
 	// Load all IAP Products
     self.iaps = [NSMutableDictionary dictionary];
 	sql = "SELECT id FROM InAppPurchase";
@@ -579,9 +560,6 @@ static Database *_sharedInstance;
 	// "Finalize" the statement - releases the resources associated with the statement.
 	sqlite3_finalize(statement); 
 	
-	NSLog(@"- IAPs");
-	
-	
 	// Load all AppGroupings
 	// needed before the reports
 	
@@ -604,13 +582,7 @@ static Database *_sharedInstance;
 	// "Finalize" the statement - releases the resources associated with the statement.
 	sqlite3_finalize(statement);
 	
-	NSLog(@"- Groupings");
-	
-	//[self bulkLoadReports];
-	NSLog(@"- Reports deferred");
-	
-	
-	NSLog(@"End Init DB");
+	//[self bulkLoadReports]; // deferred
 }
 
 #pragma mark Accessing Database
@@ -669,9 +641,6 @@ static Database *_sharedInstance;
 	
 	
 }
-
-
-
 
 - (Report *) reportForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion appGrouping:(AppGrouping *)appGrouping
 {
@@ -1297,7 +1266,6 @@ static Database *_sharedInstance;
 
 - (App *) insertAppWithTitle:(NSString *)title vendor_identifier:(NSString *)vendor_identifier apple_identifier:(NSUInteger)apple_identifier company_name:(NSString *)company_name;
 {
-	NSLog(@"Added app: %@", title);
 	// this also adds it to the database
 	App *tmpApp = [[App alloc] initWithTitle:title vendor_identifier:vendor_identifier apple_identifier:apple_identifier company_name:company_name database:database];
 	
@@ -1311,7 +1279,6 @@ static Database *_sharedInstance;
 
 - (InAppPurchase *) insertIAPWithTitle:(NSString *)title vendor_identifier:(NSString *)vendor_identifier apple_identifier:(NSUInteger)apple_identifier company_name:(NSString *)company_name parent:(App *)parentApp
 {
-	NSLog(@"Added IAP: %@", title);
 	// this also adds it to the database
 	InAppPurchase *tmpIAP = [[InAppPurchase alloc] initWithTitle:title vendor_identifier:vendor_identifier apple_identifier:apple_identifier company_name:company_name parent:(App *)parentApp database:database];
 	
@@ -1503,247 +1470,6 @@ static Database *_sharedInstance;
 	}
 }
 
-/*
- #pragma mark Summing
- - (void)calcAvgRoyaltiesForApps
- {
- NSLog(@"Start Average");
- // day reports, they are sorted newest first
- NSArray *dayReports = [self sortedReportsOfType:ReportTypeDay];
- 
- 
- NSMutableDictionary *combinedAppAndIAP = [NSMutableDictionary dictionaryWithDictionary:apps];
- [combinedAppAndIAP addEntriesFromDictionary:iaps];
- NSArray *appIDs = [combinedAppAndIAP allKeys];
- 
- 
- App *tmpApp;
- NSNumber *app_id;
- 
- int i;
- 
- int num_reports = [dayReports count];
- if (num_reports>7)
- {
- num_reports = 7;
- }
- 
- for (i=0;i<num_reports;i++)
- {
- Report *tmpReport = [dayReports objectAtIndex:i];
- [tmpReport hydrate];
- 
- 
- // for each app add the royalties into the apps's average field, we'll divide it in the end
- NSEnumerator *keyEnum = [appIDs objectEnumerator];
- 
- while (app_id = [keyEnum nextObject])
- {
- tmpApp = [combinedAppAndIAP objectForKey:app_id];
- 
- if (!i) tmpApp.averageRoyaltiesPerDay = 0;
- 
- double dayRoyalties;
- 
- if ([tmpApp isKindOfClass:[App class]])
- {
- dayRoyalties = [tmpReport sumRoyaltiesForProduct:tmpApp transactionType:TransactionTypeSale];
- dayRoyalties += [tmpReport sumRoyaltiesForInAppPurchasesOfApp:tmpApp];
- }
- else if ([tmpApp isKindOfClass:[InAppPurchase class]])
- {
- dayRoyalties = [tmpReport sumRoyaltiesForProduct:tmpApp transactionType:TransactionTypeIAP];
- }
- 
- tmpApp.averageRoyaltiesPerDay += dayRoyalties;
- 
- if (i==(num_reports-1)) tmpApp.averageRoyaltiesPerDay = tmpApp.averageRoyaltiesPerDay/(double)num_reports;
- }
- }
- 
- // we could refresh the app table
- NSLog(@"End Average");
- 
- }
- */
-/*
- - (void)getTotals
- {
- NSLog(@"Start Totals");
- 
- // return dictionary
- NSMutableDictionary *byAppDict = [NSMutableDictionary dictionary];
- NSMutableDictionary *byReportDict = [NSMutableDictionary dictionary];
- 
- static sqlite3_stmt *total_statement = nil;
- 
- // Compile the query for retrieving book data. See insertNewBookIntoDatabase: for more detail.
- if (total_statement == nil) {
- // Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
- // This is a great way to optimize because frequently used queries can be compiled once, then with each
- // use new variable values can be bound to placeholders.
- const char *sql = "SELECT app_id, royalty_currency, sum(units), sum(units*royalty_price), report_id, min(report_type_id) FROM report r, sale s WHERE r.id = s.report_id and (type_id=1 or type_id=101) group by report_id, app_id, royalty_currency";
- if (sqlite3_prepare_v2(database, sql, -1, &total_statement, NULL) != SQLITE_OK) {
- NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
- }
- }
- // For this query, we bind the primary key to the first (and only) placeholder in the statement.
- // Note that the parameters are numbered from 1, not from 0.
- while (sqlite3_step(total_statement) == SQLITE_ROW) 
- {
- NSUInteger app_id = sqlite3_column_int(total_statement, 0);
- NSString *currency_code = [NSString stringWithUTF8String:(char *)sqlite3_column_text(total_statement, 1)];
- NSUInteger units = sqlite3_column_int(total_statement, 2);
- double royalties = sqlite3_column_double(total_statement, 3);
- NSUInteger report_id = sqlite3_column_int(total_statement, 4);
- ReportType report_type_id = (ReportType)sqlite3_column_int(total_statement, 5);
- 
- 
- // sort the daily reports by app id
- if (report_type_id == ReportTypeDay)
- {
- // one dictionary per app, keys are currencies
- NSMutableDictionary *appDict = [byAppDict objectForKey:[NSNumber numberWithInt:app_id]];
- 
- if (!appDict)
- {
- appDict = [NSMutableDictionary dictionary];
- [byAppDict setObject:appDict forKey:[NSNumber numberWithInt:app_id]];
- }
- 
- NSMutableDictionary *sumsByCurrency = [appDict objectForKey:@"SumsByCurrency"];
- if (!sumsByCurrency)
- {
- sumsByCurrency = [NSMutableDictionary dictionary];
- [appDict setObject:sumsByCurrency forKey:@"SumsByCurrency"];
- }
- 
- // save individual currencies
- double royalties_plus_previous = royalties + [[sumsByCurrency objectForKey:currency_code] doubleValue];
- [sumsByCurrency setObject:[NSNumber numberWithDouble:royalties_plus_previous] forKey:currency_code];
- 
- 
- if (!royalties)
- {
- // count as free
- 
- NSNumber *unitsEntry = [appDict objectForKey:@"UnitsFree"];
- 
- if (!unitsEntry)
- {
- unitsEntry = [NSNumber numberWithInt:units];
- }
- else
- {
- unitsEntry = [NSNumber numberWithInt:(units + [unitsEntry intValue])];
- }
- 
- [appDict setObject:unitsEntry forKey:@"UnitsFree"];
- 
- }
- else
- {
- // count as paid
- 
- NSNumber *unitsEntry = [appDict objectForKey:@"UnitsPaid"];
- 
- if (!unitsEntry)
- {
- unitsEntry = [NSNumber numberWithInt:units];
- }
- else
- {
- unitsEntry = [NSNumber numberWithInt:(units + [unitsEntry intValue])];
- }
- 
- [appDict setObject:unitsEntry forKey:@"UnitsPaid"];
- 
- }
- }
- 
- 
- // sort all other sums into another dictionary
- NSMutableDictionary *reportDict = [byReportDict objectForKey:[NSNumber numberWithInt:report_id]];
- 
- if (!reportDict)
- {
- reportDict = [NSMutableDictionary dictionary];
- [byReportDict setObject:reportDict forKey:[NSNumber numberWithInt:report_id]];
- }
- 
- NSMutableDictionary *sumsByCurrency = [reportDict objectForKey:@"SumsByCurrency"];
- if (!sumsByCurrency)
- {
- sumsByCurrency = [NSMutableDictionary dictionary];
- [reportDict setObject:sumsByCurrency forKey:@"SumsByCurrency"];
- }
- 
- // save individual currencies
- double royalties_plus_previous = royalties + [[sumsByCurrency objectForKey:currency_code] doubleValue];
- [sumsByCurrency setObject:[NSNumber numberWithDouble:royalties_plus_previous] forKey:currency_code];
- 
- if (!royalties)
- {
- // count as free
- 
- NSNumber *unitsEntry = [reportDict objectForKey:@"UnitsFree"];
- 
- if (!unitsEntry)
- {
- unitsEntry = [NSNumber numberWithInt:units];
- }
- else
- {
- unitsEntry = [NSNumber numberWithInt:(units + [unitsEntry intValue])];
- }
- 
- [reportDict setObject:unitsEntry forKey:@"UnitsFree"];
- 
- }
- else
- {
- // count as paid
- 
- NSNumber *unitsEntry = [reportDict objectForKey:@"UnitsPaid"];
- 
- if (!unitsEntry)
- {
- unitsEntry = [NSNumber numberWithInt:units];
- }
- else
- {
- unitsEntry = [NSNumber numberWithInt:(units + [unitsEntry intValue])];
- }
- 
- [reportDict setObject:unitsEntry forKey:@"UnitsPaid"];
- 
- }
- }
- // Reset the statement for future reuse.
- sqlite3_reset(total_statement);
- 
- NSDictionary *retDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:byAppDict, byReportDict, nil] forKeys:[NSArray arrayWithObjects:@"ByApp", @"ByReport", nil]];
- 
- 
- // sometimes the notifications come in the wrong order, i.e. first the view then the apps
- // so we update directly
- for (NSNumber *oneAppKey in [apps allKeys])
- {
- App *oneApp = [apps objectForKey:oneAppKey];
- [oneApp updateTotalsFromDict:retDict];
- }
- 
- for (NSNumber *oneIAPKey in [iaps allKeys])
- {
- InAppPurchase *oneIAP = [iaps objectForKey:oneIAPKey];
- [oneIAP updateTotalsFromDict:retDict];
- }
- [[NSNotificationCenter defaultCenter] postNotificationName:@"AppTotalsUpdated" object:nil userInfo:(id)retDict];
- 
- NSLog(@"End Totals");
- }
- */
-
 #pragma mark Notification Sending
 - (void) sendNewAppNotification:(App *)app
 {
@@ -1831,8 +1557,6 @@ static Database *_sharedInstance;
 -(void)cacheStubsForReportsOfType:(ReportType)reportType
 {
 	if (![self hasLoadedReportsOfType:reportType]) return;
-	
-	NSLog(@"Cache type %d", reportType);
 	
 	NSMutableString *tmpStr = [NSMutableString string];
 	

@@ -89,14 +89,6 @@
 	NSError* error;
 	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	
-
-	
-	/*if ([response isKindOfClass:[NSHTTPURLResponse class]])
-	 {
-	 NSHTTPURLResponse *http = (NSHTTPURLResponse *)response;
-	 NSLog(@"%@", [http allHeaderFields]);
-	 }*/
-	
 	if (error)
 	{
 		[self setStatusError:[error localizedDescription]];

@@ -25,12 +25,8 @@
 
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = TABLEVIEWCELL_PLAIN_INIT) {
-        // Initialization code
-		// you can do this here specifically or at the table level for all cells
-		self.accessoryType = UITableViewCellAccessoryNone;
-		self.selectionStyle = UITableViewCellSelectionStyleNone;
-		
+    if (self = TABLEVIEWCELL_PLAIN_INIT) 
+	{
 		// create label views to contain the various pieces of text that make up the cell.
 		// Add these as subviews.
 		appTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];	// layoutSubViews will decide the final frame

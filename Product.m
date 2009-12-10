@@ -410,12 +410,9 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		
 		if (sumsByCurrency)
 		{
-			NSLog(@"Loaded sums for %@ from DB", title);
 			return;
 		}
 	}
-	
-	NSLog(@"Start Totals for %@ %d", title, apple_identifier);
 	
 	sumsByCurrency = [[NSMutableDictionary alloc] init];
 	

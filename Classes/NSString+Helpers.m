@@ -219,8 +219,6 @@
 {
 	NSArray *linkDict = [self arrayWithHrefDicts];
 	
-	//NSLog(@"links: %@", linkDict);
-	
 	for (NSDictionary *oneDict in linkDict)
 	{
 		NSRange range = [[oneDict objectForKey:@"contents"] rangeOfString:searchText];

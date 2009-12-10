@@ -28,9 +28,11 @@
 
 - (void)loadReviews
 {
-	NSArray *unsorted = myApp.reviews;
+	NSArray *unsorted = [myApp reviewsInStages:YES];
 	[sortedReviews release];
 	sortedReviews = [[unsorted sortedArrayUsingSelector:@selector(compareByReviewDate:)] retain];
+	
+	forwardButtonItem.enabled = [self hasMailAndCanSendWithIt]&&[sortedReviews count];
 }
 
 
@@ -53,7 +55,7 @@
 		
 		//[self setToolbarItems:[NSArray arrayWithObjects:left, forwardButtonItem, middle, reloadButtonItem, right, nil] animated:YES];
 		
-		forwardButtonItem.enabled = [self hasMailAndCanSendWithIt]&&[myApp.reviews count];
+		
 		//reloadButtonItem.enabled = ![[SynchingManager sharedInstance] hasActiveOperations];
 		self.navigationItem.rightBarButtonItem = forwardButtonItem;
 		
@@ -61,7 +63,6 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchingStarted:) name:@"SynchingStarted" object:nil];
 		
 		[self loadReviews];
-		
 	}
     return self;
 }
@@ -175,7 +176,15 @@
     // Set up the cell...
 	Review *rowReview = [sortedReviews objectAtIndex:indexPath.row];
 	
-	cell.reviewText.text = rowReview.review;
+	if (rowReview.translated_review)
+	{
+		cell.reviewText.text = rowReview.translated_review;
+	}
+	else
+	{
+		cell.reviewText.text = rowReview.review;
+	}
+
 	cell.reviewTitle.text = rowReview.title;
 	cell.reviewAuthor.text = rowReview.name;
 	
@@ -226,8 +235,6 @@
 		default:
 			break;
 	}
-	
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
     return cell;
 }

@@ -16,6 +16,7 @@
 
 @interface App : Product <ReviewScraperDelegate> {
 	NSMutableArray *reviews;
+	NSMutableDictionary *reviewsByNameVersion;
 	NSUInteger countNewReviews;
 	
 	// for Downloading Icon image
@@ -26,6 +27,8 @@
 	UIImage *iconImageNano;
 	
 	NSDate *lastReviewRefresh;
+	
+	BOOL stagedLoadInProgress;
 }
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db;
@@ -45,7 +48,7 @@
 @property (nonatomic, readonly) NSUInteger countNewReviews;
 @property (nonatomic, retain) NSDate *lastReviewRefresh;
 
-
+- (NSMutableArray *)reviewsInStages:(BOOL)loadReviewsInStages;
 - (NSDate *)lastReviewRefresh;
 - (void) getAllReviews;
 - (void) removeReviewTranslations;

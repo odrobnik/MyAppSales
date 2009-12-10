@@ -64,7 +64,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		// subscribe to cache emptying
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(emptyCache:) name:@"EmptyCache" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:@"UIApplicationWillTerminateNotification" object:nil];
-
+		
 	}
 	
 	return self;
@@ -83,6 +83,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
     [company_name release];
 	
 	[reviews release];
+	[reviewsByNameVersion release];
     [super dealloc];
 }
 
@@ -233,17 +234,6 @@ static NSDateFormatter *dateFormatterToRead = nil;
     // receivedData is declared as a method instance elsewhere
     [receivedData release];
 	receivedData = nil;
-	
- 	
-	// NSLog(@"Connection failed! Error - %@ %@",
-	//       [error localizedDescription],
-	//       [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
-	
-	/*	if (myDelegate && [myDelegate respondsToSelector:@selector(sendingDone:)]) {
-	 (void) [myDelegate performSelector:@selector(sendingDone:) 
-	 withObject:self];
-	 }
-	 */	
 }
 
 
@@ -304,7 +294,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		UIImage *tmpImageRounded = [tmpImage imageByMaskingWithImage:mask];
 		
 		//UIImage *tmpImageRounded = [ImageManipulator makeRoundCornerImage:tmpImage cornerWidth:20 cornerHeight:20];
- 
+		
 		UIImage *tmpImageResized = [tmpImageRounded scaleImageToSize:CGSizeMake(56.0,56.0)];
 		self.iconImage = tmpImageResized;
 		
@@ -430,17 +420,56 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	}
 }
 
-
-
-- (NSMutableArray *)reviews
+- (void)addReview:(Review *)newReview
 {
+	[reviews addObject:newReview];
+	[reviewsByNameVersion setObject:newReview forKey:[newReview compoundKey]];
+}
+
+- (void)sendReviewUpdateNotification
+{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"AppReviewsUpdated" object:nil userInfo:(id)self];
+}
+
+- (void)backgroundLoadReviewsFromStubs:(NSArray *)lines
+{
+	stagedLoadInProgress = YES;
+	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+	
+	int i=0;
+	
+	for (NSString *oneLine in lines)
+	{
+		Review *decodedReview = [[Review alloc] initWithString:oneLine];
+		
+		if (decodedReview)
+		{
+			decodedReview.app = self;
+			decodedReview.database = database;
+			[self performSelectorOnMainThread:@selector(addReview:) withObject:decodedReview waitUntilDone:YES];
+			i++;
+			[decodedReview release];
+		}
+	}
+	
+	if (i)
+	{
+		[self performSelectorOnMainThread:@selector(sendReviewUpdateNotification) withObject:nil waitUntilDone:YES];
+	}
+
+	stagedLoadInProgress = NO;
+	[pool release];
+}
+
+- (NSMutableArray *)reviewsInStages:(BOOL)loadReviewsInStages
+{
+	// if we already have reviews we ignore the parameter
 	if (!reviews)
 	{
 		reviews = [[NSMutableArray array] retain];
+		reviewsByNameVersion = [[NSMutableDictionary dictionary] retain];
 		
 		// load what's in the DB for this app
-		
-		NSLog(@"Loading Reviews for %@", title);
 		
 		// try cache first
 		
@@ -449,66 +478,40 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		
 		if (compressed)
 		{
-			NSLog(@"Cache hit Reviews for %@", title);
 			NSData *data = [compressed gzipInflate];
 			
 			NSString *string = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
 			
 			NSArray *lines = [string componentsSeparatedByString:@"\n\r\n"];
 			
+			int i=0;
 			for (NSString *oneLine in lines)
 			{
-				NSScanner *scanner = [NSScanner scannerWithString:oneLine];
-				
-				NSInteger primaryKey;
-				NSInteger intStars;
-				NSString *countryCode = nil;
-				NSString *reviewTitle = nil;
-				NSString *reviewName = nil;
-				NSString *reviewVersion = nil;
-				NSTimeInterval reviewDateTI;
-				NSString *reviewText = nil;
-				NSString *reviewTranslatedText = nil;
-				
-				if ([scanner scanInteger:&primaryKey])
+				if (!(loadReviewsInStages&&i>=10))
 				{
-					[scanner scanString:@"\t" intoString:nil];
-					[scanner scanInteger:&intStars];
-					[scanner scanString:@"\t" intoString:nil];
-					[scanner scanUpToString:@"\t" intoString:&countryCode];
-					[scanner scanString:@"\t" intoString:nil];
-					[scanner scanUpToString:@"\t" intoString:&reviewTitle];
-					[scanner scanString:@"\t" intoString:nil];
-					[scanner scanUpToString:@"\t" intoString:&reviewName];
-					[scanner scanString:@"\t" intoString:nil];
-					[scanner scanUpToString:@"\t" intoString:&reviewVersion];
-					[scanner scanString:@"\t" intoString:nil];
-					[scanner scanDouble:&reviewDateTI];
-					[scanner scanString:@"\t" intoString:nil];
-					[scanner scanUpToString:@"\t" intoString:&reviewText];
-					[scanner scanString:@"\t" intoString:nil];
-					[scanner scanUpToString:@"\t" intoString:&reviewTranslatedText];
-
-					NSDate *reviewDate = [NSDate dateWithTimeIntervalSinceReferenceDate:reviewDateTI];
-					Country *country = [DB countryForCode:countryCode];
+					Review *decodedReview = [[Review alloc] initWithString:oneLine];
 					
-					Review *review = [[Review alloc] initWithApp:self 
-														 country:country 
-														   title:reviewTitle 
-															name:reviewName 
-														 version:reviewVersion 
-															date:reviewDate 
-														  review:reviewText
-														   stars:((double)intStars)/5.0];
-					review.translated_review = reviewTranslatedText;
-					review.database = database;
-					
-					[reviews addObject:review];
-					[review release];
+					if (decodedReview)
+					{
+						decodedReview.app = self;
+						decodedReview.database = database;
+						[self addReview:decodedReview];
+						i++;
+						[decodedReview release];
+					}
 				}
-				else
+			}
+			
+			if (loadReviewsInStages&&(i>=10))
+			{
+				NSRange range = NSMakeRange(i, [lines count]-i);
+				
+				if (range.length)
 				{
-					NSLog(@"FIN");
+					// load the rest
+					NSArray *rest = [lines subarrayWithRange:range];
+					
+					[self performSelectorInBackground:@selector(backgroundLoadReviewsFromStubs:) withObject:rest];
 				}
 				
 			}
@@ -516,78 +519,79 @@ static NSDateFormatter *dateFormatterToRead = nil;
 			return reviews;
 		}
 		
-		NSLog(@"Cache fail reviews for %@, doing SELECT", title);
-		
-		
-		
-		
-		
 		if (reviews_statement == nil) 
 		{
-            // Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
-            // This is a great way to optimize because frequently used queries can be compiled once, then with each
-            // use new variable values can be bound to placeholders.
-            const char *sql = "SELECT id FROM review WHERE app_id=?";
-            if (sqlite3_prepare_v2(database, sql, -1, &reviews_statement, NULL) != SQLITE_OK) {
-                NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
-            }
-        }
-        // For this query, we bind the primary key to the first (and only) placeholder in the statement.
-        // Note that the parameters are numbered from 1, not from 0.
-        sqlite3_bind_int(reviews_statement, 1, apple_identifier);
+			// Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
+			// This is a great way to optimize because frequently used queries can be compiled once, then with each
+			// use new variable values can be bound to placeholders.
+			const char *sql = "SELECT id FROM review WHERE app_id=?";
+			if (sqlite3_prepare_v2(database, sql, -1, &reviews_statement, NULL) != SQLITE_OK) {
+				NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+			}
+		}
+		// For this query, we bind the primary key to the first (and only) placeholder in the statement.
+		// Note that the parameters are numbered from 1, not from 0.
+		sqlite3_bind_int(reviews_statement, 1, apple_identifier);
 		
-        while (sqlite3_step(reviews_statement) == SQLITE_ROW) {
+		int i = 0;
+		while ((sqlite3_step(reviews_statement) == SQLITE_ROW)) // (!(loadReviewsInStages&&i>100))&&
+		{
 			NSUInteger review_id = sqlite3_column_int(reviews_statement, 0);
 			
 			Review *loadedReview = [[Review alloc] initWithPrimaryKey:review_id database:database];
 			loadedReview.app = self;
 			
-			[reviews addObject:loadedReview];
+			[self addReview:loadedReview];
+			i++;
 			[loadedReview release];
-        }
-        // Reset the statement for future reuse.
-        sqlite3_reset(reviews_statement);
+		}
+		// Reset the statement for future reuse.
+		sqlite3_reset(reviews_statement);
 	}
 	
 	return reviews;
 }
 
+- (NSMutableArray *)reviews
+{
+	return [self reviewsInStages:NO];
+}
 
 - (NSUInteger)apple_identifier {
-    return apple_identifier;
+	return apple_identifier;
 }
 
 - (NSString *)title {
-    return title;
+	return title;
 }
 
 - (void)setTitle:(NSString *)aString {
-    if ((!title && !aString) || (title && aString && [title isEqualToString:aString])) return;
-    dirty = YES;
-    [title release];
-    title = [aString copy];
+	if ((!title && !aString) || (title && aString && [title isEqualToString:aString])) return;
+	dirty = YES;
+	[title release];
+	title = [aString copy];
 }
 
 - (NSString *)company_name {
-    return company_name;
+	return company_name;
 }
 
 - (void)setCompany_name:(NSString *)aString {
-    if ((!company_name && !aString) || (company_name && aString && [company_name isEqualToString:aString])) return;
-    dirty = YES;
-    [company_name release];
-    company_name = [aString copy];
+	if ((!company_name && !aString) || (company_name && aString && [company_name isEqualToString:aString])) return;
+	dirty = YES;
+	[company_name release];
+	company_name = [aString copy];
 }
 
 - (NSString *)vendor_identifier {
-    return vendor_identifier;
+	return vendor_identifier;
 }
 
 - (void)setVendor_identifier:(NSString *)aString {
-    if ((!vendor_identifier && !aString) || (vendor_identifier && aString && [vendor_identifier isEqualToString:aString])) return;
-    dirty = YES;
-    [vendor_identifier release];
-    vendor_identifier = [aString copy];
+	if ((!vendor_identifier && !aString) || (vendor_identifier && aString && [vendor_identifier isEqualToString:aString])) return;
+	dirty = YES;
+	[vendor_identifier release];
+	vendor_identifier = [aString copy];
 }
 
 - (UIImage *)iconImage
@@ -629,27 +633,27 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	{
 		ret += oneIAP.totalRoyalties;
 	}
-
+	
 	return ret;
 }
 
 /*
-// override to include IAPs
--(double) averageRoyaltiesPerDay
-{
-	double ret = averageRoyaltiesPerDay;
-	double i = 1;
-	
-	for (InAppPurchase *oneIAP in [self inAppPurchases])
-	{
-		ret += oneIAP.averageRoyaltiesPerDay;
-		i++;
-	}
-	
-	return ret/i;
-}
- */
+ // override to include IAPs
+ -(double) averageRoyaltiesPerDay
+ {
+ double ret = averageRoyaltiesPerDay;
+ double i = 1;
  
+ for (InAppPurchase *oneIAP in [self inAppPurchases])
+ {
+ ret += oneIAP.averageRoyaltiesPerDay;
+ i++;
+ }
+ 
+ return ret/i;
+ }
+ */
+
 
 // override to include IAPs
 -(NSInteger) totalUnits
@@ -667,7 +671,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 - (double) averageRoyaltiesPerDay
 {
 	double sum = 0;
-
+	
 	if (!averageRoyaltiesPerDay)
 	{
 		NSArray *sortedReports = [DB sortedReportsOfType:ReportTypeDay];
@@ -710,30 +714,65 @@ static NSDateFormatter *dateFormatterToRead = nil;
 
 #pragma mark ReviewScraper
 
+- (Review *)reviewExists:(Review *)searchReview
+{
+	return [reviewsByNameVersion objectForKey:[searchReview compoundKey]];
+}
+
+
 - (void) didFinishRetrievingReviews:(NSArray *)scrapedReviews;
 {
 	NSMutableArray *tmpArray = [NSMutableArray arrayWithArray:self.reviews];
 	
+	BOOL modifiedReviews = NO;
 	for (Review *oneReview in scrapedReviews)
 	{
-		[oneReview insertIntoDatabase:database];
-		if (oneReview.isNew)
+		Review *existingReview = [self reviewExists:oneReview];
+		
+		if (existingReview)
 		{
-			[tmpArray insertObject:oneReview atIndex:0];
-			countNewReviews++;
-			oneReview.country.usedInReport = YES; // loads icon if we don't have it yet
-			
-			[[SynchingManager sharedInstance]translateReview:oneReview delegate:oneReview];
+			if (![oneReview.review isEqualToString:existingReview.review]||(oneReview.stars!=existingReview.stars))
+			{
+				existingReview.review = oneReview.review;
+				existingReview.translated_review = nil;
+				existingReview.stars = oneReview.stars;
+				[existingReview updateDatabase];
+				
+				existingReview.isNew = YES;
+				countNewReviews ++;
 
+				modifiedReviews = YES;
+				existingReview.country.usedInReport = YES; // loads icon if we don't have it yet
+				
+				[[SynchingManager sharedInstance]translateReview:existingReview delegate:oneReview];
+			}
+		}
+		else
+		{
+			[oneReview insertIntoDatabase:database];
+			if (oneReview.isNew)
+			{
+				[tmpArray insertObject:oneReview atIndex:0];
+				countNewReviews++;
+				modifiedReviews = YES;
+				oneReview.country.usedInReport = YES; // loads icon if we don't have it yet
+				
+				[[SynchingManager sharedInstance]translateReview:oneReview delegate:oneReview];
+				
+			}
 		}
 	}
 	
-	[self.reviews release];
+	if (modifiedReviews)
+	{
+		//[self.reviews release];
 	
-	reviews = [[tmpArray sortedArrayUsingSelector:@selector(compareByReviewDate:)] retain];
-
+		//reviews = [[tmpArray sortedArrayUsingSelector:@selector(compareByReviewDate:)] retain];
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"AppReviewsUpdated" object:nil userInfo:(id)self];
+	}
+	
 	self.lastReviewRefresh = [NSDate date];
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"AppReviewsUpdated" object:nil userInfo:(id)self];
 }
 
 - (void) removeReviewTranslations
@@ -742,10 +781,11 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	{
 		oneReview.translated_review = nil;
 		//[oneReview updateDatabase]; // unnecessary
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"AppReviewsUpdated" object:nil userInfo:(id)self];
 		
 		[[SynchingManager sharedInstance] translateReview:oneReview delegate:oneReview];
 	}
+
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"AppReviewsUpdated" object:nil userInfo:(id)self];
 }
 
 - (void) getAllReviews
@@ -788,11 +828,12 @@ static NSDateFormatter *dateFormatterToRead = nil;
 {
 	if (!reviews) return;
 	
-	NSLog(@"Cache reviews for %@", title);
-	
 	NSMutableString *tmpStr = [NSMutableString string];
 	
-	for (Review *oneReview in reviews)
+	// we cache them in the same order the view display it
+	NSArray *sortedReviews = [reviews sortedArrayUsingSelector:@selector(compareByReviewDate:)];
+	
+	for (Review *oneReview in sortedReviews)
 	{
 		NSString *stub = [oneReview encodedAsString];
 		

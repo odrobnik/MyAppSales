@@ -27,14 +27,8 @@
 {
     if (self = [super initWithFrame:CGRectZero]) 
 	{
-	//	NSLog(@"start chart init");
         // Initialization code
 		self.myData = dict;
-	/*	
-		CATiledLayer *animLayer = (CATiledLayer *) self.layer;
-		animLayer.levelsOfDetailBias = 4;
-		animLayer.levelsOfDetail = 4;
-	*/	
 		
 		// default
 		bottom_inset = 0.0;   // standard, but could be more if legend is larger // 20
@@ -79,82 +73,6 @@
     return self;
 }
 
-/*
-- (id)initWithData:(NSDictionary *)dict Apps:(NSArray *)app_array Column:(NSString *)column{
-    if (self = [super initWithFrame:CGRectZero]) 
-	{
-		NSLog(@"start chart init");
-        // Initialization code
-		self.myData = dict;
-
-		// default
-		bottom_inset = 20.0;   // standard, but could be more if legend is larger
-		
-		NSMutableDictionary *dataRoot = [dict objectForKey:@"Data"];
-		
-		// x-Axis scaling
-		NSArray *days = [dataRoot allKeys];
-		self.sortedDictKeys = [days sortedArrayUsingSelector:@selector(compare:)];
-		self.apps = app_array;
-
-		switch ((ReportType)[[myData objectForKey:@"ReportType"] intValue]) {
-			case ReportTypeDay:
-				column_width = 15.0;
-				break;
-			case ReportTypeWeek:
-				column_width = 30.0;
-				break;
-			default:
-				column_width = 10.0;
-				break;
-		}
-		
-
-		CGRect chartSize = [self chartDimensions];
-		
-		self.frame =chartSize;
-		self.bounds = chartSize;
-		// find max
-		max_chart_value = [self getMaxFromData];
-    }
-	
-	NSLog(@"End chart init");
-    return self;
-}
-*/
-/*
-- (double) getMaxFromData
-{
-	double max=0;
-	
-	NSMutableDictionary *dataRoot = [myData objectForKey:@"Data"];
-	
-	NSEnumerator *enu = [self.sortedDictKeys objectEnumerator];
-	NSDate *oneKey;
-	
-	while (oneKey = [enu nextObject]) 
-	{
-		NSDictionary *appsDict = [dataRoot objectForKey:oneKey];
-		NSEnumerator *app_enu = [appsDict objectEnumerator];
-		
-		NSDictionary *oneApp;
-		
-		while (oneApp = [app_enu nextObject]) 
-		{
-			NSNumber *sum = [oneApp objectForKey:@"Sum"];
-			double s = [sum doubleValue];
-			
-			if (s>max)
-			{
-				max = s;
-			}
-		}
-	}
-	
-	return max;
-	
-}
-*/
 - (CGRect) chartDimensions
 {
 	NSArray *rowLabels = [myData objectForKey:@"Rows"];
@@ -189,20 +107,14 @@
 	
 }
 
-- (void)drawRect:(CGRect)rect {
-	// Drawing code
-//	LogMethod();
-	//NSLog(@"drawing rect: %f %f %f %f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+- (void)drawRect:(CGRect)rect 
+{
 	[self drawView:self inContext:UIGraphicsGetCurrentContext() bounds:self.bounds];
 }
 
 
 -(void)drawView:(ChartView *)view inContext:(CGContextRef)context bounds:(CGRect)bounds
 {
-	//NSLog(@"drawView");
-    // Drawing code
-	//CGContextRef context = UIGraphicsGetCurrentContext();
-	
     // Drawing code
 	CGSize size = [self bounds].size;  // 320x460
 

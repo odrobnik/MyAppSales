@@ -50,6 +50,61 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	return self;
 }
 
+- (id) initWithString:(NSString *)stub
+{
+	if (self = [super init])
+	{
+		NSScanner *scanner = [NSScanner scannerWithString:stub];
+		
+		NSInteger pk;
+		NSInteger intStars;
+		NSString *countryCode = nil;
+		NSString *reviewTitle = nil;
+		NSString *reviewName = nil;
+		NSString *reviewVersion = nil;
+		NSTimeInterval reviewDateTI;
+		NSString *reviewText = nil;
+		NSString *reviewTranslatedText = nil;
+		
+		if ([scanner scanInteger:&pk])
+		{
+			[scanner scanString:@"\t" intoString:nil];
+			[scanner scanInteger:&intStars];
+			[scanner scanString:@"\t" intoString:nil];
+			[scanner scanUpToString:@"\t" intoString:&countryCode];
+			[scanner scanString:@"\t" intoString:nil];
+			[scanner scanUpToString:@"\t" intoString:&reviewTitle];
+			[scanner scanString:@"\t" intoString:nil];
+			[scanner scanUpToString:@"\t" intoString:&reviewName];
+			[scanner scanString:@"\t" intoString:nil];
+			[scanner scanUpToString:@"\t" intoString:&reviewVersion];
+			[scanner scanString:@"\t" intoString:nil];
+			[scanner scanDouble:&reviewDateTI];
+			[scanner scanString:@"\t" intoString:nil];
+			[scanner scanUpToString:@"\t" intoString:&reviewText];
+			[scanner scanString:@"\t" intoString:nil];
+			[scanner scanUpToString:@"\t" intoString:&reviewTranslatedText];
+			
+			self.country = [DB countryForCode:countryCode];
+			self.date = [NSDate dateWithTimeIntervalSinceReferenceDate:reviewDateTI];
+			self.title = reviewTitle;
+			self.name = reviewName;
+			self.version = reviewVersion;
+			self.review = reviewText;
+			self.stars = ((double)intStars)/5.0;
+			
+			self.translated_review = reviewTranslatedText;
+			self.primaryKey = pk;
+		}
+		else
+		{
+			[self release];
+			return nil;
+		}
+
+	}
+	return self;
+}
 - (NSDate *) dateFromString:(NSString *)rfc2822String
 {
 	if (!dateFormatterToRead)
@@ -155,6 +210,12 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	return [NSString stringWithFormat:@"Title: %@, Name: %@, Version: %@, Date: %@, Stars: %.2f, Review: %@", title, name, version, date, stars*5.0, review];
 }
 
+
+- (NSString *)compoundKey
+{
+	return [name stringByAppendingString:version];
+}
+
 - (NSString *)encodedAsString
 {
 	return [NSString stringWithFormat:@"%d\t%d\t%@\t%@\t%@\t%@\t%.0f\t%@\t%@", [app apple_identifier], (int)(stars*5.0), country.iso2, title, name, version, [date timeIntervalSinceReferenceDate], review, translated_review?translated_review:@""];
@@ -230,14 +291,16 @@ static NSDateFormatter *dateFormatterToRead = nil;
     // variable is used to store the SQLite compiled byte-code for the query, which is generated one time - the first
     // time the method is executed by any Book object.
     if (update_statement == nil) {
-        static char *sql = "UPDATE review set review_translated = ? WHERE id = ?";
+        static char *sql = "UPDATE review set review_translated = ?, review = ?, stars = ? WHERE id = ?";
         if (sqlite3_prepare_v2(database, sql, -1, &update_statement, NULL) != SQLITE_OK) {
             NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
         }
     }
 	
 	sqlite3_bind_text(update_statement, 1, [translated_review UTF8String], -1, SQLITE_TRANSIENT);
-	sqlite3_bind_int(update_statement, 2, primaryKey);
+    sqlite3_bind_text(insert_statement, 2, [review UTF8String], -1, SQLITE_TRANSIENT);
+	sqlite3_bind_double(insert_statement, 3, stars);
+	sqlite3_bind_int(update_statement, 4, primaryKey);
 	
     int success = sqlite3_step(update_statement);
 	
@@ -247,20 +310,6 @@ static NSDateFormatter *dateFormatterToRead = nil;
     if (success == SQLITE_ERROR) {
         NSAssert1(0, @"Error: failed to update in database with message '%s'.", sqlite3_errmsg(database));
     }
-}
-
-
-
-- (NSString *) review
-{
-	if (translated_review)
-	{
-		return translated_review;
-	}
-	else 
-	{
-		return review;
-	}
 }
 
 
