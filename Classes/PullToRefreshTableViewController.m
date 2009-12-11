@@ -38,6 +38,45 @@
     [super dealloc];
 }
 
+#pragma mark State Changes
+
+- (void) showReloadAnimationAnimated:(BOOL)animated
+{
+	reloading = YES;
+	[refreshHeaderView toggleActivityView:YES];
+	
+	if (animated)
+	{
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDuration:0.2];
+		self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
+		[UIView commitAnimations];
+	}
+	else
+	{
+		self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
+	}
+}
+
+- (void) reloadTableViewDataSource
+{
+	NSLog(@"Please override reloadTableViewDataSource");
+}
+
+- (void)dataSourceDidFinishLoadingNewData
+{
+	reloading = NO;
+	[refreshHeaderView flipImageAnimated:NO];
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationDuration:.3];
+	[self.tableView setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+	[refreshHeaderView setStatus:kPullToReloadStatus];
+	[refreshHeaderView toggleActivityView:NO];
+	[UIView commitAnimations];
+	[popSound play];
+}
+
+
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
@@ -119,43 +158,6 @@
 	checkForRefresh = NO;
 }
 
-#pragma mark State Changes
-
-- (void) showReloadAnimationAnimated:(BOOL)animated
-{
-	reloading = YES;
-	[refreshHeaderView toggleActivityView:YES];
-	
-	if (animated)
-	{
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDuration:0.2];
-		self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
-		[UIView commitAnimations];
-	}
-	else
-	{
-		self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
-	}
-}
-
-- (void) reloadTableViewDataSource
-{
-	NSLog(@"Please override reloadTableViewDataSource");
-}
-
-- (void)dataSourceDidFinishLoadingNewData
-{
-	reloading = NO;
-	[refreshHeaderView flipImageAnimated:NO];
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:.3];
-	[self.tableView setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
-	[refreshHeaderView setStatus:kPullToReloadStatus];
-	[refreshHeaderView toggleActivityView:NO];
-	[UIView commitAnimations];
-	[popSound play];
-}
 
 @end
 
