@@ -123,7 +123,8 @@
 	}
 }
 
-- (void)setStatus:(int)status{
+- (void)setStatus:(int)status
+{
 	switch (status) {
 		case kReleaseToReloadStatus:
 			statusLabel.text = @"Release to refresh...";
@@ -152,7 +153,6 @@
 		arrowImage.hidden = YES;
 		[self setStatus:kLoadingStatus];
 	}
-	
 }
 
 - (void)dealloc {
