@@ -21,7 +21,8 @@
 
 @synthesize isFlipped, lastUpdatedDate;
 
-- (id)initWithFrame:(CGRect)frame {
+- (id)initWithFrame:(CGRect)frame 
+{
     if (self = [super initWithFrame:frame]) 
 	{
 		self.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
@@ -69,7 +70,8 @@
     return self;
 }
 
-- (void)drawRect:(CGRect)rect{
+- (void)drawRect:(CGRect)rect
+{
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextDrawPath(context,  kCGPathFillStroke);
 	[BORDER_COLOR setStroke];
@@ -79,7 +81,8 @@
 	CGContextStrokePath(context);
 }
 
-- (void)flipImageAnimated:(BOOL)animated{
+- (void)flipImageAnimated:(BOOL)animated
+{
 	
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:animated ? .18 : 0.0];
@@ -145,7 +148,8 @@
 	}
 }
 
-- (void)dealloc {
+- (void)dealloc 
+{
 	activityView = nil;
 	statusLabel = nil;
 	arrowImage = nil;
