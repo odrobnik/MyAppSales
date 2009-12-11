@@ -36,16 +36,6 @@
 		lastUpdatedLabel.opaque = YES;
 		lastUpdatedLabel.textAlignment = UITextAlignmentCenter;
 		[self addSubview:lastUpdatedLabel];
-		
-		/*
-		 if ([[NSUserDefaults standardUserDefaults] objectForKey:@"EGORefreshTableView_LastRefresh"]) {
-		 lastUpdatedLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"EGORefreshTableView_LastRefresh"];
-		 } else {
-		 [self setCurrentDate];
-		 }
-		 */
-		self.lastUpdatedDate = nil;
-		
 		[lastUpdatedLabel release];
 		
 		statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height - 48.0f, 320.0f, 20.0f)];
