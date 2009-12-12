@@ -15,7 +15,8 @@
 @implementation PullToRefreshTableViewController
 
 
-- (void)viewDidLoad {
+- (void)viewDidLoad 
+{
     [super viewDidLoad];
 
 	refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.view.bounds.size.height, 320.0f, self.view.bounds.size.height)];

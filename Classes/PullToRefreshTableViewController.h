@@ -12,7 +12,6 @@
 
 @interface PullToRefreshTableViewController : UITableViewController 
 {
-
 	EGORefreshTableHeaderView *refreshHeaderView;
 	
 	BOOL checkForRefresh;
