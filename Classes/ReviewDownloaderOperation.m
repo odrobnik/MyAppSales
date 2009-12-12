@@ -67,7 +67,7 @@
 		NSString *urlString = [NSString stringWithFormat:@"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?sortOrdering=4&onlyLatestVersion=false&sortAscending=true&pageNumber=%d&type=Purple+Software&id=%d", pageNumber, app.apple_identifier];
 		
 		NSURL *url = [NSURL URLWithString:urlString];
-		NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+		NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0];
 		[request addValue:[NSString stringWithFormat:@"%d-1,2", country.appStoreID] forHTTPHeaderField:@"X-Apple-Store-Front"];
 		[request addValue:@"iTunes-iPhone/2.2 (2)" forHTTPHeaderField:@"User-Agent"];
 		//[request addValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"]; // doesn't work.
@@ -80,6 +80,36 @@
 			[self sendFinishToDelegate];
 			return;
 		}
+		
+		if ([response isKindOfClass:[NSHTTPURLResponse class]])
+		{
+			NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+			NSDictionary *headers = [httpResponse allHeaderFields];
+			
+			NSInteger statusCode = [httpResponse statusCode];
+			if (statusCode==200)
+			{
+				NSString *contentType = [headers objectForKey:@"Content-Type"];
+				
+				if (![contentType isEqualToString:@"text/xml"])
+				{
+					NSLog(@"Got Content Type: %@", contentType);
+					NSString *sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+					NSLog(@"%@", sourceSt);
+					
+					[self sendFinishToDelegate];
+					return;
+				}
+			}
+			else 
+			{
+				NSLog(@"Got status code %d", statusCode);
+
+				[self sendFinishToDelegate];
+				return;
+			}
+		}
+				
 		
 		NSDictionary *dict = [NSDictionary dictionaryWithContentsOfData:data];
 		
