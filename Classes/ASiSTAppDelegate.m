@@ -200,7 +200,7 @@
 		{
 			
 			// scrape now
-			[self performSelector:@selector(scrapeReviews) withObject:nil afterDelay:5];
+			[self scrapeReviews];
 		}
 		else
 		{
@@ -211,8 +211,7 @@
 			if ([comps day]>scrapeFrequency)
 			{
 				// scrape now
-				[self performSelector:@selector(scrapeReviews) withObject:nil afterDelay:5];
-				
+				[self scrapeReviews];
 			}
 		}
 	}
