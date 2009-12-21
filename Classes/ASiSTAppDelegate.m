@@ -61,8 +61,8 @@
 	
 	[[NSUserDefaults standardUserDefaults] setObject:today forKey:@"ReviewsLastDownloaded"];
 	
-	// get apps sorted
-	NSArray *allApps = [[Database sharedInstance] appsSortedBySales];
+	// get apps unsorted
+	NSArray *allApps = [[Database sharedInstance] allApps];
 	NSMutableDictionary *countries = [[Database sharedInstance] countries];
 	NSArray *allKeys = [countries allKeys];
 
@@ -200,7 +200,7 @@
 		{
 			
 			// scrape now
-			[self scrapeReviews];
+			[self performSelector:@selector(scrapeReviews) withObject:nil afterDelay:5];
 		}
 		else
 		{
@@ -211,7 +211,7 @@
 			if ([comps day]>scrapeFrequency)
 			{
 				// scrape now
-				[self scrapeReviews];
+				[self performSelector:@selector(scrapeReviews) withObject:nil afterDelay:5];
 				
 			}
 		}

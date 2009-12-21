@@ -305,9 +305,10 @@ static Database *_sharedInstance;
 	// try cache first
 	
 	NSString *path = [NSString pathForFileInDocuments:[NSString stringWithFormat:@"index_cache_%d.dat", reportType]];
-	NSData *compressed = [NSData dataWithContentsOfFile:path];
+	//NSData *compressed = [NSData dataWithContentsOfFile:path];
 	
-	if (compressed)
+	NSData *compressed;
+	if (compressed = [[NSData alloc] initWithContentsOfMappedFile:path])
 	{
 		NSData *data = [compressed gzipInflate];
 		
@@ -364,6 +365,8 @@ static Database *_sharedInstance;
 				}	
 			}
 		}
+		
+		[compressed release];
 		
 		return;
 	}
@@ -898,6 +901,28 @@ static Database *_sharedInstance;
 {
 	NSArray *sortedKeys = [iaps keysSortedByValueUsingSelector:@selector(compareBySales:)];
 	return sortedKeys;
+}
+
+- (NSArray *) allApps
+{
+	NSArray *keys = [self.apps allKeys];
+	
+	NSMutableArray *tmpArray = [NSMutableArray array];
+	
+	for (NSNumber *oneKey in keys)
+	{
+		App *oneApp = [apps objectForKey:oneKey];
+		[tmpArray addObject:oneApp];
+	}
+	
+	if ([tmpArray count])
+	{
+		return [NSArray arrayWithArray:tmpArray];
+	}
+	else
+	{
+		return nil;
+	}
 }
 
 - (NSArray *) appsSortedBySales

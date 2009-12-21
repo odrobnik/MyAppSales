@@ -72,6 +72,7 @@ typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope 
 - (NSUInteger) countOfApps;
 - (NSUInteger) countOfReportsForType:(ReportType)type;
 
+- (NSArray *) allApps;
 - (NSArray *) appsSortedBySales;
 - (NSArray *) appsSortedBySalesWithGrouping:(AppGrouping *)grouping;
 - (NSArray *) productsSortedBySalesForGrouping:(AppGrouping *)grouping;
