@@ -19,6 +19,8 @@
 	NSObject *delegate;
 	
 	BOOL workInProgress;
+	
+	BOOL alternateLogin;
 }
 
 @property (nonatomic, retain) NSArray *reportsToIgnore; 

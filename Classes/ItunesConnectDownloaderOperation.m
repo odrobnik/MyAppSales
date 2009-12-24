@@ -301,6 +301,8 @@
 				[self setStatusError:@"Login Failed"];
 				return;
 			}
+			
+			alternateLogin = YES;
 		}
 	}
 
@@ -900,8 +902,15 @@
 	
 	if (!financialUrl) 
 	{
-		[self setStatusError:@"No link to financial reports"];
-		return;
+		if (alternateLogin)
+		{
+			[self setStatusSuccess:@"Synchronization via ITTS Done"];
+		}
+		else
+		{
+			[self setStatusError:@"No link to financial reports"];
+			return;
+		}
 	}
 	
 	URL = [@"https://itunesconnect.apple.com" stringByAppendingString:financialUrl];
