@@ -102,7 +102,7 @@
 		{
 			NSDate *middleDate = [oneReport dateInMiddleOfReport];
 			NSString *oneReportMonth = [df stringFromDate:middleDate];
-		
+			
 			if ([oneReportMonth isEqualToString:reportMonth]&&(oneReport.region == region))
 			{
 				return NO;
@@ -137,6 +137,8 @@
 		[cookies deleteCookie:oneCookie];
 	}
 	
+	NSString *financialUrl = nil;
+	
 	// open login page
 	NSString *URL=[NSString stringWithFormat:@"https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa"];
 	NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
@@ -146,7 +148,7 @@
 	NSError* error;
 	
 	[self setStatus:@"Opening HTTPS Connection"];
-
+	
 	NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	
 	if (error)
@@ -166,59 +168,111 @@
 	// search for outer post url
 	NSString *post_url = [sourceSt stringByFindingFormPostURLwithName:nil];
 	
-	if (!post_url)
+	if (post_url)
 	{
-		[self setStatusError:@"No form post URL found! (Login Screen)"];
-		return;
+		// login form on ITC 
+		
+		URL = [@"https://itunesconnect.apple.com" stringByAppendingString:post_url];
+		
+		request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
+										cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+									timeoutInterval:60.0];
+		[request setHTTPMethod:@"POST"];
+		[request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
+		
+		//create the body
+		NSMutableData *postBody = [NSMutableData data];
+		[postBody appendData:[[NSString stringWithFormat:@"theAccountName=%@&theAccountPW=%@&1.Continue.x=20&1.Continue.y=6&theAuxValue=", 
+							   [account.account stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+							   [account.password stringByUrlEncoding]] dataUsingEncoding:NSUTF8StringEncoding]];
+		[request setHTTPBody:postBody];
+		
+		[self setStatus:@"Sending Login Information"];
+		
+		data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+		
+		if (error)
+		{
+			[self setStatusError:[error localizedDescription]];
+			return;
+		}
+		
+		if (!data) 
+		{
+			[self setStatusError:@"No data received from login"];
+			return;
+		}
+		
+		
+		sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+		
+		// check if we received a login session cookies
+		NSArray *sessionCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://www.apple.com"]];
+		
+		if (![sessionCookies count])
+		{
+			[self setStatusError:@"Login Failed"];
+			return;
+		}
+		
+		financialUrl = [sourceSt hrefForLinkContainingText:@"Financial"];
+		
+		[NSThread sleepForTimeInterval:1]; // experiment: slow down to prevent timeout changing to itts
+		
 	}
-	
-	URL = [@"https://itunesconnect.apple.com" stringByAppendingString:post_url];
-	
-	request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-									cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-								timeoutInterval:60.0];
-	[request setHTTPMethod:@"POST"];
-	[request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
-	
-	//create the body
-	NSMutableData *postBody = [NSMutableData data];
-	[postBody appendData:[[NSString stringWithFormat:@"theAccountName=%@&theAccountPW=%@&1.Continue.x=20&1.Continue.y=6&theAuxValue=", 
-						   [account.account stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-						   [account.password stringByUrlEncoding]] dataUsingEncoding:NSUTF8StringEncoding]];
-	[request setHTTPBody:postBody];
-	
-	[self setStatus:@"Sending Login Information"];
-	
-	data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	
-	if (error)
+	else
 	{
-		[self setStatusError:[error localizedDescription]];
-		return;
-	}
-	
-	if (!data) 
-	{
-		[self setStatusError:@"No data received from login"];
-		return;
-	}
-	
-	
-	sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	
-	// check if we received a login session cookies
-	NSArray *sessionCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://www.apple.com"]];
-	
-	if (![sessionCookies count])
-	{
-		[self setStatusError:@"Login Failed"];
-		return;
-	}
-	
-	
-	NSString *financialUrl = [sourceSt hrefForLinkContainingText:@"Financial"];
+		// try login via ITTS
+		
+		// login form on ITC 
+		
+		URL = @"https://itts.apple.com/cgi-bin/WebObjects/Piano.woa";
+		
+		NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
+															 cachePolicy:NSURLRequestReloadIgnoringCacheData
+														 timeoutInterval:60.0];	
+		NSURLResponse* response; 
+		NSError* error;
+		
+		[self setStatus:@"Opening HTTPS Connection"];
+		
+		NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+		
+		if (error)
+		{
+			[self setStatusError:[error localizedDescription]];
+			return;
+		}
+		
+		if (!data) 
+		{
+			[self setStatusError:@"No data received from login screen request"];
+			return;
+		}
+		
+		NSString *sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+		
+		NSLog(@"%@", sourceSt);
+		// search for outer post url
+		NSString *post_url = [sourceSt stringByFindingFormPostURLwithName:nil];
 
-	[NSThread sleepForTimeInterval:1]; // experiment: slow down to prevent timeout changing to itts
+		
+		
+		// check if we received a login session cookies
+		NSArray *sessionCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://www.apple.com"]];
+		
+		if (![sessionCookies count])
+		{
+			[self setStatusError:@"Login Failed"];
+			return;
+		}
+		
+		
+		
+	}
+
+	
+	
 	
 	// open "Piano" reporting page
 	URL = @"http://itts.apple.com/cgi-bin/WebObjects/Piano.woa";
@@ -260,7 +314,7 @@
 		if (vendorCheck.length>0)
 		{
 			post_url = [sourceSt stringByFindingFormPostURLwithName:@"superPage"];
-				
+			
 			NSRange selectRange = [sourceSt rangeOfString:@"<select Id=\"selectName\""];
 			if (selectRange.location==NSNotFound)
 			{
@@ -269,7 +323,7 @@
 			}
 			
 			NSRange endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
-
+			
 			NSArray *vendorOptions = [[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect];
 			NSArray *sortedVendorOptions = [vendorOptions sortedArrayUsingSelector:@selector(compare:)];
 			
@@ -304,20 +358,20 @@
 			
 			/*
 			 // original 1st post
-			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
-			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"9.6.0\"\r\n\r\n%@\r\n", selectedVendor];
-
-			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
-			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"vndrid\"\r\n\r\n%@\r\n", selectedVendor];
-
-			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
-			[bodyString appendString:@"Content-Disposition: form-data; name=\"9.18\"\r\n\r\n\r\n"];
-
-			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\n"];
-			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"wosid\"\r\n\r\n%@\r\n", wosid];
-
-			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp--\r\n"];
-*/
+			 [bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
+			 [bodyString appendFormat:@"Content-Disposition: form-data; name=\"9.6.0\"\r\n\r\n%@\r\n", selectedVendor];
+			 
+			 [bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
+			 [bodyString appendFormat:@"Content-Disposition: form-data; name=\"vndrid\"\r\n\r\n%@\r\n", selectedVendor];
+			 
+			 [bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
+			 [bodyString appendString:@"Content-Disposition: form-data; name=\"9.18\"\r\n\r\n\r\n"];
+			 
+			 [bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\n"];
+			 [bodyString appendFormat:@"Content-Disposition: form-data; name=\"wosid\"\r\n\r\n%@\r\n", wosid];
+			 
+			 [bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp--\r\n"];
+			 */
 			
 			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
 			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"9.6.0\"\r\n\r\n0\r\n"];
@@ -337,12 +391,12 @@
 			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp--\r\n"];
 			
 			//create the body
-			postBody = [NSMutableData data];
+			NSMutableData *postBody = [NSMutableData data];
 			[postBody appendData:[bodyString dataUsingEncoding:NSUTF8StringEncoding]];
 			[request setHTTPBody:postBody];
-
+			
 			[self setStatus:@"Selecting Vendor"];
-
+			
 			data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 			
 			if (error)
@@ -357,7 +411,7 @@
 				return;
 			}
 			sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-
+			
 			// search for outer post url
 			post_url = [sourceSt stringByFindingFormPostURLwithName:@"frmVendorPage"];
 			
@@ -402,7 +456,7 @@
 	[request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
 	
 	//create the body
-	postBody = [NSMutableData data];
+	NSMutableData *postBody = [NSMutableData data];
 	NSString *body = [NSString stringWithFormat:@"%@=Summary&%@=Daily&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown&wosid=%@", selReportType, selDateType, wosid];
 	
 	[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
@@ -411,7 +465,7 @@
 	[self setStatus:@"Retrieving Day Options"];
 	
 	data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-
+	
 	if (error)
 	{
 		[self setStatusError:[error localizedDescription]];
@@ -446,7 +500,7 @@
 		[self setStatusError:@"No day options found"];
 		return;
 	}
-
+	
 	NSRange endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
 	NSString *selectString = [sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)];
 	NSArray *dayOptions = [selectString optionsFromSelect];
@@ -484,9 +538,9 @@
 			
 			//add the body to the post
 			[request setHTTPBody:postBody];
-		
+			
 			[self setStatus:[NSString stringWithFormat:@"Loading Day Report for %@", oneDayOption]];
-
+			
 			
 			data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 			
@@ -499,7 +553,7 @@
 			if (!data) 
 			{
 				[self setStatusError:@"No data received from request day report"];
-
+				
 				return;
 			}
 			
@@ -551,7 +605,7 @@
 	//create the body
 	postBody = [NSMutableData data];
 	body = [NSString stringWithFormat:@"%@=Summary&%@=Weekly&hiddenDayOrWeekSelection=Weekly&hiddenSubmitTypeName=ShowDropDown&wosid=%@", selReportType, selDateType, wosid];
-
+	
 	[postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
 	[request setHTTPBody:postBody];
 	
@@ -587,7 +641,7 @@
 	dayorweekdropdownName = [[selectString dictionaryOfAttributesFromTag] objectForKey:@"name"];	
 	selReportType = [sourceSt nameForTag:@"select" WithID:@"selReportType"];
 	selDateType = [sourceSt nameForTag:@"select" WithID:@"selDateType"];
-
+	
 	
 	for (NSString *oneWeekOption in weekOptions)
 	{
@@ -600,7 +654,7 @@
 		if (![reportsToIgnore reportBySearchingForDate:reportDate type:ReportTypeWeek region:ReportRegionUnknown])
 		{
 			[self setStatus:[NSString stringWithFormat:@"Loading Week Report for %@", oneWeekOption]];
-
+			
 			URL = [@"https://itts.apple.com" stringByAppendingString:post_url];
 			request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
 											cachePolicy:NSURLRequestUseProtocolCachePolicy
@@ -707,23 +761,23 @@
 		[self setStatusError:@"No monthly free options found"];
 		return;
 	}
-
+	
 	endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
 	selectString = [sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)];
 	NSArray *monthlyFreeOptions = [selectString optionsFromSelect];
 	dayorweekdropdownName = [[selectString dictionaryOfAttributesFromTag] objectForKey:@"name"];	
 	selReportType = [sourceSt nameForTag:@"select" WithID:@"selReportType"];
 	selDateType = [sourceSt nameForTag:@"select" WithID:@"selDateType"];
-
+	
 	//NSLog(@"%@", sourceSt);
-
+	
 	
 	for (NSString *oneMonthlyFreeOption in monthlyFreeOptions)
 	{
 		NSString *formDate = [oneMonthlyFreeOption stringByUrlEncoding];
-				
+		
 		NSArray *tmpArray = [oneMonthlyFreeOption componentsSeparatedByString:@"#"];
-
+		
 		NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
 		[df setDateFormat:@"yyyyMMdd"];
 		NSDate *fromDate = [df dateFromString:[tmpArray objectAtIndex:0]];
@@ -789,11 +843,11 @@
 					else 
 					{
 						/*
-						NSLog(@"Got Content Type: %@", contentType);
-						sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-						NSLog(@"%@", sourceSt);
-						*/
-							
+						 NSLog(@"Got Content Type: %@", contentType);
+						 sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+						 NSLog(@"%@", sourceSt);
+						 */
+						
 						// no free transactions to report
 						
 						NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:untilDate, @"UntilDate", fromDate, @"FromDate", account, @"Account", nil];
@@ -892,7 +946,7 @@
 			sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
 			
 			NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:sourceSt, @"Text", account, @"Account", [NSNumber numberWithInt:region], @"Region", fallbackDate, @"FallbackDate", [NSNumber numberWithInt:ReportTypeFinancial], @"Type", nil];
-
+			
 			[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
 			
 		}
@@ -972,7 +1026,7 @@
 				sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
 				
 				NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:sourceSt, @"Text", account, @"Account", [NSNumber numberWithInt:region], @"Region", fallbackDate, @"FallbackDate", [NSNumber numberWithInt:ReportTypeFinancial], @"Type", nil];
-
+				
 				[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
 				
 			}
