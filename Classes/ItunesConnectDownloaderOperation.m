@@ -234,7 +234,7 @@
 		NSURLResponse* response; 
 		NSError* error;
 		
-		[self setStatus:@"Opening HTTPS Connection"];
+		[self setStatus:@"ITC offline, trying ITTS"];
 		
 		NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 		
@@ -252,23 +252,56 @@
 		
 		NSString *sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
 		
-		NSLog(@"%@", sourceSt);
 		// search for outer post url
 		NSString *post_url = [sourceSt stringByFindingFormPostURLwithName:nil];
 
-		
-		
-		// check if we received a login session cookies
-		NSArray *sessionCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://www.apple.com"]];
-		
-		if (![sessionCookies count])
+		if (post_url)
 		{
-			[self setStatusError:@"Login Failed"];
-			return;
+			// login form on ITC 
+			
+			URL = [@"https://itts.apple.com" stringByAppendingString:post_url];
+			
+			request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
+											cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+										timeoutInterval:60.0];
+			[request setHTTPMethod:@"POST"];
+			[request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
+			
+			//create the body
+			NSMutableData *postBody = [NSMutableData data];
+			[postBody appendData:[[NSString stringWithFormat:@"theAccountName=%@&theAccountPW=%@&1.Continue.x=20&1.Continue.y=6&theAuxValue=", 
+								   [account.account stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+								   [account.password stringByUrlEncoding]] dataUsingEncoding:NSUTF8StringEncoding]];
+			[request setHTTPBody:postBody];
+			
+			[self setStatus:@"Sending Login Information"];
+			
+			data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+			
+			if (error)
+			{
+				[self setStatusError:[error localizedDescription]];
+				return;
+			}
+			
+			if (!data) 
+			{
+				[self setStatusError:@"No data received from login"];
+				return;
+			}
+			
+			
+			sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+			
+			// check if we received a login session cookies
+			NSArray *sessionCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://www.apple.com"]];
+			
+			if (![sessionCookies count])
+			{
+				[self setStatusError:@"Login Failed"];
+				return;
+			}
 		}
-		
-		
-		
 	}
 
 	
