@@ -401,7 +401,7 @@ static Database *_sharedInstance;
 			}
 			
 			char *downloaded_date = (char *)sqlite3_column_text(statement, 2);
-			NSDate *downloadedDate;
+			NSDate *downloadedDate = nil;
 			
 			if (downloaded_date)
 			{
