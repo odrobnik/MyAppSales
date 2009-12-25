@@ -19,8 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	report_icon = [UIImage imageNamed:@"Report_Icon.png"];
-	report_icon_new = [UIImage imageNamed:@"Report_Icon_New.png"];
+	report_icon = [[UIImage imageNamed:@"Report_Icon.png"] retain];
+	report_icon_new = [[UIImage imageNamed:@"Report_Icon_New.png"] retain];
 
 
 	// after loading we can get the badges updated via notifications
