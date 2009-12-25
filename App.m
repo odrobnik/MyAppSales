@@ -849,7 +849,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	NSString *path = [NSString pathForFileInDocuments:[NSString stringWithFormat:@"review_cache_%d.dat", apple_identifier]];
 	NSData *data = [tmpStr dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *compressed = [data gzipDeflate];
-	[compressed writeToFile:path atomically:NO];
+	[compressed writeToFile:path atomically:YES];
 }
 
 

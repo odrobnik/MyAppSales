@@ -1591,7 +1591,7 @@ static Database *_sharedInstance;
 	NSString *path = [NSString pathForFileInDocuments:[NSString stringWithFormat:@"index_cache_%d.dat", reportType]];
 	NSData *data = [tmpStr dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *compressed = [data gzipDeflate];
-	[compressed writeToFile:path atomically:NO];
+	[compressed writeToFile:path atomically:YES];
 }
 
 
