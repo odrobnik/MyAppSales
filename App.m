@@ -672,6 +672,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 {
 	double sum = 0;
 	
+	NSLog(@"Called for %@", self.title);
 	if (!averageRoyaltiesPerDay)
 	{
 		NSArray *sortedReports = [DB sortedReportsOfType:ReportTypeDay];

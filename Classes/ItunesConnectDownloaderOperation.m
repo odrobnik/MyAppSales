@@ -452,13 +452,13 @@
 			
 			if (!post_url)
 			{
-				[self setStatusError:@"No post URL found! (After Vendor Screen)"];
+				[self setStatusError:@"Reporting Site offline (Multi)"];
 				return;
 			}
 		}
 		else 
 		{
-			[self setStatusError:@"No form post URL found! (Piano Screen)"];
+			[self setStatusError:@"Reporting Site offline"];
 			return;
 		}
 	}
