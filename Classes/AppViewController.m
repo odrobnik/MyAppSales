@@ -140,7 +140,7 @@
     }
     
     // Set up the cell...
-	NSArray *sortedApps = [DB appsSortedBySales];
+	NSArray *sortedApps = [DB allApps];
 	//NSLog(@"%@", sortedApps);
 	cell.app = [sortedApps objectAtIndex:indexPath.row];
 	
@@ -164,7 +164,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-	NSArray *sortedApps = [DB appsSortedBySales];
+	NSArray *sortedApps = [DB allApps];
 	App *rowApp = [sortedApps objectAtIndex:indexPath.row];
 	
 	//Always allow to go to reviews page
