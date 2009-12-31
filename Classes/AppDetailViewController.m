@@ -252,6 +252,15 @@
 	float height = 16.0f;
 	
 	text = review.review;
+	
+	if (review.translated_review)
+	{
+		text = review.translated_review;
+	}
+	else
+	{
+		text = review.review;
+	}
 
 	
 	CGSize size = [text sizeWithFont:font constrainedToSize:constraint];

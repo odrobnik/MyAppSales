@@ -533,17 +533,19 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		// Note that the parameters are numbered from 1, not from 0.
 		sqlite3_bind_int(reviews_statement, 1, apple_identifier);
 		
-		int i = 0;
 		while ((sqlite3_step(reviews_statement) == SQLITE_ROW)) // (!(loadReviewsInStages&&i>100))&&
 		{
 			NSUInteger review_id = sqlite3_column_int(reviews_statement, 0);
 			
 			Review *loadedReview = [[Review alloc] initWithPrimaryKey:review_id database:database];
-			loadedReview.app = self;
 			
-			[self addReview:loadedReview];
-			i++;
-			[loadedReview release];
+			if (loadedReview)
+			{
+				loadedReview.app = self;
+			
+				[self addReview:loadedReview];
+				[loadedReview release];
+			}
 		}
 		// Reset the statement for future reuse.
 		sqlite3_reset(reviews_statement);
@@ -672,7 +674,6 @@ static NSDateFormatter *dateFormatterToRead = nil;
 {
 	double sum = 0;
 	
-	NSLog(@"Called for %@", self.title);
 	if (!averageRoyaltiesPerDay)
 	{
 		NSArray *sortedReports = [DB sortedReportsOfType:ReportTypeDay];

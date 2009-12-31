@@ -139,7 +139,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
         // Note that the parameters are numbered from 1, not from 0.
         sqlite3_bind_int(reviews_statement, 1, pk);
 		
-        while (sqlite3_step(reviews_statement) == SQLITE_ROW) 
+        if (sqlite3_step(reviews_statement) == SQLITE_ROW) 
 		{
 			//NSUInteger review_id = sqlite3_column_int(reviews_statement, 0);
 			//NSLog(@"%d", review_id);
@@ -147,28 +147,58 @@ static NSDateFormatter *dateFormatterToRead = nil;
 			self.country = [DB countryForCode:country_code];
 			country.usedInReport = YES; // makes sure we have an icon
 			
-			
-			
 			char *date_text = (char *)sqlite3_column_text(reviews_statement, 2);
 			
 			if (date_text)
 			{
 				self.date = [self dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 2)]];
 			}
-			
+
 			char *version_text = (char *)sqlite3_column_text(reviews_statement, 3);
-			
-			//NSString *version = nil;
 			
 			if (version_text )
 			{	
 				self.version = [NSString stringWithUTF8String:version_text];
 			}
 			
-			self.title = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 4)];			
-			self.name = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 5)];			
-			self.review = [NSString stringWithUTF8String:(char *)sqlite3_column_text(reviews_statement, 6)];			
-			stars = sqlite3_column_double(reviews_statement, 7);
+			char *title_text = (char *)sqlite3_column_text(reviews_statement, 4);
+			
+			if (title_text)
+			{
+				self.title = [NSString stringWithUTF8String:title_text];	
+			}
+			
+			char *name_text = (char *)sqlite3_column_text(reviews_statement, 5);
+			
+			if (name_text)
+			{
+				self.name = [NSString stringWithUTF8String:name_text];
+			}
+			
+			char *review_text = (char *)sqlite3_column_text(reviews_statement, 6);
+			
+			if (review_text)
+			{
+				self.review = [NSString stringWithUTF8String:review_text];
+			}
+			else
+			{
+				NSLog(@"No review text");
+			}
+
+			
+			
+			char *stars_text = (char *)sqlite3_column_text(reviews_statement, 7);
+
+			if (stars_text)
+			{
+				stars = sqlite3_column_double(reviews_statement, 7);
+			}
+			else
+			{
+				stars = 0;
+			}
+
 			
 			char *translated_text = (char *)sqlite3_column_text(reviews_statement, 8);
 			NSString *review_translated;
@@ -177,15 +207,29 @@ static NSDateFormatter *dateFormatterToRead = nil;
 			{
 				review_translated = [NSString stringWithUTF8String:translated_text];
 				self.translated_review = review_translated;
+				
+				// fix if review is empty but translation exists
+				if (!review && translated_review)
+				{
+					NSLog(@"Encountered translated review but original missing, fixing");
+					self.review = translated_review;
+					[self updateDatabase];
+				}
 			}
 			else 
 			{
 				[[SynchingManager sharedInstance]translateReview:self delegate:self];
 			}
-						
         }
-        // Reset the statement for future reuse.
-        sqlite3_reset(reviews_statement);
+		
+		// Reset the statement for future reuse.
+		sqlite3_reset(reviews_statement);
+
+		if (!date || !version || !title || !name || !review)
+		{
+			[self release];
+			return nil;
+		}
     }
 	
     return self;
@@ -302,8 +346,8 @@ static NSDateFormatter *dateFormatterToRead = nil;
     }
 	
 	sqlite3_bind_text(update_statement, 1, [translated_review UTF8String], -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(insert_statement, 2, [review UTF8String], -1, SQLITE_TRANSIENT);
-	sqlite3_bind_double(insert_statement, 3, stars);
+    sqlite3_bind_text(update_statement, 2, [review UTF8String], -1, SQLITE_TRANSIENT);
+	sqlite3_bind_double(update_statement, 3, stars);
 	sqlite3_bind_int(update_statement, 4, primaryKey);
 	
     int success = sqlite3_step(update_statement);
