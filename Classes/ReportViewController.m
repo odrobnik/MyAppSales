@@ -293,7 +293,8 @@
 		
 		
 		NSDateFormatter *dateFormat = [[[NSDateFormatter alloc] init] autorelease];
-		[dateFormat setDateFormat:@"MMMM Y"];
+		[dateFormat setDateFormat:@"MMMM yyyy"];
+		
 		return [dateFormat stringFromDate:tmpReport.fromDate];
 	}
 	
@@ -560,6 +561,8 @@
 	
 	NSArray *keys = [indexByYearMonth allKeys];
 	indexByYearMonthSortedKeys = [[keys sortedArrayUsingSelector:@selector(compareDesc:)] retain];
+	
+	NSLog(@"%@", indexByYearMonth);
 }
 
 
