@@ -250,10 +250,11 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		NSRange range = [sourceSt rangeOfString:@"<iTunes>"];
 		if (range.location!=NSNotFound)
 		{
-			NSRange BirneRange = [sourceSt rangeOfString:@"</iTunes>" options:NSLiteralSearch range:NSMakeRange(range.location+range.length, 100)];
+			NSRange BirneRange = [sourceSt rangeOfString:@"</iTunes>" options:NSLiteralSearch range:NSMakeRange(range.location+range.length, 1000)];
 			
 			NSRange tempRange = NSMakeRange(range.location + range.length, BirneRange.location - range.location - range.length);
 			
+			NSLog(@"%@", sourceSt);
 			
 			NSString *UTF8Name = [[sourceSt substringWithRange:tempRange] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 			
