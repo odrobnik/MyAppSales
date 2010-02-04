@@ -254,7 +254,6 @@ static NSDateFormatter *dateFormatterToRead = nil;
 			
 			NSRange tempRange = NSMakeRange(range.location + range.length, BirneRange.location - range.location - range.length);
 			
-			NSLog(@"%@", sourceSt);
 			
 			NSString *UTF8Name = [[sourceSt substringWithRange:tempRange] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 			
