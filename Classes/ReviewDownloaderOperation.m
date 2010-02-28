@@ -45,7 +45,7 @@
 	[country release];
 	[super dealloc];
 }
-	
+
 
 - (void)main
 {
@@ -77,6 +77,7 @@
 		
 		if (!data) 
 		{
+			workInProgress = NO;
 			[self sendFinishToDelegate];
 			return;
 		}
@@ -97,19 +98,21 @@
 					NSString *sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
 					NSLog(@"%@", sourceSt);
 					
+					workInProgress = NO;
 					[self sendFinishToDelegate];
 					return;
 				}
 			}
 			else 
 			{
-				NSLog(@"Got status code %d", statusCode);
-
+				NSLog(@"Got status code %d for country %@", statusCode, country.iso3);
+				
+				workInProgress = NO;
 				[self sendFinishToDelegate];
 				return;
 			}
 		}
-				
+		
 		
 		NSDictionary *dict = [NSDictionary dictionaryWithContentsOfData:data];
 		
