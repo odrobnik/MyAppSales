@@ -220,7 +220,7 @@
 			
 			NSDate *reviewDate = [self dateFromReviewDataString:onlyDate];
 			
-			double stars = [reviewRating doubleValue];
+			double stars = [reviewRating doubleValue]/5.0;
 			
 			
 			Review *newReview = [[Review alloc] initWithApp:app country:country title:[reviewTitle stringByUrlDecoding]
