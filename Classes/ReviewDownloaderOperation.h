@@ -31,6 +31,8 @@
 	NSObject *delegate;
 	
 	BOOL workInProgress;
+	
+	NSMutableArray *scrapedReviews;
 }
 
 @property (nonatomic, retain) App *app;

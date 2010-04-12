@@ -1993,11 +1993,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ASiST_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../../../Downloads/admob_iphone_sdk/AdMob\"",
-					"\"$(SRCROOT)/Classes\"",
-				);
 				PRODUCT_NAME = MyAppSales;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 			};
@@ -2013,11 +2008,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ASiST_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../../../Downloads/admob_iphone_sdk/AdMob\"",
-					"\"$(SRCROOT)/Classes\"",
-				);
 				PRODUCT_NAME = MyAppSales;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 			};

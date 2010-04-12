@@ -17,6 +17,12 @@
 															   kCFPropertyListImmutable, 
 															   NULL);
 	
+	if (!plist)
+	{
+		// NSLog(@"Not valid plist format");
+		return nil;
+	}
+	
 	// we check if it is the correct type and only return it if it is
 	if ([(id)plist isKindOfClass:[NSDictionary class]])
 	{

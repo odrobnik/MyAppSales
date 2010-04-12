@@ -260,5 +260,35 @@ static int indentLevel = 0;
 	return nil;
 }
 
+- (NSString *)path
+{
+	if (parent)
+	{
+		return [[parent path] stringByAppendingPathComponent:name];
+	}
+	else 
+	{
+		return [@"/" stringByAppendingPathComponent:name];
+	}
+}
+
+
+/*
+- (NSArray *) subnodesForPath:(NSString *)path
+{
+	if (!path)
+	{
+		return 
+	
+	NSScanner *scanner = [[NSScanner alloc] initWithString:path];
+*/	
+	
+	
+	
+	
+	
+	
+	
+
 
 @end

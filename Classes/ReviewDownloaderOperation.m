@@ -12,6 +12,9 @@
 #import "App.h"
 #import "Country.h"
 
+#import "NSString+Helpers.h"
+
+
 
 @interface ReviewDownloaderOperation ()
 - (void) sendFinishToDelegate;
@@ -47,9 +50,196 @@
 }
 
 
+- (NSDate *) dateFromReviewDataString: (NSString *) dateString  {
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	// May 4, 2009
+	[dateFormatter setDateFormat:@"MMM dd, yyyy"]; /* Unicode Locale Data Markup Language */
+	//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
+	NSDate *reviewDate = [dateFormatter dateFromString:dateString]; 
+	[dateFormatter release];
+	
+	if (!reviewDate)
+	{
+		dateFormatter = [[NSDateFormatter alloc] init];
+		// 09-Oct-2008
+		[dateFormatter setDateFormat:@"dd-MMM-yyyy"]; /* Unicode Locale Data Markup Language */
+		//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
+		reviewDate = [dateFormatter dateFromString:dateString]; 
+		[dateFormatter release];
+	}
+	
+	if (!reviewDate)
+	{
+		dateFormatter = [[NSDateFormatter alloc] init];
+		// 09-Oct-2008
+		[dateFormatter setDateFormat:@"dd-MM-yyyy"]; /* Unicode Locale Data Markup Language */
+		//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
+		reviewDate = [dateFormatter dateFromString:dateString]; 
+		[dateFormatter release];
+	}
+	
+	if (!reviewDate)
+	{
+		dateFormatter = [[NSDateFormatter alloc] init];
+		// 09-Oct-2008
+		[dateFormatter setDateFormat:@"dd.MMM.yyyy"]; /* Unicode Locale Data Markup Language */
+		//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
+		reviewDate = [dateFormatter dateFromString:dateString]; 
+		[dateFormatter release];
+	}
+	
+	
+	if (!reviewDate)
+	{
+		dateFormatter = [[NSDateFormatter alloc] init];
+		// 09-Oct-2008
+		[dateFormatter setDateFormat:@"dd.MM.yyyy"]; /* Unicode Locale Data Markup Language */
+		//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
+		reviewDate = [dateFormatter dateFromString:dateString]; 
+		[dateFormatter release];
+	}
+	
+	if (!reviewDate)
+	{
+		dateFormatter = [[NSDateFormatter alloc] init];
+		NSLocale *frLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"fr_FR"] autorelease];
+		[dateFormatter setLocale:frLocale];
+		// 09-Oct-2008
+		[dateFormatter setDateFormat:@"dd MMM yyyy"]; /* Unicode Locale Data Markup Language */
+		//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
+		reviewDate = [dateFormatter dateFromString:dateString]; 
+		[dateFormatter release];
+	}
+	
+	if (!reviewDate)
+	{
+		dateFormatter = [[NSDateFormatter alloc] init];
+		NSLocale *frLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"es_ES"] autorelease];
+		[dateFormatter setLocale:frLocale];
+		// 09-Oct-2008
+		[dateFormatter setDateFormat:@"dd-MMM-yyyy"]; /* Unicode Locale Data Markup Language */
+		//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
+		reviewDate = [dateFormatter dateFromString:dateString]; 
+		[dateFormatter release];
+	}
+	
+	if (!reviewDate)
+	{
+		dateFormatter = [[NSDateFormatter alloc] init];
+		NSLocale *frLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"it_IT"] autorelease];
+		[dateFormatter setLocale:frLocale];
+		// 09-Oct-2008
+		[dateFormatter setDateFormat:@"dd-MMM-yyyy"]; /* Unicode Locale Data Markup Language */
+		//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
+		reviewDate = [dateFormatter dateFromString:dateString]; 
+		[dateFormatter release];
+	}
+	
+	if (!reviewDate)
+	{
+		dateFormatter = [[NSDateFormatter alloc] init];
+		NSLocale *frLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease];
+		[dateFormatter setLocale:frLocale];
+		// 09-Oct-2008
+		[dateFormatter setDateFormat:@"dd-MMM-yyyy"]; /* Unicode Locale Data Markup Language */
+		//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
+		reviewDate = [dateFormatter dateFromString:dateString]; 
+		[dateFormatter release];
+	}
+	
+	if (!reviewDate)
+	{
+		dateFormatter = [[NSDateFormatter alloc] init];
+		NSLocale *frLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease];
+		[dateFormatter setLocale:frLocale];
+		// 09-Oct-2008
+		[dateFormatter setDateFormat:@"MMM dd, yyyy"]; /* Unicode Locale Data Markup Language */
+		//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
+		reviewDate = [dateFormatter dateFromString:dateString]; 
+		[dateFormatter release];
+	}
+	if (!reviewDate)
+	{
+		NSLog(@"Cannot parse date: '%@'", dateString);
+	}
+	return reviewDate;
+}
+
+
+- (void)parseData:(NSData *)data
+{
+	NSString *dataString = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+	NSScanner *scanner = [NSScanner scannerWithString:dataString];
+	
+	BOOL scanning = YES;
+	BOOL foundReview = NO;
+	
+	while(scanning)
+	{
+		NSString *reviewTitle;
+		NSString *reviewRating;
+		NSString *reviewName;
+		NSString *reviewText;
+		NSString *reviewVersion;
+		
+		[scanner scanUpToString:@"<TextView topInset=\"0\" truncation=\"right\" leftInset=\"0\" squishiness=\"1\" styleSet=\"basic13\" textJust=\"left\" maxLines=\"1\"><SetFontStyle normalStyle=\"textColor\"><b>" intoString:NULL];
+		foundReview = [scanner scanString:@"<TextView topInset=\"0\" truncation=\"right\" leftInset=\"0\" squishiness=\"1\" styleSet=\"basic13\" textJust=\"left\" maxLines=\"1\"><SetFontStyle normalStyle=\"textColor\"><b>" intoString:NULL];
+		[scanner scanUpToString:@"</b>" intoString:&reviewTitle];
+		
+		if(foundReview == NO)
+		{
+			break;
+		}
+
+		[scanner scanUpToString:@"<HBoxView topInset=\"1\" alt=\"" intoString:NULL];
+		[scanner scanString:@"<HBoxView topInset=\"1\" alt=\"" intoString:NULL];
+		[scanner scanUpToString:@" " intoString:&reviewRating];
+		
+		[scanner scanUpToString:@"<TextView topInset=\"0\" truncation=\"right\" leftInset=\"0\" squishiness=\"1\" styleSet=\"basic13\" textJust=\"left\" maxLines=\"1\"><SetFontStyle normalStyle=\"textColor\">" intoString:NULL];
+		[scanner scanString:@"<TextView topInset=\"0\" truncation=\"right\" leftInset=\"0\" squishiness=\"1\" styleSet=\"basic13\" textJust=\"left\" maxLines=\"1\"><SetFontStyle normalStyle=\"textColor\">" intoString:NULL];
+		[scanner scanUpToString:@"\">" intoString:NULL];
+		[scanner scanString:@"\">" intoString:NULL];
+		[scanner scanUpToString:@"</GotoURL>" intoString:&reviewName];
+		reviewName = [reviewName stringByReplacingOccurrencesOfString:@"<b>" withString:@""];
+		reviewName = [reviewName stringByReplacingOccurrencesOfString:@"</b>" withString:@""];
+		reviewName = [reviewName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		
+		[scanner scanString:@"</GotoURL>" intoString:NULL];
+		[scanner scanUpToString:@"</SetFontStyle>" intoString:&reviewVersion];
+		
+		NSArray *versionParts = [reviewVersion componentsSeparatedByString:@"- \n"];
+		
+		[scanner scanUpToString:@"<TextView topInset=\"2\" leftInset=\"0\" rightInset=\"0\" styleSet=\"normal11\" textJust=\"left\"><SetFontStyle normalStyle=\"textColor\">" intoString:NULL];
+		[scanner scanString:@"<TextView topInset=\"2\" leftInset=\"0\" rightInset=\"0\" styleSet=\"normal11\" textJust=\"left\"><SetFontStyle normalStyle=\"textColor\">" intoString:NULL];
+		[scanner scanUpToString:@"</SetFontStyle>" intoString:&reviewText];
+		
+		if ([versionParts count]==3)
+		{
+			NSString *onlyVersion = [[[[versionParts objectAtIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] componentsSeparatedByString:@" "] lastObject];
+			NSString *onlyDate = [[versionParts objectAtIndex:2] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+			
+			NSDate *reviewDate = [self dateFromReviewDataString:onlyDate];
+			
+			double stars = [reviewRating doubleValue];
+			
+			
+			Review *newReview = [[Review alloc] initWithApp:app country:country title:[reviewTitle stringByUrlDecoding]
+													   name:reviewName version:onlyVersion 
+													   date:reviewDate 
+													 review:[reviewText stringByUrlDecoding] 
+													  stars:stars];
+			[scrapedReviews addObject:newReview];
+			[newReview release];
+		}
+	}
+}
+
+
+
+
 - (void)main
 {
-	NSMutableArray *scrapedReviews = [NSMutableArray array];
+	scrapedReviews = [NSMutableArray array];
 	BOOL thereIsMore;
 	
 	NSUInteger pageNumber = 0;
@@ -68,8 +258,10 @@
 		
 		NSURL *url = [NSURL URLWithString:urlString];
 		NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0];
-		[request addValue:[NSString stringWithFormat:@"%d-1,2", country.appStoreID] forHTTPHeaderField:@"X-Apple-Store-Front"];
+		[request addValue:[NSString stringWithFormat:@"%d-1", country.appStoreID] forHTTPHeaderField:@"X-Apple-Store-Front"];
+		//[request addValue:@"iTunes-iPhone/2.2 (2)" forHTTPHeaderField:@"User-Agent"];
 		[request addValue:@"iTunes-iPhone/2.2 (2)" forHTTPHeaderField:@"User-Agent"];
+		
 		//[request addValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"]; // doesn't work.
 		
 		NSURLResponse* response; NSError* error;
@@ -86,6 +278,8 @@
 		{
 			NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
 			NSDictionary *headers = [httpResponse allHeaderFields];
+			
+			NSLog(@"%@", headers);
 			
 			NSInteger statusCode = [httpResponse statusCode];
 			if (statusCode==200)
@@ -117,6 +311,25 @@
 		NSDictionary *dict = [NSDictionary dictionaryWithContentsOfData:data];
 		
 		
+		if (!dict)
+		{
+			NSString *sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+			
+			// itms format
+			[self parseData:data];
+			
+			
+			NSString *nextPageURL = [NSString stringWithFormat:@"<GotoURL target=\"main\" draggingURL=\"http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=%d", pageNumber+1];
+			
+			if ([sourceSt rangeOfString:nextPageURL].location!=NSNotFound)
+			{
+				thereIsMore = YES;
+				pageNumber++;
+			}
+			
+		}
+		else
+		{
 		NSArray *reviews = [dict objectForKey:@"items"];
 		
 		for (NSDictionary *oneReview in reviews)
@@ -151,117 +364,11 @@
 				NSString *dateString = [parts objectAtIndex:1];
 				
 				
-				NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-				// May 4, 2009
-				[dateFormatter setDateFormat:@"MMM dd, yyyy"]; /* Unicode Locale Data Markup Language */
-				//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
-				NSDate *reviewDate = [dateFormatter dateFromString:dateString]; 
-				[dateFormatter release];
+				NSDate *reviewDate;
 				
-				if (!reviewDate)
-				{
-					dateFormatter = [[NSDateFormatter alloc] init];
-					// 09-Oct-2008
-					[dateFormatter setDateFormat:@"dd-MMM-yyyy"]; /* Unicode Locale Data Markup Language */
-					//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
-					reviewDate = [dateFormatter dateFromString:dateString]; 
-					[dateFormatter release];
-				}
+				reviewDate = [self dateFromReviewDataString: dateString];
+
 				
-				if (!reviewDate)
-				{
-					dateFormatter = [[NSDateFormatter alloc] init];
-					// 09-Oct-2008
-					[dateFormatter setDateFormat:@"dd-MM-yyyy"]; /* Unicode Locale Data Markup Language */
-					//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
-					reviewDate = [dateFormatter dateFromString:dateString]; 
-					[dateFormatter release];
-				}
-				
-				if (!reviewDate)
-				{
-					dateFormatter = [[NSDateFormatter alloc] init];
-					// 09-Oct-2008
-					[dateFormatter setDateFormat:@"dd.MMM.yyyy"]; /* Unicode Locale Data Markup Language */
-					//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
-					reviewDate = [dateFormatter dateFromString:dateString]; 
-					[dateFormatter release];
-				}
-				
-				
-				if (!reviewDate)
-				{
-					dateFormatter = [[NSDateFormatter alloc] init];
-					// 09-Oct-2008
-					[dateFormatter setDateFormat:@"dd.MM.yyyy"]; /* Unicode Locale Data Markup Language */
-					//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
-					reviewDate = [dateFormatter dateFromString:dateString]; 
-					[dateFormatter release];
-				}
-				
-				if (!reviewDate)
-				{
-					dateFormatter = [[NSDateFormatter alloc] init];
-					NSLocale *frLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"fr_FR"] autorelease];
-					[dateFormatter setLocale:frLocale];
-					// 09-Oct-2008
-					[dateFormatter setDateFormat:@"dd MMM yyyy"]; /* Unicode Locale Data Markup Language */
-					//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
-					reviewDate = [dateFormatter dateFromString:dateString]; 
-					[dateFormatter release];
-				}
-				
-				if (!reviewDate)
-				{
-					dateFormatter = [[NSDateFormatter alloc] init];
-					NSLocale *frLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"es_ES"] autorelease];
-					[dateFormatter setLocale:frLocale];
-					// 09-Oct-2008
-					[dateFormatter setDateFormat:@"dd-MMM-yyyy"]; /* Unicode Locale Data Markup Language */
-					//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
-					reviewDate = [dateFormatter dateFromString:dateString]; 
-					[dateFormatter release];
-				}
-				
-				if (!reviewDate)
-				{
-					dateFormatter = [[NSDateFormatter alloc] init];
-					NSLocale *frLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"it_IT"] autorelease];
-					[dateFormatter setLocale:frLocale];
-					// 09-Oct-2008
-					[dateFormatter setDateFormat:@"dd-MMM-yyyy"]; /* Unicode Locale Data Markup Language */
-					//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
-					reviewDate = [dateFormatter dateFromString:dateString]; 
-					[dateFormatter release];
-				}
-				
-				if (!reviewDate)
-				{
-					dateFormatter = [[NSDateFormatter alloc] init];
-					NSLocale *frLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease];
-					[dateFormatter setLocale:frLocale];
-					// 09-Oct-2008
-					[dateFormatter setDateFormat:@"dd-MMM-yyyy"]; /* Unicode Locale Data Markup Language */
-					//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
-					reviewDate = [dateFormatter dateFromString:dateString]; 
-					[dateFormatter release];
-				}
-				
-				if (!reviewDate)
-				{
-					dateFormatter = [[NSDateFormatter alloc] init];
-					NSLocale *frLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease];
-					[dateFormatter setLocale:frLocale];
-					// 09-Oct-2008
-					[dateFormatter setDateFormat:@"MMM dd, yyyy"]; /* Unicode Locale Data Markup Language */
-					//[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
-					reviewDate = [dateFormatter dateFromString:dateString]; 
-					[dateFormatter release];
-				}
-				if (!reviewDate)
-				{
-					NSLog(@"Cannot parse date: '%@'", dateString);
-				}
 				if (!version)
 				{
 					NSLog(@"Cannot parse version: '%@'", version);
@@ -284,7 +391,7 @@
 			{
 				//NSLog(@"%@", oneReview);
 			}
-			
+		}	
 			
 		} 
 		

@@ -21,6 +21,7 @@
 - (NSArray *)arrayWithHrefDicts;
 - (NSString *)hrefForLinkContainingText:(NSString *)searchText;
 - (NSString *) stringByUrlEncoding;
+- (NSString *) stringByUrlDecoding;
 
 - (NSComparisonResult)compareDesc:(NSString *)aString;
 

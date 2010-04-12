@@ -259,6 +259,12 @@
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
 {
+	if ([elementName isEqualToString:@"VBoxView"])
+	{
+		NSLog(@"%@", [currentElement path]);
+		NSLog(@"%@", currentElement );
+	}
+	
 	currentElement = currentElement.parent;
 }
 

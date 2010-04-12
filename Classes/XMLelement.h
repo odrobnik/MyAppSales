@@ -25,14 +25,17 @@
 - (id) initWithName:(NSString *)elementName;
 - (XMLelement *) getNamedChild:(NSString *)childName;
 - (NSArray *) getNamedChildren:(NSString *)childName WithAttribute:(NSString *)attributeName HasValue:(NSString *)attributeValue;
-
-
 - (NSArray *) getNamedChildren:(NSString *)childName;
 - (void) removeNamedChild:(NSString *)childName;
 - (void) changeTextForNamedChild:(NSString *)childName toText:(NSString *)newText;
 - (XMLelement *) addChildWithName:(NSString *)childName text:(NSString *)childText;
 
 - (id) performActionOnElements:(SEL)selector target:(id)aTarget;
+
+//- (NSArray *) subnodesForPath:(NSString *)path;
+
+- (NSString *)path;
+
 
 @property (nonatomic, readonly) NSString *title;
 @property (nonatomic, readonly) NSURL *link;
