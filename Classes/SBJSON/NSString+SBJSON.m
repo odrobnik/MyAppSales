@@ -37,7 +37,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
     SBJSON *json = [[SBJSON new] autorelease];
     
-    NSError *error;
+    NSError *error=nil;
     id o = [json fragmentWithString:self error:&error];
     
     if(!o)
@@ -52,7 +52,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
     SBJSON *json = [[SBJSON new] autorelease];
     
-    NSError *error;
+    NSError *error=nil;
     id o = [json objectWithString:self error:&error];
     
     if(!o)

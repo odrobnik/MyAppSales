@@ -36,7 +36,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
     SBJSON *generator = [[SBJSON new] autorelease];
     
-    NSError *error;
+    NSError *error=nil;
     NSString *json = [generator stringWithFragment:self error:&error];
     
    if(!json)
@@ -51,7 +51,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
     SBJSON *generator = [[SBJSON new] autorelease];
     
-    NSError *error;
+    NSError *error=nil;
     NSString *json = [generator stringWithObject:self error:&error];
     
     if(!json)

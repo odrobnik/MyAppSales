@@ -251,7 +251,7 @@
 	
 	float height = 16.0f;
 	
-	text = review.review;
+	//text = review.review;
 	
 	if (review.translated_review)
 	{

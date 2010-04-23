@@ -120,7 +120,7 @@ static Database *_sharedInstance;
     // First, test for existence.
     BOOL success;
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSError *error;
+    NSError *error = nil;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *writableDBPath = [documentsDirectory stringByAppendingPathComponent:@"apps.db"];

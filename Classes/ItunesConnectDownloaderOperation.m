@@ -145,7 +145,7 @@
 														 cachePolicy:NSURLRequestReloadIgnoringCacheData
 													 timeoutInterval:60.0];	
 	NSURLResponse* response; 
-	NSError* error;
+	NSError* error = nil;
 	
 	[self setStatus:@"Opening HTTPS Connection"];
 	
@@ -231,8 +231,8 @@
 		NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
 															 cachePolicy:NSURLRequestReloadIgnoringCacheData
 														 timeoutInterval:60.0];	
-		NSURLResponse* response; 
-		NSError* error;
+		NSURLResponse* response = nil; 
+		NSError* error = nil;
 		
 		[self setStatus:@"ITC offline, trying ITTS"];
 		

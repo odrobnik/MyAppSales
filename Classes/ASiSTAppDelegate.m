@@ -322,7 +322,7 @@
 {
 	if ([sender isOn])
 	{
-		NSError *error;
+		NSError *error=nil;
 		if(![httpServer start:&error])
 		{
 			serverIsRunning = NO;
@@ -353,7 +353,7 @@
 	
 	if (status)
 	{
-		NSError *error;
+		NSError *error=nil;
 		if(![httpServer start:&error])
 		{
 			serverIsRunning = NO;
@@ -545,7 +545,7 @@
 	NSEnumerator *enu = [docs objectEnumerator];
 	NSString *aString;
 	
-	NSError *error;
+	NSError *error=nil;
 	
 	while (aString = [enu nextObject])
 	{

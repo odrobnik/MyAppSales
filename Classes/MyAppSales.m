@@ -13,7 +13,7 @@
 	[paramArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"token", @"name",token?token:@"", @"value", nil]];
 	NSURLRequest *request = [self makeSOAPRequestWithLocation:location Parameters:paramArray Operation:@"SubscribeNotifications" Namespace:@"http://drobnik.net/" Action:@"http://drobnik.net/SubscribeNotifications" SOAPVersion:SOAPVersion1_0];
 	NSURLResponse *response;
-	NSError *error;
+	NSError *error=nil;
 	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	XMLdocument *xml = [XMLdocument documentWithData:data];
 	NSString *result = [self returnValueFromSOAPResponse:xml];
@@ -28,7 +28,7 @@
 	[paramArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"token", @"name",token?token:@"", @"value", nil]];
 	NSURLRequest *request = [self makeSOAPRequestWithLocation:location Parameters:paramArray Operation:@"IsSubscribedToNotifications" Namespace:@"http://drobnik.net/" Action:@"http://drobnik.net/IsSubscribedToNotifications" SOAPVersion:SOAPVersion1_0];
 	NSURLResponse *response;
-	NSError *error;
+	NSError *error=nil;
 	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	XMLdocument *xml = [XMLdocument documentWithData:data];
 	NSString *result = [self returnValueFromSOAPResponse:xml];
@@ -43,7 +43,7 @@
 	[paramArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"token", @"name",token?token:@"", @"value", nil]];
 	NSURLRequest *request = [self makeSOAPRequestWithLocation:location Parameters:paramArray Operation:@"UnsubscribeNotifications" Namespace:@"http://drobnik.net/" Action:@"http://drobnik.net/UnsubscribeNotifications" SOAPVersion:SOAPVersion1_0];
 	NSURLResponse *response;
-	NSError *error;
+	NSError *error=nil;
 	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	XMLdocument *xml = [XMLdocument documentWithData:data];
 	NSString *result = [self returnValueFromSOAPResponse:xml];
@@ -58,7 +58,7 @@
 	[paramArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"ReportRegionID", @"name",[NSNumber numberWithInt:reportRegionID], @"value", nil]];
 	NSURLRequest *request = [self makeSOAPRequestWithLocation:location Parameters:paramArray Operation:@"LatestReportDate" Namespace:@"http://drobnik.net/" Action:@"http://drobnik.net/LatestReportDate" SOAPVersion:SOAPVersion1_0];
 	NSURLResponse *response;
-	NSError *error;
+	NSError *error=nil;
 	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	XMLdocument *xml = [XMLdocument documentWithData:data];
 	NSString *result = [self returnValueFromSOAPResponse:xml];
@@ -74,7 +74,7 @@
 	[paramArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"ReportRegionID", @"name",[NSNumber numberWithInt:reportRegionID], @"value", nil]];
 	NSURLRequest *request = [self makeSOAPRequestWithLocation:location Parameters:paramArray Operation:@"SeenReport" Namespace:@"http://drobnik.net/" Action:@"http://drobnik.net/SeenReport" SOAPVersion:SOAPVersion1_0];
 	NSURLResponse *response;
-	NSError *error;
+	NSError *error=nil;
 	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	XMLdocument *xml = [XMLdocument documentWithData:data];
 	NSString *result = [self returnValueFromSOAPResponse:xml];

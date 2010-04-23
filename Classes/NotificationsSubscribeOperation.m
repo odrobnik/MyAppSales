@@ -86,7 +86,7 @@
 	
 	//[self setStatus:@"Sending Login Information"];
 	NSURLResponse* response; 
-	NSError* error;
+	NSError* error = nil;
 	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	
 	if (error)
