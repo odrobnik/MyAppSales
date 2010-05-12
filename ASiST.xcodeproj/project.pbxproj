@@ -440,7 +440,6 @@
 		A73CEBC61044444D008778BF /* CalendarDayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarDayView.h; sourceTree = "<group>"; };
 		A73CEBC71044444D008778BF /* CalendarDayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarDayView.m; sourceTree = "<group>"; };
 		A748BC4D119ACF4700613D74 /* MyAppSales.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = MyAppSales.xcdatamodel; sourceTree = "<group>"; };
-		A748BC53119ACF6500613D74 /* MyAppSales 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MyAppSales 2.xcdatamodel"; sourceTree = "<group>"; };
 		A74A71D10EFB0644003B5191 /* schema.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = schema.sql; sourceTree = "<group>"; };
 		A74A71E90EFB0806003B5191 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A74A75070EFD5FA3003B5191 /* apps.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = apps.db; sourceTree = "<group>"; };
@@ -2122,7 +2121,6 @@
 			isa = XCVersionGroup;
 			children = (
 				A748BC4D119ACF4700613D74 /* MyAppSales.xcdatamodel */,
-				A748BC53119ACF6500613D74 /* MyAppSales 2.xcdatamodel */,
 			);
 			currentVersion = A748BC4D119ACF4700613D74 /* MyAppSales.xcdatamodel */;
 			path = MyAppSales.xcdatamodeld;

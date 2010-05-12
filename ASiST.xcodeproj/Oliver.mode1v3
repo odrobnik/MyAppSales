@@ -229,8 +229,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -279,6 +277,7 @@
 								<string>A7248AC60F1BEEEA003DADDD</string>
 								<string>A74A71D40EFB0651003B5191</string>
 								<string>A7AE1A8610BD9BA200E38C5B</string>
+								<string>A748BC51119ACF6500613D74</string>
 								<string>A79272500F2D95F9009AF9B2</string>
 								<string>29B97315FDCFA39411CA2CEA</string>
 								<string>A7EB524F104825E3005452BE</string>
@@ -293,12 +292,15 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>193</integer>
-									<integer>190</integer>
+									<integer>129</integer>
+									<integer>128</integer>
+									<integer>103</integer>
+									<integer>24</integer>
+									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 2678}, {370, 671}}</string>
+							<string>{{0, 1670}, {370, 671}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -463,7 +465,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>.xccurrentversion</string>
+								<string>MyAppSales.xcdatamodel</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -471,11 +473,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>.xccurrentversion</string>
+										<string>MyAppSales.xcdatamodel</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>A748BBF5119AC71E00613D74</string>
+										<string>A748BC6E119AD00400613D74</string>
 										<key>history</key>
 										<array>
 											<string>A72486290F1B24FF003DADDD</string>
@@ -753,7 +755,8 @@
 											<string>A7F6353510E60D3200BE2786</string>
 											<string>A7F6353610E60D3200BE2786</string>
 											<string>A748BBF2119AC71E00613D74</string>
-											<string>A748BBF3119AC71E00613D74</string>
+											<string>A748BC6C119AD00400613D74</string>
+											<string>A748BC6D119AD00400613D74</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -765,14 +768,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 5}, {1048, 488}}</string>
+								<string>{{0, 5}, {1048, 482}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 144 1440 730 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>488pt</string>
+							<string>482pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -785,14 +788,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 498}, {1048, 191}}</string>
+								<string>{{0, 492}, {1048, 197}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 144 1440 730 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>191pt</string>
+							<string>197pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -812,9 +815,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>A748BBE7119AC68200613D74</string>
+				<string>A748BC6F119AD00400613D74</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>A748BBE8119AC68200613D74</string>
+				<string>A748BC70119AD00400613D74</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
@@ -954,7 +957,7 @@
 	<key>WindowOrderList</key>
 	<array>
 		<string>A78E2B7C0EFA2263002EB6D9</string>
-		<string>/Users/Oliver/Documents/iphone/Projects/Own Apps/MyAppSales/trunk2/ASiST.xcodeproj</string>
+		<string>/Users/Oliver/Documents/iphone/Projects/Own Apps/MyAppSales/trunk4/ASiST.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>0 144 1440 730 0 0 1440 878 </string>
@@ -1034,7 +1037,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>A78E2B7C0EFA2263002EB6D9</string>
-				<string>A748BBE9119AC68200613D74</string>
+				<string>A748BC71119AD00400613D74</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
