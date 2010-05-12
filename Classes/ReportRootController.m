@@ -9,7 +9,7 @@
 #import "ReportRootController.h"
 #import "ReportViewController.h"
 #import "ASiSTAppDelegate.h"
-#import "Report.h"
+#import "Report_v1.h"
 
 
 @implementation ReportRootController
@@ -236,7 +236,7 @@
 
 #pragma mark Direct Navigation
 
-- (void)gotoReport:(Report *)reportToShow
+- (void)gotoReport:(Report_v1 *)reportToShow
 {
 	NSArray *tmpArray = [DB sortedReportsOfType:reportToShow.reportType];
 	

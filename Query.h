@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
-#import "Report.h"
+#import "Report_v1.h"
 
 @interface Query : NSObject 
 {

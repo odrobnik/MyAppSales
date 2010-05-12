@@ -10,7 +10,7 @@
 #import "Database.h"
 
 
-@interface Country : NSObject {
+@interface Country_v1 : NSObject {
 	UIImage *iconImage;
 	NSString *iso2;
 	NSString *iso3;

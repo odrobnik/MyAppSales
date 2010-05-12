@@ -6,7 +6,7 @@
 //  Copyright 2008 drobnik.com. All rights reserved.
 //
 
-#import "Country.h"
+#import "Country_v1.h"
 #import "Database.h"
 #import "UIImage+Helpers.h"
 
@@ -24,7 +24,7 @@ static sqlite3_stmt *init_statement = nil;
 //static sqlite3_stmt *hydrate_statement = nil;
 //static sqlite3_stmt *dehydrate_statement = nil;
 
-@implementation Country
+@implementation Country_v1
 
 @synthesize iconImage, name, iso2, iso3, appStoreID, usedInReport, language;
 

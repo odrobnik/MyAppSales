@@ -32,7 +32,7 @@
 
 - (id)initWithReportArray:(NSArray *)array reportType:(ReportType)type style:(UITableViewStyle)style;
 
-- (void)gotoReport:(Report *)reportToShow;
+- (void)gotoReport:(Report_v1 *)reportToShow;
 
 @property (nonatomic, retain) NSMutableArray *report_array;
 @property (nonatomic, retain) UITabBarItem *tabBarItem;

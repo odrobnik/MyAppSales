@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class Country;
+@class Country_v1;
 
 
 @interface CountrySummary : NSObject {
-	Country *country;
+	Country_v1 *country;
 	NSInteger sumSales;
 	NSInteger sumUpdates;
 	NSInteger sumRefunds;
@@ -21,7 +21,7 @@
 	double sumRoyalites;
 }
 
-@property (nonatomic, retain) Country *country;
+@property (nonatomic, retain) Country_v1 *country;
 @property (nonatomic, assign) NSInteger sumSales;
 @property (nonatomic, assign) NSInteger sumUpdates;
 @property (nonatomic, assign) NSInteger sumRefunds;
@@ -29,7 +29,7 @@
 @property (nonatomic, assign) double sumRoyalites;
 
 
-- (id)initWithCountry:(Country *)country sumSales:(NSInteger)sales sumUpdates:(NSInteger)updates sumRefunds:(NSInteger)refunds; 
+- (id)initWithCountry:(Country_v1 *)country sumSales:(NSInteger)sales sumUpdates:(NSInteger)updates sumRefunds:(NSInteger)refunds; 
 - (NSComparisonResult)compareBySales:(CountrySummary *)otherSummary;
 
 + (CountrySummary *) blankSummary;

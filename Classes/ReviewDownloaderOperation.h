@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class App, Country;
+@class App, Country_v1;
 
 @protocol ReviewScraperDelegate <NSObject>
 
@@ -24,7 +24,7 @@
 	//NSUInteger appID;
 	//NSUInteger storeID;
 	App *app;
-	Country *country;
+	Country_v1 *country;
 	
 
 	NSObject <ReviewScraperDelegate> *scraperDelegate;
@@ -36,11 +36,11 @@
 }
 
 @property (nonatomic, retain) App *app;
-@property (nonatomic, retain) Country *country;
+@property (nonatomic, retain) Country_v1 *country;
 @property (nonatomic, assign) NSObject *delegate;
 
 
-- (id) initForApp:(App *)reviewApp country:(Country *)reviewCountry delegate:(NSObject <ReviewScraperDelegate> *) scrDelegate;
+- (id) initForApp:(App *)reviewApp country:(Country_v1 *)reviewCountry delegate:(NSObject <ReviewScraperDelegate> *) scrDelegate;
 
 
 @end

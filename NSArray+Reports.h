@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "Report.h"
+#import "Report_v1.h"
 
 
 @interface NSArray (Reports)
 
-- (Report *)reportBySearchingForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion;
+- (Report_v1 *)reportBySearchingForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion;
 
 @end

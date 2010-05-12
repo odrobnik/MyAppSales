@@ -9,7 +9,7 @@
 
 // these two necessary to get report texts
 #import "Database.h"
-#import "Report.h"
+#import "Report_v1.h"
 
 
 @implementation MyHTTPConnection
@@ -140,7 +140,7 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
     [outdata appendString:@"<h2>Daily Reports</h2>"];
 	[outdata appendString:@"<ul>"];
 
-	for (Report *oneReport in [DB sortedReportsOfType:ReportTypeDay])
+	for (Report_v1 *oneReport in [DB sortedReportsOfType:ReportTypeDay])
 	{
 		[outdata appendFormat:@"<li><a href=\"/report?id=%d\">%@</a></li>\n", oneReport.primaryKey, [self htmlEncodeUmlaute:[oneReport listDescriptionShorter:NO]]];
 	}
@@ -152,7 +152,7 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
     [outdata appendString:@"<h2>Weekly Reports</h2>"];
 	[outdata appendString:@"<ul>"];
 	
-	for (Report *oneReport in [DB sortedReportsOfType:ReportTypeWeek])
+	for (Report_v1 *oneReport in [DB sortedReportsOfType:ReportTypeWeek])
 	{
 		[outdata appendFormat:@"<li><a href=\"/report?id=%d\">%@</a></li>\n", oneReport.primaryKey, [self htmlEncodeUmlaute:[oneReport listDescriptionShorter:NO]]];
 	}
@@ -164,7 +164,7 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
     [outdata appendString:@"<h2>Financial Reports</h2>"];
 	[outdata appendString:@"<ul>"];
 	
-	for (Report *oneReport in [DB sortedReportsOfType:ReportTypeFinancial])
+	for (Report_v1 *oneReport in [DB sortedReportsOfType:ReportTypeFinancial])
 	{
 		[outdata appendFormat:@"<li><a href=\"/report?id=%d\">%@</a></li>\n", oneReport.primaryKey, [self htmlEncodeUmlaute:[oneReport listDescriptionShorter:NO]]];
 	}
@@ -176,7 +176,7 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
     [outdata appendString:@"<h2>Monthly Free Reports</h2>"];
 	[outdata appendString:@"<ul>"];
 	
-	for (Report *oneReport in [DB sortedReportsOfType:ReportTypeFree])
+	for (Report_v1 *oneReport in [DB sortedReportsOfType:ReportTypeFree])
 	{
 		[outdata appendFormat:@"<li><a href=\"/report?id=%d\">%@</a></li>\n", oneReport.primaryKey, [self htmlEncodeUmlaute:[oneReport listDescriptionShorter:NO]]];
 	}
@@ -367,7 +367,7 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 			NSString *reportText;
 			if (report_id)
 			{
-				Report *tmpReport = [DB reportForID:report_id];
+				Report_v1 *tmpReport = [DB reportForID:report_id];
 				reportText = [tmpReport reconstructText];
 			}
 			else

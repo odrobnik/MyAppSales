@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Database.h"
-@class Report;
+@class Report_v1;
 
 
 @interface ReportRootController : UITableViewController {
@@ -21,7 +21,7 @@
 @property (nonatomic, retain) IBOutlet UIBarButtonItem* reloadButtonItem;
 
 
-- (void)gotoReport:(Report *)reportToShow;
+- (void)gotoReport:(Report_v1 *)reportToShow;
 - (void)gotToReportType:(ReportType)typeToShow;
 
 - (IBAction)reloadReports:(id)sender;

@@ -9,8 +9,8 @@
 #import "Database.h"
 #import "App.h"
 #import "InAppPurchase.h"
-#import "Report.h"
-#import "Country.h"
+#import "Report_v1.h"
+#import "Country_v1.h"
 #import "GenericAccount.h"
 #import "GenericAccount+MyAppSales.h"
 
@@ -30,13 +30,13 @@
 - (void)initializeDatabase;
 
 - (NSMutableArray *) reportsOfType:(ReportType)reportType;
-- (void) addReportToIndex:(Report *)report;
+- (void) addReportToIndex:(Report_v1 *)report;
 
 //- (void)calcAvgRoyaltiesForApps;
 //- (void)getTotals;
 
 - (void) sendNewAppNotification:(App *)app;
-- (void) sendNewReportNotification:(Report *)report;
+- (void) sendNewReportNotification:(Report_v1 *)report;
 - (void) setStatus:(NSString *)message;
 
 @property (nonatomic, retain) NSMutableDictionary *reportsByReportType;
@@ -277,7 +277,7 @@ static Database *_sharedInstance;
 			
 			
 			
-			Report *report = [[Report alloc] initWithPrimaryKey:primaryKey database:database
+			Report_v1 *report = [[Report_v1 alloc] initWithPrimaryKey:primaryKey database:database
 													   fromDate:fromDate 
 													  untilDate:untilDate 
 												aDownloadedDate:downloadedDate
@@ -348,7 +348,7 @@ static Database *_sharedInstance;
 				NSDate *untilDate = [NSDate dateWithTimeIntervalSinceReferenceDate:untilDateTI];
 				NSDate *downloadedDate = [NSDate dateWithTimeIntervalSinceReferenceDate:downloadedDateTI];
 				
-				Report *report = [[Report alloc] initWithPrimaryKey:primaryKey database:database
+				Report_v1 *report = [[Report_v1 alloc] initWithPrimaryKey:primaryKey database:database
 														   fromDate:fromDate 
 														  untilDate:untilDate 
 													aDownloadedDate:downloadedDate
@@ -415,7 +415,7 @@ static Database *_sharedInstance;
 			NSUInteger primaryKey = sqlite3_column_int(statement, 5);
 			NSUInteger groupingID = sqlite3_column_int(statement, 6);
 			
-			Report *report = [[Report alloc] initWithPrimaryKey:primaryKey database:database
+			Report_v1 *report = [[Report_v1 alloc] initWithPrimaryKey:primaryKey database:database
 													   fromDate:fromDate 
 													  untilDate:untilDate 
 												aDownloadedDate:downloadedDate
@@ -488,7 +488,7 @@ static Database *_sharedInstance;
 	while (sqlite3_step(statement) == SQLITE_ROW) 
 	{
 		NSString *cntry = [NSString stringWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
-		Country *tmpCountry = [[Country alloc] initWithISO3:cntry database:database];
+		Country_v1 *tmpCountry = [[Country_v1 alloc] initWithISO3:cntry database:database];
 		[countries setObject:tmpCountry forKey:tmpCountry.iso2];
 		[tmpCountry release];
 		
@@ -628,7 +628,7 @@ static Database *_sharedInstance;
 	return reportsOfThisType;
 }
 
-- (void) addReportToIndex:(Report *)report
+- (void) addReportToIndex:(Report_v1 *)report
 {
 	NSMutableArray *arrayForThisType = [self reportsOfType:report.reportType];
 	
@@ -645,11 +645,11 @@ static Database *_sharedInstance;
 	
 }
 
-- (Report *) reportForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion appGrouping:(AppGrouping *)appGrouping
+- (Report_v1 *) reportForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion appGrouping:(AppGrouping *)appGrouping
 {
 	NSArray *reportsOfThisType = [self reportsOfType:reportType];
 	
-	for (Report *oneReport in reportsOfThisType)
+	for (Report_v1 *oneReport in reportsOfThisType)
 	{
 		if ([oneReport.untilDate sameDateAs:reportDate]&&(oneReport.region == reportRegion))
 		{
@@ -689,7 +689,7 @@ static Database *_sharedInstance;
 	return [NSArray  arrayWithArray:sortedArray];  // non-mutable, autoreleased
 }
 
-- (Report *) reportNewerThan:(Report *)aReport
+- (Report_v1 *) reportNewerThan:(Report_v1 *)aReport
 {
 	NSArray *sortedReports = [self sortedReportsOfType:aReport.reportType];
 	
@@ -703,7 +703,7 @@ static Database *_sharedInstance;
 	return [sortedReports objectAtIndex:currentIdx];
 }
 
-- (Report *) reportOlderThan:(Report *)aReport
+- (Report_v1 *) reportOlderThan:(Report_v1 *)aReport
 {
 	NSArray *sortedReports = [self sortedReportsOfType:aReport.reportType];
 	
@@ -718,7 +718,7 @@ static Database *_sharedInstance;
 }
 
 
-- (Report *) latestReportOfType:(ReportType)type
+- (Report_v1 *) latestReportOfType:(ReportType)type
 {
 	NSArray *tmpArray = [self sortedReportsOfType:type];
 	
@@ -782,7 +782,7 @@ static Database *_sharedInstance;
 	}
 }
 
-- (Report *) reportForID:(NSUInteger)reportID
+- (Report_v1 *) reportForID:(NSUInteger)reportID
 {
 	NSNumber *report_key = [NSNumber numberWithInt:reportID];
 	return [reports objectForKey:report_key];
@@ -811,7 +811,7 @@ static Database *_sharedInstance;
 	NSArray *allReports = [self allReports];
 	NSMutableArray *tmpArray = [NSMutableArray array];
 	
-	for (Report *oneReport in allReports)
+	for (Report_v1 *oneReport in allReports)
 	{
 		if (oneReport.appGrouping == appGrouping)
 		{
@@ -823,13 +823,13 @@ static Database *_sharedInstance;
 }
 
 
-- (Country *) countryForName:(NSString *)countryName
+- (Country_v1 *) countryForName:(NSString *)countryName
 {
 	NSArray *allKeys = [countries allKeys];
 	
 	for (NSString *oneKey in allKeys)
 	{
-		Country *oneCountry = [countries objectForKey:oneKey];
+		Country_v1 *oneCountry = [countries objectForKey:oneKey];
 		
 		if ([[oneCountry.name lowercaseString] isEqualToString:[countryName lowercaseString]])
 		{
@@ -843,7 +843,7 @@ static Database *_sharedInstance;
 }
 
 
-- (Country *) countryForCode:(NSString *)code
+- (Country_v1 *) countryForCode:(NSString *)code
 {
 	if ([code length]==2)
 	{
@@ -1042,7 +1042,7 @@ static Database *_sharedInstance;
 }
 
 
-- (AppGrouping *) appGroupingForReport:(Report *)report
+- (AppGrouping *) appGroupingForReport:(Report_v1 *)report
 {
 	if (report.appGrouping)
 	{
@@ -1097,7 +1097,7 @@ static Database *_sharedInstance;
 			if (oneGroup!=groupToMergeInto)
 			{
 				[groupToMergeInto snatchReportsFromAppGrouping:oneGroup];
-				for (Report *oneReport in [self allReports])
+				for (Report_v1 *oneReport in [self allReports])
 				{
 					if (oneReport.appGrouping == oneGroup)
 					{
@@ -1119,7 +1119,7 @@ static Database *_sharedInstance;
 
 #pragma mark Inserting
 
-- (void) insertReportIfNotDuplicate:(Report *)newReport
+- (void) insertReportIfNotDuplicate:(Report_v1 *)newReport
 {
 	if (!newReport.fromDate || !newReport.untilDate || !newReport.downloadedDate)
 	{
@@ -1127,7 +1127,7 @@ static Database *_sharedInstance;
 		return;
 	}
 	
-	Report *existingReport = [self reportForDate:newReport.untilDate type:newReport.reportType region:newReport.region appGrouping:newReport.appGrouping];
+	Report_v1 *existingReport = [self reportForDate:newReport.untilDate type:newReport.reportType region:newReport.region appGrouping:newReport.appGrouping];
 	
 	// only add it if there is no previously existing report
 	if (!existingReport)
@@ -1173,7 +1173,7 @@ static Database *_sharedInstance;
 	NSDate *fallbackDate = [dict objectForKey:@"FallbackDate"];
 	
 	// Make a report from the text, nothing added to DB yet
-	Report *newReport = [[[Report alloc] initWithReportText:text] autorelease];
+	Report_v1 *newReport = [[[Report_v1 alloc] initWithReportText:text] autorelease];
 	
 	if (!newReport.fromDate&&fallbackDate)
 	{
@@ -1237,7 +1237,7 @@ static Database *_sharedInstance;
 - (void) insertMonthlyFreeReportFromFromDict:(NSDictionary *)dict
 {
 	// Make a report from the text, nothing added to DB yet
-	Report *newReport = [[[Report alloc] initAsFreeReportWithDict:dict] autorelease];
+	Report_v1 *newReport = [[[Report_v1 alloc] initAsFreeReportWithDict:dict] autorelease];
 	GenericAccount *account = [dict objectForKey:@"Account"];
 	AppGrouping *appGrouping = [self appGroupingForReport:newReport];
 	if (appGrouping)
@@ -1258,7 +1258,7 @@ static Database *_sharedInstance;
 - (void) insertReportFromText:(NSString *)string fromAccount:(GenericAccount *)account
 {
 	// Make a report from the text, nothing added to DB yet
-	Report *newReport = [[[Report alloc] initWithReportText:string] autorelease];
+	Report_v1 *newReport = [[[Report_v1 alloc] initWithReportText:string] autorelease];
 	
 	// check for duplicate
 	AppGrouping *appGrouping = [self appGroupingForReport:newReport];
@@ -1378,7 +1378,7 @@ static Database *_sharedInstance;
 	[zip CreateZipFile2:path]; 
 	
 	
-	for (Report *oneReport in [self sortedReportsOfType:type])
+	for (Report_v1 *oneReport in [self sortedReportsOfType:type])
 	{
 		NSString *s = [oneReport reconstructText];
 		NSData *d = [s dataUsingEncoding:NSUTF8StringEncoding];
@@ -1508,7 +1508,7 @@ static Database *_sharedInstance;
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"NewAppAdded" object:nil userInfo:tmpDict];
 }
 
-- (void) sendNewReportNotification:(Report *)report
+- (void) sendNewReportNotification:(Report_v1 *)report
 {
 	NSArray *sortedReports = [self sortedReportsOfType:report.reportType];
 	
@@ -1537,7 +1537,7 @@ static Database *_sharedInstance;
 
 
 #pragma mark Notification Listening
-- (void) newReportRead:(Report *)report;
+- (void) newReportRead:(Report_v1 *)report;
 {
 	if (!report.isNew)
 	{
@@ -1581,7 +1581,7 @@ static Database *_sharedInstance;
 	NSMutableString *tmpStr = [NSMutableString string];
 	
 	NSMutableArray *tmpReports = [self reportsOfType:reportType];
-	for (Report *oneReport in tmpReports)
+	for (Report_v1 *oneReport in tmpReports)
 	{
 		NSString *stub = [oneReport stubAsString];
 		

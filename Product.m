@@ -8,8 +8,8 @@
 
 #import "Product.h"
 
-#import "AppGrouping.h"
-#import "CountrySummary.h"
+#import "ProductGroup.h"
+#import "ReportSummary.h"
 #import "Review.h"
 #import "Sale.h"
 

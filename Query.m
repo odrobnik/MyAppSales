@@ -7,7 +7,7 @@
 //
 
 #import "Query.h"
-#import "Report.h"
+#import "Report_v1.h"
 #import "YahooFinance.h"
 #import "App.h"
 

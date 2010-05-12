@@ -10,13 +10,13 @@
 #import "ASiSTAppDelegate.h"
 #import "YahooFinance.h"
 #import "ReviewDownloaderOperation.h"
-#import "Review.h"
+#import "Review_v1.h"
 #import "Database.h"
-#import "Country.h"
+#import "Country_v1.h"
 #import "SynchingManager.h"
 
 #import "App.h"
-#import "Report.h"
+#import "Report_v1.h"
 #import "NSString+Helpers.h"
 
 
@@ -508,7 +508,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		
 		BOOL didUpdate = NO;
 		
-		Report *newReport = [tmpDict objectForKey:@"Report"];
+		Report_v1 *newReport = [tmpDict objectForKey:@"Report"];
 		
 		// we're only summing daily reports
 		if (newReport.reportType != ReportTypeDay) return;
@@ -520,7 +520,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 			sumsByCurrency = [[NSMutableDictionary alloc] init];
 		}
 		
-		for (Sale *oneSale in mySales)
+		for (Sale_v1 *oneSale in mySales)
 		{
 			if (oneSale.transactionType == TransactionTypeSale || oneSale.transactionType == TransactionTypeIAP)
 			{

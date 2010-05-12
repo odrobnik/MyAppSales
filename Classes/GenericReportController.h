@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class Report, App;
+@class Report_v1, App;
 
 @interface GenericReportController : UITableViewController {
-	Report *report;
+	Report_v1 *report;
 	UIImage *sumImage;
 	App *filteredApp;
 	
@@ -21,7 +21,7 @@
 	NSArray *sortedProducts;
 }
 
-- (id) initWithReport:(Report *)aReport;
+- (id) initWithReport:(Report_v1 *)aReport;
 
 @property (nonatomic, retain) App *filteredApp;
 

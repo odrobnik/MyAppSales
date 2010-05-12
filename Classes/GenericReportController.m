@@ -7,9 +7,9 @@
 //
 
 #import "GenericReportController.h"
-#import "Report.h"
-#import "Sale.h"
-#import "Country.h"
+#import "Report_v1.h"
+#import "Sale_v1.h"
+#import "Country_v1.h"
 #import "App.h"
 #import "InAppPurchase.h"
 #import "ASiSTAppDelegate.h"
@@ -22,7 +22,7 @@
 
 @synthesize filteredApp;
 
-- (id) initWithReport:(Report *)aReport
+- (id) initWithReport:(Report_v1 *)aReport
 {
 	if (self = [super initWithStyle:UITableViewStylePlain]) {
 		report = aReport;

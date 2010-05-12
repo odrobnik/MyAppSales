@@ -10,9 +10,9 @@
 #import "ASiSTAppDelegate.h"
 #import "YahooFinance.h"
 #import "ReviewDownloaderOperation.h"
-#import "Review.h"
+#import "Review_v1.h"
 #import "Database.h"
-#import "Country.h"
+#import "Country_v1.h"
 #import "SynchingManager.h"
 
 #import "App.h"

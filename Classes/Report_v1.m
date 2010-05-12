@@ -6,14 +6,14 @@
 //  Copyright 2008 drobnik.com. All rights reserved.
 //
 
-#import "Report.h"
-#import "Sale.h"
+#import "Report_v1.h"
+#import "Sale_v1.h"
 #import "CountrySummary.h"
 #import "App.h"
 #import "Product_v1.h"
 #import "InAppPurchase.h"
 #import "InAppPurchase.h"
-#import "Country.h"
+#import "Country_v1.h"
 #import "Database.h"
 
 #import "YahooFinance.h"
@@ -36,14 +36,14 @@ static sqlite3_stmt *delete_statement = nil;
 static sqlite3_stmt *hydrate_statement = nil;
 //static sqlite3_stmt *dehydrate_statement = nil;
 
-@interface Report ()  // private
+@interface Report_v1 ()  // private
 
 -(void)resetSummaries;
-- (void) addSaleToSummaries:(Sale *)oneSale;
+- (void) addSaleToSummaries:(Sale_v1 *)oneSale;
 
 @end
 
-@implementation Report
+@implementation Report_v1
 
 @synthesize isNew, sales, salesByApp, summariesByApp;
 @synthesize sumUnitsSold,sumUnitsUpdated,sumUnitsRefunded, sumUnitsFree;
@@ -266,7 +266,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 			
 			if (fromDateIn&&untilDateIn&&appID&&vendor_identifier&&company_name&&title&&type_id&&units&&royalty_currency&&customer_currency&&country_code)
 			{
-				Country *saleCountry = [DB countryForCode:country_code];
+				Country_v1 *saleCountry = [DB countryForCode:country_code];
 				saleCountry.usedInReport = YES; // makes sure we have an icon
 				
 				App *saleApp = [DB appForID:appID];
@@ -291,7 +291,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 				
 				
 				// add sale
-				Sale *newSale = [[Sale alloc] initWithCountry:saleCountry 
+				Sale_v1 *newSale = [[Sale_v1 alloc] initWithCountry:saleCountry 
 													   report:self 
 													  product:saleApp 
 														units:units 
@@ -411,7 +411,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 			// if all columns have a value then we accept the line
 			if (from_date&&until_date&&appID&&vendor_identifier&&company_name&&title&&type_id&&units&&royalty_currency&&customer_currency&&country_code)
 			{
-				Country *saleCountry = [DB countryForCode:country_code];
+				Country_v1 *saleCountry = [DB countryForCode:country_code];
 				
 				saleCountry.usedInReport = YES; // makes sure we have an icon
 				
@@ -483,7 +483,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 				}
 				
 				// add sale
-				Sale *newSale = [[Sale alloc] initWithCountry:saleCountry 
+				Sale_v1 *newSale = [[Sale_v1 alloc] initWithCountry:saleCountry 
 													   report:self 
 													  product:saleProduct 
 														units:units 
@@ -587,7 +587,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		primaryKey = sqlite3_last_insert_rowid(database);
 		
 		// add sales too
-		for (Sale *oneSale in sales)
+		for (Sale_v1 *oneSale in sales)
 		{
 			[oneSale insertIntoDatabase:database];
 		}
@@ -722,7 +722,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		double customer_price = (double)sqlite3_column_double(hydrate_statement, 6);
 		NSString *customer_currency = [NSString stringWithUTF8String:(char *)sqlite3_column_text(hydrate_statement, 7)];
 		
-		Country *country = [DB countryForCode:cntry_code];
+		Country_v1 *country = [DB countryForCode:cntry_code];
 		country.usedInReport = YES; // makes sure we have an icon
 		
 		// detect region for financial reports
@@ -752,7 +752,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		if (saleProduct)
 		{
 			
-			Sale *tmpSale = [[Sale alloc] initWithCountry:country report:self product:saleProduct units:units royaltyPrice:royalty_price royaltyCurrency:royalty_currency customerPrice:customer_price customerCurrency:customer_currency transactionType:ttype];
+			Sale_v1 *tmpSale = [[Sale_v1 alloc] initWithCountry:country report:self product:saleProduct units:units royaltyPrice:royalty_price royaltyCurrency:royalty_currency customerPrice:customer_price customerCurrency:customer_currency transactionType:ttype];
 			
 			[sales addObject:tmpSale];
 			
@@ -997,7 +997,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	[ret appendString:@"Provider	Provider Country	Vendor Identifier	UPC	ISRC	Artist / Show	Title / Episode / Season	Label/Studio/Network	Product Type Identifier	Units	Royalty Price	Begin Date	End Date	Customer Currency	Country Code	Royalty Currency	Preorder	Season Pass	ISAN	Apple Identifier	Customer Price	CMA	Asset/Content Flavor	Vendor Offer Code	Grid	Promo Code	Parent Identifier\r\n"];
 	
 	NSEnumerator *enu = [sales objectEnumerator];
-	Sale *oneSale;
+	Sale_v1 *oneSale;
 	
 	NSDateFormatter *df = [[NSDateFormatter alloc] init];
 	[df setDateFormat:@"MM/dd/yyyy"];
@@ -1063,7 +1063,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	sumUnitsRefunded = 0;
 }
 
-- (void) addSaleToSummaries:(Sale *)oneSale
+- (void) addSaleToSummaries:(Sale_v1 *)oneSale
 {
 	// get or create app 
 	NSNumber *productKey = [oneSale.product identifierAsNumber];
@@ -1154,7 +1154,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	
 	// go through all sales
 	
-	for (Sale *oneSale in sales)
+	for (Sale_v1 *oneSale in sales)
 	{
 		[self addSaleToSummaries:oneSale];
 	}
@@ -1181,7 +1181,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	if (tmpArray)
 	{
 		NSEnumerator *en = [tmpArray objectEnumerator];
-		Sale *aSale;
+		Sale_v1 *aSale;
 		
 		while (aSale = [en nextObject]) 
 		{
@@ -1223,7 +1223,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	if (tmpArray)
 	{
 		NSEnumerator *en = [tmpArray objectEnumerator];
-		Sale *aSale;
+		Sale_v1 *aSale;
 		
 		while (aSale = [en nextObject]) 
 		{
@@ -1259,7 +1259,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	{
 		
 		NSEnumerator *en = [tmpArray objectEnumerator];
-		Sale *aSale;
+		Sale_v1 *aSale;
 		
 		while (aSale = [en nextObject]) 
 		{
@@ -1321,7 +1321,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	{
 		
 		NSEnumerator *en = [tmpArray objectEnumerator];
-		Sale *aSale;
+		Sale_v1 *aSale;
 		
 		while (aSale = [en nextObject]) 
 		{
@@ -1575,7 +1575,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 }
 
 #pragma mark Sorting
-- (NSComparisonResult)compareByReportDateDesc:(Report *)otherObject
+- (NSComparisonResult)compareByReportDateDesc:(Report_v1 *)otherObject
 {
 	NSTimeInterval diff = [fromDate timeIntervalSinceDate:otherObject.fromDate];
 	if (diff<0)

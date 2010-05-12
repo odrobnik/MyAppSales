@@ -9,8 +9,8 @@
 #import "AppViewController.h"
 #import "ASiSTAppDelegate.h"
 #import "App.h"
-#import "Sale.h"
-#import "Report.h"
+#import "Sale_v1.h"
+#import "Report_v1.h"
 #import "AppCell.h"
 
 #import "AppDetailViewController.h"

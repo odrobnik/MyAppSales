@@ -21,7 +21,7 @@
 #import "MyHTTPConnection.h"
 #import "localhostAdresses.h"
 
-#import "Report.h"
+#import "Report_v1.h"
 #import "YahooFinance.h"
 
 #import "Query.h"
@@ -31,7 +31,7 @@
 #import "AccountManager.h"
 #import "GenericAccount.h"
 #import "GenericAccount+MyAppSales.h"
-#import "Country.h"
+#import "Country_v1.h"
 #import "App.h"
 
 
@@ -73,7 +73,7 @@
 		
 		for (NSString *oneKey in allKeys)
 		{
-			Country *oneCountry = [countries objectForKey:oneKey];
+			Country_v1 *oneCountry = [countries objectForKey:oneKey];
 			if (oneCountry.appStoreID)
 			{
 				[[SynchingManager sharedInstance] scrapeForApp:oneApp country:oneCountry delegate:oneApp];
@@ -104,7 +104,7 @@
 			
 			NSDate *tmpDate = [[options objectForKey:@"report_date"] dateFromString];
 			ReportType reportType = [[options objectForKey:@"type"] intValue];
-			Report *oneReport = [[Database sharedInstance] reportForDate:tmpDate type:reportType region:[[options objectForKey:@"region"] intValue] appGrouping:nil];
+			Report_v1 *oneReport = [[Database sharedInstance] reportForDate:tmpDate type:reportType region:[[options objectForKey:@"region"] intValue] appGrouping:nil];
 
 			if (oneReport)
 			{
@@ -240,7 +240,7 @@
 		//itts = [[iTunesConnect alloc] initWithAccount:[acc.accounts objectAtIndex:0]];
 		
 		// only auto-sync if we did not already download a daily report today
-		Report *lastDailyReport = [[Database sharedInstance] latestReportOfType:ReportTypeDay];
+		Report_v1 *lastDailyReport = [[Database sharedInstance] latestReportOfType:ReportTypeDay];
 		if (forceSynch || ![lastDailyReport.downloadedDate sameDateAs:[NSDate date]])
 		{
 			for (GenericAccount *oneAccount in itunesAccounts)

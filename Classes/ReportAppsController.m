@@ -8,9 +8,9 @@
 
 #import "ReportAppsController.h"
 #import "GenericReportController.h"
-#import "Report.h"
-#import "Sale.h"
-#import "Country.h"
+#import "Report_v1.h"
+#import "Sale_v1.h"
+#import "Country_v1.h"
 #import "App.h"
 #import "ASiSTAppDelegate.h"
 #import "YahooFinance.h"
@@ -21,7 +21,7 @@
 
 @synthesize report;
 
-- (void) setReport:(Report *)activeReport
+- (void) setReport:(Report_v1 *)activeReport
 {
 	report = activeReport;
 	
@@ -48,7 +48,7 @@
 }
 
 
-- (id) initWithReport:(Report *)aReport
+- (id) initWithReport:(Report_v1 *)aReport
 {
 	if (self = [super initWithStyle:UITableViewStyleGrouped]) 
 	{
@@ -547,12 +547,12 @@
 	
 	if (segmentedControl.selectedSegmentIndex == 0)
 	{
-		Report *newReport = [[Database sharedInstance] reportNewerThan:report];
+		Report_v1 *newReport = [[Database sharedInstance] reportNewerThan:report];
 		[self setReport:newReport];
 	}
 	else
 	{
-		Report *newReport = [[Database sharedInstance] reportOlderThan:report];
+		Report_v1 *newReport = [[Database sharedInstance] reportOlderThan:report];
 		[self setReport:newReport];
 	}
 }

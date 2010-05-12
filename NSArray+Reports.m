@@ -12,9 +12,9 @@
 
 @implementation NSArray (Reports)
 
-- (Report *)reportBySearchingForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion
+- (Report_v1 *)reportBySearchingForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion
 {
-	for (Report *oneReport in self)
+	for (Report_v1 *oneReport in self)
 	{
 		if ((oneReport.reportType == reportType)&&([oneReport.untilDate sameDateAs:reportDate])&&(oneReport.region == reportRegion))
 		{

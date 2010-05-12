@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Sale.h"
+#import "Sale_v1.h"
 #import "Database.h"
 #import "AppGrouping.h"
 #import "CountrySummary.h"
 
-@interface Report : NSObject 
+@interface Report_v1 : NSObject 
 {
 	NSUInteger primaryKey;
 	ReportType reportType;
@@ -137,7 +137,7 @@
 - (void) dehydrate;
 
 
-- (NSComparisonResult)compareByReportDateDesc:(Report *)otherObject;
+- (NSComparisonResult)compareByReportDateDesc:(Report_v1 *)otherObject;
 - (NSUInteger) day;
 
 - (NSDate *)dateInMiddleOfReport;

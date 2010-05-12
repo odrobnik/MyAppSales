@@ -8,8 +8,8 @@
 
 #import "AppDetailViewController.h"
 #import "App.h"
-#import "Review.h"
-#import "Country.h"
+#import "Review_v1.h"
+#import "Country_v1.h"
 #import "ReviewCell.h"
 #import "SynchingManager.h"
 
@@ -174,7 +174,7 @@
     }
     
     // Set up the cell...
-	Review *rowReview = [sortedReviews objectAtIndex:indexPath.row];
+	Review_v1 *rowReview = [sortedReviews objectAtIndex:indexPath.row];
 	
 	if (rowReview.translated_review)
 	{
@@ -241,7 +241,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {	
-	Review *review = [sortedReviews objectAtIndex:indexPath.row];
+	Review_v1 *review = [sortedReviews objectAtIndex:indexPath.row];
 	
 	UIFont *font = [UIFont systemFontOfSize:12];
 	CGRect contentRect = self.tableView.bounds;

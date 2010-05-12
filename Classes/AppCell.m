@@ -9,7 +9,7 @@
 #import "AppCell.h"
 #import "App.h"
 #import "ASiSTAppDelegate.h"
-#import "Report.h"
+#import "Report_v1.h"
 #import "YahooFinance.h"
 #import "BadgeView.h"
 

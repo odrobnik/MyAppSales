@@ -8,7 +8,7 @@
 
 #import "ReportViewController.h"
 #import "ASiSTAppDelegate.h"
-#import "Report.h"
+#import "Report_v1.h"
 #import "Database.h"
 //#import "GenericReportController.h"
 #import "ReportAppsController.h"
@@ -155,7 +155,7 @@
 	if(notification)
 	{
 		NSDictionary *tmpDict = [notification userInfo];
-		Report *report = [tmpDict objectForKey:@"Report"];
+		Report_v1 *report = [tmpDict objectForKey:@"Report"];
 		
 		if (report.reportType == report_type)
 		{	
@@ -215,7 +215,7 @@
 					// find index to insert to
 					
 					NSEnumerator *enu = [monthArray objectEnumerator];
-					Report *oneReport;
+					Report_v1 *oneReport;
 					NSUInteger reportIdx = 0;
 					
 					while ((oneReport = [enu nextObject])&&([report compareByReportDateDesc:oneReport]==NSOrderedDescending)) {
@@ -289,7 +289,7 @@
 		NSString *key = [indexByYearMonthSortedKeys objectAtIndex:section];
 		NSArray *monthArray = [indexByYearMonth objectForKey:key];
 		
-		Report *tmpReport = [monthArray objectAtIndex:0];
+		Report_v1 *tmpReport = [monthArray objectAtIndex:0];
 		
 		
 		NSDateFormatter *dateFormat = [[[NSDateFormatter alloc] init] autorelease];
@@ -371,7 +371,7 @@
     static NSString *CellIdentifier = @"Cell";
     
     
-	Report *tmpReport;
+	Report_v1 *tmpReport;
 	
 	if (report_type==99)  // disabled
 	{
@@ -464,7 +464,7 @@
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	Report *tmpReport;
+	Report_v1 *tmpReport;
 	
 	if (report_type==ReportTypeDay)
 	{
@@ -536,7 +536,7 @@
 							  initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
 	
 	
-	for (Report *oneReport in report_array)
+	for (Report_v1 *oneReport in report_array)
 	{
 		// sort it into the correct month
 		NSDateComponents *dayComps = [gregorian components:NSMonthCalendarUnit|NSYearCalendarUnit fromDate:oneReport.fromDate];
@@ -568,7 +568,7 @@
 
 #pragma mark Direct Navigation
 
-- (void)gotoReport:(Report *)reportToShow
+- (void)gotoReport:(Report_v1 *)reportToShow
 {
 	ReportAppsController *reportAppsController = [[ReportAppsController alloc] initWithReport:reportToShow];
 	[self.navigationController pushViewController:reportAppsController animated:YES];

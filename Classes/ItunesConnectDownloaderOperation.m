@@ -96,7 +96,7 @@
 	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
 	[df setDateFormat:@"MMYY"];
 	
-	for (Report *oneReport in reportsToIgnore)
+	for (Report_v1 *oneReport in reportsToIgnore)
 	{
 		if (oneReport.reportType == ReportTypeFinancial)
 		{

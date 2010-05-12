@@ -14,8 +14,8 @@
 #import "NotificationsSubscribeOperation.h"
 #import "Database.h"
 #import "ASiSTAppDelegate.h"
-#import "Review.h"
-#import "Country.h"
+#import "Review_v1.h"
+#import "Country_v1.h"
 #import "GenericAccount+MyAppSales.h"
 
 @implementation SynchingManager
@@ -89,7 +89,7 @@ static SynchingManager * _sharedInstance;
 #pragma mark iTunes Reviews
 
 
-- (void) scrapeForApp:(App *)reviewApp country:(Country *)reviewCountry delegate:(id<ReviewScraperDelegate>)scraperDelegate
+- (void) scrapeForApp:(App *)reviewApp country:(Country_v1 *)reviewCountry delegate:(id<ReviewScraperDelegate>)scraperDelegate
 {
 	ReviewDownloaderOperation *wu = [[ReviewDownloaderOperation alloc] initForApp:reviewApp country:reviewCountry delegate:scraperDelegate];
 	wu.delegate = self;
@@ -165,7 +165,7 @@ static SynchingManager * _sharedInstance;
 
 
 // Translation Downloader
-- (void) translateReview:(Review *)review delegate:(id<TranslationScraperDelegate>)scraperDelegate
+- (void) translateReview:(Review_v1 *)review delegate:(id<TranslationScraperDelegate>)scraperDelegate
 {
 	NSString *translationLanguage = [[NSUserDefaults standardUserDefaults] objectForKey:@"ReviewTranslation"];
 	

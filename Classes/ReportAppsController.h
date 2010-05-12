@@ -8,19 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@class Report;
+@class Report_v1;
 
 @interface ReportAppsController : UITableViewController {
-	Report *report;
+	Report_v1 *report;
 	UIImage *sumImage;
 	
 	UISegmentedControl *segmentedControl;
 	NSArray *sortedApps;
 }
 
-@property (nonatomic, retain) Report *report;
+@property (nonatomic, retain) Report_v1 *report;
 
 
-- (id)initWithReport:(Report *)aReport;
+- (id)initWithReport:(Report_v1 *)aReport;
 
 @end

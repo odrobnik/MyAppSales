@@ -15,7 +15,7 @@
 
 @class   HTTPServer, YahooFinance;
 
-@class iTunesConnect, AppViewController, ReportRootController, SettingsViewController, Report, KeychainWrapper, App, StatusInfoController, Account;
+@class iTunesConnect, AppViewController, ReportRootController, SettingsViewController, Report_v1, KeychainWrapper, App, StatusInfoController, Account;
 
 @interface ASiSTAppDelegate : NSObject <UIApplicationDelegate, PinLockDelegate> {
     

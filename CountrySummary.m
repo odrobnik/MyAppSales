@@ -7,13 +7,13 @@
 //
 
 #import "CountrySummary.h"
-#import "Country.h"
+#import "Country_v1.h"
 
 @implementation CountrySummary
 
 @synthesize country,sumSales,sumUpdates,sumRefunds, royaltyCurrency, sumRoyalites;
 
-- (id)initWithCountry:(Country *)cntry sumSales:(NSInteger)sales sumUpdates:(NSInteger)updates sumRefunds:(NSInteger)refunds
+- (id)initWithCountry:(Country_v1 *)cntry sumSales:(NSInteger)sales sumUpdates:(NSInteger)updates sumRefunds:(NSInteger)refunds
 {
 	if (self = [super init]) 
 	{

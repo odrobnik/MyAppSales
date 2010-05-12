@@ -8,8 +8,8 @@
 
 #import <CoreData/CoreData.h>
 
-@class AppGrouping;
-@class CountrySummary;
+@class ProductGroup;
+@class ReportSummary;
 @class Review;
 @class Sale;
 
@@ -27,7 +27,7 @@
 @property (nonatomic, retain) NSString * companyName;
 @property (nonatomic, retain) NSNumber * totalRoyalties;
 @property (nonatomic, retain) Product * parent;
-@property (nonatomic, retain) AppGrouping * productGroup;
+@property (nonatomic, retain) ProductGroup * productGroup;
 @property (nonatomic, retain) NSSet* reviews;
 @property (nonatomic, retain) NSSet* children;
 @property (nonatomic, retain) NSSet* sales;
@@ -52,8 +52,8 @@
 - (void)addSales:(NSSet *)value;
 - (void)removeSales:(NSSet *)value;
 
-- (void)addSummariesObject:(CountrySummary *)value;
-- (void)removeSummariesObject:(CountrySummary *)value;
+- (void)addSummariesObject:(ReportSummary *)value;
+- (void)removeSummariesObject:(ReportSummary *)value;
 - (void)addSummaries:(NSSet *)value;
 - (void)removeSummaries:(NSSet *)value;
 

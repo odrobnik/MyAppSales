@@ -8,9 +8,9 @@
 
 #import "ReviewDownloaderOperation.h"
 #import "NSDictionary+Helpers.h"
-#import "Review.h"
+#import "Review_v1.h"
 #import "App.h"
-#import "Country.h"
+#import "Country_v1.h"
 
 #import "NSString+Helpers.h"
 
@@ -27,7 +27,7 @@
 @synthesize app, country, delegate;
 
 
-- (id) initForApp:(App *)reviewApp country:(Country *)reviewCountry delegate:(NSObject <ReviewScraperDelegate> *) scrDelegate
+- (id) initForApp:(App *)reviewApp country:(Country_v1 *)reviewCountry delegate:(NSObject <ReviewScraperDelegate> *) scrDelegate
 {
 	if (self = [super init])
 	{
@@ -223,7 +223,7 @@
 			double stars = [reviewRating doubleValue]/5.0;
 			
 			
-			Review *newReview = [[Review alloc] initWithApp:app country:country title:[reviewTitle stringByUrlDecoding]
+			Review_v1 *newReview = [[Review_v1 alloc] initWithApp:app country:country title:[reviewTitle stringByUrlDecoding]
 													   name:reviewName version:onlyVersion 
 													   date:reviewDate 
 													 review:[reviewText stringByUrlDecoding] 
@@ -377,7 +377,7 @@
 				
 				double stars = [[oneReview objectForKey:@"average-user-rating"] doubleValue];
 				
-				Review *newReview = [[Review alloc] initWithApp:app country:country title:title name:user version:version date:reviewDate review:review stars:stars];
+				Review_v1 *newReview = [[Review_v1 alloc] initWithApp:app country:country title:title name:user version:version date:reviewDate review:review stars:stars];
 				
 				[scrapedReviews addObject:newReview];
 				[newReview release];

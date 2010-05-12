@@ -13,10 +13,10 @@
 #import "ASiSTAppDelegate.h"
 #import "YahooFinance.h"
 #import "ReviewDownloaderOperation.h"
-#import "Review.h"
+#import "Review_v1.h"
 #import "Database.h"
-#import "Country.h"
-#import "Report.h"
+#import "Country_v1.h"
+#import "Report_v1.h"
 #import "SynchingManager.h"
 #import "DDData.h"
 
@@ -420,7 +420,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	}
 }
 
-- (void)addReview:(Review *)newReview
+- (void)addReview:(Review_v1 *)newReview
 {
 	[reviews addObject:newReview];
 	[reviewsByNameVersion setObject:newReview forKey:[newReview compoundKey]];
@@ -440,7 +440,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	
 	for (NSString *oneLine in lines)
 	{
-		Review *decodedReview = [[Review alloc] initWithString:oneLine];
+		Review_v1 *decodedReview = [[Review_v1 alloc] initWithString:oneLine];
 		
 		if (decodedReview)
 		{
@@ -489,7 +489,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 			{
 				if (!(loadReviewsInStages&&i>=10))
 				{
-					Review *decodedReview = [[Review alloc] initWithString:oneLine];
+					Review_v1 *decodedReview = [[Review_v1 alloc] initWithString:oneLine];
 					
 					if (decodedReview)
 					{
@@ -537,7 +537,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		{
 			NSUInteger review_id = sqlite3_column_int(reviews_statement, 0);
 			
-			Review *loadedReview = [[Review alloc] initWithPrimaryKey:review_id database:database];
+			Review_v1 *loadedReview = [[Review_v1 alloc] initWithPrimaryKey:review_id database:database];
 			
 			if (loadedReview)
 			{
@@ -682,7 +682,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		
 		for (int i=0; i<reportsToAvg; i++)
 		{
-			Report *report = [sortedReports objectAtIndex:i];
+			Report_v1 *report = [sortedReports objectAtIndex:i];
 			
 			double appRoyalites = [report sumRoyaltiesForProduct:self transactionType:TransactionTypeSale];  // in EUR
 			double iapRoyalites = [report sumRoyaltiesForInAppPurchasesOfApp:self];  // in EUR
@@ -716,7 +716,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 
 #pragma mark ReviewScraper
 
-- (Review *)reviewExists:(Review *)searchReview
+- (Review_v1 *)reviewExists:(Review_v1 *)searchReview
 {
 	return [reviewsByNameVersion objectForKey:[searchReview compoundKey]];
 }
@@ -725,9 +725,9 @@ static NSDateFormatter *dateFormatterToRead = nil;
 - (void) didFinishRetrievingReviews:(NSArray *)scrapedReviews;
 {
 	BOOL modifiedReviews = NO;
-	for (Review *oneReview in scrapedReviews)
+	for (Review_v1 *oneReview in scrapedReviews)
 	{
-		Review *existingReview = [self reviewExists:oneReview];
+		Review_v1 *existingReview = [self reviewExists:oneReview];
 		
 		if (existingReview)
 		{
@@ -785,7 +785,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 
 - (void) removeReviewTranslations
 {
-	for (Review *oneReview in self.reviews)
+	for (Review_v1 *oneReview in self.reviews)
 	{
 		oneReview.translated_review = nil;
 		//[oneReview updateDatabase]; // unnecessary
@@ -804,7 +804,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	
 	for (NSString *oneKey in allKeys)
 	{
-		Country *oneCountry = [countries objectForKey:oneKey];
+		Country_v1 *oneCountry = [countries objectForKey:oneKey];
 		if (oneCountry.appStoreID)
 		{
 			if (oneCountry.appStoreID == 143441)
@@ -817,7 +817,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 {
 	NSMutableString *tmpString = [NSMutableString string];
 	
-	for (Review *oneReview in self.reviews)
+	for (Review_v1 *oneReview in self.reviews)
 	{
 		[tmpString appendString:[oneReview stringAsHTML]];
 	}
@@ -842,7 +842,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	// we cache them in the same order the view display it
 	NSArray *sortedReviews = [reviews sortedArrayUsingSelector:@selector(compareByReviewDate:)];
 	
-	for (Review *oneReview in sortedReviews)
+	for (Review_v1 *oneReview in sortedReviews)
 	{
 		NSString *stub = [oneReview encodedAsString];
 		
