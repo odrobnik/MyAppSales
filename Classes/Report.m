@@ -1198,7 +1198,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 - (NSInteger) sumRefundsForProduct:(Product *)product
 {
 	NSArray *tmpArray;
-	TransactionType ttype;
+	TransactionType ttype = 0;
 	
 	if ([product isKindOfClass:[App class]])
 	{
