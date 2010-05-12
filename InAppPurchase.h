@@ -13,7 +13,7 @@
 @class App;
 
 
-@interface InAppPurchase : Product 
+@interface InAppPurchase : Product_v1 
 {
 	// additions
 	App *parent;

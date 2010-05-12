@@ -39,14 +39,14 @@ static sqlite3_stmt *total_statement = nil;
 static NSDateFormatter *dateFormatterToRead = nil;
 
 
-@interface Product ()
+@interface Product_v1 ()
 
 - (void) getTotalsFromCacheIfPossible:(BOOL)canUseCache;
 @end
 
 
 
-@implementation Product
+@implementation Product_v1
 @synthesize isNew, averageRoyaltiesPerDay, apple_identifier, totalRoyalties, totalUnits;
 
 - (id)init
@@ -296,7 +296,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 
 
 #pragma mark Sorting
-- (NSComparisonResult)compareBySales:(Product *)otherProduct
+- (NSComparisonResult)compareBySales:(Product_v1 *)otherProduct
 {
 	if (self.totalRoyalties < otherProduct.totalRoyalties)
 	{

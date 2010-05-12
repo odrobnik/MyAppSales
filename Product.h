@@ -11,7 +11,7 @@
 
 @class App;
 
-@interface Product : NSObject {
+@interface Product_v1 : NSObject {
 	// fields
 	NSString *title;
 	NSString *vendor_identifier;
@@ -61,7 +61,7 @@
 @property (assign, readonly, nonatomic) int totalUnits;
 
 
-- (NSComparisonResult)compareBySales:(Product *)otherIAP;
+- (NSComparisonResult)compareBySales:(Product_v1 *)otherIAP;
 
 
 //- (void) updateTotalsFromDict:(NSDictionary *)totalsDict;

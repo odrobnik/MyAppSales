@@ -193,7 +193,7 @@
 	// we don't filter
 	if (section)
 	{
-		Product *sectionProduct= [sortedProducts objectAtIndex:section - 1];  // minus one because of totals section
+		Product_v1 *sectionProduct= [sortedProducts objectAtIndex:section - 1];  // minus one because of totals section
 		
 		
 		NSArray *thisArray = [report.summariesByApp objectForKey:[sectionProduct identifierAsNumber]];
@@ -547,7 +547,7 @@
 		NSArray *allProducts = [DB productsSortedBySalesForGrouping:report.appGrouping];
 		NSMutableArray *filteredProducts = [NSMutableArray array];
 		
-		for (Product *oneProduct in allProducts)
+		for (Product_v1 *oneProduct in allProducts)
 		{
 			if ((oneProduct == app)||([oneProduct isKindOfClass:[InAppPurchase class]]&&((InAppPurchase *)oneProduct).parent == app))
 			{
@@ -581,7 +581,7 @@
 		NSArray *allProducts = [DB productsSortedBySalesForGrouping:report.appGrouping];
 		NSMutableArray *filteredProducts = [NSMutableArray array];
 		
-		for (Product *oneProduct in allProducts)
+		for (Product_v1 *oneProduct in allProducts)
 		{
 			if ((oneProduct == app)||([oneProduct isKindOfClass:[InAppPurchase class]]&&((InAppPurchase *)oneProduct).parent == app))
 			{

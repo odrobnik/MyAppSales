@@ -14,7 +14,7 @@
 
 
 
-@interface App : Product <ReviewScraperDelegate> {
+@interface App : Product_v1 <ReviewScraperDelegate> {
 	NSMutableArray *reviews;
 	NSMutableDictionary *reviewsByNameVersion;
 	NSUInteger countNewReviews;

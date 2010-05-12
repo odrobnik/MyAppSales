@@ -425,7 +425,7 @@ static Database *_sharedInstance;
 			
 			if (report)
 			{
-				AppGrouping *grouping = [self appGroupingForProduct:(Product *)report];
+				AppGrouping *grouping = [self appGroupingForProduct:(Product_v1 *)report];
 				
 				if (grouping)
 				{
@@ -980,7 +980,7 @@ static Database *_sharedInstance;
 	
 	
 	while (oneKey = [enu nextObject]) {
-		Product *oneProduct = [combinedAppAndIAP objectForKey:oneKey];
+		Product_v1 *oneProduct = [combinedAppAndIAP objectForKey:oneKey];
 		
 		if ([self appGroupingForProduct:oneProduct]==grouping)
 		{
@@ -1017,7 +1017,7 @@ static Database *_sharedInstance;
 	return nil;
 }
 
-- (AppGrouping *) appGroupingForProduct:(Product *)product
+- (AppGrouping *) appGroupingForProduct:(Product_v1 *)product
 {
 	NSSet *checkSet;
 	

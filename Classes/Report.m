@@ -415,15 +415,15 @@ static sqlite3_stmt *hydrate_statement = nil;
 				
 				saleCountry.usedInReport = YES; // makes sure we have an icon
 				
-				Product *saleProduct;
+				Product_v1 *saleProduct;
 				
 				if (type_id==1 || type_id==7)
 				{
-					saleProduct = (Product *)[DB appForID:appID];
+					saleProduct = (Product_v1 *)[DB appForID:appID];
 					
 					if (!saleProduct)
 					{
-						saleProduct = (Product *)[DB insertAppWithTitle:title vendor_identifier:vendor_identifier apple_identifier:appID company_name:company_name];
+						saleProduct = (Product_v1 *)[DB insertAppWithTitle:title vendor_identifier:vendor_identifier apple_identifier:appID company_name:company_name];
 					}
 					
 					if (![tmpAppsInReport containsObject:saleProduct])
@@ -731,7 +731,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 			region = [country reportRegion];
 		}
 		
-		Product *saleProduct = nil;
+		Product_v1 *saleProduct = nil;
 		
 		if (ttype == 1 || ttype == 7)
 		{
@@ -1163,7 +1163,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 
 
 #pragma mark Sums
-- (NSInteger) sumUnitsForProduct:(Product *)product transactionType:(TransactionType)ttype
+- (NSInteger) sumUnitsForProduct:(Product_v1 *)product transactionType:(TransactionType)ttype
 {
 	NSArray *tmpArray;
 	
@@ -1195,7 +1195,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	return ret;
 }
 
-- (NSInteger) sumRefundsForProduct:(Product *)product
+- (NSInteger) sumRefundsForProduct:(Product_v1 *)product
 {
 	NSArray *tmpArray;
 	TransactionType ttype = 0;
@@ -1240,7 +1240,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	return ret;
 }
 
-- (double) sumRoyaltiesForProduct:(Product *)product transactionType:(TransactionType)ttype
+- (double) sumRoyaltiesForProduct:(Product_v1 *)product transactionType:(TransactionType)ttype
 {
 	NSArray *tmpArray;
 	

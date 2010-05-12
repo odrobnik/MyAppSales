@@ -14,7 +14,7 @@
 typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, ReportTypeFree = 3, ReportTypeUnknown = 99 } ReportType;
 typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope = 2, ReportRegionCanada = 3, ReportRegionAustralia = 4, ReportRegionUK = 5, ReportRegionJapan = 6, ReportRegionRestOfWorld = 7} ReportRegion;
 
-@class App, InAppPurchase, Product, Report, Country, AppGrouping, GenericAccount;
+@class App, InAppPurchase, Product_v1, Report, Country, AppGrouping, GenericAccount;
 
 @interface Database : NSObject 
 {
@@ -60,7 +60,7 @@ typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope 
 - (NSArray *) allReportsWithAppGrouping:(AppGrouping *)appGrouping;
 
 - (AppGrouping *) appGroupingForID:(NSInteger)groupingID;
-- (AppGrouping *) appGroupingForProduct:(Product *)product;
+- (AppGrouping *) appGroupingForProduct:(Product_v1 *)product;
 - (AppGrouping *) appGroupingForReport:(Report *)report;
 
 - (App *) appForID:(NSUInteger)appID;

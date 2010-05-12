@@ -24,7 +24,7 @@
 static sqlite3_stmt *insert_statement_sale = nil;
 
 
-- (id) initWithCountry:(Country *)acountry report:(Report *)areport product:(Product *)saleProduct units:(NSInteger)aunits royaltyPrice:(double)aprice royaltyCurrency:(NSString *)acurrency customerPrice:(double)c_price customerCurrency:(NSString *)c_currency transactionType:(TransactionType)ttype
+- (id) initWithCountry:(Country *)acountry report:(Report *)areport product:(Product_v1 *)saleProduct units:(NSInteger)aunits royaltyPrice:(double)aprice royaltyCurrency:(NSString *)acurrency customerPrice:(double)c_price customerCurrency:(NSString *)c_currency transactionType:(TransactionType)ttype
 {
 	if (self = [super init]) 
 	{
