@@ -236,8 +236,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 295356286;
-			PBXWorkspaceStateSaveDate = 295356286;
+			PBXPerProjectTemplateStateSaveDate = 295358173;
+			PBXWorkspaceStateSaveDate = 295358173;
 		};
 		perUserProjectItems = {
 			A700694A0F3AC3DA009BB6A5 = A700694A0F3AC3DA009BB6A5 /* PBXTextBookmark */;
@@ -1849,6 +1849,11 @@
 		name = .xccurrentversion;
 		path = "/Users/Oliver/Documents/iphone/Projects/Own Apps/MyAppSales/trunk2/MyAppSales.xcdatamodeld/.xccurrentversion";
 		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {987, 450}}";
+			sepNavSelRange = "{181, 0}";
+			sepNavVisRange = "{0, 181}";
+		};
 	};
 	A74A71D10EFB0644003B5191 /* schema.sql */ = {
 		uiCtxt = {
@@ -1865,9 +1870,9 @@
 	};
 	A74A75450EFD7117003B5191 /* App.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1564, 976}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1564, 960}}";
 			sepNavSelRange = "{634, 0}";
-			sepNavVisRange = "{160, 861}";
+			sepNavVisRange = "{180, 841}";
 			sepNavWindowFrame = "{{299, 180}, {819, 698}}";
 		};
 	};

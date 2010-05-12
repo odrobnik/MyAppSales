@@ -58,8 +58,7 @@
 		A73CEA021042E517008778BF /* ButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A73CEA011042E517008778BF /* ButtonCell.m */; };
 		A73CEB38104340A5008778BF /* EmptyNano.png in Resources */ = {isa = PBXBuildFile; fileRef = A73CEB37104340A5008778BF /* EmptyNano.png */; };
 		A73CEBC81044444D008778BF /* CalendarDayView.m in Sources */ = {isa = PBXBuildFile; fileRef = A73CEBC71044444D008778BF /* CalendarDayView.m */; };
-		A748BC0C119AC79A00613D74 /* MyAppSales.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A748BC0B119AC79A00613D74 /* MyAppSales.xcdatamodeld */; };
-		A748BC0E119AC7AF00613D74 /* V2.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = A748BC0D119AC7AF00613D74 /* V2.xcdatamodel */; };
+		A748BC52119ACF6500613D74 /* MyAppSales.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A748BC51119ACF6500613D74 /* MyAppSales.xcdatamodeld */; };
 		A74A71D30EFB0644003B5191 /* schema.sql in Resources */ = {isa = PBXBuildFile; fileRef = A74A71D10EFB0644003B5191 /* schema.sql */; };
 		A74A71EA0EFB0806003B5191 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A74A71E90EFB0806003B5191 /* libsqlite3.dylib */; };
 		A74A75080EFD5FA3003B5191 /* apps.db in Resources */ = {isa = PBXBuildFile; fileRef = A74A75070EFD5FA3003B5191 /* apps.db */; };
@@ -440,7 +439,8 @@
 		A73CEB37104340A5008778BF /* EmptyNano.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EmptyNano.png; sourceTree = "<group>"; };
 		A73CEBC61044444D008778BF /* CalendarDayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarDayView.h; sourceTree = "<group>"; };
 		A73CEBC71044444D008778BF /* CalendarDayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarDayView.m; sourceTree = "<group>"; };
-		A748BC0D119AC7AF00613D74 /* V2.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = V2.xcdatamodel; sourceTree = "<group>"; };
+		A748BC4D119ACF4700613D74 /* MyAppSales.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = MyAppSales.xcdatamodel; sourceTree = "<group>"; };
+		A748BC53119ACF6500613D74 /* MyAppSales 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MyAppSales 2.xcdatamodel"; sourceTree = "<group>"; };
 		A74A71D10EFB0644003B5191 /* schema.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = schema.sql; sourceTree = "<group>"; };
 		A74A71E90EFB0806003B5191 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A74A75070EFD5FA3003B5191 /* apps.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = apps.db; sourceTree = "<group>"; };
@@ -1168,7 +1168,6 @@
 		A74A71D40EFB0651003B5191 /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				A748BC0B119AC79A00613D74 /* MyAppSales.xcdatamodeld */,
 				A7AE1A8610BD9BA200E38C5B /* Products */,
 				A7BD65D8105AB47B0021B6CF /* Review.h */,
 				A7BD65D9105AB47B0021B6CF /* Review.m */,
@@ -1187,6 +1186,7 @@
 				A7C15A7C108F127300693757 /* AppGrouping.m */,
 				A7EB519210481BE6005452BE /* Database.h */,
 				A7EB519310481BE6005452BE /* Database.m */,
+				A748BC51119ACF6500613D74 /* MyAppSales.xcdatamodeld */,
 			);
 			name = Database;
 			path = ..;
@@ -1980,8 +1980,7 @@
 				A73552F010CFA60100F6DC0A /* EGORefreshTableHeaderView.m in Sources */,
 				A735538110CFB07A00F6DC0A /* PullToRefreshTableViewController.m in Sources */,
 				A735540B10CFB70E00F6DC0A /* SoundEffect.m in Sources */,
-				A748BC0C119AC79A00613D74 /* MyAppSales.xcdatamodeld in Sources */,
-				A748BC0E119AC7AF00613D74 /* V2.xcdatamodel in Sources */,
+				A748BC52119ACF6500613D74 /* MyAppSales.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2119,12 +2118,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		A748BC0B119AC79A00613D74 /* MyAppSales.xcdatamodeld */ = {
+		A748BC51119ACF6500613D74 /* MyAppSales.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				A748BC0D119AC7AF00613D74 /* V2.xcdatamodel */,
+				A748BC4D119ACF4700613D74 /* MyAppSales.xcdatamodel */,
+				A748BC53119ACF6500613D74 /* MyAppSales 2.xcdatamodel */,
 			);
-			currentVersion = A748BC0D119AC7AF00613D74 /* V2.xcdatamodel */;
+			currentVersion = A748BC4D119ACF4700613D74 /* MyAppSales.xcdatamodel */;
 			path = MyAppSales.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
