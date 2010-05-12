@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
-#import "Product.h"
+#import "Product_v1.h"
 #import "ReviewDownloaderOperation.h"
 #import "TranslationScraperOperation.h"
 

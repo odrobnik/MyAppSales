@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
-#import "Product.h"
+#import "Product_v1.h"
 
 @class App;
 

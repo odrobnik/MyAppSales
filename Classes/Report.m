@@ -10,7 +10,7 @@
 #import "Sale.h"
 #import "CountrySummary.h"
 #import "App.h"
-#import "Product.h"
+#import "Product_v1.h"
 #import "InAppPurchase.h"
 #import "InAppPurchase.h"
 #import "Country.h"

@@ -8,7 +8,7 @@
 
 #import "Sale.h"
 #import "App.h"
-#import "Product.h"
+#import "Product_v1.h"
 #import "Database.h"
 #import "Country.h"
 #import "Report.h"

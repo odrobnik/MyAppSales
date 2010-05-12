@@ -6,7 +6,7 @@
 //  Copyright 2009 Drobnik.com. All rights reserved.
 //
 
-#import "Product.h"
+#import "Product_v1.h"
 #import "ASiSTAppDelegate.h"
 #import "YahooFinance.h"
 #import "ReviewDownloaderOperation.h"

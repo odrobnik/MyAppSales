@@ -299,7 +299,7 @@
 		A7AE190F10BD500B00E38C5B /* IAP_nano.png in Resources */ = {isa = PBXBuildFile; fileRef = A7AE190E10BD500B00E38C5B /* IAP_nano.png */; };
 		A7AE19DB10BD698B00E38C5B /* IAP.png in Resources */ = {isa = PBXBuildFile; fileRef = A7AE19DA10BD698B00E38C5B /* IAP.png */; };
 		A7AE1A1110BD813D00E38C5B /* InAppPurchase.m in Sources */ = {isa = PBXBuildFile; fileRef = A7AE1A1010BD813D00E38C5B /* InAppPurchase.m */; };
-		A7AE1A8510BD9B8500E38C5B /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = A7AE1A8410BD9B8500E38C5B /* Product.m */; };
+		A7AE1A8510BD9B8500E38C5B /* Product_v1.m in Sources */ = {isa = PBXBuildFile; fileRef = A7AE1A8410BD9B8500E38C5B /* Product_v1.m */; };
 		A7B12CEE104D2EAA004639C9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7B12CED104D2EAA004639C9 /* Security.framework */; };
 		A7B424BD10553718007BC954 /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B424BC10553718007BC954 /* AccountManager.m */; };
 		A7B42C2010567F2C007BC954 /* EditAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B42C1F10567F2C007BC954 /* EditAccountController.m */; };
@@ -710,8 +710,8 @@
 		A7AE19DA10BD698B00E38C5B /* IAP.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IAP.png; sourceTree = "<group>"; };
 		A7AE1A0F10BD813D00E38C5B /* InAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchase.h; sourceTree = "<group>"; };
 		A7AE1A1010BD813D00E38C5B /* InAppPurchase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchase.m; sourceTree = "<group>"; };
-		A7AE1A8310BD9B8500E38C5B /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
-		A7AE1A8410BD9B8500E38C5B /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Product.m; sourceTree = "<group>"; };
+		A7AE1A8310BD9B8500E38C5B /* Product_v1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Product_v1.h; sourceTree = "<group>"; };
+		A7AE1A8410BD9B8500E38C5B /* Product_v1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Product_v1.m; sourceTree = "<group>"; };
 		A7B12CED104D2EAA004639C9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A7B424BB10553718007BC954 /* AccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManager.h; sourceTree = "<group>"; };
 		A7B424BC10553718007BC954 /* AccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManager.m; sourceTree = "<group>"; };
@@ -1298,8 +1298,8 @@
 			children = (
 				A74A75450EFD7117003B5191 /* App.h */,
 				A74A75460EFD7117003B5191 /* App.m */,
-				A7AE1A8310BD9B8500E38C5B /* Product.h */,
-				A7AE1A8410BD9B8500E38C5B /* Product.m */,
+				A7AE1A8310BD9B8500E38C5B /* Product_v1.h */,
+				A7AE1A8410BD9B8500E38C5B /* Product_v1.m */,
 				A7AE1A0F10BD813D00E38C5B /* InAppPurchase.h */,
 				A7AE1A1010BD813D00E38C5B /* InAppPurchase.m */,
 			);
@@ -1975,7 +1975,7 @@
 				A7294C041095EB7B004A2258 /* NSString+scraping.m in Sources */,
 				A7D75DC410A8C03C00889B79 /* GenericAccount.m in Sources */,
 				A7AE1A1110BD813D00E38C5B /* InAppPurchase.m in Sources */,
-				A7AE1A8510BD9B8500E38C5B /* Product.m in Sources */,
+				A7AE1A8510BD9B8500E38C5B /* Product_v1.m in Sources */,
 				A73552F010CFA60100F6DC0A /* EGORefreshTableHeaderView.m in Sources */,
 				A735538110CFB07A00F6DC0A /* PullToRefreshTableViewController.m in Sources */,
 				A735540B10CFB70E00F6DC0A /* SoundEffect.m in Sources */,
