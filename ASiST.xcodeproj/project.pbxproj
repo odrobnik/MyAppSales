@@ -187,6 +187,8 @@
 		A7745DC70F08D6740009DD76 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7745DC60F08D6740009DD76 /* CFNetwork.framework */; };
 		A7745DD40F08D73C0009DD76 /* localhostAdresses.m in Sources */ = {isa = PBXBuildFile; fileRef = A7745DD00F08D73C0009DD76 /* localhostAdresses.m */; };
 		A7745DD50F08D73C0009DD76 /* MyHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = A7745DD20F08D73C0009DD76 /* MyHTTPConnection.m */; };
+		A774E218119AD49300A81C36 /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = A774E217119AD49300A81C36 /* Product.m */; };
+		A774E237119AD52B00A81C36 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A774E236119AD52B00A81C36 /* CoreData.framework */; };
 		A780D1350F25D1A100C796FB /* ChartRootController.m in Sources */ = {isa = PBXBuildFile; fileRef = A780D1340F25D1A100C796FB /* ChartRootController.m */; };
 		A780D1700F25D2D400C796FB /* ChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A780D16F0F25D2D400C796FB /* ChartViewController.m */; };
 		A780D1730F25D2F600C796FB /* ChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = A780D1720F25D2F600C796FB /* ChartView.m */; };
@@ -579,6 +581,9 @@
 		A7745DD00F08D73C0009DD76 /* localhostAdresses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = localhostAdresses.m; sourceTree = "<group>"; };
 		A7745DD10F08D73C0009DD76 /* MyHTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyHTTPConnection.h; sourceTree = "<group>"; };
 		A7745DD20F08D73C0009DD76 /* MyHTTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyHTTPConnection.m; sourceTree = "<group>"; };
+		A774E216119AD49200A81C36 /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Product.h; path = ../Product.h; sourceTree = "<group>"; };
+		A774E217119AD49300A81C36 /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Product.m; path = ../Product.m; sourceTree = "<group>"; };
+		A774E236119AD52B00A81C36 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		A780D1330F25D1A100C796FB /* ChartRootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartRootController.h; sourceTree = "<group>"; };
 		A780D1340F25D1A100C796FB /* ChartRootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartRootController.m; sourceTree = "<group>"; };
 		A780D16E0F25D2D400C796FB /* ChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartViewController.h; sourceTree = "<group>"; };
@@ -827,6 +832,7 @@
 				A7E0F9F3106BB684003B93FE /* QuartzCore.framework in Frameworks */,
 				A7E4E98610A89E2400CE4673 /* MessageUI.framework in Frameworks */,
 				A735542510CFB89100F6DC0A /* AudioToolbox.framework in Frameworks */,
+				A774E237119AD52B00A81C36 /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -836,6 +842,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				A74A71D40EFB0651003B5191 /* Database */,
+				A774E20B119AD41500A81C36 /* Database */,
 				A7E7F317109463BF00C9C3DC /* XML */,
 				A7C23CFF10656D6800D544BA /* SBJSON */,
 				A7C23CF110656C0B00D544BA /* Google Translator */,
@@ -844,7 +852,6 @@
 				A73CEBC510444425008778BF /* Views */,
 				A7248AC60F1BEEEA003DADDD /* Tableview Cells */,
 				A7006B400F3B09EB009BB6A5 /* ZIP Support */,
-				A74A71D40EFB0651003B5191 /* Database */,
 				A79272500F2D95F9009AF9B2 /* Helpers */,
 				1D3623240D0F684500981E51 /* ASiSTAppDelegate.h */,
 				1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */,
@@ -876,7 +883,6 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				A700AA9E0F2B5B6C0014885D /* Entitlements.plist */,
-				A735542410CFB89100F6DC0A /* AudioToolbox.framework */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -908,6 +914,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A735542410CFB89100F6DC0A /* AudioToolbox.framework */,
 				A7E0F9F2106BB684003B93FE /* QuartzCore.framework */,
 				A7E4E98510A89E2400CE4673 /* MessageUI.framework */,
 				A7745DC60F08D6740009DD76 /* CFNetwork.framework */,
@@ -917,6 +924,7 @@
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
 				A7B12CED104D2EAA004639C9 /* Security.framework */,
+				A774E236119AD52B00A81C36 /* CoreData.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1216,6 +1224,23 @@
 				A7745D8E0F08D49C0009DD76 /* HTTPServer.m */,
 			);
 			name = "HTTP Server";
+			sourceTree = "<group>";
+		};
+		A774E20B119AD41500A81C36 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				A774E20C119AD42100A81C36 /* v2 */,
+			);
+			name = Database;
+			sourceTree = "<group>";
+		};
+		A774E20C119AD42100A81C36 /* v2 */ = {
+			isa = PBXGroup;
+			children = (
+				A774E216119AD49200A81C36 /* Product.h */,
+				A774E217119AD49300A81C36 /* Product.m */,
+			);
+			name = v2;
 			sourceTree = "<group>";
 		};
 		A78DEDD11060074900786950 /* Chart */ = {
@@ -1980,6 +2005,7 @@
 				A735538110CFB07A00F6DC0A /* PullToRefreshTableViewController.m in Sources */,
 				A735540B10CFB70E00F6DC0A /* SoundEffect.m in Sources */,
 				A748BC52119ACF6500613D74 /* MyAppSales.xcdatamodeld in Sources */,
+				A774E218119AD49300A81C36 /* Product.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
