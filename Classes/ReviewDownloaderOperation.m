@@ -279,8 +279,6 @@
 			NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
 			NSDictionary *headers = [httpResponse allHeaderFields];
 			
-			NSLog(@"%@", headers);
-			
 			NSInteger statusCode = [httpResponse statusCode];
 			if (statusCode==200)
 			{

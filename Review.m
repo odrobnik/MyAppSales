@@ -13,7 +13,6 @@
 
 @implementation Review 
 
-@dynamic isNew;
 @dynamic userName;
 @dynamic title;
 @dynamic date;

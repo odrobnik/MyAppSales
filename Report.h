@@ -14,6 +14,7 @@
 
 @interface Report :  NSManagedObject  
 {
+	
 }
 
 @property (nonatomic, retain) NSDate * fromDate;
@@ -23,7 +24,6 @@
 @property (nonatomic, retain) NSDate * untilDate;
 @property (nonatomic, retain) NSNumber * sumUnitsRefunded;
 @property (nonatomic, retain) NSNumber * region;
-@property (nonatomic, retain) NSNumber * isNew;
 @property (nonatomic, retain) NSDate * downloadedDate;
 @property (nonatomic, retain) NSNumber * sumRoyaltiesEarned;
 @property (nonatomic, retain) NSNumber * reportType;

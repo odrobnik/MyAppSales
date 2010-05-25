@@ -8,11 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <sqlite3.h>
+#import "ReportTypes.h"
 
 #define DB [Database sharedInstance]
 
-typedef enum { ReportTypeDay = 0, ReportTypeWeek = 1, ReportTypeFinancial = 2, ReportTypeFree = 3, ReportTypeUnknown = 99 } ReportType;
-typedef enum { ReportRegionUnknown = 0, ReportRegionUSA = 1, ReportRegionEurope = 2, ReportRegionCanada = 3, ReportRegionAustralia = 4, ReportRegionUK = 5, ReportRegionJapan = 6, ReportRegionRestOfWorld = 7} ReportRegion;
 
 @class App, InAppPurchase, Product_v1, Report_v1, Country_v1, AppGrouping, GenericAccount;
 

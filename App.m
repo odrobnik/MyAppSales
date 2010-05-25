@@ -807,7 +807,6 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		Country_v1 *oneCountry = [countries objectForKey:oneKey];
 		if (oneCountry.appStoreID)
 		{
-			if (oneCountry.appStoreID == 143441)
 			[[SynchingManager sharedInstance] scrapeForApp:self country:oneCountry delegate:self];
 		}
 	}

@@ -15,7 +15,6 @@
 {
 }
 
-@property (nonatomic, retain) NSNumber * isNew;
 @property (nonatomic, retain) NSString * userName;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSDate * date;

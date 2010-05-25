@@ -21,7 +21,6 @@
 @dynamic untilDate;
 @dynamic sumUnitsRefunded;
 @dynamic region;
-@dynamic isNew;
 @dynamic downloadedDate;
 @dynamic sumRoyaltiesEarned;
 @dynamic reportType;

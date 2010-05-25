@@ -277,4 +277,9 @@ static sqlite3_stmt *init_statement = nil;
 	[self loadImageFromBirne];
 }
 
+- (NSString *)description
+{
+	return name;
+}
+
 @end
