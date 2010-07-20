@@ -357,7 +357,8 @@
 				return;
 			}
 			
-			NSRange endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
+			NSRange selectSearchRange = NSMakeRange(selectRange.location, [sourceSt length] - selectRange.location);
+			NSRange endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:selectSearchRange];
 			
 			NSArray *vendorOptions = [[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect];
 			NSArray *sortedVendorOptions = [vendorOptions sortedArrayUsingSelector:@selector(compare:)];
@@ -536,7 +537,10 @@
 		return;
 	}
 	
-	NSRange endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
+	
+	NSRange selectSearchRange = NSMakeRange(selectRange.location, [sourceSt length] - selectRange.location);
+	NSRange endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:selectSearchRange];
+	
 	NSString *selectString = [sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)];
 	NSArray *dayOptions = [selectString optionsFromSelect];
 	NSString *dayorweekdropdownName = [[selectString dictionaryOfAttributesFromTag] objectForKey:@"name"];	
@@ -670,7 +674,9 @@
 	}
 	
 	
-	endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
+	selectSearchRange = NSMakeRange(selectRange.location, [sourceSt length] - selectRange.location);
+	endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:selectSearchRange];
+
 	selectString = [sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)];
 	NSArray *weekOptions = [selectString optionsFromSelect];
 	dayorweekdropdownName = [[selectString dictionaryOfAttributesFromTag] objectForKey:@"name"];	
@@ -797,7 +803,9 @@
 		return;
 	}
 	
-	endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:NSMakeRange(selectRange.location, 1000)];
+	selectSearchRange = NSMakeRange(selectRange.location, [sourceSt length] - selectRange.location);
+	endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:selectSearchRange];
+	
 	selectString = [sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)];
 	NSArray *monthlyFreeOptions = [selectString optionsFromSelect];
 	dayorweekdropdownName = [[selectString dictionaryOfAttributesFromTag] objectForKey:@"name"];	
