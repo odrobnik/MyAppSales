@@ -822,6 +822,18 @@ static Database *_sharedInstance;
 	return [NSArray arrayWithArray:tmpArray];
 }
 
+- (void)removeReport:(Report_v1 *)report
+{
+	[report deleteFromDatabase];
+	
+	// remove it from the index
+	NSMutableArray *reportsOfThisType = [reportsByReportType objectForKey:[NSNumber numberWithInt:report.reportType]];
+	[reportsOfThisType removeObject:report];
+	
+	// remove it from the reports dictionary
+	NSNumber *report_key = [NSNumber numberWithInt:report.primaryKey];
+	[reports removeObjectForKey:report_key];
+}
 
 - (Country_v1 *) countryForName:(NSString *)countryName
 {

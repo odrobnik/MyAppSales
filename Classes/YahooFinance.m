@@ -280,7 +280,12 @@ static YahooFinance *_sharedInstance = nil;
 {
 	NSString *currencySymbol = [[self.allCurrencies objectForKey:[cur uppercaseString]] objectForKey:@"Symbol"];
 	
-	return [NSString stringWithFormat:@"%@ %.2f", currencySymbol, amount];
+	NSNumberFormatter *fmt = [[[NSNumberFormatter alloc] init] autorelease];
+	[fmt setCurrencySymbol:currencySymbol];
+	[fmt setNumberStyle:NSNumberFormatterCurrencyStyle];
+	
+	return [fmt stringFromNumber:[NSNumber numberWithFloat:amount]];
+//	return [NSString stringWithFormat:@"%@ %.2f", currencySymbol, amount];
 }
 
 

@@ -93,6 +93,7 @@
 - (void) unloadReports;
 - (void) reloadAllAppIcons;
 - (void) removeAllReviewTranslations;
+- (void)removeReport:(Report_v1 *)report;
 
 - (void) importReportsFromDocumentsFolder;
 - (NSString *) createZipFromReportsOfType:(ReportType)type;

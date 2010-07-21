@@ -88,7 +88,7 @@
 		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportNotification:) name:@"NewReportRead" object:nil];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainCurrencyNotification:) name:@"MainCurrencyChanged" object:nil];
-
+		
 		
 		[self createIndex];
     }
@@ -108,16 +108,16 @@
 
 
 
- - (void)viewWillAppear:(BOOL)animated {
- [super viewWillAppear:animated];
-	 [self.tableView reloadData];
- }
- 
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	[self.tableView reloadData];
+}
 
- - (void)viewDidAppear:(BOOL)animated {
- [super viewDidAppear:animated];
- }
- 
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+}
+
 /*
  - (void)viewWillDisappear:(BOOL)animated {
  [super viewWillDisappear:animated];
@@ -253,7 +253,7 @@
     [super viewDidLoad];
 	
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	
 	report_icon = [[UIImage imageNamed:@"Report_Icon.png"] retain];
 	report_icon_new = [[UIImage imageNamed:@"Report_Icon_New.png"] retain];
@@ -304,9 +304,9 @@
 // The accessory type is the image displayed on the far right of each table cell. In order for the delegate method
 // tableView:accessoryButtonClickedForRowWithIndexPath: to be called, you must return the "Detail Disclosure Button" type.
 /*
-- (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewCellAccessoryDisclosureIndicator;
-}*/
+ - (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath {
+ return UITableViewCellAccessoryDisclosureIndicator;
+ }*/
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -318,7 +318,7 @@
 	 return [tmpArray count];
 	 */
 	
-	if (report_type==0)
+	if (report_type==ReportTypeDay)
 	{
 		
 		if (section>=[indexByYearMonthSortedKeys count])
@@ -326,7 +326,7 @@
 			// we have one virtual section to prevent crash
 			return 0;
 		}
-			
+		
 		NSString *key = [indexByYearMonthSortedKeys objectAtIndex:section];
 		NSArray *monthArray = [indexByYearMonth objectForKey:key];
 		
@@ -338,33 +338,33 @@
 }
 
 /*
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	Report *tmpReport;
-	
-	if (report_type==ReportTypeDay)
-	{
-		NSString *key = [indexByYearMonthSortedKeys objectAtIndex:indexPath.section];
-		NSArray *monthArray = [indexByYearMonth objectForKey:key];
-		
-		tmpReport = [monthArray objectAtIndex:indexPath.row];
-	}
-	else
-	{
-		tmpReport = [report_array objectAtIndex:indexPath.row];
-	}
-	
-	if (tmpReport.isNew)
-	{
-		cell.CELL_IMAGE = report_icon_new;
-	}
-	else
-	{
-		cell.CELL_IMAGE = report_icon;
-	}
-}
-*/
+ - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ Report *tmpReport;
  
+ if (report_type==ReportTypeDay)
+ {
+ NSString *key = [indexByYearMonthSortedKeys objectAtIndex:indexPath.section];
+ NSArray *monthArray = [indexByYearMonth objectForKey:key];
+ 
+ tmpReport = [monthArray objectAtIndex:indexPath.row];
+ }
+ else
+ {
+ tmpReport = [report_array objectAtIndex:indexPath.row];
+ }
+ 
+ if (tmpReport.isNew)
+ {
+ cell.CELL_IMAGE = report_icon_new;
+ }
+ else
+ {
+ cell.CELL_IMAGE = report_icon;
+ }
+ }
+ */
+
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -377,7 +377,7 @@
 	{
 		DayReportCell *cell = (DayReportCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
-			cell = [[[DayReportCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
+			cell = [[[DayReportCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
 		}
 		
 		NSString *key = [indexByYearMonthSortedKeys objectAtIndex:indexPath.section];
@@ -388,21 +388,21 @@
 		
 		double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[tmpReport sumRoyaltiesEarned] fromCurrency:@"EUR"];
 		cell.royaltyEarnedLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
-	
+		
 		
 		cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d / %d", [tmpReport sumUnitsSold], [tmpReport sumUnitsFree]];
 		//cell.dayLabel.text = [NSString stringWithFormat:@"%d", [tmpReport day]];
 		
 		/*
-		if (tmpReport.isNew)
-		{
-			cell.iconImage.image = report_icon_new;
-		}
-		else
-		{
-			cell.iconImage.image = report_icon;
-		} 
-		*/
+		 if (tmpReport.isNew)
+		 {
+		 cell.iconImage.image = report_icon_new;
+		 }
+		 else
+		 {
+		 cell.iconImage.image = report_icon;
+		 } 
+		 */
 		
 		cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
 		return cell;
@@ -411,7 +411,7 @@
 	{
 		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
-			cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
+			cell = [[[UITableViewCell alloc]  initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
 		}
 		
 		if (report_type==ReportTypeDay)
@@ -436,8 +436,16 @@
 			cell.CELL_IMAGE = report_icon;
 		}
 		
+		
+		// show royalties in detail
+		double royalties = [tmpReport sumRoyaltiesForProduct:nil transactionType:TransactionTypeSale] + [tmpReport sumRoyaltiesForProduct:nil transactionType:TransactionTypeIAP];
+		double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:royalties fromCurrency:@"EUR"];
+		cell.detailTextLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
+		
+		
+		
 		cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-
+		
 		return cell;
 	}
 }
@@ -477,7 +485,7 @@
 	{
 		tmpReport = [report_array objectAtIndex:indexPath.row];
 	}
-
+	
 	ReportAppsController *reportAppsController = [[ReportAppsController alloc] initWithReport:tmpReport];
 	[self.navigationController pushViewController:reportAppsController animated:YES];
 	[reportAppsController release];
@@ -493,19 +501,39 @@
  */
 
 
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- 
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	if (editingStyle == UITableViewCellEditingStyleDelete) {
+		// Delete the row from the data source
+		
+		Report_v1 *tmpReport;
+		
+		if (report_type==ReportTypeDay)
+		{
+			NSString *key = [indexByYearMonthSortedKeys objectAtIndex:indexPath.section];
+			NSArray *monthArray = [indexByYearMonth objectForKey:key];
+			
+			tmpReport = [monthArray objectAtIndex:indexPath.row];
+		}
+		else
+		{
+			tmpReport = [report_array objectAtIndex:indexPath.row];
+		}
+		
+		[DB removeReport:tmpReport];
+		
+		[report_array removeObject:tmpReport];
+		
+		[self createIndex];
+		
+		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+	}   
+	else if (editingStyle == UITableViewCellEditingStyleInsert) {
+		// Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+	}   
+}
 
 
 /*
@@ -561,8 +589,6 @@
 	
 	NSArray *keys = [indexByYearMonth allKeys];
 	indexByYearMonthSortedKeys = [[keys sortedArrayUsingSelector:@selector(compareDesc:)] retain];
-	
-	NSLog(@"%@", indexByYearMonth);
 }
 
 

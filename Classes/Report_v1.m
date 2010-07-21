@@ -398,6 +398,13 @@ static sqlite3_stmt *hydrate_statement = nil;
 				
 				units = [[oneLine getValueForNamedColumn:@"Quantity" headerNames:column_names] intValue];
 				company_name = [oneLine getValueForNamedColumn:@"Artist/Show/Developer" headerNames:column_names];
+				
+				if (!company_name)
+				{	
+					// try new format
+					company_name = [oneLine getValueForNamedColumn:@"Artist/Show/Developer/Author" headerNames:column_names];
+				}
+				
 				title	= [oneLine getValueForNamedColumn:@"Title" headerNames:column_names];
 				royalty_currency	= [oneLine getValueForNamedColumn:@"Partner Share Currency" headerNames:column_names];
 				royalty_price = [[oneLine getValueForNamedColumn:@"Partner Share" headerNames:column_names] doubleValue];
@@ -882,7 +889,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 			//				[formatter setDateFormat:@"'Week' w, yyyy"];
 			[formatter setDateStyle:NSDateFormatterShortStyle];
 			[formatter setTimeStyle:NSDateFormatterNoStyle];
-			return [NSString stringWithFormat:@"%@ until %@",[formatter stringFromDate:fromDate], [formatter stringFromDate:untilDate]];
+			return [NSString stringWithFormat:@"%@ to %@",[formatter stringFromDate:fromDate], [formatter stringFromDate:untilDate]];
 			break;
 		}
 		case ReportTypeFree:
@@ -1250,7 +1257,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	}
 	else
 	{
-		tmpArray = sales;
+		tmpArray = self.sales;
 	}
 	
 	double ret = 0;
@@ -1525,6 +1532,15 @@ static sqlite3_stmt *hydrate_statement = nil;
 	return salesByApp;
 }
 
+- (NSMutableArray *)sales
+{
+	if (!sales)
+	{
+		[self hydrate];
+	}
+	
+	return sales;
+}
 
 - (NSUInteger)primaryKey {
     return primaryKey;
