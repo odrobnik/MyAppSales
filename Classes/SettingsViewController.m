@@ -160,7 +160,7 @@
 		}
 
 		case 2:  // reports
-			return 2;
+			return 3;
 		case 3:  // web server
 		{
 			return showAddress?2:1;
@@ -347,7 +347,7 @@
 			}
 		}
 			
-		case 2:   // general
+		case 2:   // reports
 		{
 			switch (indexPath.row) 
 			{
@@ -382,6 +382,33 @@
 					ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
 					cell.switchCtl.on = appDelegate.convertSalesToMainCurrency;
 					[cell.switchCtl addTarget:self action:@selector(toggleConvert:) forControlEvents:UIControlEventValueChanged];
+					return cell;
+				}
+					
+				case 2:
+				{
+					NSString *CellIdentifier = @"ReportSection3";
+					
+					UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+					UISwitch *switcher;
+					if (cell == nil) 
+					{
+						cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+						switcher = [[[UISwitch alloc] initWithFrame:CGRectZero] autorelease];
+						[switcher addTarget:self action:@selector(toggleSumOnOverview:) forControlEvents:UIControlEventValueChanged];
+						cell.accessoryView = switcher;
+					}
+					else 
+					{
+						switcher = (UISwitch *)cell.accessoryView;
+					}
+
+					
+					cell.textLabel.text = @"Fetch royalty sum and\nshow it on overview (slow)";
+					cell.textLabel.numberOfLines = 0;
+					cell.textLabel.font = [UIFont boldSystemFontOfSize:13];
+					cell.textLabel.adjustsFontSizeToFitWidth = YES;
+					switcher.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"RoyaltyTotalsOnOverView"];
 					return cell;
 				}
 					
@@ -638,6 +665,11 @@
 {
 	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
 	appDelegate.convertSalesToMainCurrency = [sender isOn];
+}
+
+- (void)toggleSumOnOverview:(UISwitch *)switcher
+{
+	[[NSUserDefaults standardUserDefaults] setBool:switcher.on forKey:@"RoyaltyTotalsOnOverView"];
 }
 
 /*

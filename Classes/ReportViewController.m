@@ -89,6 +89,9 @@
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainCurrencyNotification:) name:@"MainCurrencyChanged" object:nil];
 		
+		// if defaults setting changes
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainCurrencyNotification:) name:NSUserDefaultsDidChangeNotification object:nil];
+		
 		
 		[self createIndex];
     }
@@ -438,10 +441,17 @@
 		
 		
 		// show royalties in detail
-		double royalties = [tmpReport sumRoyaltiesForProduct:nil transactionType:TransactionTypeSale] + [tmpReport sumRoyaltiesForProduct:nil transactionType:TransactionTypeIAP];
-		double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:royalties fromCurrency:@"EUR"];
-		cell.detailTextLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
 		
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RoyaltyTotalsOnOverView"])
+		{
+			double royalties = [tmpReport sumRoyaltiesForProduct:nil transactionType:TransactionTypeSale] + [tmpReport sumRoyaltiesForProduct:nil transactionType:TransactionTypeIAP];
+			double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:royalties fromCurrency:@"EUR"];
+			cell.detailTextLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
+		}
+		else 
+		{
+			cell.detailTextLabel.text = nil;
+		}
 		
 		
 		cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;

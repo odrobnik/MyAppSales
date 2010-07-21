@@ -57,7 +57,7 @@
     CGRect frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET , contentRect.origin.y,  sizeNecessary.width+20.0,  contentRect.size.height);
 	titleLabel.frame = frame;
 	
-	frame = CGRectMake(contentRect.origin.x + contentRect.size.width - 94.0 - LEFT_COLUMN_OFFSET,contentRect.origin.y+(contentRect.size.height-27.0)/2.0, 
+	frame = CGRectMake(contentRect.origin.x + contentRect.size.width - 91.0 - LEFT_COLUMN_OFFSET,contentRect.origin.y+(contentRect.size.height-27.0)/2.0, 
 					   94.0, 27.0);
 	switchCtl.frame = frame;
 }
