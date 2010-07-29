@@ -88,6 +88,7 @@
 	NSURL *launchURL;
 	BOOL forceSynch = NO;
 	
+
 	
 	if (launchOptions)
 	{
@@ -216,14 +217,7 @@
 		}
 	}
 	
-	
-	
-	
-	//NSString *user = [keychainWrapper objectForKey:(id)kSecAttrAccount];
-	//NSString *pass = [keychainWrapper objectForKey:(id)kSecValueData];
-	
 	AccountManager *acc = [AccountManager sharedAccountManager];
-	
 	
 	// refresh notification
 	NSArray *notificationsAccounts = [acc accountsOfType:@"Notifications"];
@@ -235,10 +229,22 @@
 	
 	NSArray *itunesAccounts = [acc accountsOfType:@"iTunes Connect"];
 	
+	/*
+	 
+	 // example how to preconfigure an ITC account
+	 
+	 if (![itunesAccounts count])
+	 {
+		GenericAccount *newAccount = [[AccountManager sharedAccountManager] addAccountForService:[GenericAccount stringForAccountType:AccountTypeITC] user:@"LOGIN"];
+		newAccount.password = @"PASSWORD";
+		newAccount.description = @"Pre-Configured ITC Account";
+	 }
+	 
+	 */
+	
+	
 	if ([itunesAccounts count]>0)
 	{
-		//itts = [[iTunesConnect alloc] initWithAccount:[acc.accounts objectAtIndex:0]];
-		
 		// only auto-sync if we did not already download a daily report today
 		Report_v1 *lastDailyReport = [[Database sharedInstance] latestReportOfType:ReportTypeDay];
 		if (forceSynch || ![lastDailyReport.downloadedDate sameDateAs:[NSDate date]])

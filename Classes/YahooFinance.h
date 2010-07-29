@@ -21,6 +21,8 @@
 	
 	NSMutableDictionary *allCurrencies;
 	NSMutableDictionary *nameIndex;
+	
+	NSNumberFormatter *currencyFormatter;
 }
 
 - (id) initWithAllCurrencies;

@@ -108,6 +108,11 @@ static YahooFinance *_sharedInstance = nil;
 	}
 	
 	self.mainCurrency = @"USD";
+	
+	// set up standard currency formatter
+	currencyFormatter = [[NSNumberFormatter alloc] init];
+	[currencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+	
 	return self;
 }
  
@@ -279,13 +284,9 @@ static YahooFinance *_sharedInstance = nil;
 - (NSString *) formatAsCurrency:(NSString *)cur amount:(double)amount
 {
 	NSString *currencySymbol = [[self.allCurrencies objectForKey:[cur uppercaseString]] objectForKey:@"Symbol"];
+	[currencyFormatter setCurrencySymbol:currencySymbol];
 	
-	NSNumberFormatter *fmt = [[[NSNumberFormatter alloc] init] autorelease];
-	[fmt setCurrencySymbol:currencySymbol];
-	[fmt setNumberStyle:NSNumberFormatterCurrencyStyle];
-	
-	return [fmt stringFromNumber:[NSNumber numberWithFloat:amount]];
-//	return [NSString stringWithFormat:@"%@ %.2f", currencySymbol, amount];
+	return [currencyFormatter stringFromNumber:[NSNumber numberWithFloat:amount]];
 }
 
 
@@ -300,6 +301,7 @@ static YahooFinance *_sharedInstance = nil;
 
 - (void) dealloc
 {
+	[currencyFormatter release];
 	[nameIndex release];
 	[allCurrencies release];
 	[self save];
