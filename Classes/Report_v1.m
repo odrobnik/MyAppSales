@@ -977,7 +977,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		{
 			NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
 			[df setDateFormat:@"MMyy"];
-			return [NSString stringWithFormat:@"%@_%@.txt", [df stringFromDate:self.fromDate], [self shortNameForRegion:region]];
+			return [NSString stringWithFormat:@"%@_%@.txt", [df stringFromDate:[self dateInMiddleOfReport]], [self shortNameForRegion:region]];
 		}					
 							
 		case ReportTypeFree:
