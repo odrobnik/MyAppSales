@@ -70,7 +70,7 @@
 	NSString *reportMonth = [split objectAtIndex:1];
 	NSString *regionCode = [split objectAtIndex:2];
 	
-	if ([split count]>3)
+	if ([split count]>3) // causes Payment Reports to be ignored.
 	{
 		return NO;
 	}
@@ -1002,9 +1002,12 @@
 		}
 	}
 	
+	
+	NSInteger ReportPage = 0;
 	// to to next page if possible and if we at least downloaded one report on first page
-	while (financialsDownloaded&&nextUrl)
+	while ((!ReportPage||financialsDownloaded)&&nextUrl)
 	{
+		ReportPage ++;
 		financialsDownloaded = 0;  // only go to next page if there was something new on this one
 		
 		URL = [@"https://itunesconnect.apple.com" stringByAppendingString:nextUrl];

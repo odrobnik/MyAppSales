@@ -122,7 +122,7 @@ static SynchingManager * _sharedInstance;
 	ItunesConnectDownloaderOperation *wu = [[ItunesConnectDownloaderOperation alloc] initForAccount:itcAccount];
 	[wu setQueuePriority:NSOperationQueuePriorityVeryHigh];
 	
-	wu.reportsToIgnore = [[Database sharedInstance] allReportsWithAppGrouping:[itcAccount appGrouping]];
+	wu.reportsToIgnore = reportsArray;
 	
 	wu.delegate = self;
 	

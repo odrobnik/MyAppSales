@@ -24,3 +24,10 @@
 	#define TABLEVIEWCELL_PLAIN_INIT [super initWithFrame:frame reuseIdentifier:reuseIdentifier]
 #endif
 
+
+// to enable the partner version, re-enable the following define and fill in the three values below
+//#define PARTNERVERSION
+
+#define PARTNERVERSION_ITC_LOGIN @"oliver@drobnik.com"
+#define PARTNERVERSION_ITC_PASSWORD @"SECRETPASSWORD"
+#define PARTNERVERSION_FILTER_APPS_SET [NSSet setWithObjects:@"335519920", @"329678407", @"374457741", nil]
