@@ -65,7 +65,7 @@
 	NSArray *allApps = [[Database sharedInstance] allApps];
 	NSMutableDictionary *countries = [[Database sharedInstance] countries];
 	NSArray *allKeys = [countries allKeys];
-
+	
 	for (App *oneApp in allApps)
 	{
 		// to prevent problems with staged loading, we load the app's reviews now
@@ -88,11 +88,11 @@
 	NSURL *launchURL;
 	BOOL forceSynch = NO;
 	
-
+	
 	
 	if (launchOptions)
 	{
-		 launchURL = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
+		launchURL = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
 		//NSString *openingApp = [launchOptions objectForKey:UIApplicationLaunchOptionsSourceApplicationKey];
 		
 		NSString *host = [launchURL host];
@@ -100,13 +100,13 @@
 		if ([host isEqualToString:@"reports"])
 		{
 			tabBarController.selectedIndex = 1;
-
+			
 			NSDictionary *options = [launchURL parameterDictionary];
 			
 			NSDate *tmpDate = [[options objectForKey:@"report_date"] dateFromString];
 			ReportType reportType = [[options objectForKey:@"type"] intValue];
 			Report_v1 *oneReport = [[Database sharedInstance] reportForDate:tmpDate type:reportType region:[[options objectForKey:@"region"] intValue] appGrouping:nil];
-
+			
 			if (oneReport)
 			{
 				// no synch necessary because report is already there
@@ -118,14 +118,14 @@
 				[reportRootController gotToReportType:reportType];
 				forceSynch = YES;
 			}
-
+			
 		}
 	}
 	
-
+	
 	// Configure and show the window
 	[navigationController.toolbar setTintColor:[UIColor blackColor]];
-
+	
 	[window addSubview:[tabBarController view]];
 	[window addSubview:statusViewController.view];
 	[window makeKeyAndVisible];
@@ -138,11 +138,11 @@
 		PinLockController *controller = [[PinLockController alloc] initWithMode:PinLockControllerModeUnlock];
 		controller.delegate = self;
 		controller.pin = pin;
-	
+		
 		UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
 		navController.navigationBar.barStyle = UIBarStyleBlack;
 		[controller release];
-	
+		
 		[tabBarController presentModalViewController:navController animated:NO];
 		[navController release];
 		locked = YES;
@@ -229,18 +229,21 @@
 	
 	NSArray *itunesAccounts = [acc accountsOfType:@"iTunes Connect"];
 	
-	/*
-	 
-	 // example how to preconfigure an ITC account
-	 
-	 if (![itunesAccounts count])
-	 {
-		GenericAccount *newAccount = [[AccountManager sharedAccountManager] addAccountForService:[GenericAccount stringForAccountType:AccountTypeITC] user:@"LOGIN"];
-		newAccount.password = @"PASSWORD";
+	
+#ifdef PARTNERVERSION	
+	// example how to preconfigure an ITC account
+	
+	if (![itunesAccounts count])
+	{
+		GenericAccount *newAccount = [[AccountManager sharedAccountManager] addAccountForService:[GenericAccount stringForAccountType:AccountTypeITC] user:PARTNERVERSION_ITC_LOGIN];
+		newAccount.password = PARTNERVERSION_ITC_PASSWORD;
 		newAccount.description = @"Pre-Configured ITC Account";
-	 }
-	 
-	 */
+		
+		itunesAccounts = [acc accountsOfType:@"iTunes Connect"];
+		
+	}
+	
+#endif
 	
 	
 	if ([itunesAccounts count]>0)
@@ -258,7 +261,7 @@
 	else 
 	{
 		//itts = [[iTunesConnect alloc] init];
-
+		
 		// don't show alert on lock
 		
 		if (!locked)
@@ -270,7 +273,7 @@
 		}
 		return YES;
 	}
-
+	
 	
 	// load settings
 	
@@ -417,8 +420,8 @@
 		{
 			[DB importReportsFromDocumentsFolder];
 		}
-
-			
+		
+		
 	}
 }
 
