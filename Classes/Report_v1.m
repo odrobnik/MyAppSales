@@ -252,7 +252,8 @@ static sqlite3_stmt *hydrate_statement = nil;
 		
 		while(oneLine = [enu nextObject])
 		{
-			NSUInteger appID = [[oneLine getValueForNamedColumn:@"Apple Identifier" headerNames:column_names] intValue];
+			NSString *appIDString = [oneLine getValueForNamedColumn:@"Apple Identifier" headerNames:column_names];
+			NSUInteger appID = [appIDString intValue];
 			NSString *vendor_identifier = [oneLine getValueForNamedColumn:@"Vendor Identifier" headerNames:column_names];
 			NSString *company_name = [oneLine getValueForNamedColumn:@"Developer" headerNames:column_names];
 			NSString *title	= [oneLine getValueForNamedColumn:@"Title/Application" headerNames:column_names];
@@ -263,6 +264,16 @@ static sqlite3_stmt *hydrate_statement = nil;
 			double customer_price = [[oneLine getValueForNamedColumn:@"Customer Price" headerNames:column_names] doubleValue];
 			NSString *customer_currency	= [oneLine getValueForNamedColumn:@"Customer Currency" headerNames:column_names];
 			NSString *country_code	= [oneLine getValueForNamedColumn:@"Country Code" headerNames:column_names];
+			
+			
+			// filter if PARTNERVERSION is active
+#ifdef PARTNERVERSION
+			NSSet *onlyThese = PARTNERVERSION_FILTER_APPS_SET;
+	if (![onlyThese containsObject:appIDString])
+	{
+		appID=0; // causes this line to be ignored
+	}
+#endif
 			
 			if (fromDateIn&&untilDateIn&&appID&&vendor_identifier&&company_name&&title&&type_id&&units&&royalty_currency&&customer_currency&&country_code)
 			{
@@ -364,7 +375,8 @@ static sqlite3_stmt *hydrate_statement = nil;
 		{
 			NSString *from_date = [oneLine getValueForNamedColumn:@"Begin Date" headerNames:column_names];
 			NSString *until_date = [oneLine getValueForNamedColumn:@"End Date" headerNames:column_names];
-			NSUInteger appID = [[oneLine getValueForNamedColumn:@"Apple Identifier" headerNames:column_names] intValue];
+			NSString *appIDString = [oneLine getValueForNamedColumn:@"Apple Identifier" headerNames:column_names];
+			NSUInteger appID = [appIDString intValue];
 			NSString *vendor_identifier = [oneLine getValueForNamedColumn:@"Vendor Identifier" headerNames:column_names];
 			NSString *company_name = [oneLine getValueForNamedColumn:@"Artist / Show" headerNames:column_names];
 			NSString *title	= [oneLine getValueForNamedColumn:@"Title / Episode / Season" headerNames:column_names];
@@ -414,6 +426,17 @@ static sqlite3_stmt *hydrate_statement = nil;
 				//financial_report = YES;
 				reportType = ReportTypeFinancial;
 			}
+			
+			
+			// filter if PARTNERVERSION is active
+#ifdef PARTNERVERSION
+			NSSet *onlyThese = PARTNERVERSION_FILTER_APPS_SET;
+			if (![onlyThese containsObject:appIDString]&&![onlyThese containsObject:parentIDString])
+			{
+				appID=0; // causes this line to be ignored
+			}
+#endif
+			
 			
 			// if all columns have a value then we accept the line
 			if (from_date&&until_date&&appID&&vendor_identifier&&company_name&&title&&type_id&&units&&royalty_currency&&customer_currency&&country_code)

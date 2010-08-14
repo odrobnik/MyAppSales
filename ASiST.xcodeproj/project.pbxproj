@@ -795,7 +795,6 @@
 		A7CD06E9105A7882005F9166 /* UIImage+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Helpers.m"; sourceTree = "<group>"; };
 		A7D75DC210A8C03C00889B79 /* GenericAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericAccount.h; sourceTree = "<group>"; };
 		A7D75DC310A8C03C00889B79 /* GenericAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericAccount.m; sourceTree = "<group>"; };
-		A7DFEA3D121033D300820193 /* MyAppSalesP-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MyAppSalesP-Info.plist"; sourceTree = "<group>"; };
 		A7E0F9F2106BB684003B93FE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A7E4E98510A89E2400CE4673 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		A7E7F16B1094413600C9C3DC /* AccountTypeSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountTypeSelector.h; sourceTree = "<group>"; };
@@ -910,7 +909,6 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				A700AA9E0F2B5B6C0014885D /* Entitlements.plist */,
-				A7DFEA3D121033D300820193 /* MyAppSalesP-Info.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
