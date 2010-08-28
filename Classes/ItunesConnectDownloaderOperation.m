@@ -1125,8 +1125,6 @@
 				
 				NSString *bodyString = [NSString bodyForFormPostWithType:FormPostTypeMultipart valueDictionaries:postValues];
 				
-				NSLog(@"%d, %@", [bodyString length], bodyString);
-				
 				NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
 				
 				URL = [@"https://itunesconnect.apple.com" stringByAppendingString:post_url];
@@ -1160,8 +1158,6 @@
 				
 				
 				sourceSt = [[[NSString alloc] initWithData:[data gzipInflate] encoding:NSUTF8StringEncoding] autorelease];
-				
-				NSLog(@"%@", sourceSt);
 				
 				NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:sourceSt, @"Text", account, @"Account", [NSNumber numberWithInt:reportRegion], @"Region", reportDate, @"FallbackDate", [NSNumber numberWithInt:ReportTypeFinancial], @"Type", nil];
 				
