@@ -24,7 +24,7 @@
 	
 	// skip leading <tagname
 
-	NSString *temp;
+	NSString *temp = nil;
 
 	if ([attributeScanner scanString:@"<" intoString:&temp])
 	{
@@ -36,8 +36,8 @@
 	while (![attributeScanner isAtEnd])
 	{
 		
-		NSString *attrName;
-		NSString *attrValue;
+		NSString *attrName = nil;
+		NSString *attrValue = nil;
 		
 		[attributeScanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:&temp];
 		[attributeScanner scanCharactersFromSet:[NSCharacterSet alphanumericCharacterSet] intoString:&attrName];
@@ -45,10 +45,12 @@
 		[attributeScanner scanString:@"=" intoString:nil];
 		[attributeScanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:&temp];
 		
-		if ([attributeScanner scanString:@"\"" intoString:&temp])
+		NSString *quote = nil;
+		
+		if ([attributeScanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"'\""] intoString:&quote])
 		{
-			[attributeScanner scanUpToString:@"\"" intoString:&attrValue];	
-			[attributeScanner scanString:@"\"" intoString:&temp];
+			[attributeScanner scanUpToString:quote intoString:&attrValue];	
+			[attributeScanner scanString:quote intoString:&temp];
 			
 			[tmpDict setObject:attrValue forKey:attrName];
 		}
@@ -103,6 +105,8 @@
 	}
 }
 
+
+
 - (NSArray *)arrayOfInputsForForm:(NSString *)formName
 {
 	NSScanner *inputScanner = [NSScanner scannerWithString:self];
@@ -113,7 +117,7 @@
 		if ([inputScanner scanString:@"<form " intoString:nil])
 		{
 			
-			NSString *inputAttributes;
+			NSString *inputAttributes = nil;
 			
 			[inputScanner scanUpToString:@"</form>" intoString:&inputAttributes];
 			
@@ -127,6 +131,23 @@
 	}
 	return nil;
 }
+
+- (NSDictionary *)dictionaryForInputInForm:(NSString *)formName withID:(NSString *)identifier
+{
+	NSArray *inputs = [self arrayOfInputsForForm:formName];
+	
+	NSPredicate *pred = [NSPredicate predicateWithFormat:@"id = %@", identifier];
+	
+	NSArray *filteredInputs = [inputs filteredArrayUsingPredicate:pred];
+	
+	if ([filteredInputs count]!=1)
+	{
+		return nil;
+	}
+	
+	return [filteredInputs lastObject];
+}
+
 
 - (NSString *)tagHTMLforTag:(NSString *)tag WithName:(NSString *)name
 {
@@ -192,6 +213,46 @@
 	return nil;
 }
 
+- (NSArray *)arrayOfHTMLForTags:(NSString *)tag matchingPredicate:(NSPredicate *)predicate
+{
+	NSScanner *inputScanner = [NSScanner scannerWithString:self];
+	
+	NSString *beginTag = [NSString stringWithFormat:@"<%@ ", tag];
+	NSString *endTag = [NSString stringWithFormat:@"</%@>", tag];
+	
+	NSMutableArray *mutableArray = [NSMutableArray array];
+	
+	while (![inputScanner isAtEnd]) 
+	{
+		[inputScanner scanUpToString:beginTag intoString:nil];
+		if ([inputScanner scanString:beginTag intoString:nil])
+		{
+			
+			NSString *inputAttributes;
+			
+			[inputScanner scanUpToString:endTag intoString:&inputAttributes];
+			
+			NSDictionary *formAttributes = [inputAttributes dictionaryOfAttributesFromTag];
+			
+			if (!predicate || [predicate evaluateWithObject:formAttributes])
+			{
+				NSString *outerHTML = [NSString stringWithFormat:@"%@%@%@", beginTag, inputAttributes, endTag];
+				
+				[mutableArray addObject:outerHTML];
+			}
+		}
+	}
+
+	if (![mutableArray count])
+	{
+		return nil;
+	}
+	
+	return [NSArray arrayWithArray:mutableArray];
+}
+
+
+
 - (NSString *)nameForTag:(NSString *)tag WithID:(NSString *)identifier
 {
 	NSString *html = [self tagHTMLforTag:tag WithID:identifier];
@@ -199,5 +260,172 @@
 	
 	return [attributes objectForKey:@"name"];
 }
+
+- (NSDictionary *)dictionaryOfAttributesForTag:(NSString *)tag WithID:(NSString *)identifier
+{
+	// get html of this tag
+	NSString *html = [self tagHTMLforTag:tag WithID:identifier];
+	
+	return [html dictionaryOfAttributesFromTag];
+}
+
+- (NSDictionary *)dictionaryOfAttributesForTag:(NSString *)tag WithName:(NSString *)name
+{
+	// get html of this tag
+	NSString *html = [self tagHTMLforTag:tag WithName:name];
+	
+	return [html dictionaryOfAttributesFromTag];
+}
+
+- (NSString *)innerText
+{
+	NSScanner *scanner = [NSScanner scannerWithString:self];
+	[scanner setCharactersToBeSkipped:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	
+	[scanner scanString:@"<" intoString:NULL];
+	
+	NSString *tagName = nil;
+	
+	[scanner scanCharactersFromSet:[NSCharacterSet alphanumericCharacterSet] intoString:&tagName];
+	
+	if (![tagName length])
+	{
+		return nil;
+	}
+	
+	[scanner scanUpToString:@">" intoString:NULL];
+	[scanner scanString:@">" intoString:NULL];
+	
+	NSString *innerString = nil;
+	
+	[scanner scanUpToString:@"<" intoString:&innerString];
+	
+	return innerString;
+}
+
+
+- (NSArray *)arrayOfTags:(NSString *)tag
+{
+	NSMutableArray *tmpArray = [NSMutableArray array];
+	
+	NSScanner *inputScanner = [NSScanner scannerWithString:self];
+	
+	NSString *begin = [NSString stringWithFormat:@"<%@ ", tag];
+	
+	while (![inputScanner isAtEnd]) 
+	{
+		
+		
+		[inputScanner scanUpToString:begin intoString:NULL];
+		if ([inputScanner scanString:begin intoString:NULL])
+		{
+			
+			NSString *inputAttributes;
+			
+			
+			
+			[inputScanner scanUpToString:@">" intoString:&inputAttributes];
+			
+			[tmpArray addObject:[inputAttributes dictionaryOfAttributesFromTag]];
+		}
+	}
+	
+	if ([tmpArray count])
+	{
+		return [NSArray arrayWithArray:tmpArray];
+	}
+	else 
+	{
+		return nil;
+	}
+}
+
+
+- (NSArray *)arrayOfTags:(NSString *)tag matchingPredicate:(NSPredicate *)predicate
+{
+	NSArray *tags = [self arrayOfTags:tag];
+	
+	NSLog(@"%@", tags);
+	
+	if (predicate)
+	{
+		return [tags filteredArrayUsingPredicate:predicate];
+	}
+	else 
+	{
+		return tags;
+	}
+}
+
+
+@end
+
+#define MULTIPART_BOUNDARY @"----WebKitFormBoundaryo4y3bJWBcfhN2pyb"
+
+@implementation NSString (FormPosting)
+
++ (NSString *)multipartBoundaryString
+{
+	return MULTIPART_BOUNDARY;
+}
+
+- (NSComparisonResult)compareAsWebObjectsIdentifier:(NSString *)otherString
+{
+	NSArray *selfComponents = [self componentsSeparatedByString:@"."];
+	NSArray *otherComponents = [otherString componentsSeparatedByString:@"."];
+	
+	NSEnumerator *selfEnum = [selfComponents objectEnumerator];
+	NSEnumerator *otherEnum = [otherComponents objectEnumerator];
+	
+	NSString *currentSelfObj;
+	NSString *currentOtherObj;
+	
+	while (currentSelfObj = [selfEnum nextObject])
+	{
+		currentOtherObj = [otherEnum nextObject];
+		
+		int selfComp = [currentSelfObj intValue];
+		int otherComp = [currentOtherObj intValue];
+
+		if (selfComp<otherComp)
+		{
+			return NSOrderedAscending;
+		}
+		else if (selfComp>otherComp)
+		{
+			return NSOrderedDescending;
+		}
+	}
+	
+	return NSOrderedSame;
+}
+	
++ (NSString *)bodyForFormPostWithType:(FormPostType)type valueDictionaries:(NSArray *)valueDictionaries
+{
+	NSMutableString *bodyString = [NSMutableString string];
+
+	NSString *boundary = [NSString multipartBoundaryString];
+	
+	if (type == FormPostTypeMultipart)
+	{
+		NSString *divider = [NSString stringWithFormat:@"--%@\r\n", boundary];
+
+		for (NSDictionary *oneValueDict in valueDictionaries)
+		{
+			NSString *key = [[oneValueDict allKeys] lastObject];
+			NSString *value = [oneValueDict objectForKey:key];
+			
+			[bodyString appendString:divider];
+			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n%@\r\n", key, value];
+		}
+		
+		[bodyString appendFormat:@"--%@--\r\n", boundary];
+	}
+	
+	return bodyString;
+}
+	
+	
+	
 
 @end

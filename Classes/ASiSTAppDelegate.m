@@ -40,6 +40,7 @@
 #import "NSDate+Helpers.h"
 #import "NSURL+Helpers.h"
 #import "NSString+Helpers.h"
+#import "NSString+scraping.h"
 
 #import "GenericAccount.h"
 
@@ -82,9 +83,80 @@
 	}
 }
 
+- (NSDate *)reportDateFromString:(NSString *)string
+{
+	NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+	[formatter setDateFormat:@"M y"];
+	
+	return [formatter dateFromString:string];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	/*
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"financial2" ofType:@"htm"];
+	NSString *text = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+
+	NSArray *selects = [text arrayOfHTMLForTags:@"select" matchingPredicate:nil];
+	
+	// should be 3
+	NSPredicate *selectedPredicate = [NSPredicate predicateWithFormat:@"selected = 'selected'"];
+
+	
+	NSString *regionSelect = [selects objectAtIndex:0];
+	NSString *regionSelectName = [[regionSelect dictionaryOfAttributesFromTag] objectForKey:@"name"];
+	NSArray *regionArray = [regionSelect arrayOfTags:@"option"];
+	
+	NSString *selectedRegionValue = [[regionArray objectAtIndex:0] objectForKey:@"value"];
+	
+	NSString *monthSelect = [selects objectAtIndex:1];
+	NSString *monthSelectName = [[monthSelect dictionaryOfAttributesFromTag] objectForKey:@"name"];
+	NSString *selectedMonthValue = [[[monthSelect arrayOfTags:@"option" matchingPredicate:selectedPredicate] lastObject] objectForKey:@"value"];
+
+	
+	
+	
+	
+	NSString *yearSelect = [selects objectAtIndex:2];
+	NSString *yearSelectName = [[yearSelect dictionaryOfAttributesFromTag] objectForKey:@"name"];
+	NSString *selectedYearValue = [[[yearSelect arrayOfTags:@"option" matchingPredicate:selectedPredicate] lastObject] objectForKey:@"value"];
+	
+	
+	NSDictionary *postValues = [NSDictionary dictionaryWithObjectsAndKeys:selectedRegionValue, regionSelectName,
+								selectedMonthValue, monthSelectName,
+								selectedYearValue, yearSelectName, nil];
+	
+	NSString *postBody = [NSString bodyForFormPostWithType:FormPostTypeMultipart values:postValues];
+
+	NSLog(@"%@", postBody);
+	
+	*/
+	
+	
+	/*
+	
+	NSPredicate *pred = [NSPredicate predicateWithFormat:@"class = 'values'"];
+	NSArray *array = [text arrayOfHTMLForTags:@"tr" matchingPredicate:pred];
+	
+	// get month/year, region and submit name for each
+	NSPredicate *firstPred = [NSPredicate predicateWithFormat:@"class = 'col-1 first'"];
+	NSPredicate *secondPred = [NSPredicate predicateWithFormat:@"class = 'col-2'"];
+	
+	
+	for (NSString *trString in array)
+	{
+		NSString *monthYear = [[[trString arrayOfHTMLForTags:@"td" matchingPredicate:firstPred] lastObject] innerText];
+		NSString *region = [[[trString arrayOfHTMLForTags:@"td" matchingPredicate:secondPred] lastObject] innerText];
+		
+		NSString *submitName = [[[trString arrayOfInputs] lastObject] objectForKey:@"name"];
+		
+		NSLog(@"%@ - %@", [self reportDateFromString:monthYear], submitName);
+	}
+	
+	NSLog(@"%@", array);
+	
+	
+	*/
 	NSURL *launchURL;
 	BOOL forceSynch = NO;
 	
