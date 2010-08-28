@@ -1198,8 +1198,10 @@ static Database *_sharedInstance;
 	}
 	
 	// this can happen if there are no sales on report
-	if (newReport.region == ReportRegionUnknown)
+	if (region != ReportRegionUnknown && newReport.region != region)
 	{
+		NSLog(@"Corrected report region from %d to %d", newReport.region, region);
+		
 		newReport.region = region;
 	}
 	
