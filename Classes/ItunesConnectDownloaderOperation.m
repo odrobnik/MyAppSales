@@ -1116,14 +1116,12 @@
 			NSString *monthYear = [[[trString arrayOfHTMLForTags:@"td" matchingPredicate:firstPred] lastObject] innerText];
 			NSString *region = [[[trString arrayOfHTMLForTags:@"td" matchingPredicate:secondPred] lastObject] innerText];
 			
-			NSString *financialReportKey = [monthYear stringByAppendingString:region];
-			
 			NSString *submitName = [[[trString arrayOfInputs] lastObject] objectForKey:@"name"];
-			
 			
 			// region is nil if there are no monthly reports
 			if (region&&submitName)
 			{
+				NSString *financialReportKey = [monthYear stringByAppendingString:region];
 				
 				NSDate *reportDate = [self reportDateFromString:monthYear];
 				ReportRegion reportRegion = [self regionFromString:region];
