@@ -1071,252 +1071,191 @@
 	
 	sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
 	
-	formAttributes = [sourceSt dictionaryOfAttributesForTag:@"form" WithName:@"mainForm"];
-	post_url = [formAttributes objectForKey:@"action"];
 	
-	NSPredicate *pred = [NSPredicate predicateWithFormat:@"class = 'values'"];
-	NSArray *array = [sourceSt arrayOfHTMLForTags:@"tr" matchingPredicate:pred];
-	
-	// get month/year, region and submit name for each
-	NSPredicate *firstPred = [NSPredicate predicateWithFormat:@"class = 'col-1 first'"];
-	NSPredicate *secondPred = [NSPredicate predicateWithFormat:@"class = 'col-2'"];
-	
-	NSArray *selects = [sourceSt arrayOfHTMLForTags:@"select" matchingPredicate:nil];
-	
-	// should be 3
-	NSPredicate *selectedPredicate = [NSPredicate predicateWithFormat:@"selected = 'selected'"];
-	
-	
-	NSString *regionSelect = [selects objectAtIndex:0];
-	NSString *regionSelectName = [[regionSelect dictionaryOfAttributesFromTag] objectForKey:@"name"];
-	NSArray *regionArray = [regionSelect arrayOfTags:@"option"];
-	
-	NSString *selectedRegionValue = [[regionArray objectAtIndex:0] objectForKey:@"value"];
-	
-	NSString *monthSelect = [selects objectAtIndex:1];
-	NSString *monthSelectName = [[monthSelect dictionaryOfAttributesFromTag] objectForKey:@"name"];
-	NSString *selectedMonthValue = [[[monthSelect arrayOfTags:@"option" matchingPredicate:selectedPredicate] lastObject] objectForKey:@"value"];
-	
-	NSString *yearSelect = [selects objectAtIndex:2];
-	NSString *yearSelectName = [[yearSelect dictionaryOfAttributesFromTag] objectForKey:@"name"];
-	NSString *selectedYearValue = [[[yearSelect arrayOfTags:@"option" matchingPredicate:selectedPredicate] lastObject] objectForKey:@"value"];
-	
-	for (NSString *trString in array)
+	// a set to keep track of already downloaded financial reports (the partially repeat on following pages)
+	NSMutableSet *downloadedFinancialReports = [NSMutableSet set];
+ 
+	do 
 	{
-		NSString *monthYear = [[[trString arrayOfHTMLForTags:@"td" matchingPredicate:firstPred] lastObject] innerText];
-		NSString *region = [[[trString arrayOfHTMLForTags:@"td" matchingPredicate:secondPred] lastObject] innerText];
+		financialsDownloaded=0;
+		formAttributes = [sourceSt dictionaryOfAttributesForTag:@"form" WithName:@"mainForm"];
+		post_url = [formAttributes objectForKey:@"action"];
 		
-		NSString *submitName = [[[trString arrayOfInputs] lastObject] objectForKey:@"name"];
+		NSPredicate *pred = [NSPredicate predicateWithFormat:@"class = 'values'"];
+		NSArray *array = [sourceSt arrayOfHTMLForTags:@"tr" matchingPredicate:pred];
 		
-		if (submitName)
+		// get month/year, region and submit name for each
+		NSPredicate *firstPred = [NSPredicate predicateWithFormat:@"class = 'col-1 first'"];
+		NSPredicate *secondPred = [NSPredicate predicateWithFormat:@"class = 'col-2'"];
+		
+		NSArray *selects = [sourceSt arrayOfHTMLForTags:@"select" matchingPredicate:nil];
+		
+		// should be 3
+		NSPredicate *selectedPredicate = [NSPredicate predicateWithFormat:@"selected = 'selected'"];
+		
+		
+		NSString *regionSelect = [selects objectAtIndex:0];
+		NSString *regionSelectName = [[regionSelect dictionaryOfAttributesFromTag] objectForKey:@"name"];
+		NSArray *regionArray = [regionSelect arrayOfTags:@"option"];
+		
+		NSString *selectedRegionValue = [[regionArray objectAtIndex:0] objectForKey:@"value"];
+		
+		NSString *monthSelect = [selects objectAtIndex:1];
+		NSString *monthSelectName = [[monthSelect dictionaryOfAttributesFromTag] objectForKey:@"name"];
+		NSString *selectedMonthValue = [[[monthSelect arrayOfTags:@"option" matchingPredicate:selectedPredicate] lastObject] objectForKey:@"value"];
+		
+		NSString *yearSelect = [selects objectAtIndex:2];
+		NSString *yearSelectName = [[yearSelect dictionaryOfAttributesFromTag] objectForKey:@"name"];
+		NSString *selectedYearValue = [[[yearSelect arrayOfTags:@"option" matchingPredicate:selectedPredicate] lastObject] objectForKey:@"value"];
+		
+		NSPredicate *showPredicate = [NSPredicate predicateWithFormat:@"src = '/itc/images/btn-white-show.png'"];
+		NSString *showPeriodButtonName = [[[sourceSt arrayOfTags:@"input" matchingPredicate:showPredicate] lastObject] objectForKey:@"name"];
+		
+		for (NSString *trString in array)
 		{
+			NSString *monthYear = [[[trString arrayOfHTMLForTags:@"td" matchingPredicate:firstPred] lastObject] innerText];
+			NSString *region = [[[trString arrayOfHTMLForTags:@"td" matchingPredicate:secondPred] lastObject] innerText];
+			NSString *financialReportKey = [monthYear stringByAppendingString:region];
 			
-			NSDate *reportDate = [self reportDateFromString:monthYear];
-			ReportRegion reportRegion = [self regionFromString:region];
+			NSString *submitName = [[[trString arrayOfInputs] lastObject] objectForKey:@"name"];
 			
-			if ([self needToDownloadFinancialReportWithDate:reportDate region:reportRegion])
+			if (submitName)
 			{
-				NSArray *postValues = [NSArray arrayWithObjects:
-									   [NSDictionary dictionaryWithObject:selectedRegionValue forKey:regionSelectName],
-									   [NSDictionary dictionaryWithObject:selectedMonthValue forKey:monthSelectName],
-									   [NSDictionary dictionaryWithObject:selectedYearValue forKey:yearSelectName],
-									   [NSDictionary dictionaryWithObject:@"10" forKey:[submitName stringByAppendingString:@".x"]],
-									   [NSDictionary dictionaryWithObject:@"5" forKey:[submitName stringByAppendingString:@".y"]], nil];
 				
-				NSString *bodyString = [NSString bodyForFormPostWithType:FormPostTypeMultipart valueDictionaries:postValues];
+				NSDate *reportDate = [self reportDateFromString:monthYear];
+				ReportRegion reportRegion = [self regionFromString:region];
 				
-				NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
-				
-				URL = [@"https://itunesconnect.apple.com" stringByAppendingString:post_url];
-				
-				
-				//URL = [@"http://www.drobnik.com" stringByAppendingString:post_url];
-				request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-												cachePolicy:NSURLRequestUseProtocolCachePolicy
-											timeoutInterval:60.0];
-				[request setHTTPMethod:@"POST"];
-				[request addValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", [NSString multipartBoundaryString]] forHTTPHeaderField: @"Content-Type"];
-				[request addValue:@"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_1; en-us) AppleWebKit/531.9 (KHTML, like Gecko) Version/4.0.3 Safari/531.9" forHTTPHeaderField:@"User-Agent"];
-				
-				[request setHTTPBody:bodyData];
-				
-				[self setStatus:[NSString stringWithFormat:@"Loading %@ %@", monthYear, region]];
-				
-				data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-				
-				if (error)
+				if (![downloadedFinancialReports containsObject:financialReportKey]&&[self needToDownloadFinancialReportWithDate:reportDate region:reportRegion])
 				{
-					[self setStatusError:[error localizedDescription]];
-					return;
+					NSArray *postValues = [NSArray arrayWithObjects:
+										   [NSDictionary dictionaryWithObject:selectedRegionValue forKey:regionSelectName],
+										   [NSDictionary dictionaryWithObject:selectedMonthValue forKey:monthSelectName],
+										   [NSDictionary dictionaryWithObject:selectedYearValue forKey:yearSelectName],
+										   [NSDictionary dictionaryWithObject:@"10" forKey:[submitName stringByAppendingString:@".x"]],
+										   [NSDictionary dictionaryWithObject:@"5" forKey:[submitName stringByAppendingString:@".y"]], nil];
+					
+					NSString *bodyString = [NSString bodyForFormPostWithType:FormPostTypeMultipart valueDictionaries:postValues];
+					
+					NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+					
+					URL = [@"https://itunesconnect.apple.com" stringByAppendingString:post_url];
+					
+					
+					//URL = [@"http://www.drobnik.com" stringByAppendingString:post_url];
+					request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
+													cachePolicy:NSURLRequestUseProtocolCachePolicy
+												timeoutInterval:60.0];
+					[request setHTTPMethod:@"POST"];
+					[request addValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", [NSString multipartBoundaryString]] forHTTPHeaderField: @"Content-Type"];
+					[request addValue:@"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_1; en-us) AppleWebKit/531.9 (KHTML, like Gecko) Version/4.0.3 Safari/531.9" forHTTPHeaderField:@"User-Agent"];
+					
+					[request setHTTPBody:bodyData];
+					
+					[self setStatus:[NSString stringWithFormat:@"Loading %@ %@", monthYear, region]];
+					
+					data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+					
+					if (error)
+					{
+						[self setStatusError:[error localizedDescription]];
+						return;
+					}
+					
+					if (!data) 
+					{
+						[self setStatusError:@"No data received for report"];
+						return;
+					}
+					
+					
+					sourceSt = [[[NSString alloc] initWithData:[data gzipInflate] encoding:NSUTF8StringEncoding] autorelease];
+					
+					NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:sourceSt, @"Text", account, @"Account", [NSNumber numberWithInt:reportRegion], @"Region", reportDate, @"FallbackDate", [NSNumber numberWithInt:ReportTypeFinancial], @"Type", nil];
+					
+					[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
+					
+					financialsDownloaded++;
+					
+					[downloadedFinancialReports addObject:financialReportKey];
 				}
-				
-				if (!data) 
-				{
-					[self setStatusError:@"No data received for report"];
-					return;
-				}
-				
-				
-				sourceSt = [[[NSString alloc] initWithData:[data gzipInflate] encoding:NSUTF8StringEncoding] autorelease];
-				
-				NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:sourceSt, @"Text", account, @"Account", [NSNumber numberWithInt:reportRegion], @"Region", reportDate, @"FallbackDate", [NSNumber numberWithInt:ReportTypeFinancial], @"Type", nil];
-				
-				[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
-				
-				financialsDownloaded++;
 			}
 		}
-	}
-	
-	
-	
-	
-	/*
-	 
-	 NSString *nextUrl = [sourceSt hrefForLinkContainingText:@"rt-OSarw.gif"];
-	 
-	 NSArray *reportURLs = [sourceSt arrayWithHrefDicts];
-	 
-	 for (NSDictionary *oneDict in reportURLs)
-	 {
-	 NSString *url = [oneDict objectForKey:@"url"];
-	 NSString *text = [oneDict objectForKey:@"contents"];
-	 
-	 ReportRegion region;
-	 int month;
-	 int year;
-	 
-	 if ([text hasSuffix:@".txt"]&&[self needToDownloadFinancialReportWithFilename:text region:&region month:&month year:&year])
-	 {
-	 NSDate *fallbackDate = [NSDate dateFromMonth:month Year:2000+year];
-	 
-	 
-	 URL = [@"https://itunesconnect.apple.com" stringByAppendingString:url];
-	 
-	 request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-	 cachePolicy:NSURLRequestUseProtocolCachePolicy
-	 timeoutInterval:60.0];  // might take long
-	 
-	 [request setHTTPMethod:@"GET"];
-	 
-	 
-	 [self setStatus:[@"Loading " stringByAppendingString:text]];
-	 
-	 financialsDownloaded++;
-	 data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	 
-	 if (error)
-	 {
-	 [self setStatusError:[error localizedDescription]];
-	 return;
-	 }
-	 
-	 if (!data) 
-	 {
-	 [self setStatusError:@"No data received from FR"];
-	 return;
-	 }
-	 
-	 sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	 
-	 NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:sourceSt, @"Text", account, @"Account", [NSNumber numberWithInt:region], @"Region", fallbackDate, @"FallbackDate", [NSNumber numberWithInt:ReportTypeFinancial], @"Type", nil];
-	 
-	 [[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
-	 
-	 }
-	 }
-	 
-	 
-	 
-	 NSInteger ReportPage = 0;
-	 // to to next page if possible and if we at least downloaded one report on first page
-	 while ((!ReportPage||financialsDownloaded)&&nextUrl)
-	 {
-	 ReportPage ++;
-	 financialsDownloaded = 0;  // only go to next page if there was something new on this one
-	 
-	 URL = [@"https://itunesconnect.apple.com" stringByAppendingString:nextUrl];
-	 
-	 request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-	 cachePolicy:NSURLRequestUseProtocolCachePolicy
-	 timeoutInterval:60.0];  // might take long
-	 
-	 [request setHTTPMethod:@"GET"];
-	 
-	 data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	 
-	 
-	 if (error)
-	 {
-	 [self setStatusError:[error localizedDescription]];
-	 return;
-	 }
-	 
-	 if (!data) 
-	 {
-	 [self setStatusError:@"No data received from FR"];
-	 return;
-	 }
-	 
-	 sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	 
-	 nextUrl = [sourceSt hrefForLinkContainingText:@"rt-OSarw.gif"];
-	 
-	 NSArray *reportURLs = [sourceSt arrayWithHrefDicts];
-	 
-	 for (NSDictionary *oneDict in reportURLs)
-	 {
-	 NSString *url = [oneDict objectForKey:@"url"];
-	 NSString *text = [oneDict objectForKey:@"contents"];
-	 
-	 ReportRegion region;
-	 int month;
-	 int year;
-	 if ([text hasSuffix:@".txt"]&&[self needToDownloadFinancialReportWithFilename:text region:&region month:&month year:&year])
-	 {
-	 NSDate *fallbackDate = [NSDate dateFromMonth:month Year:2000+year];
-	 URL = [@"https://itunesconnect.apple.com" stringByAppendingString:url];
-	 
-	 request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-	 cachePolicy:NSURLRequestUseProtocolCachePolicy
-	 timeoutInterval:60.0];  // might take long
-	 
-	 [request setHTTPMethod:@"GET"];
-	 
-	 
-	 [self setStatus:[@"Loading " stringByAppendingString:text]];
-	 
-	 data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	 financialsDownloaded++;
-	 
-	 if (error)
-	 {
-	 [self setStatusError:[error localizedDescription]];
-	 return;
-	 }
-	 
-	 if (!data) 
-	 {
-	 [self setStatusError:@"No data received from FR"];
-	 return;
-	 }
-	 
-	 sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	 
-	 NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:sourceSt, @"Text", account, @"Account", [NSNumber numberWithInt:region], @"Region", fallbackDate, @"FallbackDate", [NSNumber numberWithInt:ReportTypeFinancial], @"Type", nil];
-	 
-	 [[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
-	 
-	 }
-	 }
-	 }
-	 
-	 */
-	
-	
-	
+		
+		
+		// go to earlier month page
+		
+		NSUInteger monthIndex = [selectedMonthValue intValue];
+		NSUInteger yearIndex = [selectedYearValue intValue];
+		
+		if (monthIndex>0)
+		{
+			monthIndex--;
+		}
+		else if (yearIndex>0)
+		{
+			monthIndex=11;
+			yearIndex--;
+		}
+		else 
+		{
+			// no more pages left
+			financialsDownloaded = 0;
+		}
+		
+		if (financialsDownloaded)
+		{
+			
+			selectedMonthValue = [NSString stringWithFormat:@"%d", monthIndex];
+			selectedYearValue = [NSString stringWithFormat:@"%d", yearIndex];
+			
+			
+			
+			NSArray *postValues = [NSArray arrayWithObjects:
+								   [NSDictionary dictionaryWithObject:selectedRegionValue forKey:regionSelectName],
+								   [NSDictionary dictionaryWithObject:selectedMonthValue forKey:monthSelectName],
+								   [NSDictionary dictionaryWithObject:selectedYearValue forKey:yearSelectName],
+								   [NSDictionary dictionaryWithObject:@"10" forKey:[showPeriodButtonName stringByAppendingString:@".x"]],
+								   [NSDictionary dictionaryWithObject:@"5" forKey:[showPeriodButtonName stringByAppendingString:@".y"]], nil];
+			
+			bodyString = [NSString bodyForFormPostWithType:FormPostTypeMultipart valueDictionaries:postValues];
+			
+			bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+			
+			URL = [@"https://itunesconnect.apple.com" stringByAppendingString:post_url];
+			
+			
+			//URL = [@"http://www.drobnik.com" stringByAppendingString:post_url];
+			request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
+											cachePolicy:NSURLRequestUseProtocolCachePolicy
+										timeoutInterval:60.0];
+			[request setHTTPMethod:@"POST"];
+			[request addValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", [NSString multipartBoundaryString]] forHTTPHeaderField: @"Content-Type"];
+			[request addValue:@"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_1; en-us) AppleWebKit/531.9 (KHTML, like Gecko) Version/4.0.3 Safari/531.9" forHTTPHeaderField:@"User-Agent"];
+			
+			[request setHTTPBody:bodyData];
+			
+			//[self setStatus:[NSString stringWithFormat:@"Loading %@ %@", monthYear, region]];
+			
+			data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+			
+			if (error)
+			{
+				[self setStatusError:[error localizedDescription]];
+				return;
+			}
+			
+			if (!data) 
+			{
+				[self setStatusError:@"No data received for report"];
+				return;
+			}
+			
+			sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+		}
+	} 
+	while (financialsDownloaded);
+		
 	[self setStatusSuccess:@"Synchronization Done"];
-	//[self setStatus:nil];
 }
 
 
