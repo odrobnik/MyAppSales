@@ -190,6 +190,48 @@
 	return YES;
 }
 
+- (void)loadSalesReportsAtURL:(NSURL *)url
+{
+	NSLog(@"%@", [url description]);
+	
+	NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url
+														 cachePolicy:NSURLRequestReloadIgnoringCacheData
+													 timeoutInterval:60.0];	
+	NSURLResponse* response; 
+	NSError* error = nil;
+	
+	[self setStatus:@"Opening HTTPS Connection"];
+	
+	NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+	
+	if (error)
+	{
+		[self setStatusError:[error localizedDescription]];
+		return;
+	}
+	
+	if (!data) 
+	{
+		[self setStatusError:@"No data received from login screen request"];
+		return;
+	}
+	
+	NSString *sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+	
+	NSLog(@"%@", sourceSt);
+	
+
+	//NSPredicate *daySelectPredicate = [NSPredicate predicateWithFormat:@"id = 'theForm:datePickerSourceSelectElementSales'"];
+	NSArray *selects = [sourceSt arrayOfHTMLForTags:@"select" matchingPredicate:nil];
+	
+	NSLog(@"%@", selects);
+	
+	NSString *daySelect = [selects objectAtIndex:0];
+	
+}
+
+
+
 
 
 - (void) main
@@ -214,6 +256,7 @@
 	}
 	
 	NSString *financialUrl = nil;
+	NSString *salesUrl = nil;
 	
 	// open login page
 	NSString *URL=[NSString stringWithFormat:@"https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa"];
@@ -292,6 +335,7 @@
 		}
 		
 		financialUrl = [sourceSt hrefForLinkContainingText:@"Financial"];
+		salesUrl = [sourceSt hrefForLinkContainingText:@"Sales"];
 		
 		[NSThread sleepForTimeInterval:1]; // experiment: slow down to prevent timeout changing to itts
 		
@@ -383,6 +427,13 @@
 	}
 	
 	
+
+	NSURL *baseURL = [NSURL URLWithString:@"https://itunesconnect.apple.com"];
+	[self loadSalesReportsAtURL:[NSURL URLWithString:salesUrl relativeToURL:baseURL]];
+	
+	
+	
+	/*
 	
 	
 	// open "Piano" reporting page
@@ -467,23 +518,6 @@
 			// build the body as string
 			
 			NSMutableString *bodyString = [NSMutableString string];
-			
-			/*
-			 // original 1st post
-			 [bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
-			 [bodyString appendFormat:@"Content-Disposition: form-data; name=\"9.6.0\"\r\n\r\n%@\r\n", selectedVendor];
-			 
-			 [bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
-			 [bodyString appendFormat:@"Content-Disposition: form-data; name=\"vndrid\"\r\n\r\n%@\r\n", selectedVendor];
-			 
-			 [bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
-			 [bodyString appendString:@"Content-Disposition: form-data; name=\"9.18\"\r\n\r\n\r\n"];
-			 
-			 [bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\n"];
-			 [bodyString appendFormat:@"Content-Disposition: form-data; name=\"wosid\"\r\n\r\n%@\r\n", wosid];
-			 
-			 [bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp--\r\n"];
-			 */
 			
 			[bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
 			[bodyString appendFormat:@"Content-Disposition: form-data; name=\"9.6.0\"\r\n\r\n0\r\n"];
@@ -961,12 +995,6 @@
 					}
 					else 
 					{
-						/*
-						 NSLog(@"Got Content Type: %@", contentType);
-						 sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-						 NSLog(@"%@", sourceSt);
-						 */
-						
 						// no free transactions to report
 						
 						NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:untilDate, @"UntilDate", fromDate, @"FromDate", account, @"Account", nil];
@@ -983,6 +1011,7 @@
 		}
 		
 	}	
+	 */
 	
 	if (!financialUrl) 
 	{
