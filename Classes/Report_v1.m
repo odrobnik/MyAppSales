@@ -378,8 +378,28 @@ static sqlite3_stmt *hydrate_statement = nil;
 			NSString *appIDString = [oneLine getValueForNamedColumn:@"Apple Identifier" headerNames:column_names];
 			NSUInteger appID = [appIDString intValue];
 			NSString *vendor_identifier = [oneLine getValueForNamedColumn:@"Vendor Identifier" headerNames:column_names];
+			
+			if (!vendor_identifier)
+			{
+				// ITC Format as of Sept 2010
+				vendor_identifier = [oneLine getValueForNamedColumn:@"SKU" headerNames:column_names];
+			}
+			
 			NSString *company_name = [oneLine getValueForNamedColumn:@"Artist / Show" headerNames:column_names];
+			if (!company_name)
+			{
+				// ITC Format as of Sept 2010
+				company_name = [oneLine getValueForNamedColumn:@"Developer" headerNames:column_names];
+			}
+			
+			
 			NSString *title	= [oneLine getValueForNamedColumn:@"Title / Episode / Season" headerNames:column_names];
+			if (!title)
+			{
+				// ITC Format as of Sept 2010
+				title = [oneLine getValueForNamedColumn:@"Title" headerNames:column_names];
+			}
+			
 			
 			NSUInteger type_id;
 			NSString *typeString = [oneLine getValueForNamedColumn:@"Product Type Identifier" headerNames:column_names];
@@ -395,8 +415,24 @@ static sqlite3_stmt *hydrate_statement = nil;
 			}
 			
 			NSInteger units = [[oneLine getValueForNamedColumn:@"Units" headerNames:column_names] intValue];
-			double royalty_price = [[oneLine getValueForNamedColumn:@"Royalty Price" headerNames:column_names] doubleValue];
+		
+			NSString *royaltyPriceString = [oneLine getValueForNamedColumn:@"Royalty Price" headerNames:column_names];
+			if (!royaltyPriceString)
+			{
+				// ITC Format as of Sept 2010
+				royaltyPriceString = [oneLine getValueForNamedColumn:@"Developer Proceeds" headerNames:column_names];
+			}
+			
+			double royalty_price = [royaltyPriceString doubleValue];
+			
+			
 			NSString *royalty_currency	= [oneLine getValueForNamedColumn:@"Royalty Currency" headerNames:column_names];
+			if (!royalty_currency)
+			{
+				// ITC Format as of Sept 2010
+				royalty_currency = [oneLine getValueForNamedColumn:@"Currency of Proceeds" headerNames:column_names];
+			}
+			
 			double customer_price = [[oneLine getValueForNamedColumn:@"Customer Price" headerNames:column_names] doubleValue];
 			NSString *customer_currency	= [oneLine getValueForNamedColumn:@"Customer Currency" headerNames:column_names];
 			NSString *country_code	= [oneLine getValueForNamedColumn:@"Country Code" headerNames:column_names];

@@ -345,8 +345,6 @@
 {
 	NSArray *tags = [self arrayOfTags:tag];
 	
-	NSLog(@"%@", tags);
-	
 	if (predicate)
 	{
 		return [tags filteredArrayUsingPredicate:predicate];
@@ -356,6 +354,48 @@
 		return tags;
 	}
 }
+
+// pass in a HTML <select>, returns the options as NSArray 
+- (NSArray *) optionsFromSelect
+{
+	NSMutableArray *tmpArray = [[NSMutableArray alloc] init];
+	NSString *tmpList = [[self stringByReplacingOccurrencesOfString:@">" withString:@"|"] stringByReplacingOccurrencesOfString:@"<" withString:@"|"];
+	
+	NSArray *listItems = [tmpList componentsSeparatedByString:@"|"];
+	
+	NSEnumerator *myEnum = [listItems objectEnumerator];
+	NSString *aString;
+	
+	while (aString = [myEnum nextObject])
+	{
+		NSScanner *scanner = [NSScanner scannerWithString:aString];
+		
+		[scanner scanUpToString:@"value" intoString:NULL];
+		
+		if ([scanner scanString:@"value" intoString:NULL])
+		{
+			[scanner scanString:@"=" intoString:NULL];
+			
+			NSString *delim = nil;
+			
+			[scanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"'\""] intoString:&delim];
+			
+			NSString *valueString = nil;
+			
+			[scanner scanUpToString:delim intoString:&valueString];
+			
+			if (valueString)
+			{
+				[tmpArray addObject:valueString];
+			}
+		}
+	}
+	
+	NSArray *retArray = [NSArray arrayWithArray:tmpArray];  // non-mutable, autoreleased
+	[tmpArray release];
+	return retArray;
+}
+
 
 
 @end
@@ -425,7 +465,7 @@
 	return bodyString;
 }
 	
-	
+
 	
 
 @end

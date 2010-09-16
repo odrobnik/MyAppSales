@@ -22,6 +22,8 @@
 		A7006B5C0F3B0A0D009BB6A5 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = A7006B500F3B0A0C009BB6A5 /* zip.c */; };
 		A7006B5D0F3B0A0D009BB6A5 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = A7006B530F3B0A0C009BB6A5 /* ZipArchive.mm */; };
 		A700AA9F0F2B5B6C0014885D /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = A700AA9E0F2B5B6C0014885D /* Entitlements.plist */; };
+		A704C066123FA8A30030CADC /* NSString+AJAX.m in Sources */ = {isa = PBXBuildFile; fileRef = A704C065123FA8A30030CADC /* NSString+AJAX.m */; };
+		A704C07E123FB5BC0030CADC /* NSURLRequest+AJAX.m in Sources */ = {isa = PBXBuildFile; fileRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */; };
 		A70582721085E07A0060BF64 /* NSURL+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = A70582711085E07A0060BF64 /* NSURL+Helpers.m */; };
 		A7061AC80F3712A300F605C1 /* ReportAppsController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */; };
 		A706CEE5105CDE790048E061 /* NSDictionary+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = A706CEE4105CDE790048E061 /* NSDictionary+Helpers.m */; };
@@ -176,6 +178,7 @@
 		A76D09860F39BBFE0081C7EF /* ZAR.png in Resources */ = {isa = PBXBuildFile; fileRef = A76D09160F39BBFE0081C7EF /* ZAR.png */; };
 		A76D09870F39BBFE0081C7EF /* ZMK.png in Resources */ = {isa = PBXBuildFile; fileRef = A76D09170F39BBFE0081C7EF /* ZMK.png */; };
 		A76D09880F39BBFE0081C7EF /* ZWD.png in Resources */ = {isa = PBXBuildFile; fileRef = A76D09180F39BBFE0081C7EF /* ZWD.png */; };
+		A7733A011242A66F003E3C7E /* test.txt in Resources */ = {isa = PBXBuildFile; fileRef = A7733A001242A66F003E3C7E /* test.txt */; };
 		A77429F0119B1F830002D51F /* CoreDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = A77429EF119B1F830002D51F /* CoreDatabase.m */; };
 		A7742A14119B20E40002D51F /* NSString+DTUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = A7742A13119B20E40002D51F /* NSString+DTUtilities.m */; };
 		A7745D8F0F08D49C0009DD76 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = A7745D800F08D49C0009DD76 /* AsyncSocket.m */; };
@@ -398,6 +401,10 @@
 		A7006B520F3B0A0C009BB6A5 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
 		A7006B530F3B0A0C009BB6A5 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
 		A700AA9E0F2B5B6C0014885D /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		A704C064123FA8A30030CADC /* NSString+AJAX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+AJAX.h"; sourceTree = "<group>"; };
+		A704C065123FA8A30030CADC /* NSString+AJAX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AJAX.m"; sourceTree = "<group>"; };
+		A704C07C123FB5BC0030CADC /* NSURLRequest+AJAX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest+AJAX.h"; sourceTree = "<group>"; };
+		A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest+AJAX.m"; sourceTree = "<group>"; };
 		A70582701085E07A0060BF64 /* NSURL+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+Helpers.h"; sourceTree = "<group>"; };
 		A70582711085E07A0060BF64 /* NSURL+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+Helpers.m"; sourceTree = "<group>"; };
 		A7061AC60F3712A300F605C1 /* ReportAppsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportAppsController.h; sourceTree = "<group>"; };
@@ -569,6 +576,7 @@
 		A76D09160F39BBFE0081C7EF /* ZAR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ZAR.png; sourceTree = "<group>"; };
 		A76D09170F39BBFE0081C7EF /* ZMK.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ZMK.png; sourceTree = "<group>"; };
 		A76D09180F39BBFE0081C7EF /* ZWD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ZWD.png; sourceTree = "<group>"; };
+		A7733A001242A66F003E3C7E /* test.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.txt; sourceTree = "<group>"; };
 		A77429EE119B1F830002D51F /* CoreDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDatabase.h; sourceTree = "<group>"; };
 		A77429EF119B1F830002D51F /* CoreDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDatabase.m; sourceTree = "<group>"; };
 		A7742A12119B20E40002D51F /* NSString+DTUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DTUtilities.h"; sourceTree = "<group>"; };
@@ -1523,8 +1531,13 @@
 		A7B4331F1057F11A007BC954 /* Report Server Connectors */ = {
 			isa = PBXGroup;
 			children = (
+				A704C064123FA8A30030CADC /* NSString+AJAX.h */,
+				A704C065123FA8A30030CADC /* NSString+AJAX.m */,
 				A7A84CB0105E18D200CAD54F /* ItunesConnectDownloaderOperation.h */,
 				A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */,
+				A704C07C123FB5BC0030CADC /* NSURLRequest+AJAX.h */,
+				A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */,
+				A7733A001242A66F003E3C7E /* test.txt */,
 			);
 			name = "Report Server Connectors";
 			sourceTree = "<group>";
@@ -1950,6 +1963,7 @@
 				A735532B10CFAC4300F6DC0A /* whiteArrow.png in Resources */,
 				A735532C10CFAC4300F6DC0A /* blueArrow.png in Resources */,
 				A735532D10CFAC4300F6DC0A /* blackArrow.png in Resources */,
+				A7733A011242A66F003E3C7E /* test.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2061,6 +2075,8 @@
 				A774E340119B19D500A81C36 /* ProductGroup.m in Sources */,
 				A77429F0119B1F830002D51F /* CoreDatabase.m in Sources */,
 				A7742A14119B20E40002D51F /* NSString+DTUtilities.m in Sources */,
+				A704C066123FA8A30030CADC /* NSString+AJAX.m in Sources */,
+				A704C07E123FB5BC0030CADC /* NSURLRequest+AJAX.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

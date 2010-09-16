@@ -13,4 +13,5 @@
 
 + (NSDictionary *)dictionaryWithContentsOfData:(NSData *)data;
 
+
 @end

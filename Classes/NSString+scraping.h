@@ -29,6 +29,9 @@
 - (NSDictionary *)dictionaryOfAttributesForTag:(NSString *)tag WithID:(NSString *)identifier;
 - (NSDictionary *)dictionaryOfAttributesForTag:(NSString *)tag WithName:(NSString *)name;
 
+// getting options from select
+- (NSArray *) optionsFromSelect;
+
 // html manipulation
 - (NSString *)innerText;
 

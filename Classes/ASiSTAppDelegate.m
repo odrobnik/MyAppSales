@@ -44,6 +44,8 @@
 
 #import "GenericAccount.h"
 
+#import "NSString+AJAX.h"
+
 @implementation ASiSTAppDelegate
 
 @synthesize window;
@@ -94,9 +96,14 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	/*
-	NSString *path = [[NSBundle mainBundle] pathForResource:@"financial2" ofType:@"htm"];
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"txt"];
 	NSString *text = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
 
+	NSArray *t = [text parametersFromAjaxSubmitString];
+	NSLog(@"%@", t);
+
+	
+	
 	NSArray *selects = [text arrayOfHTMLForTags:@"select" matchingPredicate:nil];
 	
 	// should be 3
