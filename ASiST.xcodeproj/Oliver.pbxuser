@@ -12,7 +12,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1188, 7956}}";
 			sepNavSelRange = "{2499, 0}";
-			sepNavVisRange = "{2244, 2031}";
+			sepNavVisRange = "{2021, 2003}";
 			sepNavWindowFrame = "{{216, 153}, {1133, 644}}";
 		};
 	};
@@ -54,6 +54,7 @@
 			1D6058900D05DD3D006BFB54 /* MyAppSales */,
 		);
 		breakpoints = (
+			A7733BB712437807003E3C7E /* Report_v1.m:1082 */,
 		);
 		codeSenseManager = A78E2B3D0EFA1E9E002EB6D9 /* Code sense */;
 		executables = (
@@ -775,6 +776,132 @@
 			A7733ACE1242B1FC003E3C7E /* PBXTextBookmark */ = A7733ACE1242B1FC003E3C7E /* PBXTextBookmark */;
 			A7733ACF1242B1FC003E3C7E /* PBXTextBookmark */ = A7733ACF1242B1FC003E3C7E /* PBXTextBookmark */;
 			A7733AD01242B1FC003E3C7E /* PBXTextBookmark */ = A7733AD01242B1FC003E3C7E /* PBXTextBookmark */;
+			A7733AD712435CAB003E3C7E /* PBXTextBookmark */ = A7733AD712435CAB003E3C7E /* PBXTextBookmark */;
+			A7733AD812435CAB003E3C7E /* PBXTextBookmark */ = A7733AD812435CAB003E3C7E /* PBXTextBookmark */;
+			A7733AD912435CAB003E3C7E /* PBXTextBookmark */ = A7733AD912435CAB003E3C7E /* PBXTextBookmark */;
+			A7733ADD12435CF2003E3C7E /* PBXTextBookmark */ = A7733ADD12435CF2003E3C7E /* PBXTextBookmark */;
+			A7733AE112435E06003E3C7E /* PBXTextBookmark */ = A7733AE112435E06003E3C7E /* PBXTextBookmark */;
+			A7733AEA12435F5E003E3C7E /* PBXTextBookmark */ = A7733AEA12435F5E003E3C7E /* PBXTextBookmark */;
+			A7733AEB12435F5E003E3C7E /* PBXTextBookmark */ = A7733AEB12435F5E003E3C7E /* PBXTextBookmark */;
+			A7733AEC12435F5E003E3C7E /* PBXTextBookmark */ = A7733AEC12435F5E003E3C7E /* PBXTextBookmark */;
+			A7733AF012435F8D003E3C7E /* PBXTextBookmark */ = A7733AF012435F8D003E3C7E /* PBXTextBookmark */;
+			A7733AF412436090003E3C7E /* PBXTextBookmark */ = A7733AF412436090003E3C7E /* PBXTextBookmark */;
+			A7733AF8124360F5003E3C7E /* PBXTextBookmark */ = A7733AF8124360F5003E3C7E /* PBXTextBookmark */;
+			A7733AFE124362D9003E3C7E /* PBXTextBookmark */ = A7733AFE124362D9003E3C7E /* PBXTextBookmark */;
+			A7733AFF124362D9003E3C7E /* PBXTextBookmark */ = A7733AFF124362D9003E3C7E /* PBXTextBookmark */;
+			A7733B00124362D9003E3C7E /* PBXTextBookmark */ = A7733B00124362D9003E3C7E /* PBXTextBookmark */;
+			A7733B0612436365003E3C7E /* PBXTextBookmark */ = A7733B0612436365003E3C7E /* PBXTextBookmark */;
+			A7733B0712436365003E3C7E /* PBXTextBookmark */ = A7733B0712436365003E3C7E /* PBXTextBookmark */;
+			A7733B121243643F003E3C7E /* PBXTextBookmark */ = A7733B121243643F003E3C7E /* PBXTextBookmark */;
+			A7733B131243643F003E3C7E /* PBXTextBookmark */ = A7733B131243643F003E3C7E /* PBXTextBookmark */;
+			A7733B1712436536003E3C7E /* PBXTextBookmark */ = A7733B1712436536003E3C7E /* PBXTextBookmark */;
+			A7733B1812436536003E3C7E /* PBXTextBookmark */ = A7733B1812436536003E3C7E /* PBXTextBookmark */;
+			A7733B1B1243653C003E3C7E /* PBXTextBookmark */ = A7733B1B1243653C003E3C7E /* PBXTextBookmark */;
+			A7733B1D12436641003E3C7E /* PBXTextBookmark */ = A7733B1D12436641003E3C7E /* PBXTextBookmark */;
+			A7733B1E12436776003E3C7E /* PBXTextBookmark */ = A7733B1E12436776003E3C7E /* PBXTextBookmark */;
+			A7733B23124368BC003E3C7E /* PBXTextBookmark */ = A7733B23124368BC003E3C7E /* PBXTextBookmark */;
+			A7733B24124368BC003E3C7E /* PBXTextBookmark */ = A7733B24124368BC003E3C7E /* PBXTextBookmark */;
+			A7733B25124368BC003E3C7E /* PBXTextBookmark */ = A7733B25124368BC003E3C7E /* PBXTextBookmark */;
+			A7733B2C12436999003E3C7E /* PBXTextBookmark */ = A7733B2C12436999003E3C7E /* PBXTextBookmark */;
+			A7733B2D12436999003E3C7E /* PBXTextBookmark */ = A7733B2D12436999003E3C7E /* PBXTextBookmark */;
+			A7733B2E12436999003E3C7E /* PBXTextBookmark */ = A7733B2E12436999003E3C7E /* PBXTextBookmark */;
+			A7733B35124369D6003E3C7E /* PBXTextBookmark */ = A7733B35124369D6003E3C7E /* PBXTextBookmark */;
+			A7733B36124369D6003E3C7E /* PBXTextBookmark */ = A7733B36124369D6003E3C7E /* PBXTextBookmark */;
+			A7733B3F12436B5D003E3C7E /* PBXTextBookmark */ = A7733B3F12436B5D003E3C7E /* PBXTextBookmark */;
+			A7733B4312436B76003E3C7E /* PBXTextBookmark */ = A7733B4312436B76003E3C7E /* PBXTextBookmark */;
+			A7733B4412436B76003E3C7E /* PBXTextBookmark */ = A7733B4412436B76003E3C7E /* PBXTextBookmark */;
+			A7733B4B12436D06003E3C7E /* PBXTextBookmark */ = A7733B4B12436D06003E3C7E /* PBXTextBookmark */;
+			A7733B4C12436D06003E3C7E /* PBXTextBookmark */ = A7733B4C12436D06003E3C7E /* PBXTextBookmark */;
+			A7733B4D12436D06003E3C7E /* PBXTextBookmark */ = A7733B4D12436D06003E3C7E /* PBXTextBookmark */;
+			A7733B5112436D48003E3C7E /* PBXTextBookmark */ = A7733B5112436D48003E3C7E /* PBXTextBookmark */;
+			A7733B5212436D48003E3C7E /* PBXTextBookmark */ = A7733B5212436D48003E3C7E /* PBXTextBookmark */;
+			A7733B5312436D48003E3C7E /* PBXTextBookmark */ = A7733B5312436D48003E3C7E /* PBXTextBookmark */;
+			A7733B5412436D84003E3C7E /* PBXTextBookmark */ = A7733B5412436D84003E3C7E /* PBXTextBookmark */;
+			A7733B5512436D84003E3C7E /* PBXTextBookmark */ = A7733B5512436D84003E3C7E /* PBXTextBookmark */;
+			A7733B5612436D84003E3C7E /* PBXTextBookmark */ = A7733B5612436D84003E3C7E /* PBXTextBookmark */;
+			A7733B5712436D84003E3C7E /* XCBuildMessageTextBookmark */ = A7733B5712436D84003E3C7E /* XCBuildMessageTextBookmark */;
+			A7733B5812436D84003E3C7E /* PBXTextBookmark */ = A7733B5812436D84003E3C7E /* PBXTextBookmark */;
+			A7733B5A12436D84003E3C7E /* PBXTextBookmark */ = A7733B5A12436D84003E3C7E /* PBXTextBookmark */;
+			A7733B5B12436D84003E3C7E /* PBXTextBookmark */ = A7733B5B12436D84003E3C7E /* PBXTextBookmark */;
+			A7733B5C12436D84003E3C7E /* PBXTextBookmark */ = A7733B5C12436D84003E3C7E /* PBXTextBookmark */;
+			A7733B5D12436D84003E3C7E /* PBXTextBookmark */ = A7733B5D12436D84003E3C7E /* PBXTextBookmark */;
+			A7733B5E12436D84003E3C7E /* PBXTextBookmark */ = A7733B5E12436D84003E3C7E /* PBXTextBookmark */;
+			A7733B5F12436D98003E3C7E /* PBXTextBookmark */ = A7733B5F12436D98003E3C7E /* PBXTextBookmark */;
+			A7733B6012436E2A003E3C7E /* PBXTextBookmark */ = A7733B6012436E2A003E3C7E /* PBXTextBookmark */;
+			A7733B6112436E2A003E3C7E /* PBXTextBookmark */ = A7733B6112436E2A003E3C7E /* PBXTextBookmark */;
+			A7733B6212436E2D003E3C7E /* PBXTextBookmark */ = A7733B6212436E2D003E3C7E /* PBXTextBookmark */;
+			A7733B6812436FC9003E3C7E /* PBXTextBookmark */ = A7733B6812436FC9003E3C7E /* PBXTextBookmark */;
+			A7733B6912436FC9003E3C7E /* PBXTextBookmark */ = A7733B6912436FC9003E3C7E /* PBXTextBookmark */;
+			A7733B6A12436FC9003E3C7E /* PBXTextBookmark */ = A7733B6A12436FC9003E3C7E /* PBXTextBookmark */;
+			A7733B6E12437075003E3C7E /* PBXTextBookmark */ = A7733B6E12437075003E3C7E /* PBXTextBookmark */;
+			A7733B6F12437075003E3C7E /* PBXTextBookmark */ = A7733B6F12437075003E3C7E /* PBXTextBookmark */;
+			A7733B7212437096003E3C7E /* PBXTextBookmark */ = A7733B7212437096003E3C7E /* PBXTextBookmark */;
+			A7733B78124370B3003E3C7E /* PBXTextBookmark */ = A7733B78124370B3003E3C7E /* PBXTextBookmark */;
+			A7733B80124370F0003E3C7E /* PBXTextBookmark */ = A7733B80124370F0003E3C7E /* PBXTextBookmark */;
+			A7733B8612437131003E3C7E /* PBXTextBookmark */ = A7733B8612437131003E3C7E /* PBXTextBookmark */;
+			A7733B8A12437212003E3C7E /* PBXTextBookmark */ = A7733B8A12437212003E3C7E /* PBXTextBookmark */;
+			A7733B901243733E003E3C7E /* PBXTextBookmark */ = A7733B901243733E003E3C7E /* PBXTextBookmark */;
+			A7733B911243733E003E3C7E /* PBXTextBookmark */ = A7733B911243733E003E3C7E /* PBXTextBookmark */;
+			A7733B941243736B003E3C7E /* PBXTextBookmark */ = A7733B941243736B003E3C7E /* PBXTextBookmark */;
+			A7733B99124373A7003E3C7E /* PBXTextBookmark */ = A7733B99124373A7003E3C7E /* PBXTextBookmark */;
+			A7733B9A124373A7003E3C7E /* PBXTextBookmark */ = A7733B9A124373A7003E3C7E /* PBXTextBookmark */;
+			A7733BA3124374BD003E3C7E /* PBXTextBookmark */ = A7733BA3124374BD003E3C7E /* PBXTextBookmark */;
+			A7733BA812437571003E3C7E /* PBXTextBookmark */ = A7733BA812437571003E3C7E /* PBXTextBookmark */;
+			A7733BAB1243769A003E3C7E /* PBXTextBookmark */ = A7733BAB1243769A003E3C7E /* PBXTextBookmark */;
+			A7733BAC1243770C003E3C7E /* PBXTextBookmark */ = A7733BAC1243770C003E3C7E /* PBXTextBookmark */;
+			A7733BAF124377F2003E3C7E /* PBXTextBookmark */ = A7733BAF124377F2003E3C7E /* PBXTextBookmark */;
+			A7733BB0124377F2003E3C7E /* PBXTextBookmark */ = A7733BB0124377F2003E3C7E /* PBXTextBookmark */;
+			A7733BB1124377F2003E3C7E /* PBXTextBookmark */ = A7733BB1124377F2003E3C7E /* PBXTextBookmark */;
+			A7733BB2124377F2003E3C7E /* PBXTextBookmark */ = A7733BB2124377F2003E3C7E /* PBXTextBookmark */;
+			A7733BB5124377FC003E3C7E /* PBXTextBookmark */ = A7733BB5124377FC003E3C7E /* PBXTextBookmark */;
+			A7733BB6124377FC003E3C7E /* PBXTextBookmark */ = A7733BB6124377FC003E3C7E /* PBXTextBookmark */;
+			A7733BB912437808003E3C7E /* PBXTextBookmark */ = A7733BB912437808003E3C7E /* PBXTextBookmark */;
+			A7733BBA12437808003E3C7E /* PBXTextBookmark */ = A7733BBA12437808003E3C7E /* PBXTextBookmark */;
+			A7733BBD1243783C003E3C7E /* PBXTextBookmark */ = A7733BBD1243783C003E3C7E /* PBXTextBookmark */;
+			A7733BBE1243783C003E3C7E /* PBXTextBookmark */ = A7733BBE1243783C003E3C7E /* PBXTextBookmark */;
+			A7733BBF1243783C003E3C7E /* PBXTextBookmark */ = A7733BBF1243783C003E3C7E /* PBXTextBookmark */;
+			A7733BC01243783C003E3C7E /* PBXTextBookmark */ = A7733BC01243783C003E3C7E /* PBXTextBookmark */;
+			A7733BC312437847003E3C7E /* PBXTextBookmark */ = A7733BC312437847003E3C7E /* PBXTextBookmark */;
+			A7733BC412437847003E3C7E /* PBXTextBookmark */ = A7733BC412437847003E3C7E /* PBXTextBookmark */;
+			A7733BC512437847003E3C7E /* PBXTextBookmark */ = A7733BC512437847003E3C7E /* PBXTextBookmark */;
+			A7733BC612437847003E3C7E /* PBXTextBookmark */ = A7733BC612437847003E3C7E /* PBXTextBookmark */;
+			A7733BC912437850003E3C7E /* PBXTextBookmark */ = A7733BC912437850003E3C7E /* PBXTextBookmark */;
+			A7733BCA12437850003E3C7E /* PBXTextBookmark */ = A7733BCA12437850003E3C7E /* PBXTextBookmark */;
+			A7733BCB12437850003E3C7E /* PBXTextBookmark */ = A7733BCB12437850003E3C7E /* PBXTextBookmark */;
+			A7733BCE1243785E003E3C7E /* PBXTextBookmark */ = A7733BCE1243785E003E3C7E /* PBXTextBookmark */;
+			A7733BD212437894003E3C7E /* PBXTextBookmark */ = A7733BD212437894003E3C7E /* PBXTextBookmark */;
+			A7733BD312437894003E3C7E /* PBXTextBookmark */ = A7733BD312437894003E3C7E /* PBXTextBookmark */;
+			A7733BD412437894003E3C7E /* PBXTextBookmark */ = A7733BD412437894003E3C7E /* PBXTextBookmark */;
+			A7733BD61243789B003E3C7E /* PBXTextBookmark */ = A7733BD61243789B003E3C7E /* PBXTextBookmark */;
+			A7733BD7124378BD003E3C7E /* PBXTextBookmark */ = A7733BD7124378BD003E3C7E /* PBXTextBookmark */;
+			A7733BD8124378BD003E3C7E /* PBXTextBookmark */ = A7733BD8124378BD003E3C7E /* PBXTextBookmark */;
+			A7733BD9124378BD003E3C7E /* PBXTextBookmark */ = A7733BD9124378BD003E3C7E /* PBXTextBookmark */;
+			A7733BDF124379E6003E3C7E /* PBXTextBookmark */ = A7733BDF124379E6003E3C7E /* PBXTextBookmark */;
+			A7733BE0124379E6003E3C7E /* PBXTextBookmark */ = A7733BE0124379E6003E3C7E /* PBXTextBookmark */;
+			A7733BE1124379E6003E3C7E /* PBXTextBookmark */ = A7733BE1124379E6003E3C7E /* PBXTextBookmark */;
+			A7733BE3124379EF003E3C7E /* PBXTextBookmark */ = A7733BE3124379EF003E3C7E /* PBXTextBookmark */;
+			A7733BE712437D38003E3C7E /* PBXTextBookmark */ = A7733BE712437D38003E3C7E /* PBXTextBookmark */;
+			A7733BE812437D38003E3C7E /* PBXTextBookmark */ = A7733BE812437D38003E3C7E /* PBXTextBookmark */;
+			A7733BE912437D38003E3C7E /* PBXTextBookmark */ = A7733BE912437D38003E3C7E /* PBXTextBookmark */;
+			A7733BF01243855B003E3C7E /* PBXTextBookmark */ = A7733BF01243855B003E3C7E /* PBXTextBookmark */;
+			A7733BF8124385FB003E3C7E /* PBXTextBookmark */ = A7733BF8124385FB003E3C7E /* PBXTextBookmark */;
+			A7733BF9124385FB003E3C7E /* PBXTextBookmark */ = A7733BF9124385FB003E3C7E /* PBXTextBookmark */;
+			A7733BFA124385FB003E3C7E /* PBXTextBookmark */ = A7733BFA124385FB003E3C7E /* PBXTextBookmark */;
+			A7733BFB124385FB003E3C7E /* PBXTextBookmark */ = A7733BFB124385FB003E3C7E /* PBXTextBookmark */;
+			A7733BFC124385FB003E3C7E /* PBXTextBookmark */ = A7733BFC124385FB003E3C7E /* PBXTextBookmark */;
+			A7733BFE124387C5003E3C7E /* PBXTextBookmark */ = A7733BFE124387C5003E3C7E /* PBXTextBookmark */;
+			A7733C041243884F003E3C7E /* PBXTextBookmark */ = A7733C041243884F003E3C7E /* PBXTextBookmark */;
+			A7733C051243884F003E3C7E /* PBXTextBookmark */ = A7733C051243884F003E3C7E /* PBXTextBookmark */;
+			A7733C061243884F003E3C7E /* PBXTextBookmark */ = A7733C061243884F003E3C7E /* PBXTextBookmark */;
+			A7733C0B12438883003E3C7E /* PBXTextBookmark */ = A7733C0B12438883003E3C7E /* PBXTextBookmark */;
+			A7733C0C12438883003E3C7E /* PBXTextBookmark */ = A7733C0C12438883003E3C7E /* PBXTextBookmark */;
+			A7733C10124388E4003E3C7E /* PBXTextBookmark */ = A7733C10124388E4003E3C7E /* PBXTextBookmark */;
+			A7733C11124388E4003E3C7E /* PBXTextBookmark */ = A7733C11124388E4003E3C7E /* PBXTextBookmark */;
+			A7733C12124388E4003E3C7E /* PBXTextBookmark */ = A7733C12124388E4003E3C7E /* PBXTextBookmark */;
+			A7733C1412438909003E3C7E /* PBXTextBookmark */ = A7733C1412438909003E3C7E /* PBXTextBookmark */;
+			A7733C1512438909003E3C7E /* PBXTextBookmark */ = A7733C1512438909003E3C7E /* PBXTextBookmark */;
+			A7733C1612438909003E3C7E /* PBXTextBookmark */ = A7733C1612438909003E3C7E /* PBXTextBookmark */;
+			A7733C1912438965003E3C7E /* PBXTextBookmark */ = A7733C1912438965003E3C7E /* PBXTextBookmark */;
 			A776819F104D5AC7003295D7 = A776819F104D5AC7003295D7 /* PBXTextBookmark */;
 			A77681A0104D5AC7003295D7 = A77681A0104D5AC7003295D7 /* PBXTextBookmark */;
 			A779A7A80F59A9CB00800C16 = A779A7A80F59A9CB00800C16 /* PBXTextBookmark */;
@@ -1099,9 +1226,9 @@
 	};
 	A704C065123FA8A30030CADC /* NSString+AJAX.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1895, 4342}}";
-			sepNavSelRange = "{5240, 0}";
-			sepNavVisRange = "{4687, 1427}";
+			sepNavIntBoundsRect = "{{0, 0}, {1202, 4745}}";
+			sepNavSelRange = "{3998, 0}";
+			sepNavVisRange = "{5493, 833}";
 		};
 	};
 	A704C076123FB5770030CADC /* PBXTextBookmark */ = {
@@ -1109,7 +1236,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 229";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1869;
 		vrLoc = 3869;
@@ -1119,7 +1246,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 228";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1417;
 		vrLoc = 4482;
@@ -1133,9 +1260,9 @@
 	};
 	A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1174, 923}}";
-			sepNavSelRange = "{1037, 0}";
-			sepNavVisRange = "{27, 2111}";
+			sepNavIntBoundsRect = "{{0, 0}, {1629, 1079}}";
+			sepNavSelRange = "{578, 0}";
+			sepNavVisRange = "{213, 1179}";
 		};
 	};
 	A704C087123FBBEA0030CADC /* PBXTextBookmark */ = {
@@ -1143,7 +1270,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 232";
 		rLen = 0;
-		rLoc = 6226;
+		rLoc = 6265;
 		rType = 0;
 		vrLen = 1537;
 		vrLoc = 4786;
@@ -1183,7 +1310,7 @@
 		fRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */;
 		name = "NSURLRequest+AJAX.m: 27";
 		rLen = 0;
-		rLoc = 1017;
+		rLoc = 1202;
 		rType = 0;
 		vrLen = 1044;
 		vrLoc = 0;
@@ -1193,7 +1320,7 @@
 		fRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */;
 		name = "NSURLRequest+AJAX.m: 22";
 		rLen = 0;
-		rLoc = 525;
+		rLoc = 710;
 		rType = 0;
 		vrLen = 1044;
 		vrLoc = 0;
@@ -1203,7 +1330,7 @@
 		fRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */;
 		name = "NSURLRequest+AJAX.m: 22";
 		rLen = 0;
-		rLoc = 525;
+		rLoc = 710;
 		rType = 0;
 		vrLen = 1044;
 		vrLoc = 0;
@@ -1223,7 +1350,7 @@
 		comments = "Expected ']' before 'NSString'";
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		rLen = 1;
-		rLoc = 550;
+		rLoc = 683;
 		rType = 1;
 	};
 	A704C095123FC2D30030CADC /* PBXTextBookmark */ = {
@@ -1231,7 +1358,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 255";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1555;
 		vrLoc = 4786;
@@ -1241,7 +1368,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 252";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1513;
 		vrLoc = 4786;
@@ -1251,7 +1378,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 252";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1513;
 		vrLoc = 4786;
@@ -1261,7 +1388,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1550;
 		vrLoc = 5505;
@@ -1271,7 +1398,7 @@
 		comments = "Redeclaration of 'response' with no linkage";
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		rLen = 1;
-		rLoc = 249;
+		rLoc = 250;
 		rType = 1;
 	};
 	A704C0AB123FC7B00030CADC /* PBXTextBookmark */ = {
@@ -1279,7 +1406,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 236";
 		rLen = 0;
-		rLoc = 6278;
+		rLoc = 6320;
 		rType = 0;
 		vrLen = 1135;
 		vrLoc = 5096;
@@ -1289,7 +1416,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1299,7 +1426,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1309,7 +1436,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1319,7 +1446,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1329,7 +1456,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1339,7 +1466,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1349,7 +1476,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1359,7 +1486,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1369,7 +1496,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1379,7 +1506,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1389,7 +1516,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1399,7 +1526,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1409,7 +1536,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1419,7 +1546,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1429,7 +1556,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1439,7 +1566,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1449,7 +1576,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1459,7 +1586,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1469,7 +1596,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1479,7 +1606,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1489,7 +1616,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1499,7 +1626,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1509,7 +1636,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1519,7 +1646,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1529,7 +1656,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1539,7 +1666,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1549,7 +1676,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1559,7 +1686,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1569,7 +1696,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1579,7 +1706,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1589,7 +1716,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1599,7 +1726,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1609,7 +1736,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1619,7 +1746,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1629,7 +1756,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1639,7 +1766,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1649,7 +1776,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1659,7 +1786,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1669,7 +1796,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1679,7 +1806,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1689,7 +1816,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1699,7 +1826,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1709,7 +1836,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1719,7 +1846,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1729,7 +1856,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1739,7 +1866,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1749,7 +1876,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1759,7 +1886,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1769,7 +1896,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1779,7 +1906,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1789,7 +1916,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1799,7 +1926,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1809,7 +1936,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1819,7 +1946,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1829,7 +1956,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1839,7 +1966,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1849,7 +1976,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1859,7 +1986,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1869,7 +1996,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1879,7 +2006,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1889,7 +2016,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1899,7 +2026,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1909,7 +2036,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1919,7 +2046,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1929,7 +2056,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1939,7 +2066,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1949,7 +2076,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1959,7 +2086,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1969,7 +2096,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1979,7 +2106,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1989,7 +2116,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -1999,7 +2126,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2009,7 +2136,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2019,7 +2146,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2029,7 +2156,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2039,7 +2166,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2049,7 +2176,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2059,7 +2186,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2069,7 +2196,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2079,7 +2206,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2089,7 +2216,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2099,7 +2226,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2109,7 +2236,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2119,7 +2246,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2129,7 +2256,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2139,7 +2266,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2149,7 +2276,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2159,7 +2286,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2169,7 +2296,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2179,7 +2306,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2189,7 +2316,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2199,7 +2326,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2209,7 +2336,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2219,7 +2346,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2229,7 +2356,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2239,7 +2366,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2249,7 +2376,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2259,7 +2386,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2269,7 +2396,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2279,7 +2406,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2289,7 +2416,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2299,7 +2426,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2309,7 +2436,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2319,7 +2446,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2329,7 +2456,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2339,7 +2466,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2349,7 +2476,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2359,7 +2486,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2369,7 +2496,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2379,7 +2506,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2389,7 +2516,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2399,7 +2526,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2409,7 +2536,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2419,7 +2546,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2429,7 +2556,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2439,7 +2566,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2449,7 +2576,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2459,7 +2586,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2469,7 +2596,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2479,7 +2606,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2489,7 +2616,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2499,7 +2626,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2509,7 +2636,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2519,7 +2646,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2529,7 +2656,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2539,7 +2666,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2549,7 +2676,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2559,7 +2686,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2569,7 +2696,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2579,7 +2706,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2589,7 +2716,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2599,7 +2726,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2609,7 +2736,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2619,7 +2746,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2629,7 +2756,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2639,7 +2766,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2649,7 +2776,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2659,7 +2786,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2669,7 +2796,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2679,7 +2806,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2689,7 +2816,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2699,7 +2826,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2709,7 +2836,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2719,7 +2846,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2729,7 +2856,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2739,7 +2866,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2749,7 +2876,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2759,7 +2886,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2769,7 +2896,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2779,7 +2906,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2789,7 +2916,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2799,7 +2926,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2809,7 +2936,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2819,7 +2946,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2829,7 +2956,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2839,7 +2966,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2849,7 +2976,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2859,7 +2986,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2869,7 +2996,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2879,7 +3006,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2889,7 +3016,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2899,7 +3026,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2909,7 +3036,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2919,7 +3046,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2929,7 +3056,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2939,7 +3066,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2949,7 +3076,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2959,7 +3086,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2969,7 +3096,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2979,7 +3106,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2989,7 +3116,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -2999,7 +3126,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -3009,7 +3136,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -3019,7 +3146,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -3029,7 +3156,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -3039,7 +3166,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -3049,7 +3176,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -3059,7 +3186,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 5505;
@@ -3087,9 +3214,9 @@
 	};
 	A7061AC70F3712A300F605C1 /* ReportAppsController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1216, 7579}}";
-			sepNavSelRange = "{6797, 965}";
-			sepNavVisRange = "{6217, 1774}";
+			sepNavIntBoundsRect = "{{0, 0}, {1216, 7514}}";
+			sepNavSelRange = "{5141, 0}";
+			sepNavVisRange = "{4776, 1808}";
 			sepNavWindowFrame = "{{269, 89}, {1027, 789}}";
 		};
 	};
@@ -3116,9 +3243,9 @@
 	};
 	A706D00A105CF3130048E061 /* ReviewDownloaderOperation.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1888, 5954}}";
-			sepNavSelRange = "{2860, 10}";
-			sepNavVisRange = "{1584, 3001}";
+			sepNavIntBoundsRect = "{{0, 0}, {1888, 5109}}";
+			sepNavSelRange = "{5564, 0}";
+			sepNavVisRange = "{5232, 3587}";
 			sepNavWindowFrame = "{{511, 213}, {1257, 631}}";
 		};
 	};
@@ -3218,7 +3345,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 229";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1980;
 		vrLoc = 4113;
@@ -3403,9 +3530,9 @@
 	};
 	A7325B9F0F21C9920053AEB1 /* ReportRootController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1146, 3718}}";
-			sepNavSelRange = "{1108, 0}";
-			sepNavVisRange = "{3541, 1465}";
+			sepNavIntBoundsRect = "{{0, 0}, {1146, 3731}}";
+			sepNavSelRange = "{2697, 102}";
+			sepNavVisRange = "{2170, 1496}";
 			sepNavWindowFrame = "{{89, 36}, {1359, 814}}";
 		};
 	};
@@ -3902,7 +4029,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1538;
 		vrLoc = 5623;
@@ -3912,7 +4039,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1538;
 		vrLoc = 5623;
@@ -3922,7 +4049,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 264";
 		rLen = 0;
-		rLoc = 7052;
+		rLoc = 7183;
 		rType = 0;
 		vrLen = 1491;
 		vrLoc = 5671;
@@ -3952,7 +4079,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 277";
 		rLen = 0;
-		rLoc = 7337;
+		rLoc = 7466;
 		rType = 0;
 		vrLen = 1579;
 		vrLoc = 5943;
@@ -3962,7 +4089,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 284";
 		rLen = 0;
-		rLoc = 8164;
+		rLoc = 8348;
 		rType = 0;
 		vrLen = 1741;
 		vrLoc = 6231;
@@ -4012,7 +4139,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 294";
 		rLen = 0;
-		rLoc = 8164;
+		rLoc = 8348;
 		rType = 0;
 		vrLen = 1676;
 		vrLoc = 6231;
@@ -4022,7 +4149,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 294";
 		rLen = 0;
-		rLoc = 8164;
+		rLoc = 8348;
 		rType = 0;
 		vrLen = 1708;
 		vrLoc = 6233;
@@ -4032,7 +4159,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 294";
 		rLen = 0;
-		rLoc = 8164;
+		rLoc = 8348;
 		rType = 0;
 		vrLen = 1653;
 		vrLoc = 6460;
@@ -4121,7 +4248,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 321";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1838;
 		vrLoc = 6661;
@@ -4131,7 +4258,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 321";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1757;
 		vrLoc = 6742;
@@ -4170,7 +4297,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 321";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1754;
 		vrLoc = 6747;
@@ -4180,7 +4307,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 329";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1660;
 		vrLoc = 7653;
@@ -4190,7 +4317,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 353";
 		rLen = 85;
-		rLoc = 16286;
+		rLoc = 21190;
 		rType = 0;
 		vrLen = 1740;
 		vrLoc = 7864;
@@ -4200,7 +4327,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 361";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1735;
 		vrLoc = 7963;
@@ -4210,7 +4337,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 361";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1847;
 		vrLoc = 7977;
@@ -4220,7 +4347,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 340";
 		rLen = 0;
-		rLoc = 14974;
+		rLoc = 14924;
 		rType = 0;
 		vrLen = 1803;
 		vrLoc = 8034;
@@ -4230,7 +4357,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 344";
 		rLen = 0;
-		rLoc = 15177;
+		rLoc = 15127;
 		rType = 0;
 		vrLen = 1776;
 		vrLoc = 7963;
@@ -4240,7 +4367,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 344";
 		rLen = 0;
-		rLoc = 15177;
+		rLoc = 15127;
 		rType = 0;
 		vrLen = 1844;
 		vrLoc = 6639;
@@ -4270,7 +4397,7 @@
 		fRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */;
 		name = "NSURLRequest+AJAX.m: 22";
 		rLen = 0;
-		rLoc = 525;
+		rLoc = 710;
 		rType = 0;
 		vrLen = 1044;
 		vrLoc = 0;
@@ -4370,7 +4497,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 344";
 		rLen = 0;
-		rLoc = 15177;
+		rLoc = 15127;
 		rType = 0;
 		vrLen = 1745;
 		vrLoc = 6738;
@@ -4380,7 +4507,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 327";
 		rLen = 0;
-		rLoc = 10438;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 1634;
 		vrLoc = 7547;
@@ -4390,7 +4517,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 356";
 		rLen = 0;
-		rLoc = 14314;
+		rLoc = 14264;
 		rType = 0;
 		vrLen = 2064;
 		vrLoc = 7654;
@@ -4400,7 +4527,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 356";
 		rLen = 0;
-		rLoc = 14314;
+		rLoc = 14264;
 		rType = 0;
 		vrLen = 1799;
 		vrLoc = 8604;
@@ -4410,7 +4537,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 356";
 		rLen = 0;
-		rLoc = 14314;
+		rLoc = 14264;
 		rType = 0;
 		vrLen = 1799;
 		vrLoc = 8604;
@@ -4447,7 +4574,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 313";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 2148;
 		vrLoc = 7980;
@@ -4457,7 +4584,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 313";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 2084;
 		vrLoc = 8044;
@@ -4467,7 +4594,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 313";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 2084;
 		vrLoc = 8044;
@@ -4524,7 +4651,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 313";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 2030;
 		vrLoc = 8044;
@@ -4534,7 +4661,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 356";
 		rLen = 0;
-		rLoc = 14314;
+		rLoc = 14264;
 		rType = 0;
 		vrLen = 2146;
 		vrLoc = 12454;
@@ -4544,7 +4671,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 507";
 		rLen = 0;
-		rLoc = 19695;
+		rLoc = 24599;
 		rType = 0;
 		vrLen = 1916;
 		vrLoc = 8797;
@@ -4554,7 +4681,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 507";
 		rLen = 0;
-		rLoc = 19695;
+		rLoc = 24599;
 		rType = 0;
 		vrLen = 1929;
 		vrLoc = 8797;
@@ -4564,7 +4691,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 507";
 		rLen = 0;
-		rLoc = 19695;
+		rLoc = 24599;
 		rType = 0;
 		vrLen = 1913;
 		vrLoc = 8813;
@@ -4574,7 +4701,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 373";
 		rLen = 0;
-		rLoc = 15177;
+		rLoc = 15127;
 		rType = 0;
 		vrLen = 1913;
 		vrLoc = 8813;
@@ -4584,7 +4711,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 373";
 		rLen = 0;
-		rLoc = 15177;
+		rLoc = 15127;
 		rType = 0;
 		vrLen = 1789;
 		vrLoc = 8606;
@@ -4594,7 +4721,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 392";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1939;
 		vrLoc = 8893;
@@ -4604,7 +4731,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 392";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1936;
 		vrLoc = 9014;
@@ -4614,7 +4741,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 332";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 1814;
 		vrLoc = 7548;
@@ -4624,7 +4751,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 332";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 1797;
 		vrLoc = 7580;
@@ -4634,7 +4761,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 330";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 1826;
 		vrLoc = 7580;
@@ -4644,7 +4771,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 330";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 1756;
 		vrLoc = 7650;
@@ -4654,7 +4781,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 325";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 1607;
 		vrLoc = 7577;
@@ -4664,7 +4791,7 @@
 		fRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */;
 		name = "NSURLRequest+AJAX.m: 22";
 		rLen = 0;
-		rLoc = 525;
+		rLoc = 710;
 		rType = 0;
 		vrLen = 1044;
 		vrLoc = 0;
@@ -4713,7 +4840,7 @@
 		isa = PBXTextBookmark;
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		rLen = 0;
-		rLoc = 550;
+		rLoc = 683;
 		rType = 1;
 	};
 	A773384212427585003E3C7E /* PBXTextBookmark */ = {
@@ -4721,7 +4848,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 325";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 1895;
 		vrLoc = 6404;
@@ -4731,7 +4858,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 357";
 		rLen = 0;
-		rLoc = 14314;
+		rLoc = 14264;
 		rType = 0;
 		vrLen = 1997;
 		vrLoc = 7963;
@@ -4741,7 +4868,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 357";
 		rLen = 0;
-		rLoc = 14314;
+		rLoc = 14264;
 		rType = 0;
 		vrLen = 2016;
 		vrLoc = 7977;
@@ -4751,7 +4878,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 335";
 		rLen = 0;
-		rLoc = 10630;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 2060;
 		vrLoc = 8034;
@@ -4761,7 +4888,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 414";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 2224;
 		vrLoc = 7214;
@@ -4771,7 +4898,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 414";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 2241;
 		vrLoc = 7303;
@@ -4781,7 +4908,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 414";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 2254;
 		vrLoc = 7334;
@@ -4791,7 +4918,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 413";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1856;
 		vrLoc = 9686;
@@ -4801,7 +4928,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 389";
 		rLen = 0;
-		rLoc = 14974;
+		rLoc = 14924;
 		rType = 0;
 		vrLen = 1918;
 		vrLoc = 9417;
@@ -4811,7 +4938,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 340";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 2214;
 		vrLoc = 7334;
@@ -4821,7 +4948,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 417";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 2113;
 		vrLoc = 7331;
@@ -4831,7 +4958,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 327";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 2184;
 		vrLoc = 7515;
@@ -4841,7 +4968,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 327";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 1820;
 		vrLoc = 5921;
@@ -4851,7 +4978,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 306";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 2125;
 		vrLoc = 7399;
@@ -4861,7 +4988,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 336";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 2158;
 		vrLoc = 7214;
@@ -4871,7 +4998,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 336";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 2175;
 		vrLoc = 7303;
@@ -4881,7 +5008,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 336";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 2146;
 		vrLoc = 7334;
@@ -4891,7 +5018,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 324";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 1787;
 		vrLoc = 4581;
@@ -4901,7 +5028,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 327";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 1789;
 		vrLoc = 8641;
@@ -4911,7 +5038,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 327";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 1609;
 		vrLoc = 3747;
@@ -4921,7 +5048,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 327";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 1889;
 		vrLoc = 6752;
@@ -4931,7 +5058,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 283";
 		rLen = 0;
-		rLoc = 8164;
+		rLoc = 8348;
 		rType = 0;
 		vrLen = 2295;
 		vrLoc = 6099;
@@ -4941,7 +5068,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 283";
 		rLen = 0;
-		rLoc = 8164;
+		rLoc = 8348;
 		rType = 0;
 		vrLen = 2272;
 		vrLoc = 6222;
@@ -4951,7 +5078,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 286";
 		rLen = 0;
-		rLoc = 7534;
+		rLoc = 7663;
 		rType = 0;
 		vrLen = 1827;
 		vrLoc = 6704;
@@ -4961,7 +5088,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 287";
 		rLen = 0;
-		rLoc = 7611;
+		rLoc = 7740;
 		rType = 0;
 		vrLen = 2313;
 		vrLoc = 6704;
@@ -4971,7 +5098,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 287";
 		rLen = 0;
-		rLoc = 7611;
+		rLoc = 7740;
 		rType = 0;
 		vrLen = 2298;
 		vrLoc = 6719;
@@ -4981,7 +5108,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 287";
 		rLen = 0;
-		rLoc = 7611;
+		rLoc = 7740;
 		rType = 0;
 		vrLen = 2294;
 		vrLoc = 6783;
@@ -4991,7 +5118,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 307";
 		rLen = 0;
-		rLoc = 8164;
+		rLoc = 8348;
 		rType = 0;
 		vrLen = 2219;
 		vrLoc = 7967;
@@ -5001,7 +5128,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 307";
 		rLen = 0;
-		rLoc = 8164;
+		rLoc = 8348;
 		rType = 0;
 		vrLen = 2188;
 		vrLoc = 7998;
@@ -5011,7 +5138,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 435";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1838;
 		vrLoc = 10305;
@@ -5021,7 +5148,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 435";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1783;
 		vrLoc = 10362;
@@ -5031,7 +5158,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 360";
 		rLen = 0;
-		rLoc = 10274;
+		rLoc = 10454;
 		rType = 0;
 		vrLen = 1925;
 		vrLoc = 10448;
@@ -5041,7 +5168,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 435";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1708;
 		vrLoc = 11681;
@@ -5051,7 +5178,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 435";
 		rLen = 0;
-		rLoc = 16179;
+		rLoc = 21083;
 		rType = 0;
 		vrLen = 1703;
 		vrLoc = 11686;
@@ -5061,7 +5188,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 392";
 		rLen = 0;
-		rLoc = 11573;
+		rLoc = 10924;
 		rType = 0;
 		vrLen = 2299;
 		vrLoc = 6603;
@@ -5071,7 +5198,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 411";
 		rLen = 0;
-		rLoc = 11579;
+		rLoc = 10930;
 		rType = 0;
 		vrLen = 2176;
 		vrLoc = 10352;
@@ -5081,7 +5208,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 411";
 		rLen = 0;
-		rLoc = 11579;
+		rLoc = 10930;
 		rType = 0;
 		vrLen = 2002;
 		vrLoc = 11245;
@@ -5091,7 +5218,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 443";
 		rLen = 0;
-		rLoc = 15513;
+		rLoc = 15463;
 		rType = 0;
 		vrLen = 1925;
 		vrLoc = 11243;
@@ -5101,7 +5228,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 443";
 		rLen = 0;
-		rLoc = 15513;
+		rLoc = 15463;
 		rType = 0;
 		vrLen = 1961;
 		vrLoc = 11170;
@@ -5111,7 +5238,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 443";
 		rLen = 0;
-		rLoc = 15513;
+		rLoc = 15463;
 		rType = 0;
 		vrLen = 1953;
 		vrLoc = 11059;
@@ -5121,7 +5248,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 443";
 		rLen = 0;
-		rLoc = 15513;
+		rLoc = 15463;
 		rType = 0;
 		vrLen = 1872;
 		vrLoc = 11140;
@@ -5131,7 +5258,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 410";
 		rLen = 0;
-		rLoc = 11573;
+		rLoc = 10924;
 		rType = 0;
 		vrLen = 1955;
 		vrLoc = 10614;
@@ -5151,7 +5278,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 442";
 		rLen = 0;
-		rLoc = 12743;
+		rLoc = 12134;
 		rType = 0;
 		vrLen = 1982;
 		vrLoc = 10852;
@@ -5161,7 +5288,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 422";
 		rLen = 0;
-		rLoc = 12193;
+		rLoc = 11544;
 		rType = 0;
 		vrLen = 1977;
 		vrLoc = 10852;
@@ -5171,7 +5298,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 422";
 		rLen = 0;
-		rLoc = 12193;
+		rLoc = 11544;
 		rType = 0;
 		vrLen = 1975;
 		vrLoc = 10854;
@@ -5191,7 +5318,7 @@
 		fRef = A704C065123FA8A30030CADC /* NSString+AJAX.m */;
 		name = "NSString+AJAX.m: 299";
 		rLen = 0;
-		rLoc = 7705;
+		rLoc = 7890;
 		rType = 0;
 		vrLen = 2050;
 		vrLoc = 6173;
@@ -5201,7 +5328,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 421";
 		rLen = 0;
-		rLoc = 11849;
+		rLoc = 11200;
 		rType = 0;
 		vrLen = 2209;
 		vrLoc = 10885;
@@ -5211,7 +5338,7 @@
 		fRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */;
 		name = "NSURLRequest+AJAX.m: 52";
 		rLen = 0;
-		rLoc = 2009;
+		rLoc = 2194;
 		rType = 0;
 		vrLen = 1988;
 		vrLoc = 0;
@@ -5221,7 +5348,7 @@
 		fRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */;
 		name = "NSURLRequest+AJAX.m: 52";
 		rLen = 0;
-		rLoc = 2009;
+		rLoc = 2194;
 		rType = 0;
 		vrLen = 1988;
 		vrLoc = 0;
@@ -5231,7 +5358,7 @@
 		fRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */;
 		name = "NSURLRequest+AJAX.m: 41";
 		rLen = 0;
-		rLoc = 1512;
+		rLoc = 1697;
 		rType = 0;
 		vrLen = 1988;
 		vrLoc = 0;
@@ -5261,7 +5388,7 @@
 		fRef = A704C065123FA8A30030CADC /* NSString+AJAX.m */;
 		name = "NSString+AJAX.m: 310";
 		rLen = 0;
-		rLoc = 8293;
+		rLoc = 8478;
 		rType = 0;
 		vrLen = 1917;
 		vrLoc = 6219;
@@ -5271,7 +5398,7 @@
 		fRef = A704C065123FA8A30030CADC /* NSString+AJAX.m */;
 		name = "NSString+AJAX.m: 310";
 		rLen = 0;
-		rLoc = 8293;
+		rLoc = 8478;
 		rType = 0;
 		vrLen = 1917;
 		vrLoc = 6219;
@@ -5281,7 +5408,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 427";
 		rLen = 25;
-		rLoc = 12226;
+		rLoc = 11577;
 		rType = 0;
 		vrLen = 2317;
 		vrLoc = 10452;
@@ -5291,7 +5418,7 @@
 		fRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */;
 		name = "NSURLRequest+AJAX.m: 37";
 		rLen = 1097;
-		rLoc = 1040;
+		rLoc = 1225;
 		rType = 0;
 		vrLen = 1988;
 		vrLoc = 0;
@@ -5361,7 +5488,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 504";
 		rLen = 0;
-		rLoc = 15819;
+		rLoc = 15769;
 		rType = 0;
 		vrLen = 1884;
 		vrLoc = 13344;
@@ -5371,7 +5498,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 504";
 		rLen = 0;
-		rLoc = 15819;
+		rLoc = 15769;
 		rType = 0;
 		vrLen = 1782;
 		vrLoc = 13446;
@@ -5411,7 +5538,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 508";
 		rLen = 0;
-		rLoc = 16035;
+		rLoc = 15985;
 		rType = 0;
 		vrLen = 1780;
 		vrLoc = 13448;
@@ -5431,7 +5558,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 512";
 		rLen = 20;
-		rLoc = 16100;
+		rLoc = 16050;
 		rType = 0;
 		vrLen = 2272;
 		vrLoc = 12800;
@@ -5478,7 +5605,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
 		name = "Report_v1.m: 376";
 		rLen = 0;
-		rLoc = 10928;
+		rLoc = 10948;
 		rType = 0;
 		vrLen = 2484;
 		vrLoc = 10124;
@@ -5498,7 +5625,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
 		name = "Report_v1.m: 425";
 		rLen = 0;
-		rLoc = 12857;
+		rLoc = 13264;
 		rType = 0;
 		vrLen = 1859;
 		vrLoc = 9746;
@@ -5508,7 +5635,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
 		name = "Report_v1.m: 425";
 		rLen = 0;
-		rLoc = 12802;
+		rLoc = 13209;
 		rType = 0;
 		vrLen = 2533;
 		vrLoc = 11740;
@@ -5535,7 +5662,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
 		name = "Report_v1.m: 356";
 		rLen = 0;
-		rLoc = 10358;
+		rLoc = 10378;
 		rType = 0;
 		vrLen = 1794;
 		vrLoc = 9811;
@@ -5545,7 +5672,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 512";
 		rLen = 20;
-		rLoc = 16100;
+		rLoc = 16050;
 		rType = 0;
 		vrLen = 1643;
 		vrLoc = 14205;
@@ -5555,7 +5682,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
 		name = "Report_v1.m: 356";
 		rLen = 0;
-		rLoc = 10358;
+		rLoc = 10378;
 		rType = 0;
 		vrLen = 2366;
 		vrLoc = 18253;
@@ -5585,7 +5712,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 512";
 		rLen = 20;
-		rLoc = 16100;
+		rLoc = 16050;
 		rType = 0;
 		vrLen = 2258;
 		vrLoc = 12800;
@@ -5645,7 +5772,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 462";
 		rLen = 0;
-		rLoc = 12950;
+		rLoc = 12896;
 		rType = 0;
 		vrLen = 2481;
 		vrLoc = 11647;
@@ -5655,7 +5782,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 462";
 		rLen = 0;
-		rLoc = 12950;
+		rLoc = 12896;
 		rType = 0;
 		vrLen = 2411;
 		vrLoc = 11717;
@@ -5675,7 +5802,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 460";
 		rLen = 0;
-		rLoc = 12831;
+		rLoc = 12222;
 		rType = 0;
 		vrLen = 2410;
 		vrLoc = 11714;
@@ -5685,7 +5812,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 460";
 		rLen = 0;
-		rLoc = 12831;
+		rLoc = 12222;
 		rType = 0;
 		vrLen = 2512;
 		vrLoc = 11717;
@@ -5705,7 +5832,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 460";
 		rLen = 0;
-		rLoc = 12831;
+		rLoc = 12222;
 		rType = 0;
 		vrLen = 2411;
 		vrLoc = 11717;
@@ -5715,7 +5842,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 460";
 		rLen = 0;
-		rLoc = 12831;
+		rLoc = 12222;
 		rType = 0;
 		vrLen = 2514;
 		vrLoc = 11719;
@@ -5725,7 +5852,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 460";
 		rLen = 0;
-		rLoc = 12782;
+		rLoc = 12173;
 		rType = 0;
 		vrLen = 2510;
 		vrLoc = 11719;
@@ -5772,7 +5899,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 460";
 		rLen = 0;
-		rLoc = 12782;
+		rLoc = 12173;
 		rType = 0;
 		vrLen = 2510;
 		vrLoc = 11719;
@@ -5782,7 +5909,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 456";
 		rLen = 0;
-		rLoc = 12742;
+		rLoc = 12133;
 		rType = 0;
 		vrLen = 2528;
 		vrLoc = 11721;
@@ -5802,7 +5929,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 465";
 		rLen = 0;
-		rLoc = 12952;
+		rLoc = 12896;
 		rType = 0;
 		vrLen = 2573;
 		vrLoc = 11719;
@@ -5812,7 +5939,7 @@
 		fRef = A704C065123FA8A30030CADC /* NSString+AJAX.m */;
 		name = "NSString+AJAX.m: 310";
 		rLen = 0;
-		rLoc = 8293;
+		rLoc = 8478;
 		rType = 0;
 		vrLen = 2095;
 		vrLoc = 5947;
@@ -5822,7 +5949,7 @@
 		fRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */;
 		name = "NSURLRequest+AJAX.m: 37";
 		rLen = 1097;
-		rLoc = 1040;
+		rLoc = 1225;
 		rType = 0;
 		vrLen = 1988;
 		vrLoc = 0;
@@ -5832,7 +5959,7 @@
 		fRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */;
 		name = "NSURLRequest+AJAX.m: 51";
 		rLen = 0;
-		rLoc = 2009;
+		rLoc = 2194;
 		rType = 0;
 		vrLen = 1959;
 		vrLoc = 0;
@@ -5842,7 +5969,7 @@
 		fRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */;
 		name = "NSURLRequest+AJAX.m: 51";
 		rLen = 0;
-		rLoc = 2009;
+		rLoc = 2194;
 		rType = 0;
 		vrLen = 1959;
 		vrLoc = 0;
@@ -5862,7 +5989,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 465";
 		rLen = 0;
-		rLoc = 12952;
+		rLoc = 12896;
 		rType = 0;
 		vrLen = 2547;
 		vrLoc = 11745;
@@ -5872,7 +5999,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 465";
 		rLen = 0;
-		rLoc = 12952;
+		rLoc = 12896;
 		rType = 0;
 		vrLen = 2093;
 		vrLoc = 12394;
@@ -5902,7 +6029,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 465";
 		rLen = 0;
-		rLoc = 12952;
+		rLoc = 12896;
 		rType = 0;
 		vrLen = 2081;
 		vrLoc = 12394;
@@ -5972,7 +6099,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 462";
 		rLen = 0;
-		rLoc = 12891;
+		rLoc = 12282;
 		rType = 0;
 		vrLen = 2213;
 		vrLoc = 12291;
@@ -5982,7 +6109,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 462";
 		rLen = 0;
-		rLoc = 12891;
+		rLoc = 12282;
 		rType = 0;
 		vrLen = 2108;
 		vrLoc = 12396;
@@ -6005,7 +6132,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 462";
 		rLen = 0;
-		rLoc = 12891;
+		rLoc = 12282;
 		rType = 0;
 		vrLen = 2108;
 		vrLoc = 12396;
@@ -6189,7 +6316,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 466";
 		rLen = 0;
-		rLoc = 12916;
+		rLoc = 12307;
 		rType = 0;
 		vrLen = 2438;
 		vrLoc = 11644;
@@ -6229,7 +6356,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 469";
 		rLen = 0;
-		rLoc = 12952;
+		rLoc = 12896;
 		rType = 0;
 		vrLen = 2365;
 		vrLoc = 11717;
@@ -6276,7 +6403,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 469";
 		rLen = 0;
-		rLoc = 12952;
+		rLoc = 12896;
 		rType = 0;
 		vrLen = 2362;
 		vrLoc = 11951;
@@ -6315,7 +6442,7 @@
 		isa = PBXTextBookmark;
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		rLen = 0;
-		rLoc = 464;
+		rLoc = 448;
 		rType = 1;
 	};
 	A7733A591242AB9C003E3C7E /* PBXTextBookmark */ = {
@@ -6323,7 +6450,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 466";
 		rLen = 0;
-		rLoc = 12906;
+		rLoc = 12297;
 		rType = 0;
 		vrLen = 2373;
 		vrLoc = 12012;
@@ -6333,7 +6460,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 498";
 		rLen = 0;
-		rLoc = 13019;
+		rLoc = 12969;
 		rType = 0;
 		vrLen = 2300;
 		vrLoc = 12561;
@@ -6343,7 +6470,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 498";
 		rLen = 0;
-		rLoc = 13019;
+		rLoc = 12969;
 		rType = 0;
 		vrLen = 2400;
 		vrLoc = 12571;
@@ -6353,7 +6480,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 482";
 		rLen = 0;
-		rLoc = 13019;
+		rLoc = 12969;
 		rType = 0;
 		vrLen = 2340;
 		vrLoc = 12906;
@@ -6363,7 +6490,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 492";
 		rLen = 0;
-		rLoc = 13019;
+		rLoc = 12969;
 		rType = 0;
 		vrLen = 2441;
 		vrLoc = 12939;
@@ -6373,7 +6500,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 492";
 		rLen = 0;
-		rLoc = 13019;
+		rLoc = 12969;
 		rType = 0;
 		vrLen = 2441;
 		vrLoc = 12939;
@@ -6437,7 +6564,7 @@
 		fRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */;
 		name = "NSURLRequest+AJAX.m: 51";
 		rLen = 0;
-		rLoc = 2009;
+		rLoc = 2194;
 		rType = 0;
 		vrLen = 1959;
 		vrLoc = 0;
@@ -6447,7 +6574,7 @@
 		fRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */;
 		name = "NSURLRequest+AJAX.m: 52";
 		rLen = 0;
-		rLoc = 1446;
+		rLoc = 1631;
 		rType = 0;
 		vrLen = 2116;
 		vrLoc = 3;
@@ -6457,7 +6584,7 @@
 		fRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */;
 		name = "NSURLRequest+AJAX.m: 39";
 		rLen = 194;
-		rLoc = 1209;
+		rLoc = 1394;
 		rType = 0;
 		vrLen = 2099;
 		vrLoc = 40;
@@ -6467,7 +6594,7 @@
 		fRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */;
 		name = "NSURLRequest+AJAX.m: 39";
 		rLen = 194;
-		rLoc = 1209;
+		rLoc = 1394;
 		rType = 0;
 		vrLen = 2098;
 		vrLoc = 40;
@@ -6476,7 +6603,7 @@
 		isa = PBXTextBookmark;
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		rLen = 0;
-		rLoc = 468;
+		rLoc = 452;
 		rType = 1;
 	};
 	A7733A9C1242AE32003E3C7E /* PBXTextBookmark */ = {
@@ -6484,7 +6611,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 482";
 		rLen = 0;
-		rLoc = 13019;
+		rLoc = 12969;
 		rType = 0;
 		vrLen = 2439;
 		vrLoc = 12937;
@@ -6494,7 +6621,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 551";
 		rLen = 0;
-		rLoc = 15829;
+		rLoc = 15779;
 		rType = 0;
 		vrLen = 2256;
 		vrLoc = 14091;
@@ -6551,7 +6678,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 551";
 		rLen = 0;
-		rLoc = 15829;
+		rLoc = 15779;
 		rType = 0;
 		vrLen = 2261;
 		vrLoc = 14088;
@@ -6561,7 +6688,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 360";
 		rLen = 0;
-		rLoc = 9873;
+		rLoc = 10053;
 		rType = 0;
 		vrLen = 1968;
 		vrLoc = 10156;
@@ -6571,7 +6698,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 380";
 		rLen = 0;
-		rLoc = 10329;
+		rLoc = 10491;
 		rType = 0;
 		vrLen = 2267;
 		vrLoc = 10156;
@@ -6581,7 +6708,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 1054";
 		rLen = 5;
-		rLoc = 33045;
+		rLoc = 37949;
 		rType = 0;
 		vrLen = 2139;
 		vrLoc = 32026;
@@ -6591,7 +6718,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 553";
 		rLen = 0;
-		rLoc = 16178;
+		rLoc = 21082;
 		rType = 0;
 		vrLen = 1746;
 		vrLoc = 6380;
@@ -6601,7 +6728,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 502";
 		rLen = 0;
-		rLoc = 14310;
+		rLoc = 14260;
 		rType = 0;
 		vrLen = 2608;
 		vrLoc = 12605;
@@ -6611,7 +6738,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 502";
 		rLen = 0;
-		rLoc = 14310;
+		rLoc = 14260;
 		rType = 0;
 		vrLen = 2598;
 		vrLoc = 12615;
@@ -6621,7 +6748,7 @@
 		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
 		name = "Report_v1.m: 356";
 		rLen = 0;
-		rLoc = 10358;
+		rLoc = 10378;
 		rType = 0;
 		vrLen = 2366;
 		vrLoc = 18253;
@@ -6651,7 +6778,7 @@
 		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
 		name = "ItunesConnectDownloaderOperation.m: 1055";
 		rLen = 5;
-		rLoc = 33045;
+		rLoc = 37949;
 		rType = 0;
 		vrLen = 2204;
 		vrLoc = 31995;
@@ -6671,7 +6798,7 @@
 		fRef = A704C07D123FB5BC0030CADC /* NSURLRequest+AJAX.m */;
 		name = "NSURLRequest+AJAX.m: 34";
 		rLen = 0;
-		rLoc = 1037;
+		rLoc = 1222;
 		rType = 0;
 		vrLen = 2111;
 		vrLoc = 27;
@@ -6775,6 +6902,1268 @@
 		rType = 0;
 		vrLen = 2031;
 		vrLoc = 2244;
+	};
+	A7733AD712435CAB003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
+		name = "ASiSTAppDelegate.m: 104";
+		rLen = 0;
+		rLoc = 2499;
+		rType = 0;
+		vrLen = 2003;
+		vrLoc = 2021;
+	};
+	A7733AD812435CAB003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 349";
+		rLen = 43;
+		rLoc = 10263;
+		rType = 0;
+		vrLen = 2371;
+		vrLoc = 10588;
+	};
+	A7733AD912435CAB003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 349";
+		rLen = 43;
+		rLoc = 10263;
+		rType = 0;
+		vrLen = 2346;
+		vrLoc = 10613;
+	};
+	A7733ADD12435CF2003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 353";
+		rLen = 0;
+		rLoc = 10338;
+		rType = 0;
+		vrLen = 1673;
+		vrLoc = 9936;
+	};
+	A7733AE112435E06003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 411";
+		rLen = 0;
+		rLoc = 12207;
+		rType = 0;
+		vrLen = 2246;
+		vrLoc = 11135;
+	};
+	A7733AEA12435F5E003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A79D88FE0F029628006C37FC /* Sale_v1.h */;
+		name = "Sale_v1.h: 49";
+		rLen = 0;
+		rLoc = 1613;
+		rType = 0;
+		vrLen = 1613;
+		vrLoc = 0;
+	};
+	A7733AEB12435F5E003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 213";
+		rLen = 0;
+		rLoc = 5777;
+		rType = 0;
+		vrLen = 1962;
+		vrLoc = 3181;
+	};
+	A7733AEC12435F5E003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 383";
+		rLen = 0;
+		rLoc = 10973;
+		rType = 0;
+		vrLen = 2008;
+		vrLoc = 10558;
+	};
+	A7733AF012435F8D003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 383";
+		rLen = 0;
+		rLoc = 10973;
+		rType = 0;
+		vrLen = 2077;
+		vrLoc = 10612;
+	};
+	A7733AF412436090003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 488";
+		rLen = 0;
+		rLoc = 14674;
+		rType = 0;
+		vrLen = 2791;
+		vrLoc = 13169;
+	};
+	A7733AF8124360F5003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 472";
+		rLen = 0;
+		rLoc = 13959;
+		rType = 0;
+		vrLen = 2780;
+		vrLoc = 13206;
+	};
+	A7733AFE124362D9003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3850FA4E8C40079FE78 /* Report_v1.h */;
+		name = "Report_v1.h: 114";
+		rLen = 0;
+		rLoc = 3955;
+		rType = 0;
+		vrLen = 2241;
+		vrLoc = 2687;
+	};
+	A7733AFF124362D9003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 407";
+		rLen = 0;
+		rLoc = 12052;
+		rType = 0;
+		vrLen = 2226;
+		vrLoc = 11482;
+	};
+	A7733B00124362D9003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 454";
+		rLen = 0;
+		rLoc = 13500;
+		rType = 0;
+		vrLen = 2544;
+		vrLoc = 13519;
+	};
+	A7733B0612436365003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 454";
+		rLen = 0;
+		rLoc = 13500;
+		rType = 0;
+		vrLen = 2597;
+		vrLoc = 13731;
+	};
+	A7733B0712436365003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 486";
+		rLen = 0;
+		rLoc = 14702;
+		rType = 0;
+		vrLen = 2495;
+		vrLoc = 13326;
+	};
+	A7733B121243643F003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 486";
+		rLen = 0;
+		rLoc = 14702;
+		rType = 0;
+		vrLen = 2290;
+		vrLoc = 14700;
+	};
+	A7733B131243643F003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 486";
+		rLen = 0;
+		rLoc = 14702;
+		rType = 0;
+		vrLen = 2249;
+		vrLoc = 14960;
+	};
+	A7733B1712436536003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 535";
+		rLen = 0;
+		rLoc = 16520;
+		rType = 0;
+		vrLen = 2189;
+		vrLoc = 15192;
+	};
+	A7733B1812436536003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 535";
+		rLen = 0;
+		rLoc = 16520;
+		rType = 0;
+		vrLen = 2189;
+		vrLoc = 15192;
+	};
+	A7733B1B1243653C003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 535";
+		rLen = 0;
+		rLoc = 16520;
+		rType = 0;
+		vrLen = 2166;
+		vrLoc = 15215;
+	};
+	A7733B1D12436641003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 530";
+		rLen = 0;
+		rLoc = 16520;
+		rType = 0;
+		vrLen = 2166;
+		vrLoc = 15215;
+	};
+	A7733B1E12436776003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 374";
+		rLen = 0;
+		rLoc = 10886;
+		rType = 0;
+		vrLen = 2209;
+		vrLoc = 10824;
+	};
+	A7733B23124368BC003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EB519310481BE6005452BE /* Database.m */;
+		name = "Database.m: 754";
+		rLen = 47;
+		rLoc = 21987;
+		rType = 0;
+		vrLen = 1191;
+		vrLoc = 21573;
+	};
+	A7733B24124368BC003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 564";
+		rLen = 8;
+		rLoc = 17347;
+		rType = 0;
+		vrLen = 2344;
+		vrLoc = 14496;
+	};
+	A7733B25124368BC003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 504";
+		rLen = 0;
+		rLoc = 15676;
+		rType = 0;
+		vrLen = 2344;
+		vrLoc = 14496;
+	};
+	A7733B2C12436999003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 504";
+		rLen = 0;
+		rLoc = 15676;
+		rType = 0;
+		vrLen = 2344;
+		vrLoc = 14496;
+	};
+	A7733B2D12436999003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 521";
+		rLen = 0;
+		rLoc = 17203;
+		rType = 0;
+		vrLen = 1784;
+		vrLoc = 14351;
+	};
+	A7733B2E12436999003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 521";
+		rLen = 0;
+		rLoc = 17203;
+		rType = 0;
+		vrLen = 1745;
+		vrLoc = 14390;
+	};
+	A7733B35124369D6003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 546";
+		rLen = 0;
+		rLoc = 17837;
+		rType = 0;
+		vrLen = 1655;
+		vrLoc = 14670;
+	};
+	A7733B36124369D6003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 546";
+		rLen = 0;
+		rLoc = 17837;
+		rType = 0;
+		vrLen = 1642;
+		vrLoc = 14687;
+	};
+	A7733B3F12436B5D003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 608";
+		rLen = 0;
+		rLoc = 20198;
+		rType = 0;
+		vrLen = 2240;
+		vrLoc = 17516;
+	};
+	A7733B4312436B76003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 608";
+		rLen = 0;
+		rLoc = 20198;
+		rType = 0;
+		vrLen = 2240;
+		vrLoc = 17516;
+	};
+	A7733B4412436B76003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 608";
+		rLen = 0;
+		rLoc = 20198;
+		rType = 0;
+		vrLen = 2240;
+		vrLoc = 17516;
+	};
+	A7733B4B12436D06003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 349";
+		rLen = 43;
+		rLoc = 10263;
+		rType = 0;
+		vrLen = 1633;
+		vrLoc = 10080;
+	};
+	A7733B4C12436D06003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 598";
+		rLen = 0;
+		rLoc = 19754;
+		rType = 0;
+		vrLen = 2240;
+		vrLoc = 17767;
+	};
+	A7733B4D12436D06003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 412";
+		rLen = 0;
+		rLoc = 11845;
+		rType = 0;
+		vrLen = 2154;
+		vrLoc = 17427;
+	};
+	A7733B5112436D48003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 412";
+		rLen = 0;
+		rLoc = 11845;
+		rType = 0;
+		vrLen = 2154;
+		vrLoc = 17427;
+	};
+	A7733B5212436D48003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		rLen = 0;
+		rLoc = 353;
+		rType = 1;
+	};
+	A7733B5312436D48003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 356";
+		rLen = 0;
+		rLoc = 10378;
+		rType = 0;
+		vrLen = 1597;
+		vrLoc = 10080;
+	};
+	A7733B5412436D84003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7294C021095EB7B004A2258 /* NSString+scraping.m */;
+		name = "NSString+scraping.m: 401";
+		rLen = 0;
+		rLoc = 9978;
+		rType = 0;
+		vrLen = 848;
+		vrLoc = 9998;
+	};
+	A7733B5512436D84003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ASiSTAppDelegate.m */;
+		name = "ASiSTAppDelegate.m: 98";
+		rLen = 0;
+		rLoc = 2355;
+		rType = 0;
+		vrLen = 1098;
+		vrLoc = 4625;
+	};
+	A7733B5612436D84003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 511";
+		rLen = 0;
+		rLoc = 15558;
+		rType = 0;
+		vrLen = 1582;
+		vrLoc = 13036;
+	};
+	A7733B5712436D84003E3C7E /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "'level' undeclared (first use in this function)";
+		fRef = A704C065123FA8A30030CADC /* NSString+AJAX.m */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 162;
+		rType = 1;
+	};
+	A7733B5812436D84003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A704C065123FA8A30030CADC /* NSString+AJAX.m */;
+		name = "NSString+AJAX.m: 163";
+		rLen = 0;
+		rLoc = 3998;
+		rType = 0;
+		vrLen = 759;
+		vrLoc = 4861;
+	};
+	A7733B5A12436D84003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7BD6847105AEC920021B6CF /* ISO8601DateFormatter.h */;
+		name = "ISO8601DateFormatter.h: 23";
+		rLen = 4;
+		rLoc = 1314;
+		rType = 0;
+		vrLen = 2983;
+		vrLoc = 0;
+	};
+	A7733B5B12436D84003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7BD6848105AEC920021B6CF /* ISO8601DateFormatter.m */;
+		name = "ISO8601DateFormatter.m: 10";
+		rLen = 4;
+		rLoc = 279;
+		rType = 0;
+		vrLen = 2190;
+		vrLoc = 0;
+	};
+	A7733B5C12436D84003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A735538010CFB07A00F6DC0A /* PullToRefreshTableViewController.m */;
+		name = "PullToRefreshTableViewController.m: 2";
+		rLen = 32;
+		rLoc = 7;
+		rType = 0;
+		vrLen = 2032;
+		vrLoc = 354;
+	};
+	A7733B5D12436D84003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84B22105D1F3700CAD54F /* AppDetailViewController.m */;
+		rLen = 33;
+		rLoc = 11334;
+		rType = 0;
+	};
+	A7733B5E12436D84003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84B22105D1F3700CAD54F /* AppDetailViewController.m */;
+		name = "AppDetailViewController.m: 427";
+		rLen = 33;
+		rLoc = 11334;
+		rType = 0;
+		vrLen = 1721;
+		vrLoc = 9856;
+	};
+	A7733B5F12436D98003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 356";
+		rLen = 0;
+		rLoc = 10378;
+		rType = 0;
+		vrLen = 2133;
+		vrLoc = 15162;
+	};
+	A7733B6012436E2A003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A704C065123FA8A30030CADC /* NSString+AJAX.m */;
+		name = "NSString+AJAX.m: 163";
+		rLen = 0;
+		rLoc = 3998;
+		rType = 0;
+		vrLen = 759;
+		vrLoc = 4861;
+	};
+	A7733B6112436E2A003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84B22105D1F3700CAD54F /* AppDetailViewController.m */;
+		name = "AppDetailViewController.m: 427";
+		rLen = 33;
+		rLoc = 11334;
+		rType = 0;
+		vrLen = 1721;
+		vrLoc = 9856;
+	};
+	A7733B6212436E2D003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 356";
+		rLen = 0;
+		rLoc = 10378;
+		rType = 0;
+		vrLen = 2133;
+		vrLoc = 15162;
+	};
+	A7733B6812436FC9003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 527";
+		rLen = 0;
+		rLoc = 16306;
+		rType = 0;
+		vrLen = 1828;
+		vrLoc = 17949;
+	};
+	A7733B6912436FC9003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 423";
+		rLen = 0;
+		rLoc = 12014;
+		rType = 0;
+		vrLen = 2662;
+		vrLoc = 10962;
+	};
+	A7733B6A12436FC9003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 423";
+		rLen = 0;
+		rLoc = 12014;
+		rType = 0;
+		vrLen = 2416;
+		vrLoc = 11227;
+	};
+	A7733B6E12437075003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 529";
+		rLen = 0;
+		rLoc = 16709;
+		rType = 0;
+		vrLen = 1795;
+		vrLoc = 15133;
+	};
+	A7733B6F12437075003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 529";
+		rLen = 0;
+		rLoc = 16709;
+		rType = 0;
+		vrLen = 1795;
+		vrLoc = 15133;
+	};
+	A7733B7212437096003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 544";
+		rLen = 0;
+		rLoc = 16988;
+		rType = 0;
+		vrLen = 1465;
+		vrLoc = 15795;
+	};
+	A7733B78124370B3003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 431";
+		rLen = 0;
+		rLoc = 12466;
+		rType = 0;
+		vrLen = 2387;
+		vrLoc = 11504;
+	};
+	A7733B80124370F0003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 445";
+		rLen = 0;
+		rLoc = 13213;
+		rType = 0;
+		vrLen = 2320;
+		vrLoc = 11609;
+	};
+	A7733B8612437131003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 445";
+		rLen = 0;
+		rLoc = 13213;
+		rType = 0;
+		vrLen = 2327;
+		vrLoc = 11611;
+	};
+	A7733B8A12437212003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 544";
+		rLen = 0;
+		rLoc = 16988;
+		rType = 0;
+		vrLen = 2155;
+		vrLoc = 18276;
+	};
+	A7733B901243733E003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 441";
+		rLen = 0;
+		rLoc = 12891;
+		rType = 0;
+		vrLen = 2529;
+		vrLoc = 10934;
+	};
+	A7733B911243733E003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 441";
+		rLen = 0;
+		rLoc = 12891;
+		rType = 0;
+		vrLen = 2642;
+		vrLoc = 10960;
+	};
+	A7733B941243736B003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 441";
+		rLen = 0;
+		rLoc = 12891;
+		rType = 0;
+		vrLen = 1794;
+		vrLoc = 15483;
+	};
+	A7733B99124373A7003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 674";
+		rLen = 0;
+		rLoc = 5219;
+		rType = 0;
+		vrLen = 1555;
+		vrLoc = 4108;
+	};
+	A7733B9A124373A7003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 674";
+		rLen = 0;
+		rLoc = 21083;
+		rType = 0;
+		vrLen = 2563;
+		vrLoc = 12307;
+	};
+	A7733BA3124374BD003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 533";
+		rLen = 0;
+		rLoc = 16200;
+		rType = 0;
+		vrLen = 2022;
+		vrLoc = 15406;
+	};
+	A7733BA812437571003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 669";
+		rLen = 0;
+		rLoc = 20751;
+		rType = 0;
+		vrLen = 1844;
+		vrLoc = 15818;
+	};
+	A7733BAB1243769A003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 669";
+		rLen = 0;
+		rLoc = 20751;
+		rType = 0;
+		vrLen = 1686;
+		vrLoc = 26776;
+	};
+	A7733BAC1243770C003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 669";
+		rLen = 0;
+		rLoc = 20751;
+		rType = 0;
+		vrLen = 1762;
+		vrLoc = 26776;
+	};
+	A7733BAF124377F2003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 669";
+		rLen = 0;
+		rLoc = 20751;
+		rType = 0;
+		vrLen = 2094;
+		vrLoc = 15401;
+	};
+	A7733BB0124377F2003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A780D1C60F26219800C796FB /* Query.m */;
+		name = "Query.m: 204";
+		rLen = 0;
+		rLoc = 5361;
+		rType = 0;
+		vrLen = 1787;
+		vrLoc = 1634;
+	};
+	A7733BB1124377F2003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 1008";
+		rLen = 0;
+		rLoc = 30393;
+		rType = 0;
+		vrLen = 1848;
+		vrLoc = 30355;
+	};
+	A7733BB2124377F2003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 1008";
+		rLen = 0;
+		rLoc = 30393;
+		rType = 0;
+		vrLen = 1848;
+		vrLoc = 30355;
+	};
+	A7733BB5124377FC003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 1008";
+		rLen = 0;
+		rLoc = 30393;
+		rType = 0;
+		vrLen = 1848;
+		vrLoc = 30355;
+	};
+	A7733BB6124377FC003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 1008";
+		rLen = 0;
+		rLoc = 30393;
+		rType = 0;
+		vrLen = 1848;
+		vrLoc = 30355;
+	};
+	A7733BB712437807003E3C7E /* Report_v1.m:1082 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		functionName = "-description";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 1082;
+		location = MyAppSales;
+		modificationTime = 306415844.906651;
+		originalNumberOfMultipleMatches = 1;
+		state = 1;
+	};
+	A7733BB912437808003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 1008";
+		rLen = 0;
+		rLoc = 30393;
+		rType = 0;
+		vrLen = 1571;
+		vrLoc = 31553;
+	};
+	A7733BBA12437808003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 1008";
+		rLen = 0;
+		rLoc = 30393;
+		rType = 0;
+		vrLen = 1571;
+		vrLoc = 31553;
+	};
+	A7733BBD1243783C003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 1008";
+		rLen = 0;
+		rLoc = 30393;
+		rType = 0;
+		vrLen = 2123;
+		vrLoc = 33807;
+	};
+	A7733BBE1243783C003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A780D16F0F25D2D400C796FB /* ChartViewController.m */;
+		name = "ChartViewController.m: 96";
+		rLen = 0;
+		rLoc = 2987;
+		rType = 0;
+		vrLen = 2386;
+		vrLoc = 296;
+	};
+	A7733BBF1243783C003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
+		name = "ReportAppsController.m: 287";
+		rLen = 0;
+		rLoc = 7071;
+		rType = 0;
+		vrLen = 1793;
+		vrLoc = 4767;
+	};
+	A7733BC01243783C003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
+		name = "ReportAppsController.m: 287";
+		rLen = 0;
+		rLoc = 7071;
+		rType = 0;
+		vrLen = 1793;
+		vrLoc = 4767;
+	};
+	A7733BC312437847003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
+		name = "ReportAppsController.m: 287";
+		rLen = 0;
+		rLoc = 7071;
+		rType = 0;
+		vrLen = 1793;
+		vrLoc = 4767;
+	};
+	A7733BC412437847003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3800FA4E8C40079FE78 /* GenericReportController.m */;
+		name = "GenericReportController.m: 59";
+		rLen = 2;
+		rLoc = 1278;
+		rType = 0;
+		vrLen = 1447;
+		vrLoc = 343;
+	};
+	A7733BC512437847003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
+		name = "ReportViewController.m: 372";
+		rLen = 102;
+		rLoc = 10505;
+		rType = 0;
+		vrLen = 1718;
+		vrLoc = 9511;
+	};
+	A7733BC612437847003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
+		name = "ReportViewController.m: 372";
+		rLen = 102;
+		rLoc = 10505;
+		rType = 0;
+		vrLen = 1718;
+		vrLoc = 9511;
+	};
+	A7733BC912437850003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
+		name = "ReportViewController.m: 372";
+		rLen = 102;
+		rLoc = 10505;
+		rType = 0;
+		vrLen = 1718;
+		vrLoc = 9511;
+	};
+	A7733BCA12437850003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7325B9F0F21C9920053AEB1 /* ReportRootController.m */;
+		name = "ReportRootController.m: 98";
+		rLen = 102;
+		rLoc = 2697;
+		rType = 0;
+		vrLen = 1709;
+		vrLoc = 1796;
+	};
+	A7733BCB12437850003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7325B9F0F21C9920053AEB1 /* ReportRootController.m */;
+		name = "ReportRootController.m: 98";
+		rLen = 102;
+		rLoc = 2697;
+		rType = 0;
+		vrLen = 1709;
+		vrLoc = 1796;
+	};
+	A7733BCE1243785E003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7325B9F0F21C9920053AEB1 /* ReportRootController.m */;
+		name = "ReportRootController.m: 98";
+		rLen = 102;
+		rLoc = 2697;
+		rType = 0;
+		vrLen = 1496;
+		vrLoc = 2170;
+	};
+	A7733BD212437894003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7325B9F0F21C9920053AEB1 /* ReportRootController.m */;
+		name = "ReportRootController.m: 98";
+		rLen = 102;
+		rLoc = 2697;
+		rType = 0;
+		vrLen = 1496;
+		vrLoc = 2170;
+	};
+	A7733BD312437894003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
+		rLen = 0;
+		rLoc = 378;
+		rType = 1;
+	};
+	A7733BD412437894003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
+		name = "ReportViewController.m: 449";
+		rLen = 0;
+		rLoc = 13376;
+		rType = 0;
+		vrLen = 1862;
+		vrLoc = 11917;
+	};
+	A7733BD61243789B003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
+		name = "ReportViewController.m: 449";
+		rLen = 0;
+		rLoc = 13376;
+		rType = 0;
+		vrLen = 1975;
+		vrLoc = 10032;
+	};
+	A7733BD7124378BD003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */;
+		name = "ReportViewController.m: 449";
+		rLen = 0;
+		rLoc = 13376;
+		rType = 0;
+		vrLen = 1975;
+		vrLoc = 10032;
+	};
+	A7733BD8124378BD003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
+		rLen = 0;
+		rLoc = 228;
+		rType = 1;
+	};
+	A7733BD9124378BD003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
+		name = "ReportAppsController.m: 229";
+		rLen = 0;
+		rLoc = 5141;
+		rType = 0;
+		vrLen = 1784;
+		vrLoc = 4776;
+	};
+	A7733BDF124379E6003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7061AC70F3712A300F605C1 /* ReportAppsController.m */;
+		name = "ReportAppsController.m: 229";
+		rLen = 0;
+		rLoc = 5141;
+		rType = 0;
+		vrLen = 1808;
+		vrLoc = 4776;
+	};
+	A7733BE0124379E6003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 564";
+		rLen = 0;
+		rLoc = 17173;
+		rType = 0;
+		vrLen = 2247;
+		vrLoc = 18876;
+	};
+	A7733BE1124379E6003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 473";
+		rLen = 0;
+		rLoc = 13896;
+		rType = 0;
+		vrLen = 2762;
+		vrLoc = 11980;
+	};
+	A7733BE3124379EF003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 446";
+		rLen = 0;
+		rLoc = 12792;
+		rType = 0;
+		vrLen = 2764;
+		vrLoc = 11980;
+	};
+	A7733BE712437D38003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 416";
+		rLen = 0;
+		rLoc = 11722;
+		rType = 0;
+		vrLen = 1716;
+		vrLoc = 52;
+	};
+	A7733BE812437D38003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 533";
+		rLen = 0;
+		rLoc = 16515;
+		rType = 0;
+		vrLen = 2075;
+		vrLoc = 15357;
+	};
+	A7733BE912437D38003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 70";
+		rLen = 0;
+		rLoc = 2068;
+		rType = 0;
+		vrLen = 1552;
+		vrLoc = 1625;
+	};
+	A7733BF01243855B003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 643";
+		rLen = 0;
+		rLoc = 19544;
+		rType = 0;
+		vrLen = 1652;
+		vrLoc = 18556;
+	};
+	A7733BF8124385FB003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 643";
+		rLen = 0;
+		rLoc = 19544;
+		rType = 0;
+		vrLen = 1632;
+		vrLoc = 18630;
+	};
+	A7733BF9124385FB003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7BD65D8105AB47B0021B6CF /* Review_v1.h */;
+		name = "Review_v1.h: 65";
+		rLen = 0;
+		rLoc = 1666;
+		rType = 0;
+		vrLen = 1666;
+		vrLoc = 0;
+	};
+	A7733BFA124385FB003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7BD65D9105AB47B0021B6CF /* Review_v1.m */;
+		name = "Review_v1.m: 53";
+		rLen = 38;
+		rLoc = 1139;
+		rType = 0;
+		vrLen = 2502;
+		vrLoc = 2631;
+	};
+	A7733BFB124385FB003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A706D00A105CF3130048E061 /* ReviewDownloaderOperation.m */;
+		name = "ReviewDownloaderOperation.m: 194";
+		rLen = 0;
+		rLoc = 6230;
+		rType = 0;
+		vrLen = 3616;
+		vrLoc = 5197;
+	};
+	A7733BFC124385FB003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A706D00A105CF3130048E061 /* ReviewDownloaderOperation.m */;
+		name = "ReviewDownloaderOperation.m: 194";
+		rLen = 0;
+		rLoc = 6230;
+		rType = 0;
+		vrLen = 3616;
+		vrLoc = 5197;
+	};
+	A7733BFE124387C5003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A706D00A105CF3130048E061 /* ReviewDownloaderOperation.m */;
+		name = "ReviewDownloaderOperation.m: 194";
+		rLen = 0;
+		rLoc = 6230;
+		rType = 0;
+		vrLen = 3621;
+		vrLoc = 5197;
+	};
+	A7733C041243884F003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A706D00A105CF3130048E061 /* ReviewDownloaderOperation.m */;
+		name = "ReviewDownloaderOperation.m: 181";
+		rLen = 0;
+		rLoc = 5564;
+		rType = 0;
+		vrLen = 3587;
+		vrLoc = 5232;
+	};
+	A7733C051243884F003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 643";
+		rLen = 0;
+		rLoc = 19544;
+		rType = 0;
+		vrLen = 1632;
+		vrLoc = 18630;
+	};
+	A7733C061243884F003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 536";
+		rLen = 0;
+		rLoc = 16520;
+		rType = 0;
+		vrLen = 1919;
+		vrLoc = 15712;
+	};
+	A7733C0B12438883003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 536";
+		rLen = 0;
+		rLoc = 16520;
+		rType = 0;
+		vrLen = 1586;
+		vrLoc = 16413;
+	};
+	A7733C0C12438883003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 536";
+		rLen = 0;
+		rLoc = 16520;
+		rType = 0;
+		vrLen = 1586;
+		vrLoc = 16413;
+	};
+	A7733C10124388E4003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 536";
+		rLen = 0;
+		rLoc = 16520;
+		rType = 0;
+		vrLen = 1633;
+		vrLoc = 16413;
+	};
+	A7733C11124388E4003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 416";
+		rLen = 0;
+		rLoc = 11722;
+		rType = 0;
+		vrLen = 1713;
+		vrLoc = 55;
+	};
+	A7733C12124388E4003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 348";
+		rLen = 0;
+		rLoc = 9040;
+		rType = 0;
+		vrLen = 2247;
+		vrLoc = 8084;
+	};
+	A7733C1412438909003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */;
+		name = "ItunesConnectDownloaderOperation.m: 348";
+		rLen = 0;
+		rLoc = 9040;
+		rType = 0;
+		vrLen = 2247;
+		vrLoc = 8084;
+	};
+	A7733C1512438909003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		rLen = 0;
+		rLoc = 535;
+		rType = 1;
+	};
+	A7733C1612438909003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 539";
+		rLen = 0;
+		rLoc = 16578;
+		rType = 0;
+		vrLen = 1586;
+		vrLoc = 16413;
+	};
+	A7733C1912438965003E3C7E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7EDD3860FA4E8C40079FE78 /* Report_v1.m */;
+		name = "Report_v1.m: 535";
+		rLen = 0;
+		rLoc = 16520;
+		rType = 0;
+		vrLen = 1752;
+		vrLoc = 16258;
 	};
 	A77429EE119B1F830002D51F /* CoreDatabase.h */ = {
 		uiCtxt = {
@@ -7050,9 +8439,9 @@
 	};
 	A780D16F0F25D2D400C796FB /* ChartViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1146, 2384}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1279, 1885}}";
 			sepNavSelRange = "{2987, 0}";
-			sepNavVisRange = "{3314, 593}";
+			sepNavVisRange = "{296, 2386}";
 			sepNavWindowFrame = "{{251, 63}, {759, 698}}";
 		};
 	};
@@ -7082,9 +8471,9 @@
 	};
 	A780D1C60F26219800C796FB /* Query.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1333, 5792}}";
-			sepNavSelRange = "{164, 0}";
-			sepNavVisRange = "{0, 319}";
+			sepNavIntBoundsRect = "{{0, 0}, {1012, 4615}}";
+			sepNavSelRange = "{5361, 0}";
+			sepNavVisRange = "{1634, 1787}";
 			sepNavWindowFrame = "{{307, -58}, {1027, 810}}";
 		};
 	};
@@ -7383,9 +8772,9 @@
 	};
 	A79D88FE0F029628006C37FC /* Sale_v1.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {924, 912}}";
+			sepNavIntBoundsRect = "{{0, 0}, {2161, 830}}";
 			sepNavSelRange = "{1613, 0}";
-			sepNavVisRange = "{183, 948}";
+			sepNavVisRange = "{0, 1613}";
 			sepNavWindowFrame = "{{287, 149}, {1070, 698}}";
 		};
 	};
@@ -7443,9 +8832,9 @@
 	};
 	A7A84CB1105E18D200CAD54F /* ItunesConnectDownloaderOperation.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {2042, 21788}}";
-			sepNavSelRange = "{33045, 5}";
-			sepNavVisRange = "{31995, 2204}";
+			sepNavIntBoundsRect = "{{0, 0}, {2994, 23348}}";
+			sepNavSelRange = "{9040, 0}";
+			sepNavVisRange = "{8084, 2247}";
 			sepNavWindowFrame = "{{89, 262}, {1351, 551}}";
 		};
 	};
@@ -7812,16 +9201,16 @@
 	};
 	A7BD65D8105AB47B0021B6CF /* Review_v1.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1756, 1024}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1538, 853}}";
 			sepNavSelRange = "{1666, 0}";
-			sepNavVisRange = "{77, 455}";
+			sepNavVisRange = "{0, 1666}";
 		};
 	};
 	A7BD65D9105AB47B0021B6CF /* Review_v1.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1727, 5148}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1531, 5213}}";
 			sepNavSelRange = "{1139, 38}";
-			sepNavVisRange = "{1094, 2341}";
+			sepNavVisRange = "{2631, 2502}";
 			sepNavWindowFrame = "{{38, 301}, {1351, 551}}";
 		};
 	};
@@ -7855,9 +9244,9 @@
 	};
 	A7C15A7C108F127300693757 /* AppGrouping.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1629, 3861}}";
-			sepNavSelRange = "{473, 0}";
-			sepNavVisRange = "{21, 705}";
+			sepNavIntBoundsRect = "{{0, 0}, {1629, 3822}}";
+			sepNavSelRange = "{2581, 0}";
+			sepNavVisRange = "{1974, 1350}";
 			sepNavWindowFrame = "{{15, 242}, {1257, 631}}";
 		};
 	};
@@ -8955,9 +10344,9 @@
 	};
 	A7EB519310481BE6005452BE /* Database.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1111, 21073}}";
-			sepNavSelRange = "{32266, 0}";
-			sepNavVisRange = "{31189, 1885}";
+			sepNavIntBoundsRect = "{{0, 0}, {1111, 21645}}";
+			sepNavSelRange = "{21987, 47}";
+			sepNavVisRange = "{21573, 1191}";
 			sepNavWindowFrame = "{{212, 110}, {1272, 712}}";
 		};
 	};
@@ -8988,9 +10377,9 @@
 	};
 	A7EDD3800FA4E8C40079FE78 /* GenericReportController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1268, 8229}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1048, 8242}}";
 			sepNavSelRange = "{1278, 2}";
-			sepNavVisRange = "{343, 1834}";
+			sepNavVisRange = "{343, 1447}";
 			sepNavWindowFrame = "{{168, 180}, {1272, 698}}";
 		};
 	};
@@ -9027,15 +10416,15 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {2014, 1950}}";
 			sepNavSelRange = "{3955, 0}";
-			sepNavVisRange = "{2317, 2611}";
+			sepNavVisRange = "{2687, 2241}";
 			sepNavWindowFrame = "{{181, 242}, {1147, 552}}";
 		};
 	};
 	A7EDD3860FA4E8C40079FE78 /* Report_v1.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {2007, 22594}}";
-			sepNavSelRange = "{2525, 5}";
-			sepNavVisRange = "{1535, 1492}";
+			sepNavIntBoundsRect = "{{0, 0}, {1181, 22997}}";
+			sepNavSelRange = "{16520, 0}";
+			sepNavVisRange = "{16258, 1752}";
 			sepNavWindowFrame = "{{181, 242}, {1147, 552}}";
 		};
 	};
@@ -9048,9 +10437,9 @@
 	};
 	A7EDD3880FA4E8C40079FE78 /* ReportViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1146, 8138}}";
-			sepNavSelRange = "{2602, 190}";
-			sepNavVisRange = "{1481, 1671}";
+			sepNavIntBoundsRect = "{{0, 0}, {1335, 8177}}";
+			sepNavSelRange = "{13376, 0}";
+			sepNavVisRange = "{10032, 1975}";
 			sepNavWindowFrame = "{{308, 207}, {1351, 551}}";
 		};
 	};

@@ -15,7 +15,19 @@
 
 + (NSURLRequest *)ajaxRequestWithParameters:(NSArray *)parameters viewState:(NSString *)viewState baseURL:(NSURL *)baseURL
 {
-	NSString *actionUrl = [[parameters objectAtIndex:3] objectForKey:@"actionUrl"];
+	// find the dictionary
+	NSDictionary *ajaxParameterDict = nil;
+	
+	for (id obj in parameters)
+	{
+		if ([obj isKindOfClass:[NSDictionary class]])
+		{
+			ajaxParameterDict = obj;
+			break;
+		}
+	}
+	
+	NSString *actionUrl = [ajaxParameterDict objectForKey:@"actionUrl"];
 	
 	NSURL *fullBaseURL = [NSURL URLWithString:actionUrl relativeToURL:baseURL];
 	

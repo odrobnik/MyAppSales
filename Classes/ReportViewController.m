@@ -429,7 +429,6 @@
 			tmpReport = [report_array objectAtIndex:indexPath.row];
 		}
 		
-		cell.CELL_LABEL = [tmpReport listDescriptionShorter:NO];
 		if (tmpReport.isNew)
 		{
 			cell.CELL_IMAGE = report_icon_new;
@@ -447,9 +446,11 @@
 			double royalties = [tmpReport sumRoyaltiesForProduct:nil transactionType:TransactionTypeSale] + [tmpReport sumRoyaltiesForProduct:nil transactionType:TransactionTypeIAP];
 			double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:royalties fromCurrency:@"EUR"];
 			cell.detailTextLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
+			cell.CELL_LABEL = [tmpReport listDescriptionShorter:YES];
 		}
 		else 
 		{
+			cell.CELL_LABEL = [tmpReport listDescriptionShorter:NO];
 			cell.detailTextLabel.text = nil;
 		}
 		

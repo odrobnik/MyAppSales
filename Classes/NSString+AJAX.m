@@ -279,7 +279,19 @@
 	[tmpString appendFormat:@"%@=%@&", [parameters objectAtIndex:1], [parameters objectAtIndex:1]];
 	[tmpString appendFormat:@"javax.faces.ViewState=%@", [viewState stringByReplacingOccurrencesOfString:@":" withString:@"%3A"]];
 	
-	NSDictionary *parameterDict = [[parameters objectAtIndex:3] objectForKey:@"parameters"];
+	// find the dictionary
+	NSDictionary *ajaxParameterDict = nil;
+	
+	for (id obj in parameters)
+	{
+		if ([obj isKindOfClass:[NSDictionary class]])
+		{
+			ajaxParameterDict = obj;
+			break;
+		}
+	}
+	
+	NSDictionary *parameterDict = [ajaxParameterDict objectForKey:@"parameters"];
 	
 	for (NSString *key in [parameterDict allKeys])
 	{

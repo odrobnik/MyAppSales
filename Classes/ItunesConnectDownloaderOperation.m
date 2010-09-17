@@ -220,7 +220,7 @@
 	NSURLResponse* response; 
 	NSError* error = nil;
 	
-	[self setStatus:@"Opening HTTPS Connection"];
+	[self setStatus:@"Opening Sales & Trends (1)"];
 	
 	NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	
@@ -232,13 +232,14 @@
 	
 	if (!data) 
 	{
-		[self setStatusError:@"No data received from login screen request"];
+		[self setStatusError:@"No data received from Sales & Trends (1)"];
 		return;
 	}
 	
 	NSString *html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
 	
 	
+	// ----- execute embedded AJAX reload
 	
 	NSArray *ajaxParams= [html parametersFromAjaxSubmitString];
 	NSString *viewState = [html ajaxViewState];
@@ -247,7 +248,7 @@
 	
 	NSURLRequest *ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams viewState:viewState baseURL:baseURL];
 	
-	[self setStatus:@"Going to Sales & Trends"];
+	[self setStatus:@"Opening Sales & Trends (2)"];
 	
 	data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
 	
@@ -259,7 +260,7 @@
 	
 	if (!data) 
 	{
-		[self setStatusError:@"No data received from Sales & Trends"];
+		[self setStatusError:@"No data received from Sales & Trends (2)"];
 		return;
 	}
 	
@@ -271,12 +272,16 @@
 		return;
 	}
 	
+	// ---- Switching to Dashboard
 	
 	url = [NSURL URLWithString:@"/subdashboard.faces" relativeToURL:baseURL];
 	
 	request=[NSMutableURLRequest requestWithURL:url
 									cachePolicy:NSURLRequestReloadIgnoringCacheData
 								timeoutInterval:60.0];	
+	
+	[self setStatus:@"Opening Sales & Trends (3)"];
+	
 	data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	
 	if (error)
@@ -287,7 +292,7 @@
 	
 	if (!data) 
 	{
-		[self setStatusError:@"No data received from login screen request"];
+		[self setStatusError:@"No data received from Sales & Trends (3)"];
 		return;
 	}
 	
@@ -300,6 +305,8 @@
 	ajaxParams = [html parametersFromAjaxSubmitStringForFunction:@"refreshMenu"];
 	ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams viewState:viewState baseURL:baseURL];
 	
+	[self setStatus:@"Opening Sales & Trends (4)"];
+	
 	data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
 	
 	if (error)
@@ -310,7 +317,7 @@
 	
 	if (!data) 
 	{
-		[self setStatusError:@"No data received from Sales & Trends"];
+		[self setStatusError:@"No data received from Sales & Trends (4)"];
 		return;
 	}
 	
@@ -355,7 +362,7 @@
 	
 	[request setHTTPBody:bodyData];
 	
-	[self setStatus:@"Selecting Sales Tab"];
+	[self setStatus:@"Accessing Sales"];
 	
 	data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	
@@ -374,41 +381,6 @@
 	html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
 	
 	viewState = [html ajaxViewState];
-	
-	
-	/*
-	 
-	 
-	 
-	 
-	 // ----- switch to weekly so that we get the viewstate for weekly
-	 
-	 viewState = [html ajaxViewState];
-	 ajaxParams = [html parametersFromAjaxSubmitStringForFunction:@"WeekSelected"];
-	 
-	 
-	 ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams viewState:viewState baseURL:baseURL];
-	 
-	 [self setStatus:@"Switching to Weekly"];
-	 
-	 data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
-	 
-	 if (error)
-	 {
-	 [self setStatusError:[error localizedDescription]];
-	 return;
-	 }
-	 
-	 if (!data) 
-	 {
-	 [self setStatusError:@"No data received from Sales & Trends"];
-	 return;
-	 }
-	 
-	 html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	 
-	 viewState = [html ajaxViewState];
-	 */
 	
 	
 	// get first elements from day and week selections
@@ -441,6 +413,8 @@
 	ajaxParams = [html parametersFromAjaxSubmitStringForFunction:@"onLoad"];
 	ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams extraFormString:extraFormString viewState:viewState baseURL:baseURL];
 	
+	[self setStatus:@"Accessing Sales"];
+	
 	data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
 	
 	if (error)
@@ -462,7 +436,17 @@
 	NSString *pickerAjax = [html tagHTMLforTag:@"select" WithID:@"theForm:datePickerSourceSelectElementSales"];
 	ajaxParams = [pickerAjax parametersFromAjaxSubmitString];
 	
-	//----- download
+	NSString *weekPickerAjax = [html tagHTMLforTag:@"select" WithID:@"theForm:weekPickerSourceSelectElement"];
+	NSArray *weekAjaxParams = [weekPickerAjax parametersFromAjaxSubmitString];
+	
+	NSRange range = [html rangeOfString:@" id=\"weeklyLabel\""];
+	NSString *weekSwitchHTML = [html substringFromIndex:range.location];
+	NSArray *weekSwitchAjaxParams = [weekSwitchHTML parametersFromAjaxSubmitString]; // has extra at the end, but we ignore that
+	
+	//NSArray *weekSelectedAjaxParams = [html parametersFromAjaxSubmitStringForFunction:@"WeekSelected"];
+	
+	
+	//----- download DAILY
 	
 	for (NSString *oneDayOption in dayOptions)
 	{
@@ -548,6 +532,155 @@
 			}
 		}
 	}
+	
+	// ----- switch to weekly so that we get the viewstate for weekly
+
+	extraFormString = [NSString stringWithFormat:@"theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
+								 [[dayOptions objectAtIndex:0] stringByUrlEncoding],
+								 [[dayOptions objectAtIndex:0] stringByUrlEncoding]];
+	
+	ajaxRequest = [NSURLRequest ajaxRequestWithParameters:weekSwitchAjaxParams extraFormString:extraFormString viewState:viewState baseURL:baseURL];
+	
+	[self setStatus:@"Switching to Weekly"];
+	
+	data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
+	
+	if (error)
+	{
+		[self setStatusError:[error localizedDescription]];
+		return;
+	}
+	
+	if (!data) 
+	{
+		[self setStatusError:@"No data received from Weekly"];
+		return;
+	}
+	
+	html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+	
+	viewState = [html ajaxViewState];	
+	
+	
+	
+	
+	/*
+	// shortcut
+	 
+	// - execute WeekSelected
+	
+	ajaxRequest = [NSURLRequest ajaxRequestWithParameters:weekSelectedAjaxParams extraFormString:extraFormString viewState:viewState baseURL:baseURL];
+	
+	[self setStatus:@"Switching to Weekly"];
+	
+	data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
+	
+	if (error)
+	{
+		[self setStatusError:[error localizedDescription]];
+		return;
+	}
+	
+	if (!data) 
+	{
+		[self setStatusError:@"No data received from Weekly"];
+		return;
+	}
+	
+	html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+	
+	viewState = [html ajaxViewState];
+	
+	*/
+	
+	//----- download WEEKLY
+	
+	for (NSString *oneWeekOption in weekOptions)
+	{
+		NSDate *reportDate = [self reportDateFromShortDate:oneWeekOption];
+		
+		if (![reportsToIgnore reportBySearchingForDate:reportDate type:ReportTypeWeek region:ReportRegionUnknown])
+		{
+			NSInteger index = [weekOptions indexOfObject:oneWeekOption];
+			
+			if (index)
+			{
+				// -----switch weekly report screen via AJAX
+				
+				NSString *extraFormString = [NSString stringWithFormat:@"theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
+											 [[dayOptions objectAtIndex:0] stringByUrlEncoding],
+											 [oneWeekOption stringByUrlEncoding]];
+				
+				
+				ajaxRequest = [NSURLRequest ajaxRequestWithParameters:weekAjaxParams extraFormString:extraFormString viewState:viewState baseURL:baseURL];
+				
+				data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
+				
+				if (error)
+				{
+					[self setStatusError:[error localizedDescription]];
+					return;
+				}
+				
+				if (!data) 
+				{
+					[self setStatusError:@"No data received from Weeks"];
+					return;
+				}
+				
+				//html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+				viewState = [html ajaxViewState];
+			}
+			
+			
+			url = [NSURL URLWithString:@"/sales.faces" relativeToURL:baseURL];
+			
+			request=[NSMutableURLRequest requestWithURL:url
+											cachePolicy:NSURLRequestReloadIgnoringCacheData
+										timeoutInterval:60.0];	
+			
+			bodyString = [NSString stringWithFormat:@"theForm=theForm&theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@&javax.faces.ViewState=%@&theForm%%3AdownloadLabel2=theForm%%3AdownloadLabel2",
+						  [[dayOptions objectAtIndex:0] stringByUrlEncoding],
+						  [oneWeekOption stringByUrlEncoding],
+						  [viewState stringByUrlEncoding] ];
+			bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+			
+			[request setHTTPMethod:@"POST"];
+			[request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
+			
+			[request setHTTPBody:bodyData];
+			
+			[self setStatus:[NSString stringWithFormat:@"Loading Week Report for %@", oneWeekOption]];
+			
+			data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+			
+			if (error)
+			{
+				[self setStatusError:[error localizedDescription]];
+				return;
+			}
+			
+			if (!data) 
+			{
+				[self setStatusError:@"No data received from Sales face"];
+				return;
+			}
+			
+			if ([[response MIMEType] isEqualToString:@"application/a-gzip"])
+			{
+				NSString *reportText = [[[NSString alloc] initWithData:[data gzipInflate] encoding:NSUTF8StringEncoding] autorelease];
+				
+				
+				
+				NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:reportText, @"Text", account, @"Account", reportDate, @"FallbackDate", [NSNumber numberWithInt:ReportTypeDay], @"Type", nil];
+				
+				[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
+				
+			}
+		}
+	}	
+	
+	
 }
 
 

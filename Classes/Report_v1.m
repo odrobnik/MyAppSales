@@ -269,10 +269,10 @@ static sqlite3_stmt *hydrate_statement = nil;
 			// filter if PARTNERVERSION is active
 #ifdef PARTNERVERSION
 			NSSet *onlyThese = PARTNERVERSION_FILTER_APPS_SET;
-	if (![onlyThese containsObject:appIDString])
-	{
-		appID=0; // causes this line to be ignored
-	}
+			if (![onlyThese containsObject:appIDString])
+			{
+				appID=0; // causes this line to be ignored
+			}
 #endif
 			
 			if (fromDateIn&&untilDateIn&&appID&&vendor_identifier&&company_name&&title&&type_id&&units&&royalty_currency&&customer_currency&&country_code)
@@ -303,14 +303,14 @@ static sqlite3_stmt *hydrate_statement = nil;
 				
 				// add sale
 				Sale_v1 *newSale = [[Sale_v1 alloc] initWithCountry:saleCountry 
-													   report:self 
-													  product:saleApp 
-														units:units 
-												 royaltyPrice:royalty_price 
-											  royaltyCurrency:royalty_currency 
-												customerPrice:customer_price 
-											 customerCurrency:customer_currency
-											  transactionType:type_id];
+															 report:self 
+															product:saleApp 
+															  units:units 
+													   royaltyPrice:royalty_price 
+													royaltyCurrency:royalty_currency 
+													  customerPrice:customer_price 
+												   customerCurrency:customer_currency
+													transactionType:type_id];
 				[sales addObject:newSale];
 				
 				
@@ -374,6 +374,17 @@ static sqlite3_stmt *hydrate_statement = nil;
 		while((oneLine = [enu nextObject])&&[oneLine length])
 		{
 			NSString *from_date = [oneLine getValueForNamedColumn:@"Begin Date" headerNames:column_names];
+			
+			/*
+			 if (!from_date)
+			 {
+			 // ITC Format as of Sept 2010
+			 from_date = [oneLine getValueForNamedColumn:@"Start Date" headerNames:column_names];
+			 }
+			 */
+			
+			
+			
 			NSString *until_date = [oneLine getValueForNamedColumn:@"End Date" headerNames:column_names];
 			NSString *appIDString = [oneLine getValueForNamedColumn:@"Apple Identifier" headerNames:column_names];
 			NSUInteger appID = [appIDString intValue];
@@ -391,6 +402,13 @@ static sqlite3_stmt *hydrate_statement = nil;
 				// ITC Format as of Sept 2010
 				company_name = [oneLine getValueForNamedColumn:@"Developer" headerNames:column_names];
 			}
+			/*
+			 if (!company_name)
+			 {
+			 // ITC Financial Format as of Sept 2010
+			 company_name = [oneLine getValueForNamedColumn:@"Artist/Show/Developer/Author" headerNames:column_names];
+			 }
+			 */
 			
 			
 			NSString *title	= [oneLine getValueForNamedColumn:@"Title / Episode / Season" headerNames:column_names];
@@ -415,7 +433,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 			}
 			
 			NSInteger units = [[oneLine getValueForNamedColumn:@"Units" headerNames:column_names] intValue];
-		
+			
 			NSString *royaltyPriceString = [oneLine getValueForNamedColumn:@"Royalty Price" headerNames:column_names];
 			if (!royaltyPriceString)
 			{
@@ -423,6 +441,13 @@ static sqlite3_stmt *hydrate_statement = nil;
 				royaltyPriceString = [oneLine getValueForNamedColumn:@"Developer Proceeds" headerNames:column_names];
 			}
 			
+			/*
+			 if (!royaltyPriceString)
+			 {
+			 // ITC Financial Format as of Sept 2010
+			 royaltyPriceString = [oneLine getValueForNamedColumn:@"Partner Share" headerNames:column_names];
+			 }
+			 */
 			double royalty_price = [royaltyPriceString doubleValue];
 			
 			
@@ -432,14 +457,29 @@ static sqlite3_stmt *hydrate_statement = nil;
 				// ITC Format as of Sept 2010
 				royalty_currency = [oneLine getValueForNamedColumn:@"Currency of Proceeds" headerNames:column_names];
 			}
+			/*
+			 if (!royalty_currency)
+			 {
+			 // ITC Financial Format as of Sept 2010
+			 royalty_currency = [oneLine getValueForNamedColumn:@"Partner Share Currency" headerNames:column_names];
+			 }			
+			 */
 			
 			double customer_price = [[oneLine getValueForNamedColumn:@"Customer Price" headerNames:column_names] doubleValue];
 			NSString *customer_currency	= [oneLine getValueForNamedColumn:@"Customer Currency" headerNames:column_names];
 			NSString *country_code	= [oneLine getValueForNamedColumn:@"Country Code" headerNames:column_names];
+			/*
+			 if (!country_code)
+			 {
+			 // ITC Financial Format as of Sept 2010
+			 country_code = [oneLine getValueForNamedColumn:@"Country Of Sale" headerNames:column_names];
+			 }	
+			 */
 			
 			// BOOL financial_report = NO;
 			
-			if ((!from_date)&&(!company_name)&&(!title)&&(!royalty_currency)&&(!royalty_price)&&(!country_code))
+			// Sept 2010: company name now omitted for IAP
+			if ((!from_date)&&(!royalty_currency)&&(!royalty_price)&&(!country_code))
 			{
 				// probably monthly financial report
 				from_date = [oneLine getValueForNamedColumn:@"Start Date" headerNames:column_names];
@@ -473,9 +513,27 @@ static sqlite3_stmt *hydrate_statement = nil;
 			}
 #endif
 			
+
+			/*
+			NSString *salesOrReturn = [oneLine getValueForNamedColumn:@"Promo Code" headerNames:column_names];
+			
+			if ([salesOrReturn length])
+			{
+				NSMutableDictionary *tmpDict = [NSMutableDictionary dictionary];
+				for (NSString *oneCol in column_names)
+				{
+					NSString *v = [oneLine getValueForNamedColumn:oneCol headerNames:column_names];		
+					if (v)
+					{
+						[tmpDict setObject:v forKey:oneCol];
+					}
+				}
+				NSLog(@"Promo!: %@", tmpDict);
+				}
+			*/
 			
 			// if all columns have a value then we accept the line
-			if (from_date&&until_date&&appID&&vendor_identifier&&company_name&&title&&type_id&&units&&royalty_currency&&customer_currency&&country_code)
+			if (from_date&&until_date&&appID&&vendor_identifier&&title&&type_id&&units&&royalty_currency&&customer_currency&&country_code)
 			{
 				Country_v1 *saleCountry = [DB countryForCode:country_code];
 				
@@ -550,14 +608,14 @@ static sqlite3_stmt *hydrate_statement = nil;
 				
 				// add sale
 				Sale_v1 *newSale = [[Sale_v1 alloc] initWithCountry:saleCountry 
-													   report:self 
-													  product:saleProduct 
-														units:units 
-												 royaltyPrice:royalty_price 
-											  royaltyCurrency:royalty_currency 
-												customerPrice:customer_price 
-											 customerCurrency:customer_currency
-											  transactionType:type_id];
+															 report:self 
+															product:saleProduct 
+															  units:units 
+													   royaltyPrice:royalty_price 
+													royaltyCurrency:royalty_currency 
+													  customerPrice:customer_price 
+												   customerCurrency:customer_currency
+													transactionType:type_id];
 				[sales addObject:newSale];
 				
 				
@@ -579,6 +637,24 @@ static sqlite3_stmt *hydrate_statement = nil;
 				// add it to the summaries
 				[self addSaleToSummaries:newSale];
 			}
+			else 
+			{
+				if ([oneLine rangeOfString:@"Total"].location==NSNotFound && [[oneLine stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]>5)
+				{
+					
+					NSMutableDictionary *tmpDict = [NSMutableDictionary dictionary];
+					for (NSString *oneCol in column_names)
+					{
+						NSString *v = [oneLine getValueForNamedColumn:oneCol headerNames:column_names];		
+						if (v)
+						{
+							[tmpDict setObject:v forKey:oneCol];
+						}
+					}
+					NSLog(@"Line rejected: %@", tmpDict);
+				}
+			}
+			
 		}
 		
 		hydrated = YES;
@@ -1038,7 +1114,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 			[df setDateFormat:@"MMyy"];
 			return [NSString stringWithFormat:@"%@_%@.txt", [df stringFromDate:[self dateInMiddleOfReport]], [self shortNameForRegion:region]];
 		}					
-							
+			
 		case ReportTypeFree:
 		{
 			NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];

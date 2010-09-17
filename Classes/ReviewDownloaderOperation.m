@@ -176,11 +176,11 @@
 	
 	while(scanning)
 	{
-		NSString *reviewTitle;
-		NSString *reviewRating;
-		NSString *reviewName;
-		NSString *reviewText;
-		NSString *reviewVersion;
+		NSString *reviewTitle = nil;
+		NSString *reviewRating = nil;
+		NSString *reviewName = nil;
+		NSString *reviewText = nil;
+		NSString *reviewVersion = nil;
 		
 		[scanner scanUpToString:@"<TextView topInset=\"0\" truncation=\"right\" leftInset=\"0\" squishiness=\"1\" styleSet=\"basic13\" textJust=\"left\" maxLines=\"1\"><SetFontStyle normalStyle=\"textColor\"><b>" intoString:NULL];
 		foundReview = [scanner scanString:@"<TextView topInset=\"0\" truncation=\"right\" leftInset=\"0\" squishiness=\"1\" styleSet=\"basic13\" textJust=\"left\" maxLines=\"1\"><SetFontStyle normalStyle=\"textColor\"><b>" intoString:NULL];
