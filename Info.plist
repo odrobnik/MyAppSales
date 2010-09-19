@@ -32,12 +32,14 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0.17</string>
+	<string>1.0.18beta</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
 	<key>UIPrerenderedIcon</key>
+	<true/>
+	<key>UIApplicationExitsOnSuspend</key>
 	<true/>
 </dict>
 </plist>

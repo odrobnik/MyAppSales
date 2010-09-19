@@ -242,21 +242,8 @@
     }
     
     // Set up the cell...
-	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-	
 	NSNumber *app_id;
 	App *rowApp = nil;
-	
-	/*
-	if (filteredApp)
-	{
-		app_id = [NSNumber numberWithInt:filteredApp.apple_identifier];
-		rowApp = filteredApp;
-	}
-	 
-	else
-
-	 */
 	
 	NSUInteger section = indexPath.section;
 	
@@ -441,8 +428,9 @@
 	{
 		cell.unitsSoldLabel.text = [NSString stringWithFormat:@"%d", tmpSummary.sumSales];
 		
-		
-		if (appDelegate.convertSalesToMainCurrency)
+		BOOL convertSalesToMainCurrency = [[NSUserDefaults standardUserDefaults] boolForKey:@"AlwaysUseMainCurrency"];
+
+		if (convertSalesToMainCurrency)
 		{ 
 			double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:tmpSummary.sumRoyalites fromCurrency:tmpSummary.royaltyCurrency];
 			

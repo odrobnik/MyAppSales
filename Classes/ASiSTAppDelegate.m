@@ -52,7 +52,7 @@
 @synthesize navigationController;
 @synthesize tabBarController;
 @synthesize appViewController, reportRootController, settingsViewController, statusViewController;
-@synthesize serverIsRunning, convertSalesToMainCurrency;
+@synthesize serverIsRunning;
 @synthesize addresses, httpServer;
 @synthesize appBadgeItem, reportBadgeItem;
 
@@ -189,8 +189,6 @@
 	 } */
 	
 	serverIsRunning = NO;
-	convertSalesToMainCurrency = YES;
-	
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newFileInDocuments:) name:@"NewFileUploaded" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newAppNotification:) name:@"NewAppAdded" object:nil];
@@ -293,9 +291,6 @@
 		[[YahooFinance sharedInstance] setMainCurrency:mainCurrency];
 	}
 	
-	convertSalesToMainCurrency = [defaults boolForKey:@"AlwaysUseMainCurrency"];
-	
-	
 	// set default
 	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ReviewFrequency"])
 	{
@@ -318,6 +313,7 @@
 }
 
 
+/*
 - (void)applicationWillTerminate:(UIApplication *)application 
 {
 	// Save settings
@@ -327,7 +323,8 @@
 	[defaults setObject:[[YahooFinance sharedInstance] mainCurrency] forKey:@"MainCurrency"];
 	[defaults setObject:[NSNumber numberWithBool:convertSalesToMainCurrency] forKey:@"AlwaysUseMainCurrency"];
 }
-
+*/
+ 
 - (void) toggleNetworkIndicator:(BOOL)isON
 {
 	UIApplication *application = [UIApplication sharedApplication];
@@ -558,7 +555,7 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
 	
 	// get list of all files in document directory
-	NSArray *docs = [fileManager directoryContentsAtPath:documentsDirectory];
+	NSArray *docs = [fileManager contentsOfDirectoryAtPath:documentsDirectory error:NULL];
 	NSEnumerator *enu = [docs objectEnumerator];
 	NSString *aString;
 	

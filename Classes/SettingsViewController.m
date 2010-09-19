@@ -379,8 +379,7 @@
 					}
 					
 					cell.titleLabel.text = @"Use for all amounts";
-					ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-					cell.switchCtl.on = appDelegate.convertSalesToMainCurrency;
+					cell.switchCtl.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"AlwaysUseMainCurrency"];
 					[cell.switchCtl addTarget:self action:@selector(toggleConvert:) forControlEvents:UIControlEventValueChanged];
 					return cell;
 				}
@@ -663,8 +662,7 @@
 
 - (IBAction)toggleConvert:(id)sender
 {
-	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
-	appDelegate.convertSalesToMainCurrency = [sender isOn];
+	[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:[sender isOn]] forKey:@"AlwaysUseMainCurrency"];
 }
 
 - (void)toggleSumOnOverview:(UISwitch *)switcher

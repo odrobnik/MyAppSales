@@ -23,7 +23,6 @@
     UINavigationController *navigationController;
 	UITabBarController *tabBarController;
 	
-	//iTunesConnect *itts;
 	AppViewController *appViewController;
 	ReportRootController *reportRootController;
 	SettingsViewController *settingsViewController;
@@ -34,12 +33,6 @@
 	NSDictionary *addresses;
 	BOOL serverIsRunning;
 	
-	
-	// keychain services
-	//KeychainWrapper *keychainWrapper;
-	
-	// preferences
-	BOOL convertSalesToMainCurrency;
 	
 	IBOutlet UITabBarItem* appBadgeItem;
 	IBOutlet UITabBarItem* reportBadgeItem;
@@ -55,7 +48,6 @@
 //@property (nonatomic, retain) iTunesConnect *itts;
 
 @property (nonatomic, readonly, assign) BOOL serverIsRunning;
-@property (nonatomic, assign) BOOL convertSalesToMainCurrency;
 
 @property (nonatomic, retain) HTTPServer *httpServer;
 @property (nonatomic, retain) NSDictionary *addresses;
