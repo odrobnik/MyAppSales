@@ -16,7 +16,7 @@
 #import "SynchingManager.h"
 
 // for the currency selection
-#import "TableListView.h"
+#import "CurrencyListView.h"
 
 // to query currency list
 #import "ASiSTAppDelegate.h"
@@ -604,7 +604,7 @@
 				return;
 			
 			// Navigation logic may go here. Create and push another view controller.
-			TableListView *anotherViewController = [[TableListView alloc] initWithYahoo:[YahooFinance sharedInstance] style:UITableViewStylePlain];
+			CurrencyListView *anotherViewController = [[CurrencyListView alloc] initWithYahoo:[YahooFinance sharedInstance] style:UITableViewStylePlain];
 			anotherViewController.title = @"Main Currency";
 			[anotherViewController setSelectedItem:[[YahooFinance sharedInstance] mainCurrency]];
 			[self.navigationController pushViewController:anotherViewController animated:YES];

@@ -1,5 +1,5 @@
 //
-//  TableListView.h
+//  CurrencyListView.h
 //  ASiST
 //
 //  Created by Oliver Drobnik on 15.01.09.
@@ -10,7 +10,7 @@
 
 @class YahooFinance;
 
-@interface TableListView : UITableViewController {
+@interface CurrencyListView : UITableViewController {
 	YahooFinance *myYahoo;
 	NSInteger	selectedIndex;
 

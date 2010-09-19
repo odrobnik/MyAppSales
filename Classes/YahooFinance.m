@@ -16,6 +16,14 @@
 static YahooFinance *_sharedInstance = nil;
 
 
+// default main currency
++ (void) initialize
+{
+	// called once before this class is used the first time
+	NSDictionary *defaultsDict = [NSDictionary dictionaryWithObject:@"USD" forKey:@"MainCurrency"];
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults registerDefaults:defaultsDict];
+}
 
 + (YahooFinance *)sharedInstance
 {
@@ -106,8 +114,6 @@ static YahooFinance *_sharedInstance = nil;
 			// inform the user that the download could not be made
 		}
 	}
-	
-	self.mainCurrency = @"USD";
 	
 	// set up standard currency formatter
 	currencyFormatter = [[NSNumberFormatter alloc] init];
@@ -222,7 +228,7 @@ static YahooFinance *_sharedInstance = nil;
 
 - (double) convertToMainCurrencyAmount:(double)amount fromCurrency:(NSString *)fromCurrency
 {
-	return [self convertToCurrency:mainCurrency amount:amount fromCurrency:fromCurrency];
+	return [self convertToCurrency:self.mainCurrency amount:amount fromCurrency:fromCurrency];
 }
 
 - (double) convertToEuroFromDictionary:(NSDictionary *)amountDict
@@ -301,6 +307,7 @@ static YahooFinance *_sharedInstance = nil;
 
 - (void) dealloc
 {
+	[mainCurrency release];
 	[currencyFormatter release];
 	[nameIndex release];
 	[allCurrencies release];
@@ -309,6 +316,19 @@ static YahooFinance *_sharedInstance = nil;
 }
 
 #pragma mark Custom Properties
+- (NSString *)mainCurrency
+{
+	if (!mainCurrency)
+	{
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		
+		mainCurrency = [[defaults objectForKey:@"MainCurrency"] retain];
+	}
+	
+	return mainCurrency;
+}
+
+
 - (void) setMainCurrency:(NSString *)cur
 {
 	if (mainCurrency==cur)
@@ -318,6 +338,9 @@ static YahooFinance *_sharedInstance = nil;
 	
 	[mainCurrency release];
 	mainCurrency = [cur retain];
+	
+	// save new currency in defaults
+	[[NSUserDefaults standardUserDefaults] setObject:mainCurrency forKey:@"MainCurrency"];
 	
 	// we want all parts of the app to know if there is a new main currency, might be some table updating necessary
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"MainCurrencyChanged" object:nil userInfo:(id)mainCurrency];

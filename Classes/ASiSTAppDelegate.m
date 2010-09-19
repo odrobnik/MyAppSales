@@ -281,16 +281,6 @@
 	}
 	
 	
-	// load settings
-	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-	NSString *mainCurrency = [defaults objectForKey:@"MainCurrency"];
-	if (mainCurrency)
-	{
-		[[YahooFinance sharedInstance] setMainCurrency:mainCurrency];
-	}
-	
 	// set default
 	if (![[NSUserDefaults standardUserDefaults] objectForKey:@"ReviewFrequency"])
 	{

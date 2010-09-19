@@ -324,7 +324,7 @@
 		A7B8D9730F1E587F00DC09E1 /* EditableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8D9720F1E587F00DC09E1 /* EditableCell.m */; };
 		A7B8DBAF0F1F1F5900DC09E1 /* SwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DBAE0F1F1F5900DC09E1 /* SwitchCell.m */; };
 		A7B8DC290F1F247E00DC09E1 /* TextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DC280F1F247E00DC09E1 /* TextCell.m */; };
-		A7B8DDE10F1FC88100DC09E1 /* TableListView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DDE00F1FC88100DC09E1 /* TableListView.m */; };
+		A7B8DDE10F1FC88100DC09E1 /* CurrencyListView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B8DDE00F1FC88100DC09E1 /* CurrencyListView.m */; };
 		A7BB984C0F3C13B0008AC1B4 /* Currencies.plist in Resources */ = {isa = PBXBuildFile; fileRef = A7BB984B0F3C13B0008AC1B4 /* Currencies.plist */; };
 		A7BD65DA105AB47B0021B6CF /* Review_v1.m in Sources */ = {isa = PBXBuildFile; fileRef = A7BD65D9105AB47B0021B6CF /* Review_v1.m */; };
 		A7BD6699105AC9C80021B6CF /* update_1_to_2.sql in Resources */ = {isa = PBXBuildFile; fileRef = A7BD65DB105AB4D00021B6CF /* update_1_to_2.sql */; };
@@ -769,8 +769,8 @@
 		A7B8DBAE0F1F1F5900DC09E1 /* SwitchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchCell.m; sourceTree = "<group>"; };
 		A7B8DC270F1F247E00DC09E1 /* TextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextCell.h; sourceTree = "<group>"; };
 		A7B8DC280F1F247E00DC09E1 /* TextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextCell.m; sourceTree = "<group>"; };
-		A7B8DDDF0F1FC88100DC09E1 /* TableListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableListView.h; sourceTree = "<group>"; };
-		A7B8DDE00F1FC88100DC09E1 /* TableListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableListView.m; sourceTree = "<group>"; };
+		A7B8DDDF0F1FC88100DC09E1 /* CurrencyListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrencyListView.h; sourceTree = "<group>"; };
+		A7B8DDE00F1FC88100DC09E1 /* CurrencyListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrencyListView.m; sourceTree = "<group>"; };
 		A7BB984B0F3C13B0008AC1B4 /* Currencies.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Currencies.plist; sourceTree = "<group>"; };
 		A7BD65D8105AB47B0021B6CF /* Review_v1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Review_v1.h; sourceTree = "<group>"; };
 		A7BD65D9105AB47B0021B6CF /* Review_v1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Review_v1.m; sourceTree = "<group>"; };
@@ -1016,8 +1016,8 @@
 				A780D16F0F25D2D400C796FB /* ChartViewController.m */,
 				A7B8D92C0F1E56A100DC09E1 /* SettingsViewController.h */,
 				A7B8D92D0F1E56A100DC09E1 /* SettingsViewController.m */,
-				A7B8DDDF0F1FC88100DC09E1 /* TableListView.h */,
-				A7B8DDE00F1FC88100DC09E1 /* TableListView.m */,
+				A7B8DDDF0F1FC88100DC09E1 /* CurrencyListView.h */,
+				A7B8DDE00F1FC88100DC09E1 /* CurrencyListView.m */,
 				A709DD9C105F7C8A00FD8909 /* TableListSelectorView.h */,
 				A709DD9D105F7C8A00FD8909 /* TableListSelectorView.m */,
 			);
@@ -1993,7 +1993,7 @@
 				A7B8D9730F1E587F00DC09E1 /* EditableCell.m in Sources */,
 				A7B8DBAF0F1F1F5900DC09E1 /* SwitchCell.m in Sources */,
 				A7B8DC290F1F247E00DC09E1 /* TextCell.m in Sources */,
-				A7B8DDE10F1FC88100DC09E1 /* TableListView.m in Sources */,
+				A7B8DDE10F1FC88100DC09E1 /* CurrencyListView.m in Sources */,
 				A7325BA00F21C9920053AEB1 /* ReportRootController.m in Sources */,
 				A780D1350F25D1A100C796FB /* ChartRootController.m in Sources */,
 				A780D1700F25D2D400C796FB /* ChartViewController.m in Sources */,
