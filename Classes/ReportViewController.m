@@ -446,7 +446,17 @@
 			double royalties = [tmpReport sumRoyaltiesForProduct:nil transactionType:TransactionTypeSale] + [tmpReport sumRoyaltiesForProduct:nil transactionType:TransactionTypeIAP];
 			double convertedRoyalties = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:royalties fromCurrency:@"EUR"];
 			cell.detailTextLabel.text = [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:convertedRoyalties];
-			cell.CELL_LABEL = [tmpReport listDescriptionShorter:YES];
+			
+			if (tmpReport.reportType == ReportTypeWeek)
+			{
+				cell.CELL_LABEL = [tmpReport listDescriptionShorter:YES];
+				cell.textLabel.font = [UIFont systemFontOfSize:12];
+			}
+			else 
+			{
+				cell.CELL_LABEL = [tmpReport listDescriptionShorter:NO];
+				cell.textLabel.font = [UIFont systemFontOfSize:14];
+			}
 		}
 		else 
 		{
