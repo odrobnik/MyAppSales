@@ -455,6 +455,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 			if (!royalty_currency)
 			{
 				// ITC Format as of Sept 2010
+				// note: weekly reports has "Of"
 				royalty_currency = [oneLine getValueForNamedColumn:@"Currency of Proceeds" headerNames:column_names];
 			}
 			/*

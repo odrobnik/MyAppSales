@@ -91,7 +91,7 @@
 	
 	for (NSString *oneName in column_names)
 	{
-		NSString *cleanName = [oneName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		NSString *cleanName = [[oneName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString];
 		
 		[tmpArray addObject:cleanName];
 	}
@@ -110,7 +110,7 @@
 - (NSString *) getValueForNamedColumn:(NSString *)column_name headerNames:(NSArray *)header_names
 {
 	NSArray *columns = [self componentsSeparatedByString:@"\t"];
-	NSInteger idx = [header_names indexOfObject:column_name];
+	NSInteger idx = [header_names indexOfObject:[column_name lowercaseString]];
 	if (idx>=[columns count])
 	{
 		return nil;
