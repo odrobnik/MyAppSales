@@ -20,6 +20,7 @@
 #import "AppGrouping.h"
 #import "DDData.h"
 
+#import "MyAppSales.h"
 
 
 // private methods
@@ -1540,7 +1541,10 @@ static Database *_sharedInstance;
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"NewReportAdded" object:nil userInfo:tmpDict];
 	
-	[report notifyServerAboutReportAvailability];
+	MyAppSales *service = [[[MyAppSales alloc] init] autorelease];
+	[service seenReportWithReportType:report.reportType reportDate:report.fromDate reportRegionID:report.region];
+	
+	//[report notifyServerAboutReportAvailability];
 }
 
 - (void) setStatus:(NSString *)message

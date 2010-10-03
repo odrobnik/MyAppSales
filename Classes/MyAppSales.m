@@ -7,7 +7,7 @@
 
 - (BOOL) subscribeNotificationsWithEmail:(NSString *)email token:(NSString *)token
 {
-	NSString *location = @"http://www.drobnik.com/services/myappsales.asmx";
+	NSString *location = @"http://api.drobnik.net/myappsales.php";
 	NSMutableArray *paramArray = [NSMutableArray array];
 	[paramArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"email", @"name",email?email:@"", @"value", nil]];
 	[paramArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"token", @"name",token?token:@"", @"value", nil]];
@@ -22,7 +22,7 @@
 
 - (BOOL) isSubscribedToNotificationsWithEmail:(NSString *)email token:(NSString *)token
 {
-	NSString *location = @"http://www.drobnik.com/services/myappsales.asmx";
+	NSString *location = @"http://api.drobnik.net/myappsales.php";
 	NSMutableArray *paramArray = [NSMutableArray array];
 	[paramArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"email", @"name",email?email:@"", @"value", nil]];
 	[paramArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"token", @"name",token?token:@"", @"value", nil]];
@@ -37,7 +37,7 @@
 
 - (BOOL) unsubscribeNotificationsWithEmail:(NSString *)email token:(NSString *)token
 {
-	NSString *location = @"http://www.drobnik.com/services/myappsales.asmx";
+	NSString *location = @"http://api.drobnik.net/myappsales.php";
 	NSMutableArray *paramArray = [NSMutableArray array];
 	[paramArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"email", @"name",email?email:@"", @"value", nil]];
 	[paramArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"token", @"name",token?token:@"", @"value", nil]];
@@ -52,7 +52,7 @@
 
 - (NSDate *) latestReportDateWithReportType:(NSInteger)reportType reportRegionID:(NSInteger)reportRegionID
 {
-	NSString *location = @"http://www.drobnik.com/services/myappsales.asmx";
+	NSString *location = @"http://api.drobnik.net/myappsales.php";
 	NSMutableArray *paramArray = [NSMutableArray array];
 	[paramArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"ReportType", @"name",[NSNumber numberWithInt:reportType], @"value", nil]];
 	[paramArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"ReportRegionID", @"name",[NSNumber numberWithInt:reportRegionID], @"value", nil]];
@@ -67,7 +67,7 @@
 
 - (BOOL) seenReportWithReportType:(NSInteger)reportType reportDate:(NSDate *)reportDate reportRegionID:(NSInteger)reportRegionID
 {
-	NSString *location = @"http://www.drobnik.com/services/myappsales.asmx";
+	NSString *location = @"http://api.drobnik.net/myappsales.php";
 	NSMutableArray *paramArray = [NSMutableArray array];
 	[paramArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"ReportType", @"name",[NSNumber numberWithInt:reportType], @"value", nil]];
 	[paramArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"ReportDate", @"name",reportDate?[reportDate ISO8601string]:@"", @"value", nil]];
