@@ -46,6 +46,8 @@
 
 #import "NSString+AJAX.h"
 
+#import "MyAppSales.h"
+
 @implementation ASiSTAppDelegate
 
 @synthesize window;
@@ -95,6 +97,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	/*
+	MyAppSales *serv = [[MyAppSales alloc] init];
+	NSDate *d = [serv latestReportDateWithReportType:0 reportRegionID:0];
+	NSLog(@"%@", d);
+	*/
+	
 	NSURL *launchURL;
 	BOOL forceSynch = NO;
 	

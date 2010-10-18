@@ -77,6 +77,7 @@
 	NSError *error=nil;
 	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	XMLdocument *xml = [XMLdocument documentWithData:data];
+	
 	NSString *result = [self returnValueFromSOAPResponse:xml];
 	return (BOOL) [self isBoolStringYES:result];
 }
