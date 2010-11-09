@@ -238,38 +238,158 @@
 	
 	NSString *html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
 	
-	
-	// ----- execute embedded AJAX reload
-	
-	NSArray *ajaxParams= [html parametersFromAjaxSubmitString];
-	NSString *viewState = [html ajaxViewState];
 	NSURL *baseURL = [NSURL URLWithString:@"https://reportingitc.apple.com/"];
 	
 	
-	NSURLRequest *ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams viewState:viewState baseURL:baseURL];
 	
-	[self setStatus:@"Opening Sales & Trends (2)"];
+	// check if vendor selection is necessary
 	
-	data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
-	
-	if (error)
+	if ([html rangeOfString:@"Choose Vendor"].length)
 	{
-		[self setStatusError:[error localizedDescription]];
-		return;
+		// make a post so that we get the vendor ids
+		
+		
+		
+		request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://reportingitc.apple.com/jsp/providerselection.faces"]
+										cachePolicy:NSURLRequestReloadIgnoringCacheData
+									timeoutInterval:60.0];	
+		[request setHTTPMethod:@"POST"];
+		
+		
+		[self setStatus:@"Selecting Vendor (2)"];
+
+		NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+		
+		if (error)
+		{
+			[self setStatusError:[error localizedDescription]];
+			return;
+		}
+		
+		if (!data) 
+		{
+			[self setStatusError:@"No data received from Vendor Selection"];
+			return;
+		}
+		
+		
+		
+		NSString *divHtml = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+		
+		
+		
+		NSPredicate *vendorPred = [NSPredicate predicateWithFormat:@"class = 'vendor'"];
+		NSArray *vendorOptions = [divHtml arrayOfHTMLForTags:@"div" matchingPredicate:vendorPred];
+		
+		NSMutableArray *vendors = [NSMutableArray array];
+		
+		for (NSString *oneVendorDiv in vendorOptions)
+		{
+			NSScanner *scanner = [NSScanner scannerWithString:oneVendorDiv];
+			
+			[scanner scanUpToString:@"setVendorNumber(" intoString:NULL];
+			
+			if ([scanner scanString:@"setVendorNumber(" intoString:NULL])
+			{
+				NSInteger vendorID = 0;
+				
+				[scanner scanInteger:&vendorID];
+				
+				[scanner scanString:@",'" intoString:NULL];
+				
+				NSString *vendorName = nil;
+				
+				[scanner scanUpToString:@"');" intoString:&vendorName];
+				
+				if (vendorName && vendorID)
+				{
+					NSDictionary *vendor = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:vendorID], @"VendorID",
+											vendorName, @"VendorName", nil];
+					
+					[vendors addObject:vendor];
+				}
+				else 
+				{
+					NSLog(@"Cannot parse vendor from string '%@'", oneVendorDiv);
+				}
+				
+			}
+		}
+		
+		// get the highest vendor
+		
+		NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"VendorID" ascending:YES];
+		NSArray *sortedVendors = [vendors sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDesc]];
+		
+		NSDictionary *bestVendor = [sortedVendors lastObject];
+		
+		
+		html = [html stringByReplacingOccurrencesOfString:@":param1," withString:[NSString stringWithFormat:@":'%@'", [bestVendor objectForKey:@"VendorID"]]];
+		html = [html stringByReplacingOccurrencesOfString:@":param2," withString:[NSString stringWithFormat:@":'%@'", [bestVendor objectForKey:@"VendorName"]]];
+		
+		NSString *viewState = [html ajaxViewState];
+		NSArray *ajaxParams= [html parametersFromAjaxSubmitString];
+		
+		NSURL *baseURL = [NSURL URLWithString:@"https://reportingitc.apple.com/"];
+		
+		NSURLRequest *ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams viewState:viewState baseURL:baseURL];
+		
+		data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
+		
+		if (error)
+		{
+			[self setStatusError:[error localizedDescription]];
+			return;
+		}
+		
+		if (!data) 
+		{
+			[self setStatusError:@"No data received from Vendor Selection (2)"];
+			return;
+		}
+		
+		html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+		
+		if (![html rangeOfString:@"Ajax-Response\" content=\"redirect"].length)
+		{
+			[self setStatusError:@"Error going to Sales & Trends"];
+			return;
+		}
 	}
-	
-	if (!data) 
+	else 
 	{
-		[self setStatusError:@"No data received from Sales & Trends (2)"];
-		return;
-	}
-	
-	html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	
-	if (![html rangeOfString:@"Ajax-Response\" content=\"redirect"].length)
-	{
-		[self setStatusError:@"Error going to Sales & Trends"];
-		return;
+		// ----- execute embedded AJAX reload
+		
+		NSArray *ajaxParams= [html parametersFromAjaxSubmitString];
+		NSString *viewState = [html ajaxViewState];
+		
+		
+		NSURLRequest *ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams viewState:viewState baseURL:baseURL];
+		
+		[self setStatus:@"Opening Sales & Trends (2)"];
+		
+		data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
+		
+		if (error)
+		{
+			[self setStatusError:[error localizedDescription]];
+			return;
+		}
+		
+		if (!data) 
+		{
+			[self setStatusError:@"No data received from Sales & Trends (2)"];
+			return;
+		}
+		
+		html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+		
+		if (![html rangeOfString:@"Ajax-Response\" content=\"redirect"].length)
+		{
+			[self setStatusError:@"Error going to Sales & Trends"];
+			return;
+		}
+		
 	}
 	
 	// ---- Switching to Dashboard
@@ -297,13 +417,13 @@
 	}
 	
 	html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	viewState = [html ajaxViewState];
+	NSString *viewState = [html ajaxViewState];
 	
 	
 	// ------ refreshMenu() ajax post
 	
-	ajaxParams = [html parametersFromAjaxSubmitStringForFunction:@"refreshMenu"];
-	ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams viewState:viewState baseURL:baseURL];
+	NSArray *ajaxParams = [html parametersFromAjaxSubmitStringForFunction:@"refreshMenu"];
+	NSURLRequest *ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams viewState:viewState baseURL:baseURL];
 	
 	[self setStatus:@"Opening Sales & Trends (4)"];
 	
@@ -534,10 +654,10 @@
 	}
 	
 	// ----- switch to weekly so that we get the viewstate for weekly
-
+	
 	extraFormString = [NSString stringWithFormat:@"theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
-								 [[dayOptions objectAtIndex:0] stringByUrlEncoding],
-								 [[dayOptions objectAtIndex:0] stringByUrlEncoding]];
+					   [[dayOptions objectAtIndex:0] stringByUrlEncoding],
+					   [[dayOptions objectAtIndex:0] stringByUrlEncoding]];
 	
 	ajaxRequest = [NSURLRequest ajaxRequestWithParameters:weekSwitchAjaxParams extraFormString:extraFormString viewState:viewState baseURL:baseURL];
 	
@@ -565,33 +685,33 @@
 	
 	
 	/*
-	// shortcut
+	 // shortcut
 	 
-	// - execute WeekSelected
-	
-	ajaxRequest = [NSURLRequest ajaxRequestWithParameters:weekSelectedAjaxParams extraFormString:extraFormString viewState:viewState baseURL:baseURL];
-	
-	[self setStatus:@"Switching to Weekly"];
-	
-	data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
-	
-	if (error)
-	{
-		[self setStatusError:[error localizedDescription]];
-		return;
-	}
-	
-	if (!data) 
-	{
-		[self setStatusError:@"No data received from Weekly"];
-		return;
-	}
-	
-	html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	
-	viewState = [html ajaxViewState];
-	
-	*/
+	 // - execute WeekSelected
+	 
+	 ajaxRequest = [NSURLRequest ajaxRequestWithParameters:weekSelectedAjaxParams extraFormString:extraFormString viewState:viewState baseURL:baseURL];
+	 
+	 [self setStatus:@"Switching to Weekly"];
+	 
+	 data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
+	 
+	 if (error)
+	 {
+	 [self setStatusError:[error localizedDescription]];
+	 return;
+	 }
+	 
+	 if (!data) 
+	 {
+	 [self setStatusError:@"No data received from Weekly"];
+	 return;
+	 }
+	 
+	 html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+	 
+	 viewState = [html ajaxViewState];
+	 
+	 */
 	
 	//----- download WEEKLY
 	
