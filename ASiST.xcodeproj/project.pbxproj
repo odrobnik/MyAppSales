@@ -2111,7 +2111,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = MyAppSales;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -2135,7 +2135,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = MyAppSales;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.1;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
