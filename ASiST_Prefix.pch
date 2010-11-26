@@ -2,6 +2,8 @@
 // Prefix header for all source files of the 'ASiST' target in the 'ASiST' project
 //
 
+testerror_file_func
+
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
     #import <UIKit/UIKit.h>
