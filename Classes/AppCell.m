@@ -8,10 +8,11 @@
 
 #import "AppCell.h"
 #import "App.h"
-#import "ASiSTAppDelegate.h"
+#import "MyAppSalesAppDelegate.h"
 #import "Report_v1.h"
 #import "YahooFinance.h"
 #import "BadgeView.h"
+#import <QuartzCore/QuartzCore.h>
 
 
 @implementation AppCell
@@ -35,7 +36,7 @@
 		appTitleLabel.shadowColor = [UIColor whiteColor];
 		appTitleLabel.shadowOffset = CGSizeMake(0, 1);
 		[self.contentView addSubview:appTitleLabel];
-
+		
 		UIFont *smallerFont = [UIFont systemFontOfSize:14.0];
 		UIColor *darkColor = [UIColor colorWithRed:58.0/256.0 green:58.0/256.0 blue:58.0/256.0 alpha:1.0];
 		//UIColor *darkShadowColor = [UIColor colorWithRed:145.0/256.0 green:145.0/256.0 blue:145.0/256.0 alpha:1.0];
@@ -75,7 +76,7 @@
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(emptyCache:) name:@"EmptyCache" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appReviewsUpdated:) name:@"AppReviewsUpdated" object:nil];
-
+		
 		badge = [[BadgeView alloc] initWithFrame:CGRectMake(40, 5, 40, 30)];
 		//badge.center = CGPointMake(60, 60);
 		[self addSubview:badge];  //naughty: we want to be above the standard imageview
@@ -158,14 +159,14 @@
 	
 	
 	/*
-	if ([app.reviews count])
-	{
-		self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	}
-	else
-	{
-		self.accessoryType = UITableViewCellAccessoryNone;
-	}
+	 if ([app.reviews count])
+	 {
+	 self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	 }
+	 else
+	 {
+	 self.accessoryType = UITableViewCellAccessoryNone;
+	 }
 	 */
 }
 
@@ -180,7 +181,7 @@
 		
 		double converted = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:app.averageRoyaltiesPerDay fromCurrency:@"EUR"];
 		subTextLabel.text = [NSString stringWithFormat:@"%@ per day", [[YahooFinance sharedInstance]  formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:converted]];
-
+		
 		double royalties_converted = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:app.totalRoyalties fromCurrency:@"EUR"];
 		if (royalties_converted)
 		{
@@ -192,9 +193,9 @@
 			royaltiesLabel.text = @"free";
 			totalUnitsLabel.text = [NSString stringWithFormat:@"%d downloaded", app.totalUnits];
 		}
-
+		
 		[self setBadge];
-
+		
 		
 		
 		if (app.iconImage)
@@ -208,7 +209,7 @@
 		
 		
 		[self showDisclosureIndicatorIfNeeded];
-
+		
 	}
 }
 

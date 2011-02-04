@@ -8,7 +8,7 @@
 
 #import "CurrencyListView.h"
 #import "TextCell.h"
-#import "ASiSTAppDelegate.h"
+#import "MyAppSalesAppDelegate.h"
 #import "YahooFinance.h"
 #import "SettingsViewController.h"
 

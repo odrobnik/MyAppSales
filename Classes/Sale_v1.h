@@ -11,8 +11,6 @@
 
 @class Country_v1, Product_v1, Report_v1;
 
-typedef enum { TransactionTypeSale = 1, TransactionTypeFreeUpdate = 7, TransactionTypeIAP = 101 } TransactionType;
-
 
 @interface Sale_v1 : NSObject {
 	Product_v1 *product;
@@ -27,7 +25,7 @@ typedef enum { TransactionTypeSale = 1, TransactionTypeFreeUpdate = 7, Transacti
 	
 	// Opaque reference to the underlying database.
     sqlite3 *database;
-
+	
 }
 
 @property(nonatomic, retain) Country_v1 *country;

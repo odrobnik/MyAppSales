@@ -11,7 +11,7 @@
 #import "Query.h"
 #import "Database.h"
 
-#import "ASiSTAppDelegate.h"
+#import "MyAppSalesAppDelegate.h"
 
 
 @implementation ChartRootController

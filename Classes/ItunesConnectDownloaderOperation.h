@@ -8,31 +8,34 @@
 
 #import <Foundation/Foundation.h>
 
-@class GenericAccount;
+#import "SynchingOperation.h"
 
-@interface ItunesConnectDownloaderOperation : NSOperation 
+@class GenericAccount, ItunesConnectDownloaderOperation;
+
+@protocol ItunesConnectDownloaderOperationDelegate <NSObject, SynchingOperationDelegate>
+
+- (void)itunesConnectDownloaderOperation:(ItunesConnectDownloaderOperation *)operation didDownloadReportDictionary:(NSDictionary *)dictionary;
+
+@end
+
+
+@interface ItunesConnectDownloaderOperation : SynchingOperation 
 {
 	GenericAccount *account;
 	
 	NSArray *reportsToIgnore;
 	
-	NSObject *delegate;
-	
-	BOOL workInProgress;
-	
 	BOOL alternateLogin;
+	
+	NSString *productGroupingKey;
 }
 
 @property (nonatomic, retain) NSArray *reportsToIgnore; 
-@property (nonatomic, assign) NSObject *delegate;
- 
+@property (nonatomic, assign) id <ItunesConnectDownloaderOperationDelegate> delegate;
+
 
 - (id) initForAccount:(GenericAccount *)itcAccount;
 
-// status utility
-- (void) sendFinishToDelegate;
-- (void) setStatus:(NSString *)message;
-- (void) setStatusError:(NSString *)message;
-- (void) setStatusSuccess:(NSString *)message;
+
 
 @end

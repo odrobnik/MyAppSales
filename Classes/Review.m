@@ -16,12 +16,14 @@
 @dynamic userName;
 @dynamic title;
 @dynamic date;
-@dynamic reviewText;
-@dynamic version;
-@dynamic translatedReviewTitle;
-@dynamic stars;
-@dynamic translatedReviewText;
+@dynamic text;
+@dynamic appVersion;
+@dynamic titleTranslated;
+@dynamic ratingPercent;
+@dynamic textTranslated;
 @dynamic app;
 @dynamic country;
+@dynamic isNew;
+@dynamic appUserVersionHash;
 
 @end

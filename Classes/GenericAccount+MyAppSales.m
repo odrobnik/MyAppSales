@@ -24,6 +24,15 @@
 	return [DB appGroupingForID:[label intValue]];
 }
 
+- (NSString *)productGroupingKey
+{
+	if (!self.label)
+	{
+		self.label = [NSString stringWithUUID];
+	}
+	
+	return self.label;
+}
 
 + (NSString *)stringForAccountType:(GenericAccountType)anAccountType
 {

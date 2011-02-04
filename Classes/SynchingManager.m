@@ -12,11 +12,17 @@
 #import "ItunesConnectDownloaderOperation.h"
 #import "TranslationScraperOperation.h"
 #import "NotificationsSubscribeOperation.h"
+#import "CountryFlagDownloadOperation.h"
+#import "AppIconDownloadOperation.h"
+
 #import "Database.h"
-#import "ASiSTAppDelegate.h"
+#import "MyAppSalesAppDelegate.h"
+#import "App.h"
 #import "Review_v1.h"
 #import "Country_v1.h"
 #import "GenericAccount+MyAppSales.h"
+
+#import "CoreDatabase.h"
 
 @implementation SynchingManager
 
@@ -67,7 +73,7 @@ static SynchingManager * _sharedInstance;
 	[wu setQueuePriority:NSOperationQueuePriorityVeryHigh];
 	
 	wu.delegate = self;
-		
+	
 	[queue addOperation:wu];
 	[self toggleNetworkIndicator:YES];
 	
@@ -87,15 +93,45 @@ static SynchingManager * _sharedInstance;
 	[wu release];
 }
 #pragma mark iTunes Reviews
-
-
-- (void) scrapeForApp:(App *)reviewApp country:(Country_v1 *)reviewCountry delegate:(id<ReviewScraperDelegate>)scraperDelegate
+- (void) scrapeForApp:(App *)app country:(Country_v1 *)country delegate:(id<ReviewScraperDelegate>)scraperDelegate
 {
-	ReviewDownloaderOperation *wu = [[ReviewDownloaderOperation alloc] initForApp:reviewApp country:reviewCountry delegate:scraperDelegate];
+	if (!country.appStoreID)
+	{
+		NSLog(@"No app store id for %@", country.name);
+		return;
+	}
+	
+	
+	ReviewDownloaderOperation *wu = [[ReviewDownloaderOperation alloc] initForAppID:app.apple_identifier
+																			storeID:country.appStoreID
+																		   delegate:scraperDelegate];
 	wu.delegate = self;
+	wu.iso2 = country.iso2;
+	
 	[queue addOperation:wu];
 	[self toggleNetworkIndicator:YES];
+	
+	[wu release];
+}
 
+- (void) scrapeForProduct:(Product *)product country:(Country *)country delegate:(id<ReviewScraperDelegate>)scraperDelegate
+{
+	if (![country.appStoreID intValue])
+	{
+		NSLog(@"No app store id for %@", country.name);
+		return;
+	}
+	
+	
+	ReviewDownloaderOperation *wu = [[ReviewDownloaderOperation alloc] initForAppID:[product.appleIdentifier intValue]
+																			storeID:[country.appStoreID intValue]
+																		   delegate:scraperDelegate];
+	wu.delegate = self;
+	wu.iso2 = country.iso2;
+	
+	[queue addOperation:wu];
+	[self toggleNetworkIndicator:YES];
+	
 	[wu release];
 }
 
@@ -139,6 +175,31 @@ static SynchingManager * _sharedInstance;
 	[wu release];
 }
 
+- (void)itunesConnectDownloaderOperation:(ItunesConnectDownloaderOperation *)operation didDownloadReportDictionary:(NSDictionary *)dictionary
+{
+	[[Database sharedInstance] insertReportFromDict:dictionary];
+	[[CoreDatabase sharedInstance] insertReportFromDict:dictionary];
+}
+
+#pragma mark Country Flags
+- (void)downloadFlagForCountryWithISO3:(NSString *)iso3
+{
+	CountryFlagDownloadOperation *op = [[[CountryFlagDownloadOperation alloc] initWithISO3:iso3] autorelease];
+	[op setQueuePriority:NSOperationQueuePriorityVeryHigh];
+	
+	[queue addOperation:op];
+}
+
+#pragma mark App Icons
+
+- (void)downloadIconForAppWithIdentifier:(NSInteger)appID
+{
+	AppIconDownloadOperation *op = [[[AppIconDownloadOperation alloc] initWithApplicationIdentifier:appID] autorelease];
+	[op setQueuePriority:NSOperationQueuePriorityVeryHigh];
+	
+	[queue addOperation:op];
+}
+
 
 - (void) cancelAllOperationsOfClass:(Class)class
 {
@@ -156,7 +217,7 @@ static SynchingManager * _sharedInstance;
 
 #pragma mark Call-Backs
 
-- (void) downloadStartedForOperation:(NSOperation *)operation
+- (void) downloadStartedForOperation:(SynchingOperation *)operation
 {
 	[self updateIndicators];
 }
@@ -165,20 +226,41 @@ static SynchingManager * _sharedInstance;
 
 
 // Translation Downloader
-- (void) translateReview:(Review_v1 *)review delegate:(id<TranslationScraperDelegate>)scraperDelegate
+- (void) translateReview_v1:(Review_v1 *)review delegate:(id<TranslationScraperDelegate>)scraperDelegate
 {
 	NSString *translationLanguage = [[NSUserDefaults standardUserDefaults] objectForKey:@"ReviewTranslation"];
 	
 	if (translationLanguage&&![translationLanguage isEqualToString:@" "])
 	{
 		TranslationScraperOperation *wu = [[TranslationScraperOperation alloc] initForText:review.review fromLanguage:review.country.language toLanguage:translationLanguage delegate:scraperDelegate];
-							
+		
 		wu.delegate = self;
+		
 		[queue addOperation:wu];
 		//[self updateIndicators]; // update counter
-
+		
 		//[self toggleNetworkIndicator:YES];
+		
+		[wu release];
+	}
+}
+
+- (void) translateReview:(Review *)review delegate:(id<TranslationScraperDelegate>)scraperDelegate
+{
+	NSString *translationLanguage = [[NSUserDefaults standardUserDefaults] objectForKey:@"ReviewTranslation"];
 	
+	if (translationLanguage&&![translationLanguage isEqualToString:@" "])
+	{
+		TranslationScraperOperation *wu = [[TranslationScraperOperation alloc] initForText:review.text fromLanguage:review.country.language toLanguage:translationLanguage delegate:scraperDelegate];
+		
+		wu.delegate = self; 
+		wu.context = review.appUserVersionHash;
+		
+		[queue addOperation:wu];
+		//[self updateIndicators]; // update counter
+		
+		//[self toggleNetworkIndicator:YES];
+		
 		[wu release];
 	}
 }
@@ -229,7 +311,7 @@ static SynchingManager * _sharedInstance;
 	else 
 	{
 		[self toggleNetworkIndicator:YES];
-
+		
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"SynchingStarted" object:nil];
 		
 		// disable idle time why synching active
@@ -237,7 +319,7 @@ static SynchingManager * _sharedInstance;
 	}
 }
 
-- (void) downloadFinishedForOperation:(NSOperation *)operation
+- (void)downloadFinishedForOperation:(SynchingOperation *)operation
 {
 	[self updateIndicators];
 }

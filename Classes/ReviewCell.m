@@ -87,7 +87,7 @@
 		
 		self.reviewTitle.frame = frame;
 		
-		self.countryImage.frame = CGRectMake(280, 2.0+(frame.size.height-self.countryImage.image.size.height)/2.0, self.countryImage.image.size.height, self.countryImage.image.size.height);
+		self.countryImage.frame = CGRectMake(280, 2.0+(frame.size.height-25)/2.0, 25, 25);
 		
 		
 		reviewTitleBackground.frame = CGRectMake(boundsX, 0, contentRect.size.width, size.height + 10);

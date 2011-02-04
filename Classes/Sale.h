@@ -18,7 +18,7 @@
 
 @property (nonatomic, retain) NSNumber * unitsSold;
 @property (nonatomic, retain) NSNumber * customerPrice;
-@property (nonatomic, retain) NSNumber * transactionType;
+@property (nonatomic, retain) NSString * transactionType;
 @property (nonatomic, retain) NSString * customerCurrency;
 @property (nonatomic, retain) NSNumber * royaltyPrice;
 @property (nonatomic, retain) NSString * royaltyCurrency;

@@ -19,7 +19,7 @@
 #import "CurrencyListView.h"
 
 // to query currency list
-#import "ASiSTAppDelegate.h"
+#import "MyAppSalesAppDelegate.h"
 #import "YahooFinance.h"
 
 // for login data
@@ -428,7 +428,7 @@
 					}
 					
 					cell.titleLabel.text = @"Enable on WLAN";
-					ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
+					MyAppSalesAppDelegate *appDelegate = (MyAppSalesAppDelegate *)[[UIApplication sharedApplication] delegate];
 					
 					cell.switchCtl.on = appDelegate.serverIsRunning;
 					[cell.switchCtl addTarget:appDelegate action:@selector(startStopServer:) forControlEvents:UIControlEventValueChanged];
@@ -445,7 +445,7 @@
 					}
 					
 					cell.title.text = @"Address";
-					ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
+					MyAppSalesAppDelegate *appDelegate = (MyAppSalesAppDelegate *)[[UIApplication sharedApplication] delegate];
 
 					
 #if TARGET_IPHONE_SIMULATOR
@@ -827,7 +827,7 @@
 	{
 		// hit ok, really do empty cache
 		
-		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
+		MyAppSalesAppDelegate *appDelegate = (MyAppSalesAppDelegate *)[[UIApplication sharedApplication] delegate];
 		
 		[appDelegate emptyCache];
 	}

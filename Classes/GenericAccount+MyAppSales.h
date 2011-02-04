@@ -21,4 +21,6 @@ typedef enum { AccountTypeUnknown = 0, AccountTypeITC = 1, AccountTypeNotificati
 
 + (NSString *)stringForAccountType:(GenericAccountType)anAccountType;
 
+- (NSString *)productGroupingKey;
+
 @end

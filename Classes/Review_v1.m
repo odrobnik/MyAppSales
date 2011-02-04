@@ -218,7 +218,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 			}
 			else 
 			{
-				[[SynchingManager sharedInstance]translateReview:self delegate:self];
+				//[[SynchingManager sharedInstance]translateReview_v1:self delegate:self];
 			}
         }
 		

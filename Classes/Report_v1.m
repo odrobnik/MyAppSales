@@ -6,14 +6,6 @@
 //  Copyright 2008 drobnik.com. All rights reserved.
 //
 
-#import "Report_v1.h"
-#import "Sale_v1.h"
-#import "CountrySummary.h"
-#import "App.h"
-#import "Product_v1.h"
-#import "InAppPurchase.h"
-#import "InAppPurchase.h"
-#import "Country_v1.h"
 #import "Database.h"
 
 #import "YahooFinance.h"
@@ -514,24 +506,24 @@ static sqlite3_stmt *hydrate_statement = nil;
 			}
 #endif
 			
-
-			/*
-			NSString *salesOrReturn = [oneLine getValueForNamedColumn:@"Promo Code" headerNames:column_names];
 			
-			if ([salesOrReturn length])
-			{
-				NSMutableDictionary *tmpDict = [NSMutableDictionary dictionary];
-				for (NSString *oneCol in column_names)
-				{
-					NSString *v = [oneLine getValueForNamedColumn:oneCol headerNames:column_names];		
-					if (v)
-					{
-						[tmpDict setObject:v forKey:oneCol];
-					}
-				}
-				NSLog(@"Promo!: %@", tmpDict);
-				}
-			*/
+			/*
+			 NSString *salesOrReturn = [oneLine getValueForNamedColumn:@"Promo Code" headerNames:column_names];
+			 
+			 if ([salesOrReturn length])
+			 {
+			 NSMutableDictionary *tmpDict = [NSMutableDictionary dictionary];
+			 for (NSString *oneCol in column_names)
+			 {
+			 NSString *v = [oneLine getValueForNamedColumn:oneCol headerNames:column_names];		
+			 if (v)
+			 {
+			 [tmpDict setObject:v forKey:oneCol];
+			 }
+			 }
+			 NSLog(@"Promo!: %@", tmpDict);
+			 }
+			 */
 			
 			// if all columns have a value then we accept the line
 			if (from_date&&until_date&&appID&&vendor_identifier&&title&&type_id&&units&&royalty_currency&&customer_currency&&country_code)

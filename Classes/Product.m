@@ -30,5 +30,7 @@
 @dynamic children;
 @dynamic sales;
 @dynamic summaries;
+@dynamic newReviewsCount;
+@dynamic isInAppPurchase;
 
 @end

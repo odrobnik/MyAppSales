@@ -7,10 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ReportTypes.h"
+
 #import "Sale_v1.h"
-#import "Database.h"
 #import "AppGrouping.h"
 #import "CountrySummary.h"
+
+@class AppGrouping;
 
 @interface Report_v1 : NSObject 
 {
@@ -65,11 +68,11 @@
 - (id)initWithReportText:(NSString *)text;
 
 /*
-- (Sale *) insertSaleForAppID:(NSUInteger)app_id type_id:(NSUInteger)type_id units:(NSUInteger)units
-			  royalty_price:(double)royalty_price royalty_currency:(NSString *)royalty_currency 
-			 customer_price:(double)customer_price customer_currency:(NSString *)customer_currency 
-			   country_code:(NSString *)country_code;
-*/
+ - (Sale *) insertSaleForAppID:(NSUInteger)app_id type_id:(NSUInteger)type_id units:(NSUInteger)units
+ royalty_price:(double)royalty_price royalty_currency:(NSString *)royalty_currency 
+ customer_price:(double)customer_price customer_currency:(NSString *)customer_currency 
+ country_code:(NSString *)country_code;
+ */
 
 
 

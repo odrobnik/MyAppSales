@@ -20,7 +20,6 @@
 #import "AppGrouping.h"
 #import "DDData.h"
 
-#import "MyAppSales.h"
 
 
 // private methods
@@ -279,12 +278,12 @@ static Database *_sharedInstance;
 			
 			
 			Report_v1 *report = [[Report_v1 alloc] initWithPrimaryKey:primaryKey database:database
-													   fromDate:fromDate 
-													  untilDate:untilDate 
-												aDownloadedDate:downloadedDate
-												   reportTypeID:reportType
-												 reportRegionID:region 
-												  appGroupingID:groupingID];
+															 fromDate:fromDate 
+															untilDate:untilDate 
+													  aDownloadedDate:downloadedDate
+														 reportTypeID:reportType
+													   reportRegionID:region 
+														appGroupingID:groupingID];
 			
 			if (report)
 			{
@@ -308,69 +307,69 @@ static Database *_sharedInstance;
 	NSString *path = [NSString pathForFileInDocuments:[NSString stringWithFormat:@"index_cache_%d.dat", reportType]];
 	//NSData *compressed = [NSData dataWithContentsOfFile:path];
 	
-	NSData *compressed;
-	if (compressed = [[NSData alloc] initWithContentsOfMappedFile:path])
-	{
-		NSData *data = [compressed gzipInflate];
-		
-		NSString *string = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-		
-		NSArray *lines = [string componentsSeparatedByString:@"\n"];
-		
-		for (NSString *oneLine in lines)
-		{
-			NSScanner *scanner = [NSScanner scannerWithString:oneLine];
-			
-			NSInteger primaryKey;
-			NSTimeInterval fromDateTI;
-			NSTimeInterval untilDateTI;
-			NSTimeInterval downloadedDateTI;
-			NSInteger region;
-			NSInteger reportType;
-			NSInteger groupingID;
-			
-			if ([scanner scanInteger:&primaryKey])
-			{
-				[scanner scanString:@"/" intoString:nil];
-				[scanner scanDouble:&fromDateTI];
-				[scanner scanString:@"/" intoString:nil];
-				[scanner scanDouble:&untilDateTI];
-				[scanner scanString:@"/" intoString:nil];
-				[scanner scanDouble:&downloadedDateTI];
-				[scanner scanString:@"/" intoString:nil];
-				[scanner scanInteger:&region];
-				[scanner scanString:@"/" intoString:nil];
-				[scanner scanInteger:&reportType];
-				[scanner scanString:@"/" intoString:nil];
-				[scanner scanInt:&groupingID];
-				
-				
-				NSDate *fromDate = [NSDate dateWithTimeIntervalSinceReferenceDate:fromDateTI];
-				NSDate *untilDate = [NSDate dateWithTimeIntervalSinceReferenceDate:untilDateTI];
-				NSDate *downloadedDate = [NSDate dateWithTimeIntervalSinceReferenceDate:downloadedDateTI];
-				
-				Report_v1 *report = [[Report_v1 alloc] initWithPrimaryKey:primaryKey database:database
-														   fromDate:fromDate 
-														  untilDate:untilDate 
-													aDownloadedDate:downloadedDate
-													   reportTypeID:reportType
-													 reportRegionID:region 
-													  appGroupingID:groupingID];
-				
-				if (report)
-				{
-					// also add to the indexes
-					[self addReportToIndex:report];
-					
-					[report release];
-				}	
-			}
-		}
-		
-		[compressed release];
-		
-		return;
-	}
+//	NSData *compressed;
+//	if (compressed = [[NSData alloc] initWithContentsOfMappedFile:path])
+//	{
+//		NSData *data = [compressed gzipInflate];
+//		
+//		NSString *string = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+//		
+//		NSArray *lines = [string componentsSeparatedByString:@"\n"];
+//		
+//		for (NSString *oneLine in lines)
+//		{
+//			NSScanner *scanner = [NSScanner scannerWithString:oneLine];
+//			
+//			NSInteger primaryKey;
+//			NSTimeInterval fromDateTI;
+//			NSTimeInterval untilDateTI;
+//			NSTimeInterval downloadedDateTI;
+//			NSInteger region;
+//			NSInteger reportType;
+//			NSInteger groupingID;
+//			
+//			if ([scanner scanInteger:&primaryKey])
+//			{
+//				[scanner scanString:@"/" intoString:nil];
+//				[scanner scanDouble:&fromDateTI];
+//				[scanner scanString:@"/" intoString:nil];
+//				[scanner scanDouble:&untilDateTI];
+//				[scanner scanString:@"/" intoString:nil];
+//				[scanner scanDouble:&downloadedDateTI];
+//				[scanner scanString:@"/" intoString:nil];
+//				[scanner scanInteger:&region];
+//				[scanner scanString:@"/" intoString:nil];
+//				[scanner scanInteger:&reportType];
+//				[scanner scanString:@"/" intoString:nil];
+//				[scanner scanInt:&groupingID];
+//				
+//				
+//				NSDate *fromDate = [NSDate dateWithTimeIntervalSinceReferenceDate:fromDateTI];
+//				NSDate *untilDate = [NSDate dateWithTimeIntervalSinceReferenceDate:untilDateTI];
+//				NSDate *downloadedDate = [NSDate dateWithTimeIntervalSinceReferenceDate:downloadedDateTI];
+//				
+//				Report_v1 *report = [[Report_v1 alloc] initWithPrimaryKey:primaryKey database:database
+//																 fromDate:fromDate 
+//																untilDate:untilDate 
+//														  aDownloadedDate:downloadedDate
+//															 reportTypeID:reportType
+//														   reportRegionID:region 
+//															appGroupingID:groupingID];
+//				
+//				if (report)
+//				{
+//					// also add to the indexes
+//					[self addReportToIndex:report];
+//					
+//					[report release];
+//				}	
+//			}
+//		}
+//		
+//		[compressed release];
+//		
+//		return;
+//	}
 	
 	char *sql;
 	sqlite3_stmt *statement;
@@ -417,12 +416,12 @@ static Database *_sharedInstance;
 			NSUInteger groupingID = sqlite3_column_int(statement, 6);
 			
 			Report_v1 *report = [[Report_v1 alloc] initWithPrimaryKey:primaryKey database:database
-													   fromDate:fromDate 
-													  untilDate:untilDate 
-												aDownloadedDate:downloadedDate
-												   reportTypeID:reportType
-												 reportRegionID:region 
-												  appGroupingID:groupingID];
+															 fromDate:fromDate 
+															untilDate:untilDate 
+													  aDownloadedDate:downloadedDate
+														 reportTypeID:reportType
+													   reportRegionID:region 
+														appGroupingID:groupingID];
 			
 			if (report)
 			{
@@ -876,7 +875,6 @@ static Database *_sharedInstance;
 			return [self countryForName:code];
 		}
 	}
-	
 }
 
 - (NSUInteger) countOfApps
@@ -1017,6 +1015,11 @@ static Database *_sharedInstance;
 }
 
 #pragma mark App Grouping
+- (NSArray *)appGroupings
+{
+	return [NSArray arrayWithArray:appGroupings];
+}
+
 - (AppGrouping *) appGroupingForID:(NSInteger)groupingID
 {
 	for (AppGrouping *oneGrouping in appGroupings)
@@ -1541,10 +1544,7 @@ static Database *_sharedInstance;
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"NewReportAdded" object:nil userInfo:tmpDict];
 	
-	MyAppSales *service = [[[MyAppSales alloc] init] autorelease];
-	[service seenReportWithReportType:report.reportType reportDate:report.fromDate reportRegionID:report.region];
-	
-	//[report notifyServerAboutReportAvailability];
+	[report notifyServerAboutReportAvailability];
 }
 
 - (void) setStatus:(NSString *)message

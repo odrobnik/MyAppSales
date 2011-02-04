@@ -19,4 +19,18 @@
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     return basePath;
 }
+
++ (NSString *)stringWithUUID
+{
+	CFUUIDRef uuid = CFUUIDCreate (NULL);
+	CFStringRef string = CFUUIDCreateString(NULL, uuid);
+	
+	NSString *retValue = [NSString stringWithString:(NSString *)string];
+	
+	CFRelease(string);
+	CFRelease(uuid);
+	
+	return retValue;
+}
+
 @end

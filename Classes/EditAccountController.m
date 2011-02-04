@@ -12,7 +12,7 @@
 #import "EditableCell.h"
 #import "PushButtonCell.h"
 #import "AccountManager.h"
-#import "BigProgressView.h"
+#import "DTBigProgressView.h"
 
 
 @implementation EditAccountController
@@ -45,7 +45,7 @@
 
 - (void) setupProgressView
 {
-	prog = [[BigProgressView alloc] initWithFrame:self.view.bounds];  //
+	prog = [[DTBigProgressView alloc] initWithFrame:self.view.bounds];  //
 	//prog.contentMode = UIViewContentModeCenter;
 	//self.view.contentMode = UIViewContentModeCenter;
 	prog.autoresizesSubviews = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;

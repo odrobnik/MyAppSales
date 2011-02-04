@@ -7,7 +7,7 @@
 //
 
 #import "RootViewController.h"
-#import "ASiSTAppDelegate.h"
+#import "MyAppSalesAppDelegate.h"
 
 
 @implementation RootViewController

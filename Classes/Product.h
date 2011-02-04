@@ -32,7 +32,8 @@
 @property (nonatomic, retain) NSSet* children;
 @property (nonatomic, retain) NSSet* sales;
 @property (nonatomic, retain) NSSet* summaries;
-
+@property (nonatomic, retain) NSNumber * newReviewsCount;
+@property (nonatomic, retain) NSNumber * isInAppPurchase;
 @end
 
 

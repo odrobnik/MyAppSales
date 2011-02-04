@@ -8,9 +8,8 @@
 
 #import "App.h"
 #import "InAppPurchase.h"
-#import "UIImage+Helpers.h"
 #import "NSString+Helpers.h"
-#import "ASiSTAppDelegate.h"
+#import "MyAppSalesAppDelegate.h"
 #import "YahooFinance.h"
 #import "ReviewDownloaderOperation.h"
 #import "Review_v1.h"
@@ -55,7 +54,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	if (self = [super init])
 	{
 		self.iconImage = [UIImage imageNamed:@"Empty.png"];
-		UIImage *tmpImageNanoResized = [self.iconImage scaleImageToSize:CGSizeMake(32.0,32.0)];
+		UIImage *tmpImageNanoResized = [self.iconImage imageByScalingToSize:CGSizeMake(32.0,32.0)];
 		self.iconImageNano = tmpImageNanoResized;
 		
 		
@@ -178,7 +177,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	if (tmpImage)
 	{
 		self.iconImage = tmpImage;
-		UIImage *tmpImageNanoResized = [tmpImage scaleImageToSize:CGSizeMake(32.0,32.0)];
+		UIImage *tmpImageNanoResized = [tmpImage imageByScalingToSize:CGSizeMake(32.0,32.0)];
 		self.iconImageNano = tmpImageNanoResized;
 		
 		return;
@@ -295,10 +294,10 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		
 		//UIImage *tmpImageRounded = [ImageManipulator makeRoundCornerImage:tmpImage cornerWidth:20 cornerHeight:20];
 		
-		UIImage *tmpImageResized = [tmpImageRounded scaleImageToSize:CGSizeMake(56.0,56.0)];
+		UIImage *tmpImageResized = [tmpImageRounded imageByScalingToSize:CGSizeMake(56.0,56.0)];
 		self.iconImage = tmpImageResized;
 		
-		UIImage *tmpImageNanoResized = [tmpImageRounded scaleImageToSize:CGSizeMake(32.0,32.0)];
+		UIImage *tmpImageNanoResized = [tmpImageRounded imageByScalingToSize:CGSizeMake(32.0,32.0)];
 		self.iconImageNano = tmpImageNanoResized;
 		
 		
@@ -317,7 +316,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		
 		//[tmpImage release];
 		
-		ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
+		MyAppSalesAppDelegate *appDelegate = (MyAppSalesAppDelegate *)[[UIApplication sharedApplication] delegate];
 		[[[appDelegate appViewController] tableView] reloadData];
 		
 		
@@ -456,7 +455,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	{
 		[self performSelectorOnMainThread:@selector(sendReviewUpdateNotification) withObject:nil waitUntilDone:YES];
 	}
-
+	
 	stagedLoadInProgress = NO;
 	[pool release];
 }
@@ -542,7 +541,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 			if (loadedReview)
 			{
 				loadedReview.app = self;
-			
+				
 				[self addReview:loadedReview];
 				[loadedReview release];
 			}
@@ -556,7 +555,47 @@ static NSDateFormatter *dateFormatterToRead = nil;
 
 - (NSMutableArray *)reviews
 {
-	return [self reviewsInStages:NO];
+	//	return [self reviewsInStages:NO];
+	// if we already have reviews we ignore the parameter
+	if (!reviews)
+	{
+		reviews = [[NSMutableArray array] retain];
+		reviewsByNameVersion = [[NSMutableDictionary dictionary] retain];
+		
+		if (reviews_statement == nil) 
+		{
+			// Note the '?' at the end of the query. This is a parameter which can be replaced by a bound variable.
+			// This is a great way to optimize because frequently used queries can be compiled once, then with each
+			// use new variable values can be bound to placeholders.
+			const char *sql = "SELECT id FROM review WHERE app_id=?";
+			if (sqlite3_prepare_v2(database, sql, -1, &reviews_statement, NULL) != SQLITE_OK) {
+				NSAssert1(0, @"Error: failed to prepare statement with message '%s'.", sqlite3_errmsg(database));
+			}
+		}
+		// For this query, we bind the primary key to the first (and only) placeholder in the statement.
+		// Note that the parameters are numbered from 1, not from 0.
+		sqlite3_bind_int(reviews_statement, 1, apple_identifier);
+		
+		while ((sqlite3_step(reviews_statement) == SQLITE_ROW)) // (!(loadReviewsInStages&&i>100))&&
+		{
+			NSUInteger review_id = sqlite3_column_int(reviews_statement, 0);
+			
+			Review_v1 *loadedReview = [[Review_v1 alloc] initWithPrimaryKey:review_id database:database];
+			
+			if (loadedReview)
+			{
+				loadedReview.app = self;
+				
+				[self addReview:loadedReview];
+				[loadedReview release];
+			}
+		}
+		// Reset the statement for future reuse.
+		sqlite3_reset(reviews_statement);
+	}
+	
+	return reviews;	
+	
 }
 
 - (NSUInteger)apple_identifier {
@@ -740,7 +779,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 				{
 					existingReview.review = oneReview.review;
 					existingReview.translated_review = nil;
-					[[SynchingManager sharedInstance]translateReview:existingReview delegate:existingReview];
+					[[SynchingManager sharedInstance]translateReview_v1:existingReview delegate:existingReview];
 				}
 				
 				if (starsChanged)
@@ -765,7 +804,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 				oneReview.country.usedInReport = YES; // loads icon if we don't have it yet
 				[self addReview:oneReview];
 				
-				[[SynchingManager sharedInstance]translateReview:oneReview delegate:oneReview];
+				[[SynchingManager sharedInstance]translateReview_v1:oneReview delegate:oneReview];
 				
 			}
 		}
@@ -774,7 +813,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	if (modifiedReviews)
 	{
 		//[self.reviews release];
-	
+		
 		//reviews = [[tmpArray sortedArrayUsingSelector:@selector(compareByReviewDate:)] retain];
 		
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"AppReviewsUpdated" object:nil userInfo:(id)self];
@@ -790,9 +829,9 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		oneReview.translated_review = nil;
 		//[oneReview updateDatabase]; // unnecessary
 		
-		[[SynchingManager sharedInstance] translateReview:oneReview delegate:oneReview];
+		[[SynchingManager sharedInstance] translateReview_v1:oneReview delegate:oneReview];
 	}
-
+	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"AppReviewsUpdated" object:nil userInfo:(id)self];
 }
 

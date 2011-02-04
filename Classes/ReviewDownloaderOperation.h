@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class App, Country_v1;
-
 @protocol ReviewScraperDelegate <NSObject>
 
 @optional
@@ -21,26 +19,26 @@
 
 @interface ReviewDownloaderOperation : NSOperation 
 {
-	//NSUInteger appID;
-	//NSUInteger storeID;
-	App *app;
-	Country_v1 *country;
-	
-
 	NSObject <ReviewScraperDelegate> *scraperDelegate;
 	NSObject *delegate;
 	
 	BOOL workInProgress;
 	
 	NSMutableArray *scrapedReviews;
+	
+	NSInteger _appID;
+	NSInteger _storeID;
+	NSString *iso2;
 }
 
-@property (nonatomic, retain) App *app;
-@property (nonatomic, retain) Country_v1 *country;
 @property (nonatomic, assign) NSObject *delegate;
+@property (nonatomic, assign) NSInteger appID;
+@property (nonatomic, assign) NSInteger storeID;
+@property (nonatomic, retain) NSString *iso2;
 
 
-- (id) initForApp:(App *)reviewApp country:(Country_v1 *)reviewCountry delegate:(NSObject <ReviewScraperDelegate> *) scrDelegate;
+
+- (id) initForAppID:(NSInteger)appID storeID:(NSInteger)storeID delegate:(NSObject <ReviewScraperDelegate> *) scrDelegate;
 
 
 @end

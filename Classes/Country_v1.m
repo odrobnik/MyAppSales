@@ -8,7 +8,6 @@
 
 #import "Country_v1.h"
 #import "Database.h"
-#import "UIImage+Helpers.h"
 
 
 // Static variables for compiled SQL queries. This implementation choice is to be able to share a one time
@@ -51,7 +50,7 @@ static sqlite3_stmt *init_statement = nil;
         // For this query, we bind the primary key to the first (and only) placeholder in the statement.
         // Note that the parameters are numbered from 1, not from 0.
 		sqlite3_bind_text(init_statement, 1, [pk UTF8String], -1, SQLITE_TRANSIENT);
-
+		
         if (sqlite3_step(init_statement) == SQLITE_ROW) 
 		{
 			self.iso2 = [NSString stringWithUTF8String:(char *)sqlite3_column_text(init_statement, 0)];
@@ -160,7 +159,7 @@ static sqlite3_stmt *init_statement = nil;
 		self.iconImage = tmpImage;
 		return;
 	}
-
+	
 	// secondly try the app's document directory, maybe we have downloaded it
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -173,7 +172,7 @@ static sqlite3_stmt *init_statement = nil;
 		self.iconImage = tmpImage;
 		return;
 	}
-
+	
 	if (theConnection)
 	{	
 		return;
@@ -241,23 +240,23 @@ static sqlite3_stmt *init_statement = nil;
 	//if (![sourceSt hasPrefix:@"<"])
 	{   // PNG received
 		UIImage *jpgImage = [[UIImage alloc] initWithData:receivedData];
-		UIImage *tmpImage = [jpgImage scaleImageToSize:CGSizeMake(30, 30)];
+		UIImage *tmpImage = [jpgImage imageByScalingToSize:CGSizeMake(30, 30)];
 		[jpgImage release];
 		
 		[theConnection release];
 		theConnection = nil;
-
+		
 		
 		if (tmpImage)
 		{
 			self.iconImage = tmpImage;
-		
-		
+			
+			
 			NSData *tmpData = UIImagePNGRepresentation (tmpImage);
 			NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 			NSString *documentsDirectory = [paths objectAtIndex:0];
 			NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", self.iso3]];
-		
+			
 			[tmpData writeToFile:path atomically:YES];
 			[tmpImage release];
 		}

@@ -9,5 +9,6 @@
 @interface NSString (DTUtilities)
 
 + (NSString *)applicationDocumentsDirectory;
++ (NSString *)stringWithUUID;
 
 @end

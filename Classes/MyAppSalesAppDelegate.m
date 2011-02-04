@@ -6,15 +6,18 @@
 //  Copyright drobnik.com. 2008. All rights reserved.
 //
 
-#import "ASiSTAppDelegate.h"
+#import "MyAppSalesAppDelegate.h"
 #import "RootViewController.h"
 #import "AppViewController.h"
 #import "ReportViewController.h"
 #import "ReportRootController.h"
 #import "StatusInfoController.h"
 #import	"PinLockController.h"
+#import "DTBigProgressView.h"
 
 #import "Database.h"
+#import "CoreDatabase.h"
+#import "CoreDatabase+Import_v1.h"
 
 // for the HTTP server
 #import "HTTPServer.h"
@@ -46,9 +49,7 @@
 
 #import "NSString+AJAX.h"
 
-#import "MyAppSales.h"
-
-@implementation ASiSTAppDelegate
+@implementation MyAppSalesAppDelegate
 
 @synthesize window;
 @synthesize navigationController;
@@ -60,32 +61,7 @@
 
 
 
-- (void) scrapeReviews
-{
-	NSDate *today = [NSDate date];
-	
-	[[NSUserDefaults standardUserDefaults] setObject:today forKey:@"ReviewsLastDownloaded"];
-	
-	// get apps unsorted
-	NSArray *allApps = [[Database sharedInstance] allApps];
-	NSMutableDictionary *countries = [[Database sharedInstance] countries];
-	NSArray *allKeys = [countries allKeys];
-	
-	for (App *oneApp in allApps)
-	{
-		// to prevent problems with staged loading, we load the app's reviews now
-		[oneApp reviewsInStages:NO];
-		
-		for (NSString *oneKey in allKeys)
-		{
-			Country_v1 *oneCountry = [countries objectForKey:oneKey];
-			if (oneCountry.appStoreID)
-			{
-				[[SynchingManager sharedInstance] scrapeForApp:oneApp country:oneCountry delegate:oneApp];
-			}
-		}
-	}
-}
+
 
 - (NSDate *)reportDateFromString:(NSString *)string
 {
@@ -95,14 +71,33 @@
 	return [formatter dateFromString:string];
 }
 
+// this is called after delay so that it is not killed by the app startup watchdog
+- (void)migrateDatabase
+{
+	Database *oldDB = [Database sharedInstance];
+	CoreDatabase *newDB = [CoreDatabase sharedInstance];
+	[newDB importDatabase:oldDB];
+	
+	[DTBigProgressView hideAnyProgressViewWithImage:[UIImage imageNamed:@"Checked.png"] afterDelay:1];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+	CoreDatabase *newDB = [CoreDatabase sharedInstance];
+	
+	if (![newDB databaseStoreExists])
+	{
+		// we have no Core Data DB
+		DTBigProgressView *bigProgress = [[[DTBigProgressView alloc] initWithWindow:self.window] autorelease];
+		bigProgress.text = @"Migrating Database";
+		[bigProgress show:YES];
+		
+		[self performSelector:@selector(migrateDatabase) withObject:nil afterDelay:0.1];
+	}
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	/*
-	MyAppSales *serv = [[MyAppSales alloc] init];
-	NSDate *d = [serv latestReportDateWithReportType:0 reportRegionID:0];
-	NSLog(@"%@", d);
-	*/
-	
 	NSURL *launchURL;
 	BOOL forceSynch = NO;
 	
@@ -199,10 +194,10 @@
 	serverIsRunning = NO;
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newFileInDocuments:) name:@"NewFileUploaded" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newAppNotification:) name:@"NewAppAdded" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportNotification:) name:@"NewReportAdded" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportRead:) name:@"NewReportRead" object:nil];
-	
+
+	// 2.0
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportsNumberChanged:) name:@"NewReportsNumberChanged" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newAppsNumberChanged:) name:@"NewAppsNumberChanged" object:nil];
 	
 	// Review Downloading
 	
@@ -215,7 +210,7 @@
 		{
 			
 			// scrape now
-			[self scrapeReviews];
+			[[CoreDatabase sharedInstance] scrapeReviews];
 		}
 		else
 		{
@@ -226,7 +221,7 @@
 			if ([comps day]>scrapeFrequency)
 			{
 				// scrape now
-				[self scrapeReviews];
+				[[CoreDatabase sharedInstance] scrapeReviews];
 			}
 		}
 	}
@@ -312,17 +307,17 @@
 
 
 /*
-- (void)applicationWillTerminate:(UIApplication *)application 
-{
-	// Save settings
-	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-	[defaults setObject:[[YahooFinance sharedInstance] mainCurrency] forKey:@"MainCurrency"];
-	[defaults setObject:[NSNumber numberWithBool:convertSalesToMainCurrency] forKey:@"AlwaysUseMainCurrency"];
-}
-*/
+ - (void)applicationWillTerminate:(UIApplication *)application 
+ {
+ // Save settings
  
+ NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+ 
+ [defaults setObject:[[YahooFinance sharedInstance] mainCurrency] forKey:@"MainCurrency"];
+ [defaults setObject:[NSNumber numberWithBool:convertSalesToMainCurrency] forKey:@"AlwaysUseMainCurrency"];
+ }
+ */
+
 - (void) toggleNetworkIndicator:(BOOL)isON
 {
 	UIApplication *application = [UIApplication sharedApplication];
@@ -429,15 +424,12 @@
 }
 
 
-- (void)newReportNotification:(NSNotification *) notification
+// 2.0
+- (void)newReportsNumberChanged:(NSNotification *)notification
 {
-	
-	
 	if(notification)
 	{
-		NSDictionary *tmpDict = [notification userInfo];
-		
-		int newReports = [[tmpDict objectForKey:@"NewReports"] intValue];
+		NSInteger newReports = [[CoreDatabase sharedInstance] numberOfNewReports];
 		
 		if (newReports)
 		{
@@ -447,57 +439,14 @@
 		{
 			[reportBadgeItem setBadgeValue:nil];
 		}
-		
-	} 
-	
-	[appViewController.tableView reloadData];  // royalites could have changed
-	
-	// also remove cached chart data
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-	
-	int i;
-	for (i=0;i<2; i++)
-	{
-		NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"cache_data_%d.plist",i]];
-		
-		NSFileManager *fileManager = [NSFileManager defaultManager];
-		[fileManager removeItemAtPath:path error:NULL];
-	}
+	} 	
 }
 
-- (void)newReportRead:(NSNotification *) notification
+- (void)newAppsNumberChanged:(NSNotification *)notification
 {
 	if(notification)
 	{
-		NSDictionary *tmpDict = [notification userInfo];
-		
-		int newReports = [[tmpDict objectForKey:@"NewReports"] intValue];
-		
-		if (newReports)
-		{
-			[reportBadgeItem setBadgeValue:[NSString stringWithFormat:@"%d", newReports]];
-		}
-		else
-		{
-			[reportBadgeItem setBadgeValue:nil];
-		}
-		
-	} 
-	
-	[appViewController.tableView reloadData];  // royalites could have changed
-}
-
-
-- (void)newAppNotification:(NSNotification *) notification
-{
-	
-	
-	if(notification)
-	{
-		NSDictionary *tmpDict = [notification userInfo];
-		
-		int newApps = [[tmpDict objectForKey:@"NewApps"] intValue];
+		NSInteger newApps = [[CoreDatabase sharedInstance] numberOfNewApps];
 		
 		if (newApps)
 		{
@@ -507,10 +456,8 @@
 		{
 			[appBadgeItem setBadgeValue:nil];
 		}
-	} 
+	} 	
 }
-
-
 
 #pragma mark Internal Server
 - (void)displayInfoUpdate:(NSNotification *) notification

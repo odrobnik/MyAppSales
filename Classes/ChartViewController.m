@@ -10,7 +10,7 @@
 #import "ChartView.h"
 #import "AxisView.h"
 #import "LegendView.h"
-#import "ASiSTAppDelegate.h"
+#import "MyAppSalesAppDelegate.h"
 #import "YahooFinance.h"
 
 

@@ -12,7 +12,7 @@
 #import "Sale_v1.h"
 #import "Country_v1.h"
 #import "App.h"
-#import "ASiSTAppDelegate.h"
+#import "MyAppSalesAppDelegate.h"
 #import "YahooFinance.h"
 #import "CountrySummary.h"
 #import "ReportCell.h"

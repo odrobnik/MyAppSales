@@ -12,7 +12,7 @@
 #import "Country_v1.h"
 #import "App.h"
 #import "InAppPurchase.h"
-#import "ASiSTAppDelegate.h"
+#import "MyAppSalesAppDelegate.h"
 #import "YahooFinance.h"
 //#import "iTunesConnect.h"
 #import "CountrySummary.h"

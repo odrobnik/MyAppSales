@@ -18,13 +18,15 @@
 @property (nonatomic, retain) NSString * userName;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSDate * date;
-@property (nonatomic, retain) NSString * reviewText;
-@property (nonatomic, retain) NSString * version;
-@property (nonatomic, retain) NSString * translatedReviewTitle;
-@property (nonatomic, retain) NSNumber * stars;
-@property (nonatomic, retain) NSString * translatedReviewText;
+@property (nonatomic, retain) NSString * text;
+@property (nonatomic, retain) NSString * appVersion;
+@property (nonatomic, retain) NSString * titleTranslated;
+@property (nonatomic, retain) NSNumber * ratingPercent;
+@property (nonatomic, retain) NSString * textTranslated;
 @property (nonatomic, retain) Product * app;
 @property (nonatomic, retain) Country * country;
+@property (nonatomic, retain) NSNumber * isNew;
+@property (nonatomic, retain) NSString * appUserVersionHash;
 
 @end
 

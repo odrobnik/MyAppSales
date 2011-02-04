@@ -8,7 +8,7 @@
 
 #import "ReportRootController.h"
 #import "ReportViewController.h"
-#import "ASiSTAppDelegate.h"
+#import "MyAppSalesAppDelegate.h"
 #import "Report_v1.h"
 
 
@@ -269,7 +269,7 @@
 
 - (void)reloadReports:(id)sender
 {
-	ASiSTAppDelegate *appDelegate = (ASiSTAppDelegate *)[[UIApplication sharedApplication] delegate];
+	MyAppSalesAppDelegate *appDelegate = (MyAppSalesAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate startSync];
 }
 

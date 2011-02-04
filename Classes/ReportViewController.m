@@ -7,7 +7,7 @@
 //
 
 #import "ReportViewController.h"
-#import "ASiSTAppDelegate.h"
+#import "MyAppSalesAppDelegate.h"
 #import "Report_v1.h"
 #import "Database.h"
 //#import "GenericReportController.h"

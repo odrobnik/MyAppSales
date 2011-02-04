@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-// This includes the header for the SQLite library.
-#import <sqlite3.h>
+
 #import "PinLockController.h"
 
 
@@ -17,7 +16,7 @@
 
 @class iTunesConnect, AppViewController, ReportRootController, SettingsViewController, Report_v1, KeychainWrapper, App, StatusInfoController, Account;
 
-@interface ASiSTAppDelegate : NSObject <UIApplicationDelegate, PinLockDelegate> {
+@interface MyAppSalesAppDelegate : NSObject <UIApplicationDelegate, PinLockDelegate> {
     
     UIWindow *window;
     UINavigationController *navigationController;
@@ -69,8 +68,6 @@
 
 // Notification handlers
 - (void)newFileInDocuments:(NSNotification *) notification;
-- (void)newAppNotification:(NSNotification *) notification;
-- (void)newReportNotification:(NSNotification *) notification;
 
 - (void) startSync;
 - (void) emptyCache;

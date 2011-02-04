@@ -22,7 +22,7 @@
 
 @end
 
-@class BigProgressView;
+@class DTBigProgressView;
 
 @interface EditAccountController : UITableViewController <EditableCellDelegate>
 {
@@ -36,7 +36,7 @@
 	
 	GenericAccountType typeForNewAccount;
 	
-	BigProgressView *prog;
+	DTBigProgressView *prog;
 }
 
 @property (nonatomic, retain) GenericAccount *myAccount;

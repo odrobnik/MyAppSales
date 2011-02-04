@@ -10,6 +10,15 @@
 #import <sqlite3.h>
 #import "ReportTypes.h"
 
+#import "Country_v1.h"
+#import "AppGrouping.h"
+#import "Product_v1.h"
+#import "App.h"
+#import "InAppPurchase.h"
+#import "Review_v1.h"
+#import "Report_v1.h"
+#import "Sale_v1.h"
+
 #define DB [Database sharedInstance]
 
 
@@ -58,6 +67,7 @@
 - (NSArray *) allReports;
 - (NSArray *) allReportsWithAppGrouping:(AppGrouping *)appGrouping;
 
+- (NSArray *)appGroupings;
 - (AppGrouping *) appGroupingForID:(NSInteger)groupingID;
 - (AppGrouping *) appGroupingForProduct:(Product_v1 *)product;
 - (AppGrouping *) appGroupingForReport:(Report_v1 *)report;

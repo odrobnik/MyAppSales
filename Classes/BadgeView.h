@@ -9,15 +9,13 @@
 #import <Foundation/Foundation.h>
 
 
-@interface BadgeView : UIView {
+@interface BadgeView : UIView 
+{
 	UIImageView *backgroundView;
 	UILabel *textLabel;
 	
 	NSString *text;
 }
-
-@property (nonatomic, retain) UIImageView *backgroundView;
-@property (nonatomic, retain) UILabel *textLabel;
 
 @property (nonatomic, retain) NSString *text;
 

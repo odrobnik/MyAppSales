@@ -7,7 +7,7 @@
 //
 
 #import "InAppPurchase.h"
-#import "ASiSTAppDelegate.h"
+#import "MyAppSalesAppDelegate.h"
 #import "YahooFinance.h"
 #import "ReviewDownloaderOperation.h"
 #import "Review_v1.h"

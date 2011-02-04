@@ -17,6 +17,8 @@
 @implementation TranslationScraperOperation
 
 @synthesize delegate;
+@synthesize scraperDelegate;
+@synthesize context;
 
 - (id) initForText:(NSString *)textToTrans fromLanguage:(NSString *)fromLang toLanguage:(NSString *)toLang delegate:(NSObject <TranslationScraperDelegate> *) transDelegate
 {
@@ -42,7 +44,18 @@
 	[toLanguage release];
 	[textToTranslate release];
 	[translator release];
+	[context release];
+	
 	[super dealloc];
+}
+
+// called on main thread
+- (void)finishedTranslatingTextTo:(NSString *)string
+{
+	if ([scraperDelegate respondsToSelector:@selector(finishedTranslatingTextTo:context:)])
+	{
+		[scraperDelegate finishedTranslatingTextTo:string context:context];
+	}
 }
 
 - (void)main
@@ -63,15 +76,15 @@
 	{
 		translatedText = textToTranslate;
 	}
-		
-	if ([translatedText length]&&scraperDelegate && [scraperDelegate respondsToSelector:@selector(finishedTranslatingTextTo:)])
+	
+	if ([translatedText length])
 	{
 		// tell the delegate that we have a translation, and do it on main thread to be safe
-		[scraperDelegate performSelectorOnMainThread:@selector(finishedTranslatingTextTo:) withObject:translatedText waitUntilDone:YES];
+		[self performSelectorOnMainThread:@selector(finishedTranslatingTextTo:) withObject:translatedText waitUntilDone:YES];
 	}
-
+	
 	workInProgress = NO;
-		
+	
 	[self sendFinishToDelegate];	
 }
 

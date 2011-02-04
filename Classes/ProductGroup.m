@@ -2,7 +2,7 @@
 //  ProductGroup.m
 //  ASiST
 //
-//  Created by Oliver on 12.05.10.
+//  Created by Oliver on 06.09.10.
 //  Copyright 2010 Drobnik.com. All rights reserved.
 //
 
@@ -16,5 +16,6 @@
 @dynamic title;
 @dynamic reports;
 @dynamic products;
+@dynamic identifier;
 
 @end

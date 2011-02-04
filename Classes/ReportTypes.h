@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 typedef enum { 
 	ReportTypeDay = 0, 
 	ReportTypeWeek = 1, 
@@ -14,3 +16,9 @@ typedef enum {
 	ReportRegionUK = 5, 
 	ReportRegionJapan = 6, 
 	ReportRegionRestOfWorld = 7} ReportRegion;
+
+typedef enum { TransactionTypeSale = 1, TransactionTypeFreeUpdate = 7, TransactionTypeIAP = 101 } TransactionType;
+
+
+
+

@@ -9,6 +9,14 @@
 #import "BadgeView.h"
 
 
+@interface BadgeView ()
+
+@property (nonatomic, retain) UIImageView *backgroundView;
+@property (nonatomic, retain) UILabel *textLabel;
+
+@end
+
+
 @implementation BadgeView
 
 @synthesize textLabel, backgroundView, text;
@@ -32,6 +40,8 @@
 		textLabel.font = [UIFont boldSystemFontOfSize:16.0];
 		
 		[self addSubview:textLabel];
+		
+		self.hidden = YES;
 		
 	}
 	return self;
@@ -77,6 +87,8 @@
 - (void) setText:(NSString *)newText
 {
 	if (text==newText) return;
+	
+	self.hidden = ([newText length]==0);
 	
 	[text release];
 	textLabel.text = newText;

@@ -9,9 +9,8 @@
 #import "ItunesConnectDownloaderOperation.h"
 #import "NSString+Helpers.h"
 #import "NSString+scraping.h"
-#import "GenericAccount.h"
+#import "GenericAccount+MyAppSales.h"
 #import "DDData.h"
-#import "Database.h"
 
 #import "NSArray+Reports.h"
 #import "NSDate+Helpers.h"
@@ -28,7 +27,6 @@
 
 @implementation ItunesConnectDownloaderOperation
 
-@synthesize reportsToIgnore, delegate;
 
 - (id) initForAccount:(GenericAccount *)itcAccount
 {
@@ -36,6 +34,8 @@
 	{
 		account = [itcAccount retain];
 		workInProgress = YES;
+		
+		productGroupingKey = [itcAccount productGroupingKey];
 	}
 	
 	return self;
@@ -44,6 +44,7 @@
 - (void) dealloc
 {
 	[account release];
+	[productGroupingKey release];
 	
 	[super dealloc];
 }
@@ -238,158 +239,38 @@
 	
 	NSString *html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
 	
+	
+	// ----- execute embedded AJAX reload
+	
+	NSArray *ajaxParams= [html parametersFromAjaxSubmitString];
+	NSString *viewState = [html ajaxViewState];
 	NSURL *baseURL = [NSURL URLWithString:@"https://reportingitc.apple.com/"];
 	
 	
+	NSURLRequest *ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams viewState:viewState baseURL:baseURL];
 	
-	// check if vendor selection is necessary
+	[self setStatus:@"Opening Sales & Trends (2)"];
 	
-	if ([html rangeOfString:@"Choose Vendor"].length)
+	data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
+	
+	if (error)
 	{
-		// make a post so that we get the vendor ids
-		
-		
-		
-		request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://reportingitc.apple.com/jsp/providerselection.faces"]
-										cachePolicy:NSURLRequestReloadIgnoringCacheData
-									timeoutInterval:60.0];	
-		[request setHTTPMethod:@"POST"];
-		
-		
-		[self setStatus:@"Selecting Vendor (2)"];
-
-		NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-		
-		if (error)
-		{
-			[self setStatusError:[error localizedDescription]];
-			return;
-		}
-		
-		if (!data) 
-		{
-			[self setStatusError:@"No data received from Vendor Selection"];
-			return;
-		}
-		
-		
-		
-		NSString *divHtml = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-		
-		
-		
-		NSPredicate *vendorPred = [NSPredicate predicateWithFormat:@"class = 'vendor'"];
-		NSArray *vendorOptions = [divHtml arrayOfHTMLForTags:@"div" matchingPredicate:vendorPred];
-		
-		NSMutableArray *vendors = [NSMutableArray array];
-		
-		for (NSString *oneVendorDiv in vendorOptions)
-		{
-			NSScanner *scanner = [NSScanner scannerWithString:oneVendorDiv];
-			
-			[scanner scanUpToString:@"setVendorNumber(" intoString:NULL];
-			
-			if ([scanner scanString:@"setVendorNumber(" intoString:NULL])
-			{
-				NSInteger vendorID = 0;
-				
-				[scanner scanInteger:&vendorID];
-				
-				[scanner scanString:@",'" intoString:NULL];
-				
-				NSString *vendorName = nil;
-				
-				[scanner scanUpToString:@"');" intoString:&vendorName];
-				
-				if (vendorName && vendorID)
-				{
-					NSDictionary *vendor = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:vendorID], @"VendorID",
-											vendorName, @"VendorName", nil];
-					
-					[vendors addObject:vendor];
-				}
-				else 
-				{
-					NSLog(@"Cannot parse vendor from string '%@'", oneVendorDiv);
-				}
-				
-			}
-		}
-		
-		// get the highest vendor
-		
-		NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"VendorID" ascending:YES];
-		NSArray *sortedVendors = [vendors sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDesc]];
-		
-		NSDictionary *bestVendor = [sortedVendors lastObject];
-		
-		
-		html = [html stringByReplacingOccurrencesOfString:@":param1," withString:[NSString stringWithFormat:@":'%@'", [bestVendor objectForKey:@"VendorID"]]];
-		html = [html stringByReplacingOccurrencesOfString:@":param2," withString:[NSString stringWithFormat:@":'%@'", [bestVendor objectForKey:@"VendorName"]]];
-		
-		NSString *viewState = [html ajaxViewState];
-		NSArray *ajaxParams= [html parametersFromAjaxSubmitString];
-		
-		NSURL *baseURL = [NSURL URLWithString:@"https://reportingitc.apple.com/"];
-		
-		NSURLRequest *ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams viewState:viewState baseURL:baseURL];
-		
-		data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
-		
-		if (error)
-		{
-			[self setStatusError:[error localizedDescription]];
-			return;
-		}
-		
-		if (!data) 
-		{
-			[self setStatusError:@"No data received from Vendor Selection (2)"];
-			return;
-		}
-		
-		html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-		
-		if (![html rangeOfString:@"Ajax-Response\" content=\"redirect"].length)
-		{
-			[self setStatusError:@"Error going to Sales & Trends"];
-			return;
-		}
+		[self setStatusError:[error localizedDescription]];
+		return;
 	}
-	else 
+	
+	if (!data) 
 	{
-		// ----- execute embedded AJAX reload
-		
-		NSArray *ajaxParams= [html parametersFromAjaxSubmitString];
-		NSString *viewState = [html ajaxViewState];
-		
-		
-		NSURLRequest *ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams viewState:viewState baseURL:baseURL];
-		
-		[self setStatus:@"Opening Sales & Trends (2)"];
-		
-		data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
-		
-		if (error)
-		{
-			[self setStatusError:[error localizedDescription]];
-			return;
-		}
-		
-		if (!data) 
-		{
-			[self setStatusError:@"No data received from Sales & Trends (2)"];
-			return;
-		}
-		
-		html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-		
-		if (![html rangeOfString:@"Ajax-Response\" content=\"redirect"].length)
-		{
-			[self setStatusError:@"Error going to Sales & Trends"];
-			return;
-		}
-		
+		[self setStatusError:@"No data received from Sales & Trends (2)"];
+		return;
+	}
+	
+	html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+	
+	if (![html rangeOfString:@"Ajax-Response\" content=\"redirect"].length)
+	{
+		[self setStatusError:@"Error going to Sales & Trends"];
+		return;
 	}
 	
 	// ---- Switching to Dashboard
@@ -417,13 +298,13 @@
 	}
 	
 	html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	NSString *viewState = [html ajaxViewState];
+	viewState = [html ajaxViewState];
 	
 	
 	// ------ refreshMenu() ajax post
 	
-	NSArray *ajaxParams = [html parametersFromAjaxSubmitStringForFunction:@"refreshMenu"];
-	NSURLRequest *ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams viewState:viewState baseURL:baseURL];
+	ajaxParams = [html parametersFromAjaxSubmitStringForFunction:@"refreshMenu"];
+	ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams viewState:viewState baseURL:baseURL];
 	
 	[self setStatus:@"Opening Sales & Trends (4)"];
 	
@@ -645,10 +526,12 @@
 				
 				
 				
-				NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:reportText, @"Text", account, @"Account", reportDate, @"FallbackDate", [NSNumber numberWithInt:ReportTypeDay], @"Type", nil];
+				NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:reportText, @"Text",
+										 productGroupingKey, @"ProductGroupingKey", 
+										 reportDate, @"FallbackDate", 
+										 [NSNumber numberWithInt:ReportTypeDay], @"Type", nil];
 				
-				[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
-				
+				[self performSelectorOnMainThread:@selector(informDelegateOfDownloadedReport:) withObject:tmpDict waitUntilDone:NO];
 			}
 		}
 	}
@@ -792,10 +675,13 @@
 				
 				
 				
-				NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:reportText, @"Text", account, @"Account", reportDate, @"FallbackDate", [NSNumber numberWithInt:ReportTypeDay], @"Type", nil];
+				NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:reportText, @"Text", 
+										 productGroupingKey, @"ProductGroupingKey",
+										 reportDate, @"FallbackDate", 
+										 [NSNumber numberWithInt:ReportTypeWeek], @"Type", 
+										 nil];
 				
-				[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
-				
+				[self performSelectorOnMainThread:@selector(informDelegateOfDownloadedReport:) withObject:tmpDict waitUntilDone:NO];
 			}
 		}
 	}	
@@ -819,11 +705,7 @@
 		return;
 	}
 	
-	// main thread
-	if (delegate && [delegate respondsToSelector:@selector(downloadStartedForOperation:)])
-	{
-		[delegate performSelectorOnMainThread:@selector(downloadStartedForOperation:) withObject:self waitUntilDone:NO];
-	}
+	[self sendStartToDelegate];
 	
 	// remove all previous cookies
 	NSHTTPCookieStorage *cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
@@ -1008,588 +890,6 @@
 	
 	NSURL *baseURL = [NSURL URLWithString:@"https://itunesconnect.apple.com"];
 	[self loadSalesReportsAtURL:[NSURL URLWithString:salesUrl relativeToURL:baseURL]];
-	
-	
-	
-	/*
-	 
-	 
-	 // open "Piano" reporting page
-	 URL = @"http://itts.apple.com/cgi-bin/WebObjects/Piano.woa";
-	 
-	 request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-	 cachePolicy:NSURLRequestUseProtocolCachePolicy
-	 timeoutInterval:60.0];  // might take long
-	 
-	 [request setHTTPMethod:@"GET"];
-	 
-	 [self setStatus:@"Accessing Sales Reports"];
-	 
-	 data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	 
-	 
-	 if (error)
-	 {
-	 [self setStatusError:[error localizedDescription]];
-	 return;
-	 }
-	 
-	 if (!data) 
-	 {
-	 [self setStatusError:@"No data received from Piano"];
-	 return;
-	 }
-	 
-	 sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	 
-	 // search for outer post url
-	 post_url = [sourceSt stringByFindingFormPostURLwithName:@"frmVendorPage"];
-	 
-	 if (!post_url)
-	 {
-	 // might be vendor selection screen
-	 
-	 NSRange vendorCheck = [sourceSt rangeOfString:@"Vendor Options"];
-	 
-	 if (vendorCheck.length>0)
-	 {
-	 post_url = [sourceSt stringByFindingFormPostURLwithName:@"superPage"];
-	 
-	 NSRange selectRange = [sourceSt rangeOfString:@"<select Id=\"selectName\""];
-	 if (selectRange.location==NSNotFound)
-	 {
-	 [self setStatusError:@"No vendor options found"];
-	 return;
-	 }
-	 
-	 NSRange selectSearchRange = NSMakeRange(selectRange.location, [sourceSt length] - selectRange.location);
-	 NSRange endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:selectSearchRange];
-	 
-	 NSArray *vendorOptions = [[sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)] optionsFromSelect];
-	 NSArray *sortedVendorOptions = [vendorOptions sortedArrayUsingSelector:@selector(compare:)];
-	 
-	 NSString *selectedVendor = [sortedVendorOptions lastObject];
-	 
-	 // get wosid
-	 
-	 NSString *wosid = nil;
-	 NSArray *inputs = [sourceSt arrayOfInputsForForm:@"superPage"];
-	 
-	 for (NSDictionary *oneDict in inputs)
-	 {
-	 NSString *attrName = [oneDict objectForKey:@"name"];
-	 if ([attrName isEqualToString:@"wosid"])
-	 {
-	 wosid = [oneDict objectForKey:@"value"];
-	 }
-	 }
-	 
-	 URL = [@"https://itts.apple.com" stringByAppendingString:post_url];
-	 
-	 request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-	 cachePolicy:NSURLRequestUseProtocolCachePolicy
-	 timeoutInterval:60.0];
-	 [request setHTTPMethod:@"POST"];
-	 [request addValue:@"multipart/form-data; boundary=----WebKitFormBoundaryVEGJrwgXACBaxvAp" forHTTPHeaderField: @"Content-Type"];
-	 [request addValue:@"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_1; en-us) AppleWebKit/531.9 (KHTML, like Gecko) Version/4.0.3 Safari/531.9" forHTTPHeaderField:@"User-Agent"];
-	 
-	 // build the body as string
-	 
-	 NSMutableString *bodyString = [NSMutableString string];
-	 
-	 [bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
-	 [bodyString appendFormat:@"Content-Disposition: form-data; name=\"9.6.0\"\r\n\r\n0\r\n"];
-	 
-	 [bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
-	 [bodyString appendFormat:@"Content-Disposition: form-data; name=\"vndrid\"\r\n\r\n%@\r\n", selectedVendor];
-	 
-	 [bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
-	 [bodyString appendString:@"Content-Disposition: form-data; name=\"9.18\"\r\n\r\n\r\n"];
-	 
-	 [bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
-	 [bodyString appendString:@"Content-Disposition: form-data; name=\"SubmitBtn\"\r\n\r\nSubmit\r\n"];
-	 
-	 [bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp\r\n"];
-	 [bodyString appendFormat:@"Content-Disposition: form-data; name=\"wosid\"\r\n\r\n%@\r\n", wosid];
-	 
-	 [bodyString appendString:@"------WebKitFormBoundaryVEGJrwgXACBaxvAp--\r\n"];
-	 
-	 //create the body
-	 NSMutableData *postBody = [NSMutableData data];
-	 [postBody appendData:[bodyString dataUsingEncoding:NSUTF8StringEncoding]];
-	 [request setHTTPBody:postBody];
-	 
-	 [self setStatus:@"Selecting Vendor"];
-	 
-	 data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	 
-	 if (error)
-	 {
-	 [self setStatusError:[error localizedDescription]];
-	 return;
-	 }
-	 
-	 if (!data) 
-	 {
-	 [self setStatusError:@"No data received (vendor selection)"];
-	 return;
-	 }
-	 sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	 
-	 // search for outer post url
-	 post_url = [sourceSt stringByFindingFormPostURLwithName:@"frmVendorPage"];
-	 
-	 if (!post_url)
-	 {
-	 [self setStatusError:@"Reporting Site offline (Multi)"];
-	 return;
-	 }
-	 }
-	 else 
-	 {
-	 [self setStatusError:@"Reporting Site offline"];
-	 return;
-	 }
-	 }
-	 
-	 // DAY OPTIONS
-	 
-	 // get wosid
-	 
-	 NSString *wosid = nil;
-	 NSArray *inputs = [sourceSt arrayOfInputsForForm:@"superPage"];
-	 
-	 for (NSDictionary *oneDict in inputs)
-	 {
-	 NSString *attrName = [oneDict objectForKey:@"name"];
-	 if ([attrName isEqualToString:@"wosid"])
-	 {
-	 wosid = [oneDict objectForKey:@"value"];
-	 }
-	 }
-	 
-	 NSString *selReportType = [sourceSt nameForTag:@"select" WithID:@"selReportType"];
-	 NSString *selDateType = [sourceSt nameForTag:@"select" WithID:@"selDateType"];
-	 
-	 URL = [@"https://itts.apple.com" stringByAppendingString:post_url];
-	 
-	 request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-	 cachePolicy:NSURLRequestUseProtocolCachePolicy
-	 timeoutInterval:60.0];
-	 [request setHTTPMethod:@"POST"];
-	 [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
-	 
-	 //create the body
-	 NSMutableData *postBody = [NSMutableData data];
-	 NSString *body = [NSString stringWithFormat:@"%@=Summary&%@=Daily&hiddenDayOrWeekSelection=Daily&hiddenSubmitTypeName=ShowDropDown&wosid=%@", selReportType, selDateType, wosid];
-	 
-	 [postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
-	 [request setHTTPBody:postBody];
-	 
-	 [self setStatus:@"Retrieving Day Options"];
-	 
-	 data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	 
-	 if (error)
-	 {
-	 [self setStatusError:[error localizedDescription]];
-	 return;
-	 }
-	 
-	 if (!data) 
-	 {
-	 [self setStatusError:@"No data received from day options"];
-	 return;
-	 }
-	 sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	 
-	 // search for frmVendorPage URL
-	 post_url = [sourceSt stringByFindingFormPostURLwithName:@"frmVendorPage"];
-	 
-	 if (!post_url)
-	 {
-	 [self setStatusError:@"Unrecognized response from day options"];
-	 
-	 return;
-	 }
-	 
-	 //URL = [@"https://itts.apple.com" stringByAppendingString:post_url];
-	 
-	 
-	 // get list of available day reports
-	 
-	 NSRange selectRange = [sourceSt rangeOfString:@"<select Id=\"dayorweekdropdown\""];
-	 if (selectRange.location==NSNotFound)
-	 {
-	 [self setStatusError:@"No day options found"];
-	 return;
-	 }
-	 
-	 
-	 NSRange selectSearchRange = NSMakeRange(selectRange.location, [sourceSt length] - selectRange.location);
-	 NSRange endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:selectSearchRange];
-	 
-	 NSString *selectString = [sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)];
-	 NSArray *dayOptions = [selectString optionsFromSelect];
-	 NSString *dayorweekdropdownName = [[selectString dictionaryOfAttributesFromTag] objectForKey:@"name"];	
-	 selReportType = [sourceSt nameForTag:@"select" WithID:@"selReportType"];
-	 selDateType = [sourceSt nameForTag:@"select" WithID:@"selDateType"];
-	 
-	 for (NSString *oneDayOption in dayOptions)
-	 {
-	 NSString *formDate = [oneDayOption stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
-	 
-	 NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
-	 [df setDateFormat:@"MM/dd/yyyy"];
-	 NSDate *reportDate = [df dateFromString:oneDayOption];
-	 
-	 if (![reportsToIgnore reportBySearchingForDate:reportDate type:ReportTypeDay region:ReportRegionUnknown])
-	 {
-	 [self setStatus:@"Retrieving Day Options"];
-	 
-	 URL = [@"https://itts.apple.com" stringByAppendingString:post_url];
-	 
-	 request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-	 cachePolicy:NSURLRequestUseProtocolCachePolicy
-	 timeoutInterval:60.0];
-	 
-	 [request setHTTPMethod:@"POST"];
-	 [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
-	 
-	 //create the body
-	 postBody = [NSMutableData data];
-	 
-	 // 11.9=Summary&11.11=Daily&11.13.1=11%2F18%2F2009&hiddenDayOrWeekSelection=11%2F18%2F2009&hiddenSubmitTypeName=Download&wosid=Mtdy6wbxuKXHn18hhgv17M
-	 NSString *body = [NSString stringWithFormat:@"%@=Summary&%@=Daily&%@=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download&wosid=%@", selReportType, selDateType, dayorweekdropdownName, formDate, formDate, wosid];
-	 [postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
-	 
-	 //add the body to the post
-	 [request setHTTPBody:postBody];
-	 
-	 [self setStatus:[NSString stringWithFormat:@"Loading Day Report for %@", oneDayOption]];
-	 
-	 
-	 data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	 
-	 if (error)
-	 {
-	 [self setStatusError:[error localizedDescription]];
-	 return;
-	 }
-	 
-	 if (!data) 
-	 {
-	 [self setStatusError:@"No data received from request day report"];
-	 
-	 return;
-	 }
-	 
-	 if ([response isKindOfClass:[NSHTTPURLResponse class]])
-	 {
-	 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-	 NSDictionary *headers = [httpResponse allHeaderFields];
-	 
-	 NSInteger statusCode = [httpResponse statusCode];
-	 if (statusCode==200)
-	 {
-	 NSString *contentType = [headers objectForKey:@"Content-Type"];
-	 
-	 if ([contentType isEqualToString:@"application/x-gzip"])
-	 {
-	 NSData *decompressed = [data gzipInflate];
-	 NSString *decompStr = [[[NSString alloc] initWithBytes:[decompressed bytes] length:[decompressed length] encoding:NSASCIIStringEncoding] autorelease];
-	 
-	 NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:decompStr, @"Text", account, @"Account", nil];
-	 
-	 [[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
-	 }
-	 else 
-	 {
-	 NSLog(@"Got Content Type: %@", contentType);
-	 sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	 NSLog(@"%@", sourceSt);
-	 }
-	 }
-	 else
-	 {
-	 NSLog(@"Got status code %d", statusCode);
-	 }
-	 }
-	 
-	 }
-	 }
-	 
-	 
-	 // select week options
-	 
-	 URL = [@"https://itts.apple.com" stringByAppendingString:post_url];		  
-	 request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-	 cachePolicy:NSURLRequestUseProtocolCachePolicy
-	 timeoutInterval:60.0];
-	 [request setHTTPMethod:@"POST"];
-	 [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
-	 
-	 //create the body
-	 postBody = [NSMutableData data];
-	 body = [NSString stringWithFormat:@"%@=Summary&%@=Weekly&hiddenDayOrWeekSelection=Weekly&hiddenSubmitTypeName=ShowDropDown&wosid=%@", selReportType, selDateType, wosid];
-	 
-	 [postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
-	 [request setHTTPBody:postBody];
-	 
-	 [self setStatus:@"Retrieving Week Options"];
-	 
-	 data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	 
-	 if (error)
-	 {
-	 [self setStatusError:[error localizedDescription]];
-	 return;
-	 }
-	 
-	 if (!data) 
-	 {
-	 [self setStatusError:@"No data received from week options"];
-	 return;
-	 }
-	 sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	 
-	 selectRange = [sourceSt rangeOfString:@"<select Id=\"dayorweekdropdown\""];
-	 
-	 if (selectRange.location==NSNotFound)
-	 {
-	 [self setStatusError:@"No week options found"];
-	 return;
-	 }
-	 
-	 
-	 selectSearchRange = NSMakeRange(selectRange.location, [sourceSt length] - selectRange.location);
-	 endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:selectSearchRange];
-	 
-	 selectString = [sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)];
-	 NSArray *weekOptions = [selectString optionsFromSelect];
-	 dayorweekdropdownName = [[selectString dictionaryOfAttributesFromTag] objectForKey:@"name"];	
-	 selReportType = [sourceSt nameForTag:@"select" WithID:@"selReportType"];
-	 selDateType = [sourceSt nameForTag:@"select" WithID:@"selDateType"];
-	 
-	 
-	 for (NSString *oneWeekOption in weekOptions)
-	 {
-	 NSString *formDate = [oneWeekOption stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
-	 
-	 NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
-	 [df setDateFormat:@"MM/dd/yyyy"];
-	 NSDate *reportDate = [df dateFromString:oneWeekOption];
-	 
-	 if (![reportsToIgnore reportBySearchingForDate:reportDate type:ReportTypeWeek region:ReportRegionUnknown])
-	 {
-	 [self setStatus:[NSString stringWithFormat:@"Loading Week Report for %@", oneWeekOption]];
-	 
-	 URL = [@"https://itts.apple.com" stringByAppendingString:post_url];
-	 request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-	 cachePolicy:NSURLRequestUseProtocolCachePolicy
-	 timeoutInterval:60.0];
-	 
-	 [request setHTTPMethod:@"POST"];
-	 [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
-	 
-	 //create the body
-	 postBody = [NSMutableData data];
-	 NSString *body = [NSString stringWithFormat:@"%@=Summary&%@=Weekly&%@=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download&wosid=%@", selReportType, selDateType, dayorweekdropdownName, formDate, formDate, wosid];
-	 [postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
-	 
-	 //add the body to the post
-	 [request setHTTPBody:postBody];
-	 
-	 data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	 
-	 if (error)
-	 {
-	 [self setStatusError:[error localizedDescription]];
-	 return;
-	 }
-	 
-	 if (!data) 
-	 {
-	 [self setStatusError:@"No data received from request week report"];
-	 return;
-	 }
-	 
-	 if ([response isKindOfClass:[NSHTTPURLResponse class]])
-	 {
-	 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-	 NSDictionary *headers = [httpResponse allHeaderFields];
-	 
-	 NSInteger statusCode = [httpResponse statusCode];
-	 if (statusCode==200)
-	 {
-	 NSString *contentType = [headers objectForKey:@"Content-Type"];
-	 
-	 if ([contentType isEqualToString:@"application/x-gzip"])
-	 {
-	 NSData *decompressed = [data gzipInflate];
-	 NSString *decompStr = [[[NSString alloc] initWithBytes:[decompressed bytes] length:[decompressed length] encoding:NSASCIIStringEncoding] autorelease];
-	 
-	 NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:decompStr, @"Text", account, @"Account", nil];
-	 
-	 [[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
-	 }
-	 else 
-	 {
-	 NSLog(@"Got Content Type: %@", contentType);
-	 sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	 NSLog(@"%@", sourceSt);
-	 
-	 }
-	 }
-	 else
-	 {
-	 NSLog(@"Got status code %d", statusCode);
-	 }
-	 }
-	 }
-	 }	
-	 
-	 // select week options
-	 
-	 URL = [@"https://itts.apple.com" stringByAppendingString:post_url];		  
-	 request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-	 cachePolicy:NSURLRequestUseProtocolCachePolicy
-	 timeoutInterval:60.0];
-	 [request setHTTPMethod:@"POST"];
-	 [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
-	 
-	 //create the body
-	 postBody = [NSMutableData data];
-	 body = [NSString stringWithFormat:@"%@=Summary&%@=Monthly%%20Free&hiddenDayOrWeekSelection=Monthly%%20Free&hiddenSubmitTypeName=ShowDropDown&wosid=%@", selReportType, selDateType, wosid];
-	 
-	 [postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
-	 
-	 [request setHTTPBody:postBody];
-	 
-	 [self setStatus:@"Retrieving Free Options"];
-	 
-	 data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	 
-	 if (error)
-	 {
-	 [self setStatusError:[error localizedDescription]];
-	 return;
-	 }
-	 
-	 if (!data) 
-	 {
-	 [self setStatusError:@"No data received from free options"];
-	 return;
-	 }
-	 sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	 
-	 selectRange = [sourceSt rangeOfString:@"<select Id=\"dayorweekdropdown\""];
-	 
-	 if (selectRange.location==NSNotFound)
-	 {
-	 [self setStatusError:@"No monthly free options found"];
-	 return;
-	 }
-	 
-	 selectSearchRange = NSMakeRange(selectRange.location, [sourceSt length] - selectRange.location);
-	 endSelectRange = [sourceSt rangeOfString:@"</select>" options:NSLiteralSearch range:selectSearchRange];
-	 
-	 selectString = [sourceSt substringWithRange:NSMakeRange(selectRange.location, endSelectRange.location - selectRange.location + endSelectRange.length)];
-	 NSArray *monthlyFreeOptions = [selectString optionsFromSelect];
-	 dayorweekdropdownName = [[selectString dictionaryOfAttributesFromTag] objectForKey:@"name"];	
-	 selReportType = [sourceSt nameForTag:@"select" WithID:@"selReportType"];
-	 selDateType = [sourceSt nameForTag:@"select" WithID:@"selDateType"];
-	 
-	 //NSLog(@"%@", sourceSt);
-	 
-	 
-	 for (NSString *oneMonthlyFreeOption in monthlyFreeOptions)
-	 {
-	 NSString *formDate = [oneMonthlyFreeOption stringByUrlEncoding];
-	 
-	 NSArray *tmpArray = [oneMonthlyFreeOption componentsSeparatedByString:@"#"];
-	 
-	 NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
-	 [df setDateFormat:@"yyyyMMdd"];
-	 NSDate *fromDate = [df dateFromString:[tmpArray objectAtIndex:0]];
-	 NSDate *untilDate = [df dateFromString:[tmpArray objectAtIndex:1]];
-	 
-	 [df setDateStyle:NSDateFormatterShortStyle];
-	 
-	 
-	 
-	 if (![reportsToIgnore reportBySearchingForDate:untilDate type:ReportTypeFree region:ReportRegionUnknown])
-	 {
-	 [self setStatus:[NSString stringWithFormat:@"Loading Free Report for %@", [df stringFromDate:fromDate]]];
-	 
-	 URL = [@"https://itts.apple.com" stringByAppendingString:post_url];
-	 request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:URL]
-	 cachePolicy:NSURLRequestUseProtocolCachePolicy
-	 timeoutInterval:60.0];
-	 
-	 [request setHTTPMethod:@"POST"];
-	 [request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
-	 
-	 //create the body
-	 postBody = [NSMutableData data];
-	 NSString *body = [NSString stringWithFormat:@"%@=Summary&%@=Monthly%%20Free&%@=%@&hiddenDayOrWeekSelection=%@&hiddenSubmitTypeName=Download&wosid=%@", selReportType, selDateType, dayorweekdropdownName, formDate, formDate, wosid];
-	 [postBody appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
-	 
-	 //add the body to the post
-	 [request setHTTPBody:postBody];
-	 
-	 data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	 
-	 if (error)
-	 {
-	 [self setStatusError:[error localizedDescription]];
-	 return;
-	 }
-	 
-	 if (!data) 
-	 {
-	 [self setStatusError:@"No data received from request free report"];
-	 return;
-	 }
-	 
-	 if ([response isKindOfClass:[NSHTTPURLResponse class]])
-	 {
-	 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-	 NSDictionary *headers = [httpResponse allHeaderFields];
-	 
-	 NSInteger statusCode = [httpResponse statusCode];
-	 if (statusCode==200)
-	 {
-	 NSString *contentType = [headers objectForKey:@"Content-Type"];
-	 
-	 if ([contentType isEqualToString:@"application/x-gzip"])
-	 {
-	 NSData *decompressed = [data gzipInflate];
-	 NSString *decompStr = [[[NSString alloc] initWithBytes:[decompressed bytes] length:[decompressed length] encoding:NSASCIIStringEncoding] autorelease];
-	 
-	 NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:decompStr, @"Text", untilDate, @"UntilDate", fromDate, @"FromDate", account, @"Account", nil];
-	 
-	 [DB performSelectorOnMainThread:@selector(insertMonthlyFreeReportFromFromDict:) withObject:tmpDict waitUntilDone:YES];
-	 }
-	 else 
-	 {
-	 // no free transactions to report
-	 
-	 NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:untilDate, @"UntilDate", fromDate, @"FromDate", account, @"Account", nil];
-	 [DB performSelectorOnMainThread:@selector(insertMonthlyFreeReportFromFromDict:) withObject:tmpDict waitUntilDone:YES];
-	 
-	 
-	 }
-	 }
-	 else
-	 {
-	 NSLog(@"Got status code %d", statusCode);
-	 }
-	 }			
-	 }
-	 
-	 }	
-	 */
 	
 	if (!financialUrl) 
 	{
@@ -1778,9 +1078,13 @@
 					
 					sourceSt = [[[NSString alloc] initWithData:[data gzipInflate] encoding:NSUTF8StringEncoding] autorelease];
 					
-					NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:sourceSt, @"Text", account, @"Account", [NSNumber numberWithInt:reportRegion], @"Region", reportDate, @"FallbackDate", [NSNumber numberWithInt:ReportTypeFinancial], @"Type", nil];
+					NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:sourceSt, @"Text", 
+											 productGroupingKey, @"ProductGroupingKey", 
+											 [NSNumber numberWithInt:reportRegion], @"Region", 
+											 reportDate, @"FallbackDate", [NSNumber numberWithInt:ReportTypeFinancial], 
+											 @"Type", nil];
 					
-					[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
+					[self performSelectorOnMainThread:@selector(informDelegateOfDownloadedReport:) withObject:tmpDict waitUntilDone:NO];
 					
 					financialsDownloaded++;
 					
@@ -1879,40 +1183,24 @@
 
 #pragma mark Status
 
-- (void) sendFinishToDelegate
+- (void)informDelegateOfDownloadedReport:(NSDictionary *)report
 {
-	// main thread
-	if (delegate && [delegate respondsToSelector:@selector(downloadFinishedForOperation:)])
-	{
-		[delegate performSelectorOnMainThread:@selector(downloadFinishedForOperation:) withObject:self waitUntilDone:NO];
-	}
+	[self.delegate itunesConnectDownloaderOperation:self didDownloadReportDictionary:report];
 }
 
-- (void) sendStatusNotification:(id)message
+
+// force delegate to conform to additional protocol
+- (void)setDelegate:(id <ItunesConnectDownloaderOperationDelegate>)newDelegate
 {
-	// need to send notifications on main thread
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"StatusMessage" object:nil userInfo:(id)message];
+	[super setDelegate:newDelegate];
 }
 
-- (void) setStatus:(NSString *)message
+- (id <ItunesConnectDownloaderOperationDelegate>)delegate
 {
-	[self performSelectorOnMainThread:@selector(sendStatusNotification:) withObject:(id)message waitUntilDone:NO];
+	return (id)delegate;
 }
 
-- (void) setStatusError:(NSString *)message
-{
-	NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:message, @"message", @"Error", @"type", nil];
-	[self performSelectorOnMainThread:@selector(sendStatusNotification:) withObject:(id)tmpDict waitUntilDone:NO];
-	workInProgress = NO;
-	[self sendFinishToDelegate];
-}
+@synthesize reportsToIgnore;
 
-- (void) setStatusSuccess:(NSString *)message
-{
-	NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:message, @"message", @"Success", @"type", nil];
-	[self performSelectorOnMainThread:@selector(sendStatusNotification:) withObject:(id)tmpDict waitUntilDone:NO];
-	workInProgress = NO;
-	[self sendFinishToDelegate];
-}
 
 @end

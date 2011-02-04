@@ -2,7 +2,7 @@
 //  ProductGroup.h
 //  ASiST
 //
-//  Created by Oliver on 12.05.10.
+//  Created by Oliver on 06.09.10.
 //  Copyright 2010 Drobnik.com. All rights reserved.
 //
 
@@ -16,6 +16,7 @@
 }
 
 @property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSString * identifier;
 @property (nonatomic, retain) NSSet* reports;
 @property (nonatomic, retain) NSSet* products;
 
