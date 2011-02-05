@@ -68,7 +68,7 @@
 																				inManagedObjectContext:self.managedObjectContext];
 			
 			group.title = oneGrouping.myDescription;
-			group.identifier = [NSString stringWithFormat:@"import-%d", oneGrouping.primaryKey]; 
+			group.identifier = [NSString stringWithFormat:@"%d", oneGrouping.primaryKey]; 
 			
 			if ([group.title isEqualToString:@"Default"] || 
 				[group.title isEqualToString:@"No Description"])
@@ -103,9 +103,6 @@
 				
 				[group addProductsObject:product];
 
-				[self incrementNewAppsOfProductGroupID:group.identifier];
-
-				
 				// add the app's iaps
 				for (InAppPurchase *iap in [database iapsForApp:oneApp])
 				{
@@ -170,9 +167,6 @@
 		report.reportType = [NSNumber numberWithInt:oneReport.reportType];
 		
 		[reportLookup setObject:report forKey:[NSNumber numberWithInt:oneReport.primaryKey]];
-		
-		[self incrementNewReportsOfType:oneReport.reportType productGroupID:group.identifier];
-
 	}
 	
 	

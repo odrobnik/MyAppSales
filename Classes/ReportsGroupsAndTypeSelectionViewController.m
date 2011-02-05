@@ -348,17 +348,17 @@
 	[appDelegate startSync];
 }
 
-//- (void) reloadTableViewDataSource
-//{
-//	MyAppSalesAppDelegate *appDelegate = (MyAppSalesAppDelegate *)[[UIApplication sharedApplication] delegate];
-//	[appDelegate startSync];
-//}
-//
-//- (void)synchingDone:(NSNotification *)notification
-//{
-//	//refreshHeaderView.lastUpdatedDate = _product.lastReviewRefresh;
-//	[super dataSourceDidFinishLoadingNewData];
-//}
+- (void) reloadTableViewDataSource
+{
+	MyAppSalesAppDelegate *appDelegate = (MyAppSalesAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate startSync];
+}
+
+- (void)synchingDone:(NSNotification *)notification
+{
+	//refreshHeaderView.lastUpdatedDate = _product.lastReviewRefresh;
+	//[super dataSourceDidFinishLoadingNewData];
+}
 
 @synthesize productGroupIndex;
 @synthesize fetchedResultsController;

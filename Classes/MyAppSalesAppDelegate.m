@@ -263,7 +263,9 @@
 		{
 			for (GenericAccount *oneAccount in itunesAccounts)
 			{
-				[[SynchingManager sharedInstance] downloadForAccount:oneAccount reportsToIgnore:[[Database sharedInstance] allReportsWithAppGrouping:[oneAccount appGrouping]]];
+				NSArray *reportsToIgnore = [[CoreDatabase sharedInstance] indexOfReportsToIgnoreForProductGroupWithID:[oneAccount productGroupingKey]];
+				
+				[[SynchingManager sharedInstance] downloadForAccount:oneAccount reportsToIgnore:reportsToIgnore];
 			}
 		}
 	}
@@ -391,7 +393,9 @@
 	{
 		for (GenericAccount *oneAccount in itunesAccounts)
 		{
-			[[SynchingManager sharedInstance] downloadForAccount:oneAccount reportsToIgnore:[[Database sharedInstance] allReportsWithAppGrouping:[oneAccount appGrouping]]];
+			NSArray *reportsToIgnore = [[CoreDatabase sharedInstance] indexOfReportsToIgnoreForProductGroupWithID:[oneAccount productGroupingKey]];
+
+			[[SynchingManager sharedInstance] downloadForAccount:oneAccount reportsToIgnore:reportsToIgnore];
 		}
 	}
 	

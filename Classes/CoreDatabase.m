@@ -10,11 +10,8 @@
 #import "SynchingManager.h"
 
 #import "NSString+Helpers.h"
-#import "Country_v1.h"
-#import "Report_v1.h"
+
 #import "Product.h"
-#import "App.h"
-#import "AppGrouping.h"
 
 #import "Report.h"
 #import "Sale.h"
@@ -518,6 +515,42 @@ static CoreDatabase *_sharedInstance = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"NewReportsNumberChanged" object:nil userInfo:nil];
 }
 
+- (NSArray *)indexOfReportsToIgnoreForProductGroupWithID:(NSString *)groupID
+{
+	ProductGroup *productGroup = [self productGroupForKey:groupID];
+	
+	
+	if (!productGroup)
+	{
+		return nil;
+	}
+	
+	NSFetchRequest *request = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Report" 
+											  inManagedObjectContext:self.managedObjectContext];
+	[request setEntity:entity];	
+	[request setFetchLimit:0];
+	
+	[request setPropertiesToFetch:[NSArray arrayWithObjects:@"reportType", @"fromDate", @"untilDate", @"region", nil]];
+	[request setResultType:NSDictionaryResultType];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"productGrouping == %@", productGroup];
+	[request setPredicate:predicate];
+	
+	NSError *error;
+	NSArray *fetchResults = [managedObjectContext executeFetchRequest:request error:&error];
+	if (fetchResults == nil) 
+	{
+		// Handle the error.
+	}
+	
+	[request release];	
+	
+	NSLog(@"%@", fetchResults);
+	
+	return fetchResults;	
+}
+
 
 - (void)removeReport:(Report *)report
 {
@@ -734,7 +767,7 @@ static CoreDatabase *_sharedInstance = nil;
 					saleProduct.isInAppPurchase = [NSNumber numberWithBool:NO];
 					saleProduct.productGroup = productGroup;
 					
-					[self incrementNewAppsOfProductGroupID:productGroup.identifier];
+					[self incrementNewAppsOfProductGroupID:groupingKey];
 				}
 				else 
 				{
@@ -742,6 +775,12 @@ static CoreDatabase *_sharedInstance = nil;
 					if (saleProduct.productGroup)
 					{
 						productGroup = saleProduct.productGroup;
+					}
+					
+					// if the grouping key does not match, update group
+					if (![productGroup.identifier isEqualToString:groupingKey])
+					{
+						productGroup.identifier = groupingKey;
 					}
 				}
 				
@@ -1133,7 +1172,7 @@ static CoreDatabase *_sharedInstance = nil;
 	[request setEntity:entity];	
 	[request setFetchLimit:1];
 	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"identifier = %@", key];
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"identifier == %@", key];
 	[request setPredicate:predicate];
 	
 	NSError *error;

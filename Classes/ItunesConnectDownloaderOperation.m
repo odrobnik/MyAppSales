@@ -57,6 +57,38 @@
 	[self performSelectorOnMainThread:@selector(sendFinishToDelegate) withObject:nil waitUntilDone:YES];
 }
 
+- (BOOL)shouldDownloadReportWithDate:(NSDate *)date reportType:(ReportType)reportType reportRegion:(ReportRegion)region
+{
+	NSPredicate *pred;
+	
+	if (reportType == ReportTypeFinancial)
+	{
+		// add 2 weeks so that we are definitely between from and until dates of report
+		date = [date dateByAddingTimeInterval:24.0*3600.0*14.0];
+		
+		pred = [NSPredicate predicateWithFormat:@"reportType == %d AND (fromDate <= %@) AND (untilDate >= %@) AND region == %d", reportType, date, date, region];
+	}
+	else 
+	{
+		pred = [NSPredicate predicateWithFormat:@"reportType == %d AND untilDate == %@", reportType, date];
+	}
+
+	
+	NSLog(@"%@", pred);
+	
+	NSArray *filteredReports = [reportsToIgnore filteredArrayUsingPredicate:pred];
+
+	if ([filteredReports count])
+	{
+		NSLog(@"NO");
+		return NO;
+	}
+	
+	NSLog(@"YES");
+	return YES;
+}
+
+
 
 - (ReportRegion)regionFromCode:(NSString *)regionCode
 {
@@ -118,6 +150,7 @@
 	NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
 	NSLocale *usLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease];
 	[formatter setDateFormat:@"MMM y"];
+	[formatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
 	[formatter setLocale:usLocale];
 	
 	NSDate *retDate = [formatter dateFromString:string];
@@ -131,6 +164,7 @@
 	NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
 	NSLocale *usLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease];
 	[formatter setDateFormat:@"MM/dd/yyyy"];
+	[formatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
 	[formatter setLocale:usLocale];
 	
 	NSDate *retDate = [formatter dateFromString:string];
@@ -139,79 +173,79 @@
 	return [formatter dateFromString:string];
 }
 
-- (BOOL) needToDownloadFinancialReportWithFilename:(NSString *)fileName region:(ReportRegion *)foundRegion month:(int *)foundMonth year:(int *)foundYear
-{
-	NSArray *split = [[fileName stringByReplacingOccurrencesOfString:@".txt" withString:@""] componentsSeparatedByString:@"_"];
-	
-	NSString *reportMonth = [split objectAtIndex:1];
-	NSString *regionCode = [split objectAtIndex:2];
-	
-	if ([split count]>3) // causes Payment Reports to be ignored.
-	{
-		return NO;
-	}
-	
-	ReportRegion region = [self regionFromCode:regionCode];
-	
-	if (foundRegion)
-	{
-		*foundRegion = region;
-	}
-	
-	if (foundMonth)
-	{
-		*foundMonth = [[reportMonth substringToIndex:2] intValue];
-	}
-	
-	if (foundYear)
-	{
-		*foundYear = [[reportMonth substringFromIndex:2] intValue];
-	}
-	
-	
-	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
-	[df setDateFormat:@"MMYY"];
-	
-	for (Report_v1 *oneReport in reportsToIgnore)
-	{
-		if (oneReport.reportType == ReportTypeFinancial)
-		{
-			NSDate *middleDate = [oneReport dateInMiddleOfReport];
-			NSString *oneReportMonth = [df stringFromDate:middleDate];
-			
-			if ([oneReportMonth isEqualToString:reportMonth]&&(oneReport.region == region))
-			{
-				return NO;
-			}
-		}
-	}
-	
-	return YES;
-}
+//- (BOOL) needToDownloadFinancialReportWithFilename:(NSString *)fileName region:(ReportRegion *)foundRegion month:(int *)foundMonth year:(int *)foundYear
+//{
+//	NSArray *split = [[fileName stringByReplacingOccurrencesOfString:@".txt" withString:@""] componentsSeparatedByString:@"_"];
+//	
+//	NSString *reportMonth = [split objectAtIndex:1];
+//	NSString *regionCode = [split objectAtIndex:2];
+//	
+//	if ([split count]>3) // causes Payment Reports to be ignored.
+//	{
+//		return NO;
+//	}
+//	
+//	ReportRegion region = [self regionFromCode:regionCode];
+//	
+//	if (foundRegion)
+//	{
+//		*foundRegion = region;
+//	}
+//	
+//	if (foundMonth)
+//	{
+//		*foundMonth = [[reportMonth substringToIndex:2] intValue];
+//	}
+//	
+//	if (foundYear)
+//	{
+//		*foundYear = [[reportMonth substringFromIndex:2] intValue];
+//	}
+//	
+//	
+//	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
+//	[df setDateFormat:@"MMYY"];
+//	
+//	for (Report_v1 *oneReport in reportsToIgnore)
+//	{
+//		if (oneReport.reportType == ReportTypeFinancial)
+//		{
+//			NSDate *middleDate = [oneReport dateInMiddleOfReport];
+//			NSString *oneReportMonth = [df stringFromDate:middleDate];
+//			
+//			if ([oneReportMonth isEqualToString:reportMonth]&&(oneReport.region == region))
+//			{
+//				return NO;
+//			}
+//		}
+//	}
+//	
+//	return YES;
+//}
 
-- (BOOL)needToDownloadFinancialReportWithDate:(NSDate *)date region:(ReportRegion)region
-{
-	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
-	[df setDateFormat:@"MMYY"];
-	
-	NSString *checkMonth = [df stringFromDate:date];
-	
-	for (Report_v1 *oneReport in reportsToIgnore)
-	{
-		if (oneReport.reportType == ReportTypeFinancial)
-		{
-			NSDate *middleDate = [oneReport dateInMiddleOfReport];
-			NSString *oneReportMonth = [df stringFromDate:middleDate];
-			
-			if ([oneReportMonth isEqualToString:checkMonth]&&(oneReport.region == region))
-			{
-				return NO;
-			}
-		}
-	}
-	
-	return YES;
-}
+//- (BOOL)needToDownloadFinancialReportWithDate:(NSDate *)date region:(ReportRegion)region
+//{
+//	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
+//	[df setDateFormat:@"MMYY"];
+//	
+//	NSString *checkMonth = [df stringFromDate:date];
+//	
+//	for (Report_v1 *oneReport in reportsToIgnore)
+//	{
+//		if (oneReport.reportType == ReportTypeFinancial)
+//		{
+//			NSDate *middleDate = [oneReport dateInMiddleOfReport];
+//			NSString *oneReportMonth = [df stringFromDate:middleDate];
+//			
+//			if ([oneReportMonth isEqualToString:checkMonth]&&(oneReport.region == region))
+//			{
+//				return NO;
+//			}
+//		}
+//	}
+//	
+//	return YES;
+//}
 
 - (void)loadSalesReportsAtURL:(NSURL *)url
 {
@@ -453,7 +487,7 @@
 	{
 		NSDate *reportDate = [self reportDateFromShortDate:oneDayOption];
 		
-		if (![reportsToIgnore reportBySearchingForDate:reportDate type:ReportTypeDay region:ReportRegionUnknown])
+		if ([self shouldDownloadReportWithDate:reportDate reportType:ReportTypeDay reportRegion:ReportRegionUnknown])
 		{
 			NSInteger index = [dayOptions indexOfObject:oneDayOption];
 			
@@ -602,7 +636,7 @@
 	{
 		NSDate *reportDate = [self reportDateFromShortDate:oneWeekOption];
 		
-		if (![reportsToIgnore reportBySearchingForDate:reportDate type:ReportTypeWeek region:ReportRegionUnknown])
+		if ([self shouldDownloadReportWithDate:reportDate reportType:ReportTypeWeek reportRegion:ReportRegionUnknown])
 		{
 			NSInteger index = [weekOptions indexOfObject:oneWeekOption];
 			
@@ -1033,7 +1067,7 @@
 				NSDate *reportDate = [self reportDateFromString:monthYear];
 				ReportRegion reportRegion = [self regionFromString:region];
 				
-				if (![downloadedFinancialReports containsObject:financialReportKey]&&[self needToDownloadFinancialReportWithDate:reportDate region:reportRegion])
+				if (![downloadedFinancialReports containsObject:financialReportKey]&&[self shouldDownloadReportWithDate:reportDate reportType:ReportTypeFinancial reportRegion:reportRegion])
 				{
 					NSArray *postValues = [NSArray arrayWithObjects:
 										   [NSDictionary dictionaryWithObject:selectedRegionValue forKey:regionSelectName],

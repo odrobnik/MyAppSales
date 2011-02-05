@@ -12,18 +12,18 @@
 
 @implementation NSArray (Reports)
 
-- (Report_v1 *)reportBySearchingForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion
-{
-	for (Report_v1 *oneReport in self)
-	{
-		if ((oneReport.reportType == reportType)&&([oneReport.untilDate sameDateAs:reportDate])&&(oneReport.region == reportRegion))
-		{
-			return oneReport;
-		}
-	}
-	
-	// not found
-	return nil;
-}
+//- (Report_v1 *)reportBySearchingForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion
+//{
+//	for (Report_v1 *oneReport in self)
+//	{
+//		if ((oneReport.reportType == reportType)&&([oneReport.untilDate sameDateAs:reportDate])&&(oneReport.region == reportRegion))
+//		{
+//			return oneReport;
+//		}
+//	}
+//	
+//	// not found
+//	return nil;
+//}
 
 @end

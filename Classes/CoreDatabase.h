@@ -77,6 +77,7 @@
 - (NSInteger)numberOfNewReports;
 - (void)incrementNewReportsOfType:(ReportType)type productGroupID:(NSString *)groupID;
 - (void)decrementNewReportsOfType:(ReportType)type productGroupID:(NSString *)groupID;
+- (NSArray *)indexOfReportsToIgnoreForProductGroupWithID:(NSString *)groupID;
 
 - (NSInteger)numberOfNewApps;
 - (void)incrementNewAppsOfProductGroupID:(NSString *)groupID;
