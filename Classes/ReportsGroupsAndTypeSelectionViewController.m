@@ -11,6 +11,8 @@
 #import "Report+Custom.h"
 #import "MyAppSalesAppDelegate.h"
 
+#import "ReportsOverviewViewController.h"
+
 @interface ReportsGroupsAndTypeSelectionViewController ()
 
 @property (nonatomic, retain) NSArray *productGroupIndex;
@@ -51,15 +53,12 @@
 #pragma mark View lifecycle
 
 
- - (void)viewDidLoad {
- [super viewDidLoad];
- 
- // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
- // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-	 
-	 [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchingDone:) name:@"AllDownloadsFinished" object:nil];
+- (void)viewDidLoad 
+{
+	[super viewDidLoad];
 
- }
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchingDone:) name:@"AllDownloadsFinished" object:nil];
+}
 
 
 /*
@@ -199,6 +198,7 @@
 }
 
 
+
 /*
  // Override to support conditional editing of the table view.
  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -242,15 +242,25 @@
 #pragma mark -
 #pragma mark Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-	 <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-	 [self.navigationController pushViewController:detailViewController animated:YES];
-	 [detailViewController release];
-	 */
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
+	NSDictionary *productGroupDict = [self.productGroupIndex objectAtIndex:indexPath.section];
+	
+	NSArray *keys = [productGroupDict allKeys];
+	
+	NSArray *typeKeys = [keys sortedArrayUsingSelector:@selector(compare:)];
+	
+	NSNumber *rowKey = [typeKeys objectAtIndex:indexPath.row];
+	NSString *groupID = [productGroupDict objectForKey:@"groupID"];
+	
+	ReportType reportType = [rowKey intValue];
+	
+	ProductGroup *productGroup = [[CoreDatabase sharedInstance] productGroupForKey:groupID];
+	
+	ReportsOverviewViewController *overview = [[[ReportsOverviewViewController alloc] initWithProductGroup:productGroup reportType:reportType] autorelease];
+	[self.navigationController pushViewController:overview animated:YES];
 }
 
 
@@ -338,17 +348,17 @@
 	[appDelegate startSync];
 }
 
-- (void) reloadTableViewDataSource
-{
-	MyAppSalesAppDelegate *appDelegate = (MyAppSalesAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate startSync];
-}
-
-- (void)synchingDone:(NSNotification *)notification
-{
-	//refreshHeaderView.lastUpdatedDate = _product.lastReviewRefresh;
-	[super dataSourceDidFinishLoadingNewData];
-}
+//- (void) reloadTableViewDataSource
+//{
+//	MyAppSalesAppDelegate *appDelegate = (MyAppSalesAppDelegate *)[[UIApplication sharedApplication] delegate];
+//	[appDelegate startSync];
+//}
+//
+//- (void)synchingDone:(NSNotification *)notification
+//{
+//	//refreshHeaderView.lastUpdatedDate = _product.lastReviewRefresh;
+//	[super dataSourceDidFinishLoadingNewData];
+//}
 
 @synthesize productGroupIndex;
 @synthesize fetchedResultsController;

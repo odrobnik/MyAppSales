@@ -27,6 +27,7 @@
 @property (nonatomic, retain) NSDate * downloadedDate;
 @property (nonatomic, retain) NSNumber * sumRoyaltiesEarned;
 @property (nonatomic, retain) NSNumber * reportType;
+@property (nonatomic, retain) NSNumber * isNew;
 @property (nonatomic, retain) ProductGroup * productGrouping;
 @property (nonatomic, retain) NSSet* sales;
 @property (nonatomic, retain) NSSet* summaries;

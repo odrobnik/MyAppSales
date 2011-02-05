@@ -295,7 +295,10 @@ static YahooFinance *_sharedInstance = nil;
 	return [currencyFormatter stringFromNumber:[NSNumber numberWithFloat:amount]];
 }
 
-
+- (NSString *)formatAsMainCurrencyAmount:(double)amount
+{
+	return [self formatAsCurrency:self.mainCurrency amount:amount];
+}
 
 - (NSArray *)currencyList
 {

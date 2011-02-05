@@ -69,6 +69,8 @@
 
 - (ProductGroup *)productGroupForKey:(NSString *)key;
 
+- (void)removeReport:(Report *)report;
+
 - (NSURL *)databaseStoreUrl;
 
 - (BOOL)hasNewReportsOfType:(ReportType)type productGroupID:(NSString *)groupID;

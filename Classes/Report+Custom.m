@@ -27,13 +27,44 @@ NSString *NSStringFromReportType(ReportType reportType)
 	}
 }
 
+NSString *NSStringFromReportRegion(ReportRegion reportRegion)
+{
+	switch (reportRegion) {
+		case ReportRegionUK:
+			return @"United Kingdom";
+		case ReportRegionUSA:
+			return @"Americas";
+		case ReportRegionEurope:
+			return @"Euro-Zone";
+		case ReportRegionJapan:
+			return @"Japan";
+		case ReportRegionCanada:
+			return @"Canada";
+		case ReportRegionAustralia:
+			return @"Australia";
+		case ReportRegionRestOfWorld:
+			return @"Rest of World";
+		default:
+			return @"Invalid Region";
+	}
+}
 
 @implementation Report (Custom)
+
+- (NSDate *)dateInMiddleOfReport
+{
+	NSTimeInterval start = [self.fromDate timeIntervalSince1970];
+	NSTimeInterval finish = [self.untilDate timeIntervalSince1970];
+	NSTimeInterval middle = (start + finish)/2.0;
+	
+	return [NSDate dateWithTimeIntervalSince1970:middle];
+}
 
 - (NSString *)yearMonth
 {
 	// sort it into the correct month
-	NSDateComponents *dayComps = [[NSCalendar currentCalendar] components:NSMonthCalendarUnit|NSYearCalendarUnit fromDate:self.fromDate];
+	NSDateComponents *dayComps = [[NSCalendar currentCalendar] components:NSMonthCalendarUnit|NSYearCalendarUnit 
+																 fromDate:[self dateInMiddleOfReport]];
 	
 	NSString *yearMonthKey = [NSString stringWithFormat:@"%04d-%02d", [dayComps year], [dayComps month]];
 	

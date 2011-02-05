@@ -40,7 +40,8 @@
 
 
 - (NSArray *)currencyList;
-- (NSString *) formatAsCurrency:(NSString *)cur amount:(double)amount;
+- (NSString *)formatAsCurrency:(NSString *)cur amount:(double)amount;
+- (NSString *)formatAsMainCurrencyAmount:(double)amount;
 
 + (YahooFinance *)sharedInstance;
 

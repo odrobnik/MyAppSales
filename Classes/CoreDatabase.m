@@ -517,7 +517,18 @@ static CoreDatabase *_sharedInstance = nil;
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"NewReportsNumberChanged" object:nil userInfo:nil];
 }
-	 
+
+
+- (void)removeReport:(Report *)report
+{
+	if ([report.isNew boolValue])
+	{
+		[self decrementNewReportsOfType:[report.reportType intValue] productGroupID:report.productGrouping.identifier];
+	}
+	
+	[self.managedObjectContext deleteObject:report];
+	[self save];
+}
 	 
 - (void) insertReportFromDict:(NSDictionary *)dict
 {
@@ -862,6 +873,7 @@ static CoreDatabase *_sharedInstance = nil;
 	report.region = [NSNumber numberWithInt:reportRegion];
 	report.reportType = [NSNumber numberWithInt:reportType];
 	report.productGrouping = productGroup;
+	report.isNew = [NSNumber numberWithBool:YES];
 	
 	[report addSales:tmpSales];
 	

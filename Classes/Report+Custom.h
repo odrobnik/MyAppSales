@@ -11,6 +11,7 @@
 #import "ReportTypes.h"
 
 NSString *NSStringFromReportType(ReportType reportType);
+NSString *NSStringFromReportRegion(ReportRegion reportRegion);
 
 @interface Report (Custom)
 

@@ -76,38 +76,8 @@
     }
 }
 
-
-/*
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
-*/
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
-
-- (void)configureCell:(ApplicationCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    
+- (void)configureCell:(ApplicationCell *)cell atIndexPath:(NSIndexPath *)indexPath 
+{
     Product *app = (Product *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	
 	cell.appTitleLabel.text = app.title;

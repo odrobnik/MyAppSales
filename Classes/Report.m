@@ -27,5 +27,6 @@
 @dynamic productGrouping;
 @dynamic sales;
 @dynamic summaries;
+@dynamic isNew;
 
 @end
