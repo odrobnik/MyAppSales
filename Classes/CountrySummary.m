@@ -11,7 +11,7 @@
 
 @implementation CountrySummary
 
-@synthesize country,sumSales,sumUpdates,sumRefunds, royaltyCurrency, sumRoyalites;
+@synthesize country,sumSales,sumUpdates,sumRefunds, royaltyCurrency, sumRoyalties;
 
 - (id)initWithCountry:(Country_v1 *)cntry sumSales:(NSInteger)sales sumUpdates:(NSInteger)updates sumRefunds:(NSInteger)refunds
 {
@@ -38,7 +38,7 @@
 
 - (NSString *) description
 {
-	return [NSString stringWithFormat:@"%@ - %d/%d/%d %.2f %@", country.iso3, sumSales, sumUpdates, sumRefunds, sumRoyalites, royaltyCurrency];
+	return [NSString stringWithFormat:@"%@ - %d/%d/%d %.2f %@", country.iso3, sumSales, sumUpdates, sumRefunds, sumRoyalties, royaltyCurrency];
 	
 }
 
@@ -49,7 +49,7 @@
 	tmpSummary.sumSales = self.sumSales + otherSummary.sumSales;
 	tmpSummary.sumUpdates = self.sumUpdates + otherSummary.sumUpdates;
 	tmpSummary.sumRefunds = self.sumRefunds + otherSummary.sumRefunds;
-	tmpSummary.sumRoyalites = self.sumRoyalites + otherSummary.sumRoyalites;
+	tmpSummary.sumRoyalties = self.sumRoyalties + otherSummary.sumRoyalties;
 	
 	return tmpSummary;
 }
@@ -59,7 +59,7 @@
 	self.sumSales += otherSummary.sumSales;
 	self.sumUpdates += otherSummary.sumUpdates;
 	self.sumRefunds += otherSummary.sumRefunds;
-	self.sumRoyalites += otherSummary.sumRoyalites;
+	self.sumRoyalties += otherSummary.sumRoyalties;
 }
 
 - (NSComparisonResult)compareBySales:(CountrySummary *)otherSummary

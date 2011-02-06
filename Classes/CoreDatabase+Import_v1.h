@@ -13,7 +13,7 @@
 
 @interface CoreDatabase (Import_v1)
 
-- (BOOL)databaseStoreExists;
++ (BOOL)databaseStoreExists;
 
 - (void)importDatabase:(Database *)database;
 

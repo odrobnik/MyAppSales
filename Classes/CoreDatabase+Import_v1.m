@@ -8,13 +8,70 @@
 
 #import "CoreDatabase+Import_v1.h"
 #import "CoreDatabase.h"
+#import "NSString+Helpers.h"
 
 @implementation CoreDatabase (Import_v1)
 
-#pragma mark Importing
-- (BOOL)databaseStoreExists
+
+- (void)importCountriesFromFile:(NSString *)file
 {
-    NSString *storePath = [[self databaseStoreUrl] path];
+	NSArray *countryList = [NSArray arrayWithContentsOfFile:file];
+	
+	
+	NSFetchRequest *request = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Country" inManagedObjectContext:self.managedObjectContext];
+	[request setEntity:entity];	
+	[request setFetchLimit:0];
+	
+	NSError *error;
+	NSArray *existingCountries = [managedObjectContext executeFetchRequest:request error:&error];
+	
+	for (NSDictionary *countryDict in countryList)
+	{
+		NSPredicate *countryPred = [NSPredicate predicateWithFormat:@"iso3 == %@", [countryDict objectForKey:@"iso3"]];
+		
+		Country *country = [[existingCountries filteredArrayUsingPredicate:countryPred] lastObject];
+		
+		if (!country)
+		{
+			country = (Country *)[NSEntityDescription insertNewObjectForEntityForName:@"Country" 
+																	inManagedObjectContext:self.managedObjectContext];
+		}
+
+		[country setValuesForKeysWithDictionary:countryDict];
+	}
+	
+	[self save];
+}
+
+- (void)exportCountriesToFile:(NSString *)file
+{
+	NSFetchRequest *request = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Country" inManagedObjectContext:self.managedObjectContext];
+	[request setEntity:entity];	
+	[request setPropertiesToFetch:[NSArray arrayWithObjects:@"name",@"appStoreID", @"iso3", @"iso2", @"language", nil]];
+	
+	[request setResultType:NSDictionaryResultType];
+	
+	NSSortDescriptor *desc = [NSSortDescriptor sortDescriptorWithKey:@"iso3" ascending:YES];
+	[request setSortDescriptors:[NSArray arrayWithObject:desc]];
+	
+	NSError *error;
+	NSArray *fetchResults = [managedObjectContext executeFetchRequest:request error:&error];
+	if (fetchResults == nil) 
+	{
+		// no apps
+	}
+	
+	[request release];	
+	
+	[fetchResults writeToFile:file atomically:YES];
+}
+
+#pragma mark Importing
++ (BOOL)databaseStoreExists
+{
+    NSString *storePath = [[CoreDatabase databaseStoreUrl] path];
 	
 	if ([[NSFileManager defaultManager] fileExistsAtPath:storePath])
 	{
@@ -27,34 +84,34 @@
 - (void)importDatabase:(Database *)database
 {
 	
-	NSMutableDictionary *countryLookup = [NSMutableDictionary dictionary];
+//	NSMutableDictionary *countryLookup = [NSMutableDictionary dictionary];
 	NSMutableDictionary *productLookup = [NSMutableDictionary dictionary];
 	NSMutableDictionary *reportLookup = [NSMutableDictionary dictionary];
 	NSMutableDictionary *groupingLookup = [NSMutableDictionary dictionary];
 	
 	
-	// countries
-	for (NSString *oneCountryKey in [database.countries allKeys])
-	{
-		Country_v1 *oneCountry = [database.countries objectForKey:oneCountryKey];
-		
-		// create a country for each
-		Country *country = (Country *)[NSEntityDescription insertNewObjectForEntityForName:@"Country" 
-																	inManagedObjectContext:self.managedObjectContext];
-		
-		country.iso2 = oneCountry.iso2;
-		country.iso3 = oneCountry.iso3;
-		
-		if (oneCountry.appStoreID)
-		{
-			country.appStoreID = [NSNumber numberWithInt:oneCountry.appStoreID];
-		}
-		
-		country.language = oneCountry.language;
-		country.name = oneCountry.name;
-		
-		[countryLookup setObject:country forKey:country.iso2];
-	}
+//	// countries
+//	for (NSString *oneCountryKey in [database.countries allKeys])
+//	{
+//		Country_v1 *oneCountry = [database.countries objectForKey:oneCountryKey];
+//		
+//		// create a country for each
+//		Country *country = (Country *)[NSEntityDescription insertNewObjectForEntityForName:@"Country" 
+//																	inManagedObjectContext:self.managedObjectContext];
+//		
+//		country.iso2 = oneCountry.iso2;
+//		country.iso3 = oneCountry.iso3;
+//		
+//		if (oneCountry.appStoreID)
+//		{
+//			country.appStoreID = [NSNumber numberWithInt:oneCountry.appStoreID];
+//		}
+//		
+//		country.language = oneCountry.language;
+//		country.name = oneCountry.name;
+//		
+//		[countryLookup setObject:country forKey:country.iso2];
+//	}
 	
 	// groupings
 	NSArray *allGroupings = [database appGroupings];
@@ -109,12 +166,17 @@
 					Product *iapProduct = (Product *)[NSEntityDescription insertNewObjectForEntityForName:@"Product" 
 																				   inManagedObjectContext:self.managedObjectContext];
 					
-					iapProduct.title = oneApp.title;
-					iapProduct.vendorIdentifier = oneApp.vendor_identifier;
-					iapProduct.companyName = oneApp.company_name;
-					iapProduct.appleIdentifier = [NSNumber numberWithInt:oneApp.apple_identifier];
+					iapProduct.title = iap.title;
+					iapProduct.vendorIdentifier = iap.vendor_identifier;
+					iapProduct.companyName = iap.company_name;
+					iapProduct.appleIdentifier = [NSNumber numberWithInt:iap.apple_identifier];
 					iapProduct.parent = product;  // establishes link
 					iapProduct.isInAppPurchase = [NSNumber numberWithBool:YES];
+					
+					if (!product)
+					{
+						NSLog(@"No product!");
+					}
 					
 					[productLookup setObject:iapProduct forKey:iapProduct.appleIdentifier];
 				}
@@ -130,7 +192,7 @@
 					 review.date = oneReview.date;
 					 review.ratingPercent = [NSNumber numberWithDouble:oneReview.stars];
 					 review.userName = oneReview.name;
-					 review.country = [countryLookup objectForKey:oneReview.country.iso2];
+					 review.country = [self countryForCode:oneReview.country.iso2];
 					 review.appVersion = oneReview.version;
 					 
 					 review.app = product;
@@ -169,7 +231,6 @@
 		[reportLookup setObject:report forKey:[NSNumber numberWithInt:oneReport.primaryKey]];
 	}
 	
-	
 	// migrate sales separately
 	sqlite3_stmt *statement = nil;
 	
@@ -196,9 +257,16 @@
 		Sale *sale = (Sale *)[NSEntityDescription insertNewObjectForEntityForName:@"Sale" 
 														   inManagedObjectContext:self.managedObjectContext];
 		
-		sale.country = [countryLookup objectForKey:cntry_code];
+		sale.country = [self countryForCode:cntry_code];
 		sale.unitsSold = [NSNumber numberWithInt:units];
 		sale.product = [productLookup objectForKey:[NSNumber numberWithInt:app_id]];
+		
+		if (!sale.product)
+		{
+			NSLog(@"%@", productLookup);
+			NSLog(@"??? %@");
+			
+		}
 		sale.royaltyCurrency = royalty_currency;
 		sale.royaltyPrice = [NSNumber numberWithDouble:royalty_price];
 		sale.customerCurrency = customer_currency;
@@ -221,7 +289,10 @@
 	
 	[self save];
 	
-	NSLog(@"%@", newReportsByType);
+	// export country plist
+	NSString *path = [NSString pathForFileInDocuments:@"countries.plist"];
+	NSLog(@"Countries export to %@", path);
+	[self exportCountriesToFile:path];
 }
 
 

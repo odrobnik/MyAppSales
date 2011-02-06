@@ -83,9 +83,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-	CoreDatabase *newDB = [CoreDatabase sharedInstance];
-	
-	if (![newDB databaseStoreExists])
+	if (![CoreDatabase databaseStoreExists])
 	{
 		// we have no Core Data DB
 		DTBigProgressView *bigProgress = [[[DTBigProgressView alloc] initWithWindow:self.window] autorelease];
@@ -198,6 +196,13 @@
 	// 2.0
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newReportsNumberChanged:) name:@"NewReportsNumberChanged" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newAppsNumberChanged:) name:@"NewAppsNumberChanged" object:nil];
+	
+	if (![CoreDatabase  databaseStoreExists])
+	{
+		NSLog(@"No automatic actions, DB still needs to be migrated");
+		return YES;
+	}
+	
 	
 	// Review Downloading
 	

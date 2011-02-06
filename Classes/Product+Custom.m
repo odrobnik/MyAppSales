@@ -140,5 +140,13 @@
 	[[CoreDatabase sharedInstance] save];
 }
 
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"<%@ id=%@ title=%@>", [self class],
+			self.appleIdentifier, self.title];
+}
+
+@end
+
 
 @end

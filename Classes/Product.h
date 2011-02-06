@@ -1,14 +1,15 @@
 //
 //  Product.h
-//  ASiST
+//  MyAppSales
 //
-//  Created by Oliver on 12.05.10.
-//  Copyright 2010 Drobnik.com. All rights reserved.
+//  Created by Oliver Drobnik on 06.02.11.
+//  Copyright 2011 Drobnik.com. All rights reserved.
 //
 
 #import <CoreData/CoreData.h>
 
 @class ProductGroup;
+@class Report;
 @class ReportSummary;
 @class Review;
 @class Sale;
@@ -22,7 +23,9 @@
 @property (nonatomic, retain) NSString * vendorIdentifier;
 @property (nonatomic, retain) NSNumber * averageRoyaltiesPerDay;
 @property (nonatomic, retain) NSNumber * appleIdentifier;
+@property (nonatomic, retain) NSNumber * isInAppPurchase;
 @property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSNumber * newReviewsCount;
 @property (nonatomic, retain) NSNumber * isNew;
 @property (nonatomic, retain) NSString * companyName;
 @property (nonatomic, retain) NSNumber * totalRoyalties;
@@ -31,9 +34,9 @@
 @property (nonatomic, retain) NSSet* reviews;
 @property (nonatomic, retain) NSSet* children;
 @property (nonatomic, retain) NSSet* sales;
+@property (nonatomic, retain) Report * reports;
 @property (nonatomic, retain) NSSet* summaries;
-@property (nonatomic, retain) NSNumber * newReviewsCount;
-@property (nonatomic, retain) NSNumber * isInAppPurchase;
+
 @end
 
 

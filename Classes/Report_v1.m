@@ -1241,11 +1241,11 @@ static sqlite3_stmt *hydrate_statement = nil;
 			if (oneSale.unitsSold>0)
 			{
 				tmpSummary.sumSales+=oneSale.unitsSold;
-				tmpSummary.sumRoyalites+= oneSale.royaltyPrice*oneSale.unitsSold;
+				tmpSummary.sumRoyalties+= oneSale.royaltyPrice*oneSale.unitsSold;
 				tmpSummary.royaltyCurrency = oneSale.royaltyCurrency;
 				
 				//totalSummary.sumSales+=oneSale.unitsSold;
-				//totalSummary.sumRoyalites+= [[YahooFinance sharedInstance] convertToMainCurrencyAmount:oneSale.royaltyPrice*oneSale.unitsSold fromCurrency:oneSale.royaltyCurrency];
+				//totalSummary.sumRoyalties+= [[YahooFinance sharedInstance] convertToMainCurrencyAmount:oneSale.royaltyPrice*oneSale.unitsSold fromCurrency:oneSale.royaltyCurrency];
 				
 				if (oneSale.royaltyPrice)
 				{
@@ -1534,7 +1534,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		tmpSummary.sumRefunds += oneSummary.sumRefunds;
 		tmpSummary.sumSales += oneSummary.sumSales;
 		tmpSummary.sumUpdates += oneSummary.sumUpdates;
-		tmpSummary.sumRoyalites += oneSummary.sumRoyalites;
+		tmpSummary.sumRoyalties += oneSummary.sumRoyalties;
 	}
 	
 	

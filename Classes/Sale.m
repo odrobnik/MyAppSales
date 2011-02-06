@@ -1,9 +1,9 @@
 // 
 //  Sale.m
-//  ASiST
+//  MyAppSales
 //
-//  Created by Oliver on 12.05.10.
-//  Copyright 2010 Drobnik.com. All rights reserved.
+//  Created by Oliver Drobnik on 06.02.11.
+//  Copyright 2011 Drobnik.com. All rights reserved.
 //
 
 #import "Sale.h"

@@ -1,9 +1,9 @@
 //
 //  Report.h
-//  ASiST
+//  MyAppSales
 //
-//  Created by Oliver on 12.05.10.
-//  Copyright 2010 Drobnik.com. All rights reserved.
+//  Created by Oliver Drobnik on 06.02.11.
+//  Copyright 2011 Drobnik.com. All rights reserved.
 //
 
 #import <CoreData/CoreData.h>
@@ -14,7 +14,6 @@
 
 @interface Report :  NSManagedObject  
 {
-	
 }
 
 @property (nonatomic, retain) NSDate * fromDate;
@@ -24,11 +23,13 @@
 @property (nonatomic, retain) NSDate * untilDate;
 @property (nonatomic, retain) NSNumber * sumUnitsRefunded;
 @property (nonatomic, retain) NSNumber * region;
+@property (nonatomic, retain) NSNumber * isNew;
 @property (nonatomic, retain) NSDate * downloadedDate;
 @property (nonatomic, retain) NSNumber * sumRoyaltiesEarned;
 @property (nonatomic, retain) NSNumber * reportType;
-@property (nonatomic, retain) NSNumber * isNew;
 @property (nonatomic, retain) ProductGroup * productGrouping;
+@property (nonatomic, retain) ReportSummary * totalSummary;
+@property (nonatomic, retain) NSSet* appSummaries;
 @property (nonatomic, retain) NSSet* sales;
 @property (nonatomic, retain) NSSet* summaries;
 
@@ -36,6 +37,11 @@
 
 
 @interface Report (CoreDataGeneratedAccessors)
+- (void)addAppSummariesObject:(ReportSummary *)value;
+- (void)removeAppSummariesObject:(ReportSummary *)value;
+- (void)addAppSummaries:(NSSet *)value;
+- (void)removeAppSummaries:(NSSet *)value;
+
 - (void)addSalesObject:(Sale *)value;
 - (void)removeSalesObject:(Sale *)value;
 - (void)addSales:(NSSet *)value;

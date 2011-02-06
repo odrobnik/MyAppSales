@@ -13,6 +13,6 @@
 
 @interface NSArray (Reports)
 
-- (Report_v1 *)reportBySearchingForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion;
+//- (Report_v1 *)reportBySearchingForDate:(NSDate *)reportDate type:(ReportType)reportType region:(ReportRegion)reportRegion;
 
 @end

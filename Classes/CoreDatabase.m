@@ -17,6 +17,8 @@
 #import "Sale.h"
 #import "ProductGroup.h"
 
+#import "YahooFinance.h"
+
 
 static CoreDatabase *_sharedInstance = nil;
 
@@ -37,6 +39,25 @@ static CoreDatabase *_sharedInstance = nil;
 {
 	if (self = [super init])
 	{
+		NSLog(@"Connected to: %@", [[CoreDatabase databaseStoreUrl] path]);
+		
+		// TODO: also import country list for updates
+		
+		if (![self countryForCode:@"AT"])
+		{
+			// initial import of country list
+			NSString *path = [NSString pathForFileInDocuments:@"Countries.plist"];
+			
+			if (![[NSFileManager defaultManager] fileExistsAtPath:path])
+			{
+				// no override countries file in documents
+				path = [[NSBundle mainBundle] pathForResource:@"Countries" ofType:@"plist"];
+			}
+			
+			[self performSelector:@selector(importCountriesFromFile:) withObject:path];
+		}
+		
+		
 		newReportsByType = [[NSMutableDictionary alloc] init];
 		newAppsByProductGroup = [[NSMutableDictionary alloc] init];
 		
@@ -477,7 +498,7 @@ static CoreDatabase *_sharedInstance = nil;
 - (BOOL)hasNewReportsOfType:(ReportType)type productGroupID:(NSString *)groupID
 {
 	NSString *typeKey = [NSString stringWithFormat:@"%@-%d",groupID, type];
-
+	
 	return (BOOL) [[newReportsByType objectForKey:typeKey] intValue];
 }
 
@@ -493,12 +514,12 @@ static CoreDatabase *_sharedInstance = nil;
 	
 	return ret;
 }
-	
+
 
 - (void)incrementNewReportsOfType:(ReportType)type productGroupID:(NSString *)groupID
 {
 	NSString *typeKey = [NSString stringWithFormat:@"%@-%d", groupID, type];
-
+	
 	NSInteger value = [[newReportsByType objectForKey:typeKey] intValue]+1;
 	[newReportsByType setObject:[NSNumber numberWithInt:value] forKey:typeKey];
 	
@@ -508,7 +529,7 @@ static CoreDatabase *_sharedInstance = nil;
 - (void)decrementNewReportsOfType:(ReportType)type productGroupID:(NSString *)groupID
 {
 	NSString *typeKey = [NSString stringWithFormat:@"%@-%d", groupID, type];
-
+	
 	NSInteger value = MAX([[newReportsByType objectForKey:typeKey] intValue]-1, 0);
 	[newReportsByType setObject:[NSNumber numberWithInt:value] forKey:typeKey];
 	
@@ -562,7 +583,7 @@ static CoreDatabase *_sharedInstance = nil;
 	[self.managedObjectContext deleteObject:report];
 	[self save];
 }
-	 
+
 - (void) insertReportFromDict:(NSDictionary *)dict
 {
 	// detected values
@@ -581,6 +602,7 @@ static CoreDatabase *_sharedInstance = nil;
 	
 	// Make a list of apps in this report
 	NSMutableSet *tmpProductsInReport = [NSMutableSet set];
+	NSMutableSet *tmpAppsInReport = [NSMutableSet set];
 	
 	//salesByApp = [[NSMutableDictionary alloc] init];
 	
@@ -592,7 +614,7 @@ static CoreDatabase *_sharedInstance = nil;
 	oneLine = [enu nextObject];
 	NSArray *column_names = [oneLine arrayOfColumnNames];
 	
-
+	
 	NSMutableSet *tmpSales = [NSMutableSet set];
 	Product *productWithHighestID = nil;
 	
@@ -784,6 +806,8 @@ static CoreDatabase *_sharedInstance = nil;
 					}
 				}
 				
+				[tmpAppsInReport addObject:saleProduct];
+				
 				// remember product with the highest ID and company name
 				if (!productWithHighestID || [saleProduct.appleIdentifier compare:productWithHighestID.appleIdentifier] == NSOrderedDescending)
 				{
@@ -792,6 +816,7 @@ static CoreDatabase *_sharedInstance = nil;
 			}
 			else
 			{
+				// In App Purchase
 				saleProduct =[self productForAppleIdentifier:appID application:NO];
 				
 				Product *parentApp = [self productForVendorIdentifier:parentIDString application:YES];
@@ -804,9 +829,8 @@ static CoreDatabase *_sharedInstance = nil;
 					saleProduct.vendorIdentifier = vendor_identifier;
 					saleProduct.appleIdentifier = [NSNumber numberWithInt:appID];
 					saleProduct.companyName = company_name;
-					saleProduct.parent = parentApp;
 					saleProduct.isInAppPurchase = [NSNumber numberWithBool:YES];
-
+					
 					saleProduct.productGroup = productGroup;
 				}
 				else
@@ -816,7 +840,7 @@ static CoreDatabase *_sharedInstance = nil;
 					{
 						saleProduct.parent = parentApp;
 					}
-
+					
 					// now the parent of this IAP is present
 					if (!saleProduct.productGroup && productGroup)
 					{
@@ -870,6 +894,11 @@ static CoreDatabase *_sharedInstance = nil;
 			newSale.customerCurrency = customer_currency;
 			newSale.transactionType = typeString;
 			
+			if (!newSale.product)
+			{
+				NSLog(@"%@ %@", newSale, reportText);
+			}
+			
 			[tmpSales addObject:newSale];
 		}
 	}
@@ -883,7 +912,7 @@ static CoreDatabase *_sharedInstance = nil;
 		productGroup.title = productWithHighestID.companyName;
 		productGroup.identifier = groupingKey;
 	}
-
+	
 	// update all products with this group
 	for (Product *oneProduct in tmpProductsInReport)
 	{
@@ -904,7 +933,7 @@ static CoreDatabase *_sharedInstance = nil;
 	// create a new report and fill in the parsed sales
 	Report *report = (Report *)[NSEntityDescription insertNewObjectForEntityForName:@"Report" 
 															 inManagedObjectContext:self.managedObjectContext];	
-
+	
 	
 	report.fromDate = fromDate;
 	report.untilDate = untilDate;
@@ -917,6 +946,201 @@ static CoreDatabase *_sharedInstance = nil;
 	[report addSales:tmpSales];
 	
 	[self incrementNewReportsOfType:reportType productGroupID:productGroup.identifier];
+	
+	[self save];
+}
+
+#pragma mark Summaries
+
+// propery adds the values from one sale to the fields of summary
+- (void)addSale:(Sale *)sale toSummary:(ReportSummary *)summary
+{
+	if ([sale.transactionType hasPrefix:@"1"] || 
+		[sale.transactionType hasPrefix:@"IA"])
+	{
+		// sale or refund
+		double royalties = [sale.royaltyPrice doubleValue] * [sale.unitsSold doubleValue];
+		
+		// check if we need currency conversion
+		BOOL needsConversion = (![sale.royaltyCurrency isEqualToString:summary.royaltyCurrency]);
+		
+		// convert from sale currency to summary currency
+		if (needsConversion)
+		{
+			YahooFinance *yahoo = [YahooFinance sharedInstance];
+			royalties = [yahoo convertToCurrency:summary.royaltyCurrency
+										  amount:royalties
+									fromCurrency:sale.royaltyCurrency];
+		}
+		
+		double prevRoyalites = [summary.sumRoyalties doubleValue];
+		
+		summary.sumRoyalties = [NSNumber numberWithDouble:royalties + prevRoyalites];
+		
+		if ([sale.unitsSold intValue] > 0)
+		{
+			// sale
+			int units = [sale.unitsSold intValue];
+			int prevUnits = [summary.sumSales intValue];
+			
+			summary.sumSales = [NSNumber numberWithInt:units + prevUnits];
+		}
+		else 
+		{
+			// refund
+			int units = [sale.unitsSold intValue];
+			int prevUnits = [summary.sumRefunds intValue];
+			
+			summary.sumRefunds = [NSNumber numberWithInt:abs(units) + prevUnits];
+		}
+	}
+	else if ([sale.transactionType hasPrefix:@"7"])
+	{
+		// update
+		int units = [sale.unitsSold intValue];
+		int prevUnits = [summary.sumUpdates intValue];
+		
+		summary.sumUpdates = [NSNumber numberWithInt:units + prevUnits];
+	}
+}
+
+- (void)removeAllSummaries
+{
+	NSFetchRequest *request = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"ReportSummary" inManagedObjectContext:self.managedObjectContext];
+	[request setEntity:entity];	
+	[request setFetchLimit:0];
+	
+	NSError *error;
+	NSArray *fetchResults = [managedObjectContext executeFetchRequest:request error:&error];
+	if (fetchResults == nil) 
+	{
+		// Handle the error.
+	}
+	
+	[request release];	
+	
+	for (NSManagedObject *obj in fetchResults)
+	{
+		[self.managedObjectContext deleteObject:obj];
+	}
+	
+	[self save];
+}
+
+
+- (void)buildSummaryForReport:(Report *)report
+{
+	[self removeAllSummaries];
+	
+	NSLog(@"%d", [report.summaries count]);
+	
+	NSMutableDictionary *summaryByProductAndCountry = [NSMutableDictionary dictionary];
+	
+	// sum total in internal currency Euro
+	
+	ReportSummary *reportTotal = (ReportSummary *)[NSEntityDescription insertNewObjectForEntityForName:@"ReportSummary" 
+																				inManagedObjectContext:self.managedObjectContext];
+	reportTotal.report = report;
+	reportTotal.product = nil; // all products
+	reportTotal.country = nil; // all countries
+	reportTotal.royaltyCurrency = @"EUR";
+	
+	report.totalSummary = reportTotal;
+	
+	// walk through the sales
+	for (Sale *oneSale in report.sales)
+	{
+
+		
+		
+		// summary per product and country
+		NSString *productCountryKey = [NSString stringWithFormat:@"%@-%@", oneSale.product.appleIdentifier, oneSale.country.iso3];
+		ReportSummary *productCountrySummary = [summaryByProductAndCountry objectForKey:productCountryKey];
+		
+		if (!productCountrySummary)
+		{
+			productCountrySummary = (ReportSummary *)[NSEntityDescription insertNewObjectForEntityForName:@"ReportSummary" 
+																	 inManagedObjectContext:self.managedObjectContext];
+			productCountrySummary.report = report;
+			productCountrySummary.product = oneSale.product;
+			productCountrySummary.country = oneSale.country;
+			productCountrySummary.royaltyCurrency = oneSale.royaltyCurrency;
+			
+			[summaryByProductAndCountry setObject:productCountrySummary forKey:productCountryKey];
+		}
+		
+		// summary per product
+		NSString *productAllCountriesKey = [NSString stringWithFormat:@"%@-*", oneSale.product.appleIdentifier];
+		ReportSummary *summaryPerProduct = [summaryByProductAndCountry objectForKey:productAllCountriesKey];
+		
+		
+				
+		if (!summaryPerProduct)
+		{
+			summaryPerProduct = (ReportSummary *)[NSEntityDescription insertNewObjectForEntityForName:@"ReportSummary" 
+																			   inManagedObjectContext:self.managedObjectContext];
+			summaryPerProduct.report = report;
+			summaryPerProduct.product = oneSale.product;
+			summaryPerProduct.country = nil;  // all countries
+			summaryPerProduct.royaltyCurrency = @"EUR";  // internal currency
+			
+			[summaryByProductAndCountry setObject:summaryPerProduct forKey:productAllCountriesKey];
+		}
+		
+		// here we have a summary for the country as well as for the product (IAP/app)
+		
+		// add to individual sum per country and product
+		[self addSale:oneSale toSummary:productCountrySummary];
+
+		// add to individual sum per product
+		[self addSale:oneSale toSummary:summaryPerProduct];
+		
+		// link individual country summaries as children of summary for product
+		productCountrySummary.parent = summaryPerProduct;
+		
+		// add it to the total summary
+		[self addSale:oneSale toSummary:reportTotal];
+		
+		
+		// also have a summary of all IAPs for an app
+		
+		if ([oneSale.product.isInAppPurchase boolValue])
+		{
+			// IAP
+			NSString *parentKey = [NSString stringWithFormat:@"%@-*", oneSale.product.parent.appleIdentifier];
+			ReportSummary *parentSummary = [summaryByProductAndCountry objectForKey:parentKey];
+			
+			ReportSummary *iapSummary = parentSummary.childrenSummary;
+			
+			if (!iapSummary)
+			{
+				iapSummary = (ReportSummary *)[NSEntityDescription insertNewObjectForEntityForName:@"ReportSummary" 
+																			inManagedObjectContext:self.managedObjectContext];
+				iapSummary.report = nil;
+				iapSummary.product = nil;
+				iapSummary.country = nil;  // all countries
+				iapSummary.royaltyCurrency = @"EUR";  // internal currency
+				
+				// the app that this IAP belongs to
+				iapSummary.parentSummary = parentSummary;
+			}
+			
+			[self addSale:oneSale toSummary:iapSummary];
+		}
+		else 
+		{
+			// App
+			if (!oneSale.product && oneSale.country)
+			{
+				NSLog(@"??? %@", oneSale);
+			}
+			
+			[report addAppSummariesObject:summaryPerProduct];
+		}
+	}
+	
+	
 	
 	[self save];
 }
@@ -1044,8 +1268,6 @@ static CoreDatabase *_sharedInstance = nil;
 	
 	review.textTranslated = translatedText;
 	
-	NSLog(@"%@ -> %@", review.text, review.textTranslated);
-	
 	[self save];
 }
 
@@ -1087,7 +1309,7 @@ static CoreDatabase *_sharedInstance = nil;
 #pragma mark -
 #pragma mark Core Data stack
 
-- (NSURL *)databaseStoreUrl
++ (NSURL *)databaseStoreUrl
 {
 	NSString *databaseFile = @"MyAppSalesCoreData.sqlite";
 	NSString *storePath = [[NSString applicationDocumentsDirectory] stringByAppendingPathComponent:databaseFile];
@@ -1139,7 +1361,7 @@ static CoreDatabase *_sharedInstance = nil;
         return persistentStoreCoordinator;
     }
 	
-    NSURL *storeUrl = [self databaseStoreUrl];	
+    NSURL *storeUrl = [CoreDatabase databaseStoreUrl];	
 	NSError *error;
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
 	
@@ -1217,7 +1439,7 @@ static CoreDatabase *_sharedInstance = nil;
 	// reset new apps / reports
 	[newReportsByType removeAllObjects];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"NewReportsNumberChanged" object:nil userInfo:nil];
-
+	
 	[newAppsByProductGroup removeAllObjects];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"NewAppsNumberChanged" object:nil userInfo:nil];
 }

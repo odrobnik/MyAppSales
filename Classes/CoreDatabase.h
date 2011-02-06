@@ -12,6 +12,7 @@
 #import "Report.h"
 #import "Sale.h"
 #import "ProductGroup.h"
+#import "ReportSummary.h"
 #import "Country.h"
 #import "Review.h"
 #import "Review+Custom.h"
@@ -71,7 +72,7 @@
 
 - (void)removeReport:(Report *)report;
 
-- (NSURL *)databaseStoreUrl;
++ (NSURL *)databaseStoreUrl;
 
 - (BOOL)hasNewReportsOfType:(ReportType)type productGroupID:(NSString *)groupID;
 - (NSInteger)numberOfNewReports;
@@ -82,5 +83,7 @@
 - (NSInteger)numberOfNewApps;
 - (void)incrementNewAppsOfProductGroupID:(NSString *)groupID;
 - (void)decrementNewAppsOfProductGroupID:(NSString *)groupID;
+
+- (void)buildSummaryForReport:(Report *)report;
 
 @end

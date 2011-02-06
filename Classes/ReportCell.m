@@ -61,6 +61,7 @@
 		unitsRefundedLabel.font = [UIFont systemFontOfSize:MAIN_FONT_SIZE];
 		unitsRefundedLabel.textAlignment = UITextAlignmentCenter;
 		unitsRefundedLabel.adjustsFontSizeToFitWidth = YES;
+		unitsRefundedLabel.textColor = [UIColor redColor];
 		[self.contentView addSubview:unitsRefundedLabel];
 
 		// create label views to contain the various pieces of text that make up the cell.
@@ -71,9 +72,6 @@
 		countryCodeLabel.backgroundColor = [UIColor clearColor];
 		countryCodeLabel.textAlignment = UITextAlignmentCenter;
 		[self.contentView addSubview:countryCodeLabel];
-		
-		
-		
 	}
 	
 	return self;

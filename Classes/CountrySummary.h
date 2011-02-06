@@ -18,7 +18,7 @@
 	NSInteger sumRefunds;
 	
 	NSString *royaltyCurrency;
-	double sumRoyalites;
+	double sumRoyalties;
 }
 
 @property (nonatomic, retain) Country_v1 *country;
@@ -26,7 +26,7 @@
 @property (nonatomic, assign) NSInteger sumUpdates;
 @property (nonatomic, assign) NSInteger sumRefunds;
 @property (nonatomic, retain) NSString *royaltyCurrency;
-@property (nonatomic, assign) double sumRoyalites;
+@property (nonatomic, assign) double sumRoyalties;
 
 
 - (id)initWithCountry:(Country_v1 *)country sumSales:(NSInteger)sales sumUpdates:(NSInteger)updates sumRefunds:(NSInteger)refunds; 

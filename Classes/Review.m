@@ -1,9 +1,9 @@
 // 
 //  Review.m
-//  ASiST
+//  MyAppSales
 //
-//  Created by Oliver on 12.05.10.
-//  Copyright 2010 Drobnik.com. All rights reserved.
+//  Created by Oliver Drobnik on 06.02.11.
+//  Copyright 2011 Drobnik.com. All rights reserved.
 //
 
 #import "Review.h"
@@ -13,17 +13,17 @@
 
 @implementation Review 
 
-@dynamic userName;
+@dynamic ratingPercent;
 @dynamic title;
+@dynamic userName;
 @dynamic date;
 @dynamic text;
-@dynamic appVersion;
+@dynamic isNew;
 @dynamic titleTranslated;
-@dynamic ratingPercent;
+@dynamic appUserVersionHash;
+@dynamic appVersion;
 @dynamic textTranslated;
 @dynamic app;
 @dynamic country;
-@dynamic isNew;
-@dynamic appUserVersionHash;
 
 @end

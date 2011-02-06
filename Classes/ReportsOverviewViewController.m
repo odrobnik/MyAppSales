@@ -10,6 +10,7 @@
 #import "CoreDatabase.h"
 #import "YahooFinance.h"
 #import "Report+Custom.h"
+#import "SingleReportViewController.h"
 
 @interface ReportsOverviewViewController ()
 
@@ -77,7 +78,7 @@
 	}
 	
 	
-	double amount = [report.sumRoyaltiesEarned doubleValue];
+	double amount = [report.totalSummary.sumRoyalties doubleValue];
 	cell.detailTextLabel.text = [[YahooFinance sharedInstance] formatAsMainCurrencyAmount:amount];
 	
 	// only show disclosure if there are sales on this report
@@ -184,21 +185,17 @@
 */
 
 
-#pragma mark -
-#pragma mark Table view delegate
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+	Report *report = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
-    [detailViewController release];
-    */
+	UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+	
+	SingleReportViewController *vc = [[[SingleReportViewController alloc] initWithReport:report] autorelease];
+	vc.navigationItem.title = cell.textLabel.text;
+	[self.navigationController pushViewController:vc animated:YES];
 }
 
 

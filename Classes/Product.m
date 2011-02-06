@@ -1,14 +1,15 @@
 // 
 //  Product.m
-//  ASiST
+//  MyAppSales
 //
-//  Created by Oliver on 12.05.10.
-//  Copyright 2010 Drobnik.com. All rights reserved.
+//  Created by Oliver Drobnik on 06.02.11.
+//  Copyright 2011 Drobnik.com. All rights reserved.
 //
 
 #import "Product.h"
 
 #import "ProductGroup.h"
+#import "Report.h"
 #import "ReportSummary.h"
 #import "Review.h"
 #import "Sale.h"
@@ -20,7 +21,9 @@
 @dynamic vendorIdentifier;
 @dynamic averageRoyaltiesPerDay;
 @dynamic appleIdentifier;
+@dynamic isInAppPurchase;
 @dynamic title;
+@dynamic newReviewsCount;
 @dynamic isNew;
 @dynamic companyName;
 @dynamic totalRoyalties;
@@ -29,8 +32,7 @@
 @dynamic reviews;
 @dynamic children;
 @dynamic sales;
+@dynamic reports;
 @dynamic summaries;
-@dynamic newReviewsCount;
-@dynamic isInAppPurchase;
 
 @end
