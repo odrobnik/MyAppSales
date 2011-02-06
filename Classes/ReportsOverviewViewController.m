@@ -79,6 +79,7 @@
 	
 	
 	double amount = [report.totalSummary.sumRoyalties doubleValue];
+	amount = [[YahooFinance sharedInstance] convertToMainCurrencyAmount:amount fromCurrency:@"EUR"];
 	cell.detailTextLabel.text = [[YahooFinance sharedInstance] formatAsMainCurrencyAmount:amount];
 	
 	// only show disclosure if there are sales on this report

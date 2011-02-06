@@ -1031,9 +1031,7 @@ static CoreDatabase *_sharedInstance = nil;
 
 - (void)buildSummaryForReport:(Report *)report
 {
-	[self removeAllSummaries];
-	
-	NSLog(@"%d", [report.summaries count]);
+	//[self removeAllSummaries];
 	
 	NSMutableDictionary *summaryByProductAndCountry = [NSMutableDictionary dictionary];
 	

@@ -35,7 +35,7 @@
 	{
 		self.report = report;
 		
-		//if (![_report.summaries count])
+		if (![_report.summaries count])
 		{
 			[[CoreDatabase sharedInstance] buildSummaryForReport:_report];
 		}
