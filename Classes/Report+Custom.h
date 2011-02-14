@@ -17,4 +17,6 @@ NSString *NSStringFromReportRegion(ReportRegion reportRegion);
 
 - (NSString *)sectionKey;
 
+- (NSString *)shortTitleForBackButton;
+
 @end

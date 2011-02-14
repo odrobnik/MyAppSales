@@ -35,7 +35,22 @@
 		_productGroup = [productGroup retain];
 		_reportType = reportType;
 		
-		self.navigationItem.title = NSStringFromReportType(_reportType);
+		self.navigationItem.title = _productGroup.title;
+		
+		// short back bar title
+		NSString *backTitle = NSStringFromReportType(_reportType);
+		backTitle = [backTitle stringByReplacingOccurrencesOfString:@"Financial" withString:@"Fin."];
+
+		self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:backTitle
+																				  style:UIBarButtonItemStyleBordered
+																				 target:nil
+																				 action:nil] autorelease];
+		
+		// refresh table if main currency has changed
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainCurrencyChanged:) name:@"MainCurrencyChanged" object:nil];
+
+		// if defaults setting changes
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultsChanged:) name:NSUserDefaultsDidChangeNotification object:nil];
 	}
 	
 	return self;
@@ -43,6 +58,8 @@
 
 - (void)dealloc 
 {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	[fetchedResultsController release];
 	[cellDateFormatter release];
 	
@@ -77,10 +94,23 @@
 		}
 	}
 	
-	
-	double amount = [report.totalSummary.sumRoyalties doubleValue];
-	amount = [[YahooFinance sharedInstance] convertToMainCurrencyAmount:amount fromCurrency:@"EUR"];
-	cell.detailTextLabel.text = [[YahooFinance sharedInstance] formatAsMainCurrencyAmount:amount];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RoyaltyTotalsOnOverView"])
+	{
+		
+		ReportSummary *summary = report.totalSummary;
+		if (!summary)
+		{
+			// building summary causes fetched result controller to receive changes
+			ignoreFetchedResultControllerNotifications = YES;
+			summary = [[CoreDatabase sharedInstance] summaryForReport:report];
+			ignoreFetchedResultControllerNotifications = NO;
+		}
+		double amount = [summary.sumRoyalties doubleValue];
+		
+		// convert sum
+		amount = [[YahooFinance sharedInstance] convertToMainCurrencyAmount:amount fromCurrency:@"EUR"];
+		cell.detailTextLabel.text = [[YahooFinance sharedInstance] formatAsMainCurrencyAmount:amount];
+	}
 	
 	// only show disclosure if there are sales on this report
 	if ([report.sales count])
@@ -143,12 +173,12 @@
 
 
 /*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
 
 
 
@@ -157,7 +187,7 @@
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source.
-       // [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+		// [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 		
 		Report *report = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		[[CoreDatabase sharedInstance] removeReport:report];
@@ -171,48 +201,47 @@
 
 
 /*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+ }
+ */
 
 
 /*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-
+	
 	Report *report = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	
 	UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 	
 	SingleReportViewController *vc = [[[SingleReportViewController alloc] initWithReport:report] autorelease];
-	vc.navigationItem.title = cell.textLabel.text;
+	
+	NSString *title = cell.textLabel.text;
+	
+	switch ([report.reportType intValue]) 
+	{
+		case ReportTypeFree:
+		case ReportTypeFinancial:
+		{
+			title = [title stringByAppendingFormat:@" (%@)", [report shortTitleForBackButton]];
+			break;
+		}
+		default:
+			break;
+	}
+	
+	vc.navigationItem.title = title;
 	[self.navigationController pushViewController:vc animated:YES];
-}
-
-
-#pragma mark -
-#pragma mark Memory management
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Relinquish ownership any cached data, images, etc. that aren't in use.
-}
-
-- (void)viewDidUnload {
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
 }
 
 #pragma mark Fetched results controller
@@ -277,13 +306,18 @@
     return fetchedResultsController;
 } 
 
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller 
+{
+	if (ignoreFetchedResultControllerNotifications) return;
+	
     [self.tableView beginUpdates];
 }
 
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
-           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type 
+{
+	if (ignoreFetchedResultControllerNotifications) return;
     
     switch(type) {
         case NSFetchedResultsChangeInsert:
@@ -299,7 +333,10 @@
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
        atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
-      newIndexPath:(NSIndexPath *)newIndexPath {
+      newIndexPath:(NSIndexPath *)newIndexPath 
+{
+	if (ignoreFetchedResultControllerNotifications) return;
+	
     
     UITableView *tableView = self.tableView;
     
@@ -325,10 +362,26 @@
 }
 
 
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller 
+{
+	if (ignoreFetchedResultControllerNotifications) return;
+	
     [self.tableView endUpdates];
 }
 
+#pragma mark Notifications
+
+- (void)mainCurrencyChanged:(NSNotification *)notification
+{
+	// all sums should now be displayed with new currency
+	[self.tableView reloadData];
+}
+
+- (void)defaultsChanged:(NSNotification *)notification
+{
+	// all sums should now be displayed or not displayed
+	[self.tableView reloadData];
+}
 
 #pragma mark Properties
 

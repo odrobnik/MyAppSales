@@ -403,7 +403,7 @@
 					}
 
 					
-					cell.textLabel.text = @"Fetch royalty sum and\nshow it on overview (slow)";
+					cell.textLabel.text = @"Royalties on Overview";
 					cell.textLabel.numberOfLines = 0;
 					cell.textLabel.font = [UIFont boldSystemFontOfSize:13];
 					cell.textLabel.adjustsFontSizeToFitWidth = YES;

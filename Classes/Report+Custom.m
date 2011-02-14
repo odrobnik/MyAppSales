@@ -78,4 +78,34 @@ NSString *NSStringFromReportRegion(ReportRegion reportRegion)
 	
 }
 
+
+- (NSString *)shortTitleForBackButton
+{
+	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
+
+	switch ([self.reportType intValue]) 
+	{
+		case ReportTypeDay:
+		{
+			[df setDateStyle:NSDateFormatterShortStyle];
+			[df setTimeStyle:NSDateFormatterNoStyle];
+			return [df stringFromDate:self.fromDate];
+		}
+		case ReportTypeWeek:
+		{
+			[df setDateFormat:@"'Week' w"];
+			return [df stringFromDate:self.fromDate];
+		}
+		case ReportTypeFinancial:
+		case ReportTypeFree:
+		{
+			NSDate *date = [self dateInMiddleOfReport];
+			[df setDateFormat:@"MMM"];
+			return [df stringFromDate:date];
+		}
+		default:
+			return @"Unknown";
+	}
+	
+}
 @end

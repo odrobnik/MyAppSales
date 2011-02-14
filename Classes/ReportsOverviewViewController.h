@@ -22,6 +22,8 @@
 	NSDateFormatter *cellDateFormatter;
 	NSDateFormatter *sectionNameDateFormatter;
 	NSDateFormatter *sectionNameDateParser;
+	
+	BOOL ignoreFetchedResultControllerNotifications;
 }
 
 - (id)initWithProductGroup:(ProductGroup *)productGroup reportType:(ReportType)reportType;

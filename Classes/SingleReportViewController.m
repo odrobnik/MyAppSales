@@ -13,6 +13,8 @@
 #import "ReportCell.h"
 #import "YahooFinance.h"
 
+#import "Report+Custom.h"
+
 @interface SingleReportViewController ()
 
 @property (nonatomic, retain) NSArray *apps;
@@ -40,6 +42,12 @@
 			[[CoreDatabase sharedInstance] buildSummaryForReport:_report];
 		}
 		
+		self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:[_report shortTitleForBackButton]
+																				  style:UIBarButtonItemStyleBordered
+																				 target:nil
+																				 action:nil] autorelease];
+		
+		
 		
 		// get the apps sorted by royalties and title
 		NSSortDescriptor *sort1 = [NSSortDescriptor sortDescriptorWithKey:@"sumRoyalties" ascending:NO];
@@ -49,12 +57,17 @@
 		
 		NSArray *descriptors = [NSArray arrayWithObjects:sort1, sort2, sort3, sort4, nil];
 		apps = [[_report.appSummaries sortedArrayUsingDescriptors:descriptors] retain];
+		
+		// refresh table if main currency has changed
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainCurrencyChanged:) name:@"MainCurrencyChanged" object:nil];
     }
     return self;
 }
 
 - (void)dealloc 
 {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	[_report release];
 	[apps release];
 	
@@ -62,99 +75,65 @@
     [super dealloc];
 }
 
-#pragma mark -
-#pragma mark View lifecycle
-
-/*
- - (void)viewDidLoad {
- [super viewDidLoad];
- 
- // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
- // self.navigationItem.rightBarButtonItem = self.editButtonItem;
- }
- */
-
-/*
- - (void)viewWillAppear:(BOOL)animated {
- [super viewWillAppear:animated];
- }
- */
-/*
- - (void)viewDidAppear:(BOOL)animated {
- [super viewDidAppear:animated];
- }
- */
-/*
- - (void)viewWillDisappear:(BOOL)animated {
- [super viewWillDisappear:animated];
- }
- */
-/*
- - (void)viewDidDisappear:(BOOL)animated {
- [super viewDidDisappear:animated];
- }
- */
-/*
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations.
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
- */
-
-
-#pragma mark -
-#pragma mark Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return [apps count] + 1; // overall total section at top
+#pragma mark Summing / Cells
+- (NSArray *)summaryTotalsFilteredForProduct:(Product *)product includeChildren:(BOOL)includeChildren
+{
+	NSSet *filteredSet;
+	
+	if (product)
+	{
+		if (!includeChildren)
+		{
+			NSPredicate *pred = [NSPredicate predicateWithFormat:@"product = %@ and country == nil", product];
+			filteredSet = [_report.summaries filteredSetUsingPredicate:pred];
+		}
+		else 
+		{
+			NSPredicate *pred = [NSPredicate predicateWithFormat:@"(product = %@ or product.parent = %@) and country == nil", product, product];
+			filteredSet = [_report.summaries filteredSetUsingPredicate:pred];
+		}
+		
+	}
+	else 
+	{
+		NSPredicate *pred = [NSPredicate predicateWithFormat:@"product != nil and country == nil", product];
+		filteredSet = [_report.summaries filteredSetUsingPredicate:pred];
+	}
+	
+	
+	// get the apps sorted by royalties and title
+	NSSortDescriptor *sort1 = [NSSortDescriptor sortDescriptorWithKey:@"sumRoyalties" ascending:NO];
+	NSSortDescriptor *sort2 = [NSSortDescriptor sortDescriptorWithKey:@"sumSales" ascending:NO];
+	NSSortDescriptor *sort3 = [NSSortDescriptor sortDescriptorWithKey:@"sumUpdates" ascending:NO];
+	NSSortDescriptor *sort4 = [NSSortDescriptor sortDescriptorWithKey:@"product.title" ascending:YES];
+	
+	NSArray *descriptors = [NSArray arrayWithObjects:sort1, sort2, sort3, sort4, nil];
+	return [filteredSet sortedArrayUsingDescriptors:descriptors];
 }
 
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+- (NSArray *)summaryTotalsFilteredForChildrenOfProduct:(Product *)product
 {
-	if (!section)
+	NSSet *filteredSet;
+	
+	if (product)
 	{
-		return @"Total Summary";
+		NSPredicate *pred = [NSPredicate predicateWithFormat:@"product.parent = %@ and product != nil and country == nil", product];
+		filteredSet = [_report.summaries filteredSetUsingPredicate:pred];
+	}
+	else 
+	{
+		NSPredicate *pred = [NSPredicate predicateWithFormat:@"product.parent != nil and country == nil", product];
+		filteredSet = [_report.summaries filteredSetUsingPredicate:pred];
 	}
 	
-	ReportSummary *sectionSummary = [apps objectAtIndex:section-1];
+	// get the apps sorted by royalties and title
+	NSSortDescriptor *sort1 = [NSSortDescriptor sortDescriptorWithKey:@"sumRoyalties" ascending:NO];
+	NSSortDescriptor *sort2 = [NSSortDescriptor sortDescriptorWithKey:@"sumSales" ascending:NO];
+	NSSortDescriptor *sort3 = [NSSortDescriptor sortDescriptorWithKey:@"sumUpdates" ascending:NO];
+	NSSortDescriptor *sort4 = [NSSortDescriptor sortDescriptorWithKey:@"product.title" ascending:YES];
 	
-	return sectionSummary.product.title;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
-{
-	// always 1 more for a section header
-	if (!section)
-	{
-		return 2;  // total section
-	}
-	
-	ReportSummary *sectionSummary = [apps objectAtIndex:section-1];
-	
-	if (sectionSummary.childrenSummary)
-	{
-		// IAP schows 3 rows
-		return 4;
-	}
-	
-	// no IAPs shows 1 row
-    return 2;
-}
-
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	if (!indexPath.row)
-	{
-		return 20.0;
-	}
-	else
-	{
-		return 50.0;
-	}
+	NSArray *descriptors = [NSArray arrayWithObjects:sort1, sort2, sort3, sort4, nil];
+	return [filteredSet sortedArrayUsingDescriptors:descriptors];
 }
 
 - (void)configureCell:(ReportCell *)cell withSummary:(ReportSummary *)summary
@@ -214,6 +193,59 @@
 													amount:royalties];
 	
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+}
+
+#pragma mark Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    // Return the number of sections.
+    return [apps count] + 1; // overall total section at top
+}
+
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+	if (!section)
+	{
+		return @"Total Summary";
+	}
+	
+	ReportSummary *sectionSummary = [apps objectAtIndex:section-1];
+	
+	return sectionSummary.product.title;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+{
+	// always 1 more for a section header
+	if (!section)
+	{
+		return 2;  // total section
+	}
+	
+	ReportSummary *sectionSummary = [apps objectAtIndex:section-1];
+	
+	if (sectionSummary.childrenSummary)
+	{
+		// IAP schows 3 rows
+		return 4;
+	}
+	
+	// no IAPs shows 1 row
+    return 2;
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if (!indexPath.row)
+	{
+		return 20.0;
+	}
+	else
+	{
+		return 50.0;
+	}
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
@@ -331,69 +363,6 @@
     return cell;
 }
 
-
-- (NSArray *)summaryTotalsFilteredForProduct:(Product *)product includeChildren:(BOOL)includeChildren
-{
-	//_report.summaries
-	
-	NSSet *filteredSet;
-	
-	if (product)
-	{
-		if (!includeChildren)
-		{
-			NSPredicate *pred = [NSPredicate predicateWithFormat:@"product = %@ and country == nil", product];
-			filteredSet = [_report.summaries filteredSetUsingPredicate:pred];
-		}
-		else 
-		{
-			NSPredicate *pred = [NSPredicate predicateWithFormat:@"(product = %@ or product.parent = %@) and country == nil", product, product];
-			filteredSet = [_report.summaries filteredSetUsingPredicate:pred];
-		}
-
-	}
-	else 
-	{
-		NSPredicate *pred = [NSPredicate predicateWithFormat:@"product != nil and country == nil", product];
-		filteredSet = [_report.summaries filteredSetUsingPredicate:pred];
-	}
-	
-	
-	// get the apps sorted by royalties and title
-	NSSortDescriptor *sort1 = [NSSortDescriptor sortDescriptorWithKey:@"sumRoyalties" ascending:NO];
-	NSSortDescriptor *sort2 = [NSSortDescriptor sortDescriptorWithKey:@"sumSales" ascending:NO];
-	NSSortDescriptor *sort3 = [NSSortDescriptor sortDescriptorWithKey:@"sumUpdates" ascending:NO];
-	NSSortDescriptor *sort4 = [NSSortDescriptor sortDescriptorWithKey:@"product.title" ascending:YES];
-	
-	NSArray *descriptors = [NSArray arrayWithObjects:sort1, sort2, sort3, sort4, nil];
-	return [filteredSet sortedArrayUsingDescriptors:descriptors];
-}
-
-- (NSArray *)summaryTotalsFilteredForChildrenOfProduct:(Product *)product
-{
-	NSSet *filteredSet;
-	
-	if (product)
-	{
-		NSPredicate *pred = [NSPredicate predicateWithFormat:@"product.parent = %@ and product != nil and country == nil", product];
-		filteredSet = [_report.summaries filteredSetUsingPredicate:pred];
-	}
-	else 
-	{
-		NSPredicate *pred = [NSPredicate predicateWithFormat:@"product.parent != nil and country == nil", product];
-		filteredSet = [_report.summaries filteredSetUsingPredicate:pred];
-	}
-	
-	// get the apps sorted by royalties and title
-	NSSortDescriptor *sort1 = [NSSortDescriptor sortDescriptorWithKey:@"sumRoyalties" ascending:NO];
-	NSSortDescriptor *sort2 = [NSSortDescriptor sortDescriptorWithKey:@"sumSales" ascending:NO];
-	NSSortDescriptor *sort3 = [NSSortDescriptor sortDescriptorWithKey:@"sumUpdates" ascending:NO];
-	NSSortDescriptor *sort4 = [NSSortDescriptor sortDescriptorWithKey:@"product.title" ascending:YES];
-	
-	NSArray *descriptors = [NSArray arrayWithObjects:sort1, sort2, sort3, sort4, nil];
-	return [filteredSet sortedArrayUsingDescriptors:descriptors];
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -411,7 +380,7 @@
 		
 		[summaries addObjectsFromArray:tmpArray];
 		
-		title = @"All Products";
+		title = _report.productGrouping.title;
 	}
 	else 
 	{
@@ -491,23 +460,12 @@
 }
 
 
-#pragma mark -
-#pragma mark Memory management
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Relinquish ownership any cached data, images, etc. that aren't in use.
+#pragma mark Notifications
+- (void)mainCurrencyChanged:(NSNotification *)notification
+{
+	// all sums should now be displayed with new currency
+	[self.tableView reloadData];
 }
-
-- (void)viewDidUnload {
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
-}
-
-
-
 
 #pragma mark Properties
 

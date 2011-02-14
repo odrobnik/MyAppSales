@@ -382,7 +382,6 @@
 		A7EB519410481BE6005452BE /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = A7EB519310481BE6005452BE /* Database.m */; };
 		A7EB5259104825F9005452BE /* update_0_to_1.sql in Resources */ = {isa = PBXBuildFile; fileRef = A7EB5258104825F9005452BE /* update_0_to_1.sql */; };
 		A7EDD2FE0FA4E2C50079FE78 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD2FA0FA4E2C50079FE78 /* SettingsViewController.xib */; };
-		A7EDD2FF0FA4E2C50079FE78 /* ReportRootController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD2FB0FA4E2C50079FE78 /* ReportRootController.xib */; };
 		A7EDD3000FA4E2C50079FE78 /* ChartRootController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD2FC0FA4E2C50079FE78 /* ChartRootController.xib */; };
 		A7EDD3010FA4E2C50079FE78 /* AppViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD2FD0FA4E2C50079FE78 /* AppViewController.xib */; };
 		A7EDD37A0FA4E75B0079FE78 /* MLT.png in Resources */ = {isa = PBXBuildFile; fileRef = A7EDD3790FA4E75B0079FE78 /* MLT.png */; };
@@ -2051,7 +2050,6 @@
 				A72B83A30F40B5B400297684 /* ASiST.jpg in Resources */,
 				A736BF360F4100B300126FD3 /* NIO.png in Resources */,
 				A7EDD2FE0FA4E2C50079FE78 /* SettingsViewController.xib in Resources */,
-				A7EDD2FF0FA4E2C50079FE78 /* ReportRootController.xib in Resources */,
 				A7EDD3000FA4E2C50079FE78 /* ChartRootController.xib in Resources */,
 				A7EDD3010FA4E2C50079FE78 /* AppViewController.xib in Resources */,
 				A7EDD37A0FA4E75B0079FE78 /* MLT.png in Resources */,

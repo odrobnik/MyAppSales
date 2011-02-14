@@ -71,6 +71,8 @@
 - (ProductGroup *)productGroupForKey:(NSString *)key;
 
 - (void)removeReport:(Report *)report;
+- (void)buildSummaryForReport:(Report *)report;
+- (ReportSummary *)summaryForReport:(Report *)report;
 
 + (NSURL *)databaseStoreUrl;
 
@@ -84,6 +86,5 @@
 - (void)incrementNewAppsOfProductGroupID:(NSString *)groupID;
 - (void)decrementNewAppsOfProductGroupID:(NSString *)groupID;
 
-- (void)buildSummaryForReport:(Report *)report;
 
 @end

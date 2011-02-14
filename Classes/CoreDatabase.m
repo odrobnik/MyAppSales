@@ -257,7 +257,7 @@ static CoreDatabase *_sharedInstance = nil;
 	[request setEntity:entity];	
 	[request setFetchLimit:1];
 	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name like[cd] = %@", countryName];
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name like[cd] %@", countryName];
 	[request setPredicate:predicate];
 	
 	NSError *error;
@@ -1049,9 +1049,6 @@ static CoreDatabase *_sharedInstance = nil;
 	// walk through the sales
 	for (Sale *oneSale in report.sales)
 	{
-
-		
-		
 		// summary per product and country
 		NSString *productCountryKey = [NSString stringWithFormat:@"%@-%@", oneSale.product.appleIdentifier, oneSale.country.iso3];
 		ReportSummary *productCountrySummary = [summaryByProductAndCountry objectForKey:productCountryKey];
@@ -1138,9 +1135,17 @@ static CoreDatabase *_sharedInstance = nil;
 		}
 	}
 	
-	
-	
 	[self save];
+}
+
+- (ReportSummary *)summaryForReport:(Report *)report
+{
+	if (!report.totalSummary)
+	{
+		[self buildSummaryForReport:report];
+	}
+	
+	return report.totalSummary;
 }
 
 #pragma mark Reviews

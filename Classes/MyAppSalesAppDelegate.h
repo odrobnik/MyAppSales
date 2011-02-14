@@ -14,7 +14,8 @@
 
 @class   HTTPServer, YahooFinance;
 
-@class iTunesConnect, AppViewController, ReportRootController, SettingsViewController, Report_v1, KeychainWrapper, App, StatusInfoController, Account;
+@class iTunesConnect, AppViewController, SettingsViewController, Report_v1, KeychainWrapper, App, StatusInfoController, Account;
+@class ReportsGroupsAndTypeSelectionViewController;
 
 @interface MyAppSalesAppDelegate : NSObject <UIApplicationDelegate, PinLockDelegate> {
     
@@ -23,7 +24,7 @@
 	UITabBarController *tabBarController;
 	
 	AppViewController *appViewController;
-	ReportRootController *reportRootController;
+	ReportsGroupsAndTypeSelectionViewController *reportRootController;
 	SettingsViewController *settingsViewController;
 	IBOutlet StatusInfoController *statusViewController;
 	
@@ -53,7 +54,7 @@
 
 
 
-@property (nonatomic, retain) IBOutlet ReportRootController *reportRootController;
+@property (nonatomic, retain) IBOutlet ReportsGroupsAndTypeSelectionViewController *reportRootController;
 @property (nonatomic, retain) IBOutlet AppViewController *appViewController;
 
 @property (nonatomic, retain) IBOutlet SettingsViewController *settingsViewController;

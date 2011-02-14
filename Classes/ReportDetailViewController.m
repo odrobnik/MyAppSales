@@ -56,12 +56,20 @@
 
 		// refresh table if a country flag is loaded
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(countryFlagLoaded:) name:@"CountryFlagLoaded" object:nil];
+		
+		// refresh table if main currency has changed
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainCurrencyChanged:) name:@"MainCurrencyChanged" object:nil];
+		
+		// if defaults setting changes
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultsChanged:) name:NSUserDefaultsDidChangeNotification object:nil];
     }
     return self;
 }
 
 - (void)dealloc 
 {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+
 	[_summaries release];
 	[_childrenSorted release];
     [super dealloc];
@@ -140,7 +148,7 @@
 	cell.royaltyEarnedLabel.text = [yahoo formatAsCurrency:yahoo.mainCurrency
 													amount:royalties];
 	
-	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	if (summary.country)
 	{
@@ -174,16 +182,25 @@
 	double royalties = [summary.sumRoyalties doubleValue];
 	
 	YahooFinance *yahoo = [YahooFinance sharedInstance];
-	royalties = [yahoo convertToMainCurrencyAmount:royalties
-									  fromCurrency:summary.royaltyCurrency];
-	
-	
-	cell.royaltyEarnedLabel.text = [yahoo formatAsCurrency:yahoo.mainCurrency
-													amount:royalties];
-	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	if (summary.country)
 	{
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"AlwaysUseMainCurrency"])
+		{
+			royalties = [yahoo convertToMainCurrencyAmount:royalties
+											  fromCurrency:summary.royaltyCurrency];
+			
+			
+			cell.royaltyEarnedLabel.text = [yahoo formatAsCurrency:yahoo.mainCurrency
+															amount:royalties];
+		}
+		else 
+		{
+			cell.royaltyEarnedLabel.text = [yahoo formatAsCurrency:summary.royaltyCurrency
+															amount:royalties];
+		}
+
 		cell.countryCodeLabel.text = summary.country.iso3;
 		
 		UIImage *image = [[CoreDatabase sharedInstance] flagImageForCountry:summary.country];
@@ -191,6 +208,12 @@
 	}
 	else 
 	{
+		royalties = [yahoo convertToMainCurrencyAmount:royalties
+										  fromCurrency:summary.royaltyCurrency];
+		
+		
+		cell.royaltyEarnedLabel.text = [yahoo formatAsCurrency:yahoo.mainCurrency
+														amount:royalties];
 		cell.imageView.image = [UIImage imageNamed:@"Sum.png"];
 		cell.countryCodeLabel.text = nil;
 	}
@@ -218,6 +241,12 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
+	// no title if it's just one app
+	if ([self numberOfSectionsInTableView:tableView]==1)
+	{
+		return nil;
+	}
+	
 	ReportSummary *sectionSummary = [_summaries objectAtIndex:section];
 	
 	if (![sectionSummary isKindOfClass:[ReportSummary class]])
@@ -408,6 +437,19 @@
 {
 	[self.tableView reloadData];
 }
+
+- (void)mainCurrencyChanged:(NSNotification *)notification
+{
+	// all sums should now be displayed with new currency
+	[self.tableView reloadData];
+}
+
+- (void)defaultsChanged:(NSNotification *)notification
+{
+	// all sums should now be displayed or not displayed
+	[self.tableView reloadData];
+}
+
 
 #pragma mark Properties
 
