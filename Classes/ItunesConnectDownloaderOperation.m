@@ -70,7 +70,7 @@
 	}
 	else 
 	{
-		pred = [NSPredicate predicateWithFormat:@"reportType == %d AND untilDate == %@", reportType, date];
+		pred = [NSPredicate predicateWithFormat:@"reportType == %d AND (untilDate == %@ or fromDate == %@)", reportType, date, date];
 	}
 
 	

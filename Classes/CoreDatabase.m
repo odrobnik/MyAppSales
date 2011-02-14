@@ -495,6 +495,64 @@ static CoreDatabase *_sharedInstance = nil;
  }
  */
 
+- (Report *)reportBeforeReport:(Report *)report
+{
+	NSParameterAssert(report);
+
+	NSFetchRequest *request = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Report" inManagedObjectContext:self.managedObjectContext];
+	[request setEntity:entity];	
+	[request setFetchLimit:1];
+	
+	NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"fromDate" ascending:NO];
+	[request setSortDescriptors:[NSArray arrayWithObject:sort]];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"fromDate < %@ AND region == %@ AND productGrouping = %@ AND reportType = %@", report.fromDate, report.region, report.productGrouping, report.reportType];
+	[request setPredicate:predicate];
+	
+	NSLog(@"predicate: %@", predicate);
+	
+	NSError *error;
+	NSArray *fetchResults = [managedObjectContext executeFetchRequest:request error:&error];
+	if (fetchResults == nil) 
+	{
+		// Handle the error.
+	}
+	
+	[request release];	
+	
+	return [fetchResults lastObject];
+}
+
+- (Report *)reportAfterReport:(Report *)report
+{
+	NSParameterAssert(report);
+	
+	NSFetchRequest *request = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Report" inManagedObjectContext:self.managedObjectContext];
+	[request setEntity:entity];	
+	[request setFetchLimit:1];
+	
+	NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"fromDate" ascending:YES];
+	[request setSortDescriptors:[NSArray arrayWithObject:sort]];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"fromDate > %@ AND region == %@ AND productGrouping = %@ AND reportType = %@", report.fromDate, report.region, report.productGrouping, report.reportType];
+	[request setPredicate:predicate];
+	
+	NSLog(@"predicate: %@", predicate);
+
+	NSError *error;
+	NSArray *fetchResults = [managedObjectContext executeFetchRequest:request error:&error];
+	if (fetchResults == nil) 
+	{
+		// Handle the error.
+	}
+	
+	[request release];	
+	
+	return [fetchResults lastObject];
+}
+
 - (BOOL)hasNewReportsOfType:(ReportType)type productGroupID:(NSString *)groupID
 {
 	NSString *typeKey = [NSString stringWithFormat:@"%@-%d",groupID, type];

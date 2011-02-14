@@ -70,6 +70,8 @@
 
 - (ProductGroup *)productGroupForKey:(NSString *)key;
 
+- (Report *)reportBeforeReport:(Report *)report;
+- (Report *)reportAfterReport:(Report *)report;
 - (void)removeReport:(Report *)report;
 - (void)buildSummaryForReport:(Report *)report;
 - (ReportSummary *)summaryForReport:(Report *)report;

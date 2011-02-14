@@ -16,6 +16,8 @@
 	
 	NSArray *sortedSummaries;
 	NSArray *apps;
+	
+	UISegmentedControl *segmentedControl;
 }
 
 @property (nonatomic, retain) Report *report;

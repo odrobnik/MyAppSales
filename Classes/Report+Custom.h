@@ -12,11 +12,13 @@
 
 NSString *NSStringFromReportType(ReportType reportType);
 NSString *NSStringFromReportRegion(ReportRegion reportRegion);
+NSString *NSStringFromReportRegionShort(ReportRegion reportRegion);
 
 @interface Report (Custom)
 
 - (NSString *)sectionKey;
 
 - (NSString *)shortTitleForBackButton;
+- (NSString *)titleForNavBar;
 
 @end

@@ -42,6 +42,24 @@
 			[[CoreDatabase sharedInstance] buildSummaryForReport:_report];
 		}
 		
+		// fwd/back segment
+		segmentedControl = [[UISegmentedControl alloc] initWithItems:
+							[NSArray arrayWithObjects:
+							 [UIImage imageNamed:@"up.png"],
+							 [UIImage imageNamed:@"down.png"],
+							 nil]];
+		[segmentedControl addTarget:self action:@selector(upDownPushed:) forControlEvents:UIControlEventValueChanged];
+		segmentedControl.frame = CGRectMake(0, 0, 90, 30);
+		segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+		segmentedControl.momentary = YES;
+		
+		UIBarButtonItem *segmentBarItem = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
+		
+		self.navigationItem.rightBarButtonItem = segmentBarItem;
+		[segmentBarItem release];
+		
+
+		// shorter back button 
 		self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:[_report shortTitleForBackButton]
 																				  style:UIBarButtonItemStyleBordered
 																				 target:nil
@@ -70,8 +88,9 @@
 	
 	[_report release];
 	[apps release];
-	
+	[segmentedControl release];
 	[sortedSummaries release];
+
     [super dealloc];
 }
 
@@ -459,6 +478,30 @@
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
+#pragma mark Actions
+- (void) upDownPushed:(id)sender
+{
+	// cannot use sender for some reason, we get exception when accessing properties
+	
+	if (segmentedControl.selectedSegmentIndex == 0)
+	{
+		Report *newReport = [[CoreDatabase sharedInstance] reportBeforeReport:_report];
+		
+		if (newReport)
+		{
+			[self setReport:newReport];
+		}
+	}
+	else
+	{
+		Report *newReport = [[CoreDatabase sharedInstance] reportAfterReport:_report];
+		
+		if (newReport)
+		{
+			[self setReport:newReport];
+		}
+	}
+}
 
 #pragma mark Notifications
 - (void)mainCurrencyChanged:(NSNotification *)notification
@@ -468,6 +511,47 @@
 }
 
 #pragma mark Properties
+- (void)setReport:(Report *)newReport
+{
+	if (_report != newReport)
+	{
+		[_report release];
+		_report = [newReport retain];
+		
+		
+		
+		if (![_report.summaries count])
+		{
+			[[CoreDatabase sharedInstance] buildSummaryForReport:_report];
+		}
+		
+		// shorter back button 
+		self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:[_report shortTitleForBackButton]
+																				  style:UIBarButtonItemStyleBordered
+																				 target:nil
+																				 action:nil] autorelease];
+		
+		// nav title
+		
+		self.navigationItem.title = [_report titleForNavBar];
+		
+		
+		// get the apps sorted by royalties and title
+		NSSortDescriptor *sort1 = [NSSortDescriptor sortDescriptorWithKey:@"sumRoyalties" ascending:NO];
+		NSSortDescriptor *sort2 = [NSSortDescriptor sortDescriptorWithKey:@"sumSales" ascending:NO];
+		NSSortDescriptor *sort3 = [NSSortDescriptor sortDescriptorWithKey:@"sumUpdates" ascending:NO];
+		NSSortDescriptor *sort4 = [NSSortDescriptor sortDescriptorWithKey:@"product.title" ascending:YES];
+		
+		NSArray *descriptors = [NSArray arrayWithObjects:sort1, sort2, sort3, sort4, nil];
+		
+		[apps release];
+		apps = [[_report.appSummaries sortedArrayUsingDescriptors:descriptors] retain];
+		
+		
+		[self.tableView reloadData];
+	}
+}
+
 
 @synthesize report = _report;
 @synthesize apps;

@@ -11,7 +11,6 @@
 #import "ProductGroup.h"
 #import "ReportTypes.h"
 
-
 @interface ReportsOverviewViewController : UITableViewController <NSFetchedResultsControllerDelegate>
 {
 	ProductGroup *_productGroup;

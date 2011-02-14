@@ -138,12 +138,6 @@
 							<object class="IBUITableViewController" id="840813367">
 								<object class="IBUINavigationItem" key="IBUINavigationItem" id="210755586">
 									<string key="IBUITitle">Reports</string>
-									<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="503199600">
-										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<int key="IBUIStyle">1</int>
-										<reference key="IBUINavigationItem" ref="210755586"/>
-										<int key="IBUISystemItemIdentifier">13</int>
-									</object>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								</object>
 								<reference key="IBUIParentViewController" ref="499952959"/>
@@ -437,30 +431,6 @@
 					</object>
 					<int key="connectionID">106</int>
 				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">refreshButton</string>
-						<reference key="source" ref="664661524"/>
-						<reference key="destination" ref="503199600"/>
-					</object>
-					<int key="connectionID">107</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">reloadButtonItem</string>
-						<reference key="source" ref="840813367"/>
-						<reference key="destination" ref="503199600"/>
-					</object>
-					<int key="connectionID">109</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">reloadReports:</string>
-						<reference key="source" ref="503199600"/>
-						<reference key="destination" ref="840813367"/>
-					</object>
-					<int key="connectionID">110</int>
-				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -652,14 +622,8 @@
 						<reference key="object" ref="210755586"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="503199600"/>
 						</object>
 						<reference key="parent" ref="840813367"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">68</int>
-						<reference key="object" ref="503199600"/>
-						<reference key="parent" ref="210755586"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">89</int>
@@ -745,7 +709,6 @@
 					<string>58.IBPluginDependency</string>
 					<string>63.CustomClassName</string>
 					<string>63.IBPluginDependency</string>
-					<string>68.IBPluginDependency</string>
 					<string>89.CustomClassName</string>
 					<string>89.IBEditorWindowLastContentRect</string>
 					<string>89.IBPluginDependency</string>
@@ -789,7 +752,6 @@
 					<string>ChartRootController</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>ReportsGroupsAndTypeSelectionViewController</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>StatusInfoController</string>
 					<string>{{716, 360}, {320, 480}}</string>
@@ -871,7 +833,7 @@
 							<string>UINavigationController</string>
 							<string>UIBarButtonItem</string>
 							<string>UITabBarItem</string>
-							<string>ReportRootController</string>
+							<string>ReportsGroupsAndTypeSelectionViewController</string>
 							<string>SettingsViewController</string>
 							<string>StatusInfoController</string>
 							<string>UITabBarController</string>
@@ -917,7 +879,7 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">reportRootController</string>
-								<string key="candidateClassName">ReportRootController</string>
+								<string key="candidateClassName">ReportsGroupsAndTypeSelectionViewController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">settingsViewController</string>
@@ -965,19 +927,8 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">ReportRootController</string>
+					<string key="className">ReportsGroupsAndTypeSelectionViewController</string>
 					<string key="superclassName">UITableViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">reloadReports:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">reloadReports:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">reloadReports:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">reloadButtonItem</string>
 						<string key="NS.object.0">UIBarButtonItem</string>
@@ -989,14 +940,6 @@
 							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
 					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/ReportRootController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">ReportsGroupsAndTypeSelectionViewController</string>
-					<string key="superclassName">UITableViewController</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Classes/ReportsGroupsAndTypeSelectionViewController.h</string>
@@ -1352,7 +1295,7 @@
 			<integer value="3000" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<string key="IBDocument.LastKnownRelativeProjectPath">ASiST.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">MyAppSales.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<bool key="EncodedWithXMLCoder">YES</bool>

@@ -37,15 +37,6 @@
 		
 		self.navigationItem.title = _productGroup.title;
 		
-		// short back bar title
-		NSString *backTitle = NSStringFromReportType(_reportType);
-		backTitle = [backTitle stringByReplacingOccurrencesOfString:@"Financial" withString:@"Fin."];
-
-		self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:backTitle
-																				  style:UIBarButtonItemStyleBordered
-																				 target:nil
-																				 action:nil] autorelease];
-		
 		// refresh table if main currency has changed
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainCurrencyChanged:) name:@"MainCurrencyChanged" object:nil];
 
@@ -220,27 +211,24 @@
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	Report *report = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	// short back bar title
+	NSString *backTitle = NSStringFromReportType(_reportType);
 	
-	UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-	
-	SingleReportViewController *vc = [[[SingleReportViewController alloc] initWithReport:report] autorelease];
-	
-	NSString *title = cell.textLabel.text;
-	
-	switch ([report.reportType intValue]) 
+	NSArray *comps = [backTitle componentsSeparatedByString:@" "];
+	if ([comps count]>1)
 	{
-		case ReportTypeFree:
-		case ReportTypeFinancial:
-		{
-			title = [title stringByAppendingFormat:@" (%@)", [report shortTitleForBackButton]];
-			break;
-		}
-		default:
-			break;
+		backTitle = [comps objectAtIndex:0];
 	}
 	
-	vc.navigationItem.title = title;
+	self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:backTitle
+																			  style:UIBarButtonItemStyleBordered
+																			 target:nil
+																			 action:nil] autorelease];
+	
+	
+	Report *report = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	
+	SingleReportViewController *vc = [[[SingleReportViewController alloc] initWithReport:report] autorelease];
 	[self.navigationController pushViewController:vc animated:YES];
 }
 

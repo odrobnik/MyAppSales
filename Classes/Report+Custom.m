@@ -19,9 +19,9 @@ NSString *NSStringFromReportType(ReportType reportType)
 		case ReportTypeWeek:
 			return @"Weeks";
 		case ReportTypeFinancial:
-			return @"Month (Financial)";
+			return @"Months (Financial)";
 		case ReportTypeFree:
-			return @"Month (Free)";
+			return @"Months (Free)";
 		default:
 			return @"Unknown";
 	}
@@ -44,6 +44,28 @@ NSString *NSStringFromReportRegion(ReportRegion reportRegion)
 			return @"Australia";
 		case ReportRegionRestOfWorld:
 			return @"Rest of World";
+		default:
+			return @"Invalid Region";
+	}
+}
+
+NSString *NSStringFromReportRegionShort(ReportRegion reportRegion)
+{
+	switch (reportRegion) {
+		case ReportRegionUK:
+			return @"UK";
+		case ReportRegionUSA:
+			return @"US";
+		case ReportRegionEurope:
+			return @"EU";
+		case ReportRegionJapan:
+			return @"JP";
+		case ReportRegionCanada:
+			return @"CA";
+		case ReportRegionAustralia:
+			return @"AU";
+		case ReportRegionRestOfWorld:
+			return @"Rest";
 		default:
 			return @"Invalid Region";
 	}
@@ -106,6 +128,35 @@ NSString *NSStringFromReportRegion(ReportRegion reportRegion)
 		default:
 			return @"Unknown";
 	}
+}
+
+- (NSString *)titleForNavBar
+{
+	NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
 	
+	switch ([self.reportType intValue]) 
+	{
+		case ReportTypeDay:
+		{
+			[df setDateStyle:NSDateFormatterMediumStyle];
+			[df setTimeStyle:NSDateFormatterNoStyle];
+			return [df stringFromDate:self.fromDate];
+		}
+		case ReportTypeWeek:
+		{
+			[df setDateFormat:@"'Week' w, yyyy"];
+			return [df stringFromDate:self.fromDate];
+		}
+		case ReportTypeFinancial:
+		case ReportTypeFree:
+		{
+			NSDate *date = [self dateInMiddleOfReport];
+			[df setDateFormat:@"MMM yy"];
+			return [NSString stringWithFormat:@"%@ (%@)", NSStringFromReportRegionShort([self.region intValue]),
+					[df stringFromDate:date]];
+		}
+		default:
+			return @"Unknown";
+	}
 }
 @end
