@@ -12,7 +12,9 @@
 #import "ApplicationCell.h"
 #import "YahooFinance.h"
 
+#import "Product.h"
 #import "Product+Custom.h"
+#import "ProductSummary.h"
 
 #import "UIImage+MyAppSales.h"
 
@@ -80,22 +82,23 @@
 {
     Product *app = (Product *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	
+	double royalties = [app.totalSummary.sumRoyalties doubleValue];
+	
+	NSLog(@"%@", app.totalSummary);
+	
 	cell.appTitleLabel.text = app.title;
 	
-	double converted = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[app.averageRoyaltiesPerDay doubleValue] fromCurrency:@"EUR"];
-	cell.subTextLabel.text = [NSString stringWithFormat:@"%@ per day", [[YahooFinance sharedInstance]  formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:converted]];
-	
-	double royalties_converted = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:[app.totalRoyalties doubleValue] fromCurrency:@"EUR"];
+	double royalties_converted = [[YahooFinance sharedInstance] convertToCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:royalties fromCurrency:@"EUR"];
 	if (royalties_converted)
 	{
 		cell.royaltiesLabel.text = [NSString stringWithFormat:@"%0@", [[YahooFinance sharedInstance] formatAsCurrency:[[YahooFinance sharedInstance] mainCurrency] amount:royalties_converted]];
-		cell.totalUnitsLabel.text = [NSString stringWithFormat:@"%d sold", [app.totalUnits intValue]];
 	}
 	else
 	{
 		cell.royaltiesLabel.text = @"free";
-		cell.totalUnitsLabel.text = [NSString stringWithFormat:@"%d downloaded", [app.totalUnits intValue]];
 	}
+
+	cell.totalUnitsLabel.text = [NSString stringWithFormat:@"%@ units", app.totalSummary.sumUnits];
 	
 	
 	// show badge depending on number of new reviews
@@ -277,8 +280,9 @@
     
     // Edit the sort key as appropriate.
     NSSortDescriptor *sortDescriptorCompany = [[[NSSortDescriptor alloc] initWithKey:@"companyName" ascending:YES] autorelease];
+    NSSortDescriptor *sortDescriptorRoyalties = [[[NSSortDescriptor alloc] initWithKey:@"totalSummary.sumRoyalties" ascending:NO] autorelease];
     NSSortDescriptor *sortDescriptorTitle = [[[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES] autorelease];
-    NSArray *sortDescriptors = [[[NSArray alloc] initWithObjects:sortDescriptorCompany, sortDescriptorTitle, nil] autorelease];
+    NSArray *sortDescriptors = [[[NSArray alloc] initWithObjects:sortDescriptorCompany, sortDescriptorRoyalties, sortDescriptorTitle, nil] autorelease];
     
     [fetchRequest setSortDescriptors:sortDescriptors];
     

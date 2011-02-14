@@ -99,6 +99,8 @@
 	NSURL *launchURL;
 	BOOL forceSynch = NO;
 	
+	//[[CoreDatabase sharedInstance] buildSummaryForAllApps];
+	
 	if (launchOptions)
 	{
 		launchURL = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
@@ -116,15 +118,17 @@
 			ReportType reportType = [[options objectForKey:@"type"] intValue];
 			Report_v1 *oneReport = [[Database sharedInstance] reportForDate:tmpDate type:reportType region:[[options objectForKey:@"region"] intValue] appGrouping:nil];
 			
+			
+			// TODO: open up referenced report
 			if (oneReport)
 			{
 				// no synch necessary because report is already there
-				[reportRootController gotoReport:oneReport];
+			//	[reportRootController gotoReport:oneReport];
 			}
 			else
 			{
 				// go to the appropriate section and start synch
-				[reportRootController gotToReportType:reportType];
+			//	[reportRootController gotToReportType:reportType];
 				forceSynch = YES;
 			}
 			

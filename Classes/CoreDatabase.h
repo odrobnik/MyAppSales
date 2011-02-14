@@ -9,6 +9,7 @@
 #import "ReportTypes.h"
 
 #import "Product.h"
+#import "ProductSummary.h"
 #import "Report.h"
 #import "Sale.h"
 #import "ProductGroup.h"
@@ -60,6 +61,9 @@
 - (Country *)countryForCode:(NSString *)code;
 - (Product *)productForAppleIdentifier:(NSInteger)appleIdentifier application:(BOOL)application;
 - (Product *)productForVendorIdentifier:(NSString *)vendorIdentifier application:(BOOL)application;
+
+- (void)buildSummaryForProduct:(Product *)product;
+- (void)buildSummaryForAllApps;
 
 - (void)scrapeReviewsForApp:(Product *)app;
 - (void)scrapeReviews;

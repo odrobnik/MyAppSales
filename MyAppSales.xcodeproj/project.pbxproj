@@ -59,6 +59,8 @@
 		A735540B10CFB70E00F6DC0A /* SoundEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = A735540A10CFB70E00F6DC0A /* SoundEffect.m */; };
 		A735542510CFB89100F6DC0A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A735542410CFB89100F6DC0A /* AudioToolbox.framework */; };
 		A7357AF80F3348C900502F15 /* StatusInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7357AF70F3348C900502F15 /* StatusInfoController.m */; };
+		A736388D13094F3F00577D2C /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = A736388A13094F3F00577D2C /* Product.m */; };
+		A736388E13094F3F00577D2C /* ProductSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = A736388C13094F3F00577D2C /* ProductSummary.m */; };
 		A736BF360F4100B300126FD3 /* NIO.png in Resources */ = {isa = PBXBuildFile; fileRef = A736BF350F4100B300126FD3 /* NIO.png */; };
 		A73CEA021042E517008778BF /* ButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A73CEA011042E517008778BF /* ButtonCell.m */; };
 		A73CEB38104340A5008778BF /* EmptyNano.png in Resources */ = {isa = PBXBuildFile; fileRef = A73CEB37104340A5008778BF /* EmptyNano.png */; };
@@ -226,7 +228,6 @@
 		A79D633712FEA3A700431DE1 /* Report.m in Sources */ = {isa = PBXBuildFile; fileRef = A79D633412FEA3A700431DE1 /* Report.m */; };
 		A79D646E12FECA2800431DE1 /* ReportDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A79D646D12FECA2800431DE1 /* ReportDetailViewController.m */; };
 		A79D64A112FEDBB400431DE1 /* ReportSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = A79D64A012FEDBB400431DE1 /* ReportSummary.m */; };
-		A79D66C412FF0AB500431DE1 /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = A79D66C312FF0AB500431DE1 /* Product.m */; };
 		A79D81F60EFEA913006C37FC /* AppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A79D81F50EFEA913006C37FC /* AppViewController.m */; };
 		A79D89000F029628006C37FC /* Sale_v1.m in Sources */ = {isa = PBXBuildFile; fileRef = A79D88FF0F029628006C37FC /* Sale_v1.m */; };
 		A79D8D6E0F0562DB006C37FC /* apps.png in Resources */ = {isa = PBXBuildFile; fileRef = A79D8D6D0F0562DB006C37FC /* apps.png */; };
@@ -479,6 +480,10 @@
 		A735542410CFB89100F6DC0A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		A7357AF60F3348C900502F15 /* StatusInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusInfoController.h; sourceTree = "<group>"; };
 		A7357AF70F3348C900502F15 /* StatusInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusInfoController.m; sourceTree = "<group>"; };
+		A736388913094F3F00577D2C /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
+		A736388A13094F3F00577D2C /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Product.m; sourceTree = "<group>"; };
+		A736388B13094F3F00577D2C /* ProductSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductSummary.h; sourceTree = "<group>"; };
+		A736388C13094F3F00577D2C /* ProductSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductSummary.m; sourceTree = "<group>"; };
 		A736BF350F4100B300126FD3 /* NIO.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NIO.png; sourceTree = "<group>"; };
 		A73CEA001042E517008778BF /* ButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonCell.h; sourceTree = "<group>"; };
 		A73CEA011042E517008778BF /* ButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonCell.m; sourceTree = "<group>"; };
@@ -675,8 +680,6 @@
 		A79D646D12FECA2800431DE1 /* ReportDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportDetailViewController.m; sourceTree = "<group>"; };
 		A79D649F12FEDBB400431DE1 /* ReportSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportSummary.h; sourceTree = "<group>"; };
 		A79D64A012FEDBB400431DE1 /* ReportSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportSummary.m; sourceTree = "<group>"; };
-		A79D66C212FF0AB400431DE1 /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
-		A79D66C312FF0AB500431DE1 /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Product.m; sourceTree = "<group>"; };
 		A79D81F40EFEA913006C37FC /* AppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppViewController.h; sourceTree = "<group>"; };
 		A79D81F50EFEA913006C37FC /* AppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppViewController.m; sourceTree = "<group>"; };
 		A79D88FE0F029628006C37FC /* Sale_v1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sale_v1.h; path = Classes/Sale_v1.h; sourceTree = "<group>"; };
@@ -1346,10 +1349,12 @@
 		A774E20C119AD42100A81C36 /* v2 */ = {
 			isa = PBXGroup;
 			children = (
+				A736388913094F3F00577D2C /* Product.h */,
+				A736388A13094F3F00577D2C /* Product.m */,
+				A736388B13094F3F00577D2C /* ProductSummary.h */,
+				A736388C13094F3F00577D2C /* ProductSummary.m */,
 				A79D649F12FEDBB400431DE1 /* ReportSummary.h */,
 				A79D64A012FEDBB400431DE1 /* ReportSummary.m */,
-				A79D66C212FF0AB400431DE1 /* Product.h */,
-				A79D66C312FF0AB500431DE1 /* Product.m */,
 				A79D633312FEA3A700431DE1 /* Report.h */,
 				A79D633412FEA3A700431DE1 /* Report.m */,
 				A707A76712FE5AEC006BF072 /* Review.h */,
@@ -2243,7 +2248,8 @@
 				A79D633712FEA3A700431DE1 /* Report.m in Sources */,
 				A79D646E12FECA2800431DE1 /* ReportDetailViewController.m in Sources */,
 				A79D64A112FEDBB400431DE1 /* ReportSummary.m in Sources */,
-				A79D66C412FF0AB500431DE1 /* Product.m in Sources */,
+				A736388D13094F3F00577D2C /* Product.m in Sources */,
+				A736388E13094F3F00577D2C /* ProductSummary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

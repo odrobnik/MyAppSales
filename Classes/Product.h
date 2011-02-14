@@ -2,15 +2,15 @@
 //  Product.h
 //  MyAppSales
 //
-//  Created by Oliver Drobnik on 06.02.11.
+//  Created by Oliver Drobnik on 14.02.11.
 //  Copyright 2011 Drobnik.com. All rights reserved.
 //
 
 #import <CoreData/CoreData.h>
 
 @class ProductGroup;
-@class Report;
 @class ReportSummary;
+@class ProductSummary;
 @class Review;
 @class Sale;
 
@@ -18,7 +18,6 @@
 {
 }
 
-@property (nonatomic, retain) NSNumber * totalUnits;
 @property (nonatomic, retain) NSDate * lastReviewRefresh;
 @property (nonatomic, retain) NSString * vendorIdentifier;
 @property (nonatomic, retain) NSNumber * averageRoyaltiesPerDay;
@@ -29,18 +28,24 @@
 @property (nonatomic, retain) NSNumber * isNew;
 @property (nonatomic, retain) NSString * companyName;
 @property (nonatomic, retain) NSNumber * totalRoyalties;
+@property (nonatomic, retain) NSNumber * totalUnits;
+@property (nonatomic, retain) NSSet* summaries;
+@property (nonatomic, retain) ProductSummary * totalSummary;
 @property (nonatomic, retain) Product * parent;
 @property (nonatomic, retain) ProductGroup * productGroup;
 @property (nonatomic, retain) NSSet* reviews;
 @property (nonatomic, retain) NSSet* children;
 @property (nonatomic, retain) NSSet* sales;
-@property (nonatomic, retain) Report * reports;
-@property (nonatomic, retain) NSSet* summaries;
 
 @end
 
 
 @interface Product (CoreDataGeneratedAccessors)
+- (void)addSummariesObject:(ReportSummary *)value;
+- (void)removeSummariesObject:(ReportSummary *)value;
+- (void)addSummaries:(NSSet *)value;
+- (void)removeSummaries:(NSSet *)value;
+
 - (void)addReviewsObject:(Review *)value;
 - (void)removeReviewsObject:(Review *)value;
 - (void)addReviews:(NSSet *)value;
@@ -55,11 +60,6 @@
 - (void)removeSalesObject:(Sale *)value;
 - (void)addSales:(NSSet *)value;
 - (void)removeSales:(NSSet *)value;
-
-- (void)addSummariesObject:(ReportSummary *)value;
-- (void)removeSummariesObject:(ReportSummary *)value;
-- (void)addSummaries:(NSSet *)value;
-- (void)removeSummaries:(NSSet *)value;
 
 @end
 

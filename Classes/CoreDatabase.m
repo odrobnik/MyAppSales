@@ -227,6 +227,81 @@ static CoreDatabase *_sharedInstance = nil;
 	return nil;
 }
 
+- (void)buildSummaryForProduct:(Product *)product
+{
+	if (product.totalSummary)
+	{
+		[self.managedObjectContext deleteObject:product.totalSummary];
+	}
+
+	// get a report summaries that are for this product but all countries from financial reports
+	NSFetchRequest *request = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"ReportSummary" inManagedObjectContext:self.managedObjectContext];
+	[request setEntity:entity];	
+	[request setFetchLimit:0];
+	
+//	[request setResultType:NSDictionaryResultType];
+//	[request setPropertiesToFetch:[NSArray arrayWithObjects:@"fromDate", @"untilDate", nil]];
+	
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"report.reportType == %d AND product = %@ AND country == nil", ReportTypeFinancial, product];
+	[request setPredicate:predicate];
+	
+//	NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"report.fromDate" ascending:YES];
+//	[request setSortDescriptors:[NSArray arrayWithObject:sort]];
+	
+	NSError *error;
+	NSArray *fetchResults = [managedObjectContext executeFetchRequest:request error:&error];
+	if (fetchResults == nil) 
+	{
+		// no financial reports
+	}
+	
+	[request release];	
+	
+
+	ProductSummary *totalSummary = [NSEntityDescription insertNewObjectForEntityForName:@"ProductSummary" 
+																 inManagedObjectContext:self.managedObjectContext];
+	product.totalSummary = totalSummary;
+
+	double royalities = 0;
+	NSInteger units = 0;
+	
+	NSDate *earliestDate = [NSDate distantFuture];
+	NSDate *latestDate = [NSDate distantPast];
+
+	// sum all totals into this
+	for (ReportSummary *summary in fetchResults)
+	{
+		royalities += [summary.sumRoyalties doubleValue];
+		units += [summary.sumSales intValue];
+		
+		if ([latestDate compare:summary.report.untilDate] == NSOrderedAscending)
+		{
+			latestDate = summary.report.untilDate;
+		}
+		
+		if ([earliestDate compare:summary.report.untilDate] == NSOrderedDescending)
+		{
+			earliestDate = summary.report.untilDate;
+		}
+	}
+
+	totalSummary.fromDate = earliestDate;
+	totalSummary.toDate = latestDate;
+	totalSummary.sumRoyalties = [NSNumber numberWithDouble:royalities];
+	totalSummary.sumUnits = [NSNumber numberWithInteger:units];
+	
+	[self save];
+}
+
+- (void)buildSummaryForAllApps
+{
+	for (Product *oneApp in [self allApps])
+	{
+		[self buildSummaryForProduct:oneApp];
+	}
+}
+
 #pragma mark Country
 - (NSArray *)allCountriesWithAppStore
 {
