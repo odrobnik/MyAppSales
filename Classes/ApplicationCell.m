@@ -115,6 +115,30 @@
 	subTextLabel.backgroundColor = newColor;
 }
 
+- (void)setHighlighted:(BOOL)newHighlighted animated:(BOOL)animated
+{
+	[super setHighlighted:newHighlighted animated:animated];
+	
+	if (newHighlighted)
+	{
+		totalUnitsLabel.textColor = [UIColor whiteColor]; 
+		royaltiesLabel.textColor = [UIColor whiteColor]; 
+		subTextLabel.textColor = [UIColor whiteColor]; 
+		appTitleLabel.textColor = [UIColor whiteColor];
+		appTitleLabel.shadowColor = [UIColor blackColor];
+	}
+	else 
+	{
+		UIColor *darkColor = [UIColor colorWithRed:58.0/256.0 green:58.0/256.0 blue:58.0/256.0 alpha:1.0];
+		totalUnitsLabel.textColor = darkColor; 
+		royaltiesLabel.textColor = darkColor; 
+		subTextLabel.textColor = darkColor;
+		
+		appTitleLabel.textColor = [UIColor blackColor];
+		appTitleLabel.shadowColor = [UIColor whiteColor];
+	}
+}
+
 #pragma mark Notifications
 
 - (void)appReviewsUpdated:(NSNotification *)notification

@@ -62,6 +62,7 @@
 - (Product *)productForAppleIdentifier:(NSInteger)appleIdentifier application:(BOOL)application;
 - (Product *)productForVendorIdentifier:(NSString *)vendorIdentifier application:(BOOL)application;
 
+- (ProductSummary *)summaryForProduct:(Product *)product;
 - (void)buildSummaryForProduct:(Product *)product;
 - (void)buildSummaryForAllApps;
 

@@ -216,15 +216,6 @@ static SynchingManager * _sharedInstance;
 
 
 #pragma mark Call-Backs
-
-- (void) downloadStartedForOperation:(SynchingOperation *)operation
-{
-	[self updateIndicators];
-}
-
-
-
-
 // Translation Downloader
 - (void) translateReview_v1:(Review_v1 *)review delegate:(id<TranslationScraperDelegate>)scraperDelegate
 {
@@ -317,6 +308,15 @@ static SynchingManager * _sharedInstance;
 		// disable idle time why synching active
 		[[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 	}
+	
+	NSLog(@"%d active", active_count);
+}
+
+#pragma mark Operation Status Updates
+
+- (void) downloadStartedForOperation:(SynchingOperation *)operation
+{
+	[self updateIndicators];
 }
 
 - (void)downloadFinishedForOperation:(SynchingOperation *)operation

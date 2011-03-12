@@ -287,6 +287,22 @@
 	// don't need it any more
 	sqlite3_finalize(statement);
 	
+	
+	// make summary right away as well
+	for (Report *oneReport in [reportLookup allValues])
+	{
+		[self buildSummaryForReport:oneReport];
+	}
+	
+	// make product summaries
+	for (Product *oneProduct in [productLookup allValues])
+	{
+		if (![oneProduct.isInAppPurchase boolValue])
+		{
+			[self buildSummaryForProduct:oneProduct];
+		}
+	}
+	
 	[self save];
 	
 	// export country plist

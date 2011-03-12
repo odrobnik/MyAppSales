@@ -16,6 +16,7 @@
 #import "Report.h"
 #import "Sale.h"
 #import "ProductGroup.h"
+#import "ProductSummary.h"
 
 #import "YahooFinance.h"
 
@@ -229,11 +230,6 @@ static CoreDatabase *_sharedInstance = nil;
 
 - (void)buildSummaryForProduct:(Product *)product
 {
-	if (product.totalSummary)
-	{
-		[self.managedObjectContext deleteObject:product.totalSummary];
-	}
-
 	// get a report summaries that are for this product but all countries from financial reports
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"ReportSummary" inManagedObjectContext:self.managedObjectContext];
@@ -243,7 +239,7 @@ static CoreDatabase *_sharedInstance = nil;
 //	[request setResultType:NSDictionaryResultType];
 //	[request setPropertiesToFetch:[NSArray arrayWithObjects:@"fromDate", @"untilDate", nil]];
 	
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"report.reportType == %d AND product = %@ AND country == nil", ReportTypeFinancial, product];
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(report.reportType == %d or report.reportType = %d) AND product = %@ AND country == nil", ReportTypeFinancial, ReportTypeFree,product];
 	[request setPredicate:predicate];
 	
 //	NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"report.fromDate" ascending:YES];
@@ -256,7 +252,6 @@ static CoreDatabase *_sharedInstance = nil;
 		// no financial reports
 	}
 	
-	[request release];	
 	
 
 	ProductSummary *totalSummary = [NSEntityDescription insertNewObjectForEntityForName:@"ProductSummary" 
@@ -285,13 +280,119 @@ static CoreDatabase *_sharedInstance = nil;
 			earliestDate = summary.report.untilDate;
 		}
 	}
+	
+	
+	// now get weekly reports
+	predicate = [NSPredicate predicateWithFormat:@"(report.reportType == %d) AND report.fromDate > %@ AND product = %@ AND country == nil", ReportTypeWeek, latestDate, product];
+	[request setPredicate:predicate];
+	
+	//[request setResultType:NSDictionaryResultType];
+	[request setPropertiesToFetch:[NSArray arrayWithObjects:@"report.fromDate", @"report.untilDate", nil]];
+	
+	NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"report.fromDate" ascending:YES];
+	[request setSortDescriptors:[NSArray arrayWithObject:sort]];
 
+	NSArray *weekSummariesAfterFinancials = [managedObjectContext executeFetchRequest:request error:&error];
+	
+	if ([weekSummariesAfterFinancials count])
+	{
+		ReportSummary *weekSummary = [weekSummariesAfterFinancials objectAtIndex:0];
+		
+		NSDate *beginningOfWeeks = weekSummary.report.fromDate;
+		
+		NSInteger hoursMissing = [beginningOfWeeks timeIntervalSinceDate:latestDate]/3600.0;
+		
+		if (hoursMissing>30)
+		{
+			// need to fill with days between financial and daily reports
+			predicate = [NSPredicate predicateWithFormat:@"(report.reportType == %d) AND report.fromDate > %@ AND report.untilDate < %@ AND product = %@ AND country == nil", ReportTypeDay, latestDate, beginningOfWeeks, product];
+			[request setPredicate:predicate];
+
+//			[request setResultType:NSDictionaryResultType];
+			[request setPropertiesToFetch:[NSArray arrayWithObjects:@"report.fromDate", @"report.untilDate", nil]];
+
+			NSArray *fillDays = [managedObjectContext executeFetchRequest:request error:&error];
+			
+			if (![fillDays count])
+			{
+				NSLog(@"Sum incomplete for product '%@', missing daily reports between %@ and %@.", product.title, latestDate, beginningOfWeeks);
+			}
+			
+			for (ReportSummary *dailySummary in fillDays)
+			{
+				royalities += [dailySummary.sumRoyalties doubleValue];
+				units += [dailySummary.sumSales intValue];
+				
+				if ([latestDate compare:dailySummary.report.untilDate] == NSOrderedAscending)
+				{
+					latestDate = dailySummary.report.untilDate;
+				}
+				
+				if ([earliestDate compare:dailySummary.report.untilDate] == NSOrderedDescending)
+				{
+					earliestDate = dailySummary.report.untilDate;
+				}
+			}
+		}
+		
+		// now fill with the weeks
+		for (ReportSummary *weekSummary in weekSummariesAfterFinancials)
+		{
+			royalities += [weekSummary.sumRoyalties doubleValue];
+			units += [weekSummary.sumSales intValue];
+			
+			if ([latestDate compare:weekSummary.report.untilDate] == NSOrderedAscending)
+			{
+				latestDate = weekSummary.report.untilDate;
+			}
+			
+			if ([earliestDate compare:weekSummary.report.untilDate] == NSOrderedDescending)
+			{
+				earliestDate = weekSummary.report.untilDate;
+			}
+		}		
+	}
+	
+	// finally fill up with daily reports after the weeks
+	predicate = [NSPredicate predicateWithFormat:@"(report.reportType == %d) AND report.fromDate > %@ AND product = %@ AND country == nil", ReportTypeDay, latestDate, product];
+	[request setPredicate:predicate];
+	
+	NSArray *daySummariesAfterWeeks = [managedObjectContext executeFetchRequest:request error:&error];
+
+	for (ReportSummary *daySummary in daySummariesAfterWeeks)
+	{
+		royalities += [daySummary.sumRoyalties doubleValue];
+		units += [daySummary.sumSales intValue];
+		
+		if ([latestDate compare:daySummary.report.untilDate] == NSOrderedAscending)
+		{
+			latestDate = daySummary.report.untilDate;
+		}
+		
+		if ([earliestDate compare:daySummary.report.untilDate] == NSOrderedDescending)
+		{
+			earliestDate = daySummary.report.untilDate;
+		}
+	}
+	
 	totalSummary.fromDate = earliestDate;
 	totalSummary.toDate = latestDate;
 	totalSummary.sumRoyalties = [NSNumber numberWithDouble:royalities];
 	totalSummary.sumUnits = [NSNumber numberWithInteger:units];
 	
 	[self save];
+	
+	[request release];	
+}
+
+- (ProductSummary *)summaryForProduct:(Product *)product
+{
+	if (!product.totalSummary)
+	{
+		[self buildSummaryForProduct:product];
+	}
+	
+	return product.totalSummary;
 }
 
 - (void)buildSummaryForAllApps
@@ -700,8 +801,6 @@ static CoreDatabase *_sharedInstance = nil;
 	
 	[request release];	
 	
-	NSLog(@"%@", fetchResults);
-	
 	return fetchResults;	
 }
 
@@ -1079,6 +1178,38 @@ static CoreDatabase *_sharedInstance = nil;
 	[report addSales:tmpSales];
 	
 	[self incrementNewReportsOfType:reportType productGroupID:productGroup.identifier];
+	
+	[self buildSummaryForReport:report];
+	
+	
+	for (Product *oneApp in tmpAppsInReport)
+	{
+		ProductSummary *summary = oneApp.totalSummary;
+		
+		if ([report.fromDate compare:summary.toDate] == NSOrderedDescending)
+		{
+			NSLog(@"Extend sum for '%@' from %@ to %@", oneApp.title, summary.toDate, report.untilDate);
+			
+			// need to add to sum
+			summary.toDate = report.untilDate;
+			
+			double sumRoyalties = [summary.sumRoyalties doubleValue];
+			NSInteger sumUnits = [summary.sumUnits integerValue];
+			
+			NSPredicate *predicate = [NSPredicate predicateWithFormat:@"product = %@ AND country == nil", oneApp];
+
+			ReportSummary *reportSumForApp = [[report.appSummaries filteredSetUsingPredicate:predicate] anyObject];
+			
+			if (reportSumForApp)
+			{
+				sumRoyalties += [reportSumForApp.sumRoyalties doubleValue];
+				sumUnits += [reportSumForApp.sumSales integerValue];
+			
+				summary.sumRoyalties = [NSNumber numberWithDouble:sumRoyalties];
+				summary.sumUnits = [NSNumber numberWithInt:sumUnits];
+			}
+		}
+	}
 	
 	[self save];
 }

@@ -52,7 +52,7 @@
 - (void) sendStatusNotification:(id)message
 {
 	// need to send notifications on main thread
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"StatusMessage" object:nil userInfo:(id)message];
+	[[NSNotificationCenter defaultCenter] postNotificationOnMainThreadName:@"StatusMessage" object:nil userInfo:(id)message];
 }
 
 - (void) setStatus:(NSString *)message
@@ -60,18 +60,23 @@
 	[self performSelectorOnMainThread:@selector(sendStatusNotification:) withObject:(id)message waitUntilDone:NO];
 }
 
-- (void) setStatusError:(NSString *)message
+- (void) finishWithErrorMessage:(NSString *)message
 {
+	[self cancel];
+	
 	NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:message, @"message", @"Error", @"type", nil];
 	[self performSelectorOnMainThread:@selector(sendStatusNotification:) withObject:(id)tmpDict waitUntilDone:NO];
+
 	[self sendFinishToDelegate];
 }
 
-- (void) setStatusSuccess:(NSString *)message
+- (void) finishWithSuccessMessage:(NSString *)message
 {
+	[self cancel];
+	
 	NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:message, @"message", @"Success", @"type", nil];
 	[self performSelectorOnMainThread:@selector(sendStatusNotification:) withObject:(id)tmpDict waitUntilDone:NO];
-	workInProgress = NO;
+	
 	[self sendFinishToDelegate];
 }
 

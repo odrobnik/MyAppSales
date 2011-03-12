@@ -13,6 +13,9 @@
 @interface ApplicationsViewController : UITableViewController <NSFetchedResultsControllerDelegate>
 {
     NSFetchedResultsController *fetchedResultsController;
+	
+	BOOL ignoreFetchedResultControllerNotifications;
+
 }
 
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;

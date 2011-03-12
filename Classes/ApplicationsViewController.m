@@ -82,9 +82,12 @@
 {
     Product *app = (Product *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 	
-	double royalties = [app.totalSummary.sumRoyalties doubleValue];
+	ignoreFetchedResultControllerNotifications = YES;
+	ProductSummary *summary = [[CoreDatabase sharedInstance] summaryForProduct:app];
+	ignoreFetchedResultControllerNotifications = NO;	
+		
+	double royalties = [summary.sumRoyalties doubleValue];
 	
-	NSLog(@"%@", app.totalSummary);
 	
 	cell.appTitleLabel.text = app.title;
 	
@@ -98,7 +101,9 @@
 		cell.royaltiesLabel.text = @"free";
 	}
 
-	cell.totalUnitsLabel.text = [NSString stringWithFormat:@"%@ units", app.totalSummary.sumUnits];
+	NSString *formattedNumber = [NSNumberFormatter localizedStringFromNumber:summary.sumUnits
+																 numberStyle:kCFNumberFormatterDecimalStyle];
+	cell.totalUnitsLabel.text = [NSString stringWithFormat:@"%@ units", formattedNumber];
 	
 	
 	// show badge depending on number of new reviews
@@ -113,15 +118,7 @@
 		cell.badge.text = nil;
 	}
 	
-	// show disclosure indicator if there are reviews
-	if ([app.reviews count])
-	{
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	}
-	else 
-	{
-		cell.accessoryType = UITableViewCellAccessoryNone;
-	}
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
 	// set icon
 	UIImage *icon = [[CoreDatabase sharedInstance] iconImageForProduct:app];
@@ -281,8 +278,9 @@
     // Edit the sort key as appropriate.
     NSSortDescriptor *sortDescriptorCompany = [[[NSSortDescriptor alloc] initWithKey:@"companyName" ascending:YES] autorelease];
     NSSortDescriptor *sortDescriptorRoyalties = [[[NSSortDescriptor alloc] initWithKey:@"totalSummary.sumRoyalties" ascending:NO] autorelease];
-    NSSortDescriptor *sortDescriptorTitle = [[[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES] autorelease];
-    NSArray *sortDescriptors = [[[NSArray alloc] initWithObjects:sortDescriptorCompany, sortDescriptorRoyalties, sortDescriptorTitle, nil] autorelease];
+    NSSortDescriptor *sortDescriptorUnits = [[[NSSortDescriptor alloc] initWithKey:@"totalSummary.sumUnits" ascending:NO] autorelease];
+   NSSortDescriptor *sortDescriptorTitle = [[[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES] autorelease];
+    NSArray *sortDescriptors = [[[NSArray alloc] initWithObjects:sortDescriptorCompany, sortDescriptorRoyalties, sortDescriptorUnits, sortDescriptorTitle, nil] autorelease];
     
     [fetchRequest setSortDescriptors:sortDescriptors];
     
@@ -303,13 +301,18 @@
 #pragma mark Fetched results controller delegate
 
 
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller 
+{
+	if (ignoreFetchedResultControllerNotifications) return;
+
     [self.tableView beginUpdates];
 }
 
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
-           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type 
+{
+	if (ignoreFetchedResultControllerNotifications) return;
     
     switch(type) {
         case NSFetchedResultsChangeInsert:
@@ -325,7 +328,9 @@
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
        atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
-      newIndexPath:(NSIndexPath *)newIndexPath {
+      newIndexPath:(NSIndexPath *)newIndexPath 
+{
+	if (ignoreFetchedResultControllerNotifications) return;
     
     UITableView *tableView = self.tableView;
     
@@ -351,7 +356,10 @@
 }
 
 
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller 
+{
+	if (ignoreFetchedResultControllerNotifications) return;
+
     [self.tableView endUpdates];
 }
 

@@ -23,17 +23,15 @@
 @interface SynchingOperation : NSOperation 
 {
 	id <SynchingOperationDelegate> delegate;
-	
-	BOOL workInProgress;
 }
 
 - (void)sendStartToDelegate;
 - (void)sendFinishToDelegate;
 
 // status utility
-- (void) setStatus:(NSString *)message;
-- (void) setStatusError:(NSString *)message;
-- (void) setStatusSuccess:(NSString *)message;
+- (void)setStatus:(NSString *)message;
+- (void)finishWithErrorMessage:(NSString *)message;
+- (void)finishWithSuccessMessage:(NSString *)message;
 
 @property (nonatomic, assign) id <SynchingOperationDelegate> delegate;
 

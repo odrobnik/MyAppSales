@@ -40,6 +40,8 @@
 
 - (void)dealloc 
 {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	[fetchedResultsController release];
 	[productGroupIndex release];
 	[reloadButtonItem release];
@@ -58,6 +60,13 @@
 	[super viewDidLoad];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchingDone:) name:@"AllDownloadsFinished" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(synchingStarted:) name:@"SynchingStarted" object:nil];
+
+	
+	UIBarButtonItem *reload = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+																			 target:self
+																			 action:@selector(reloadReports:)] autorelease];
+	self.navigationItem.rightBarButtonItem = reload;
 }
 
 
@@ -354,10 +363,15 @@
 	[appDelegate startSync];
 }
 
+#pragma mark Notifications
+- (void)synchingStarted:(NSNotification *)notification
+{
+	[self.navigationItem.rightBarButtonItem setEnabled:NO];
+}
+
 - (void)synchingDone:(NSNotification *)notification
 {
-	//refreshHeaderView.lastUpdatedDate = _product.lastReviewRefresh;
-	//[super dataSourceDidFinishLoadingNewData];
+	[self.navigationItem.rightBarButtonItem setEnabled:YES];
 }
 
 @synthesize productGroupIndex;

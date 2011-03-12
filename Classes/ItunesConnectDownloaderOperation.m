@@ -33,7 +33,6 @@
 	if (self = [super init])
 	{
 		account = [itcAccount retain];
-		workInProgress = YES;
 		
 		productGroupingKey = [itcAccount productGroupingKey];
 	}
@@ -52,8 +51,8 @@
 
 - (void) failWithMessage:(NSString *)message
 {
-	[self setStatusError:message];
-	workInProgress = NO;
+	[self finishWithErrorMessage:message];
+	[self cancel];
 	[self performSelectorOnMainThread:@selector(sendFinishToDelegate) withObject:nil waitUntilDone:YES];
 }
 
@@ -173,6 +172,30 @@
 	return [formatter dateFromString:string];
 }
 
+- (NSString *)stringFromReportDate:(NSDate *)date
+{
+	NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+	NSLocale *usLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease];
+	[formatter setDateFormat:@"MM/dd/yyyy"];
+	[formatter setTimeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]];
+	[formatter setLocale:usLocale];
+	
+	return [formatter stringFromDate:date];
+}
+
+- (NSArray *)dateOptionsArrayFromStringOptionsArray:(NSArray *)array
+{
+	NSMutableArray *tmpArray = [NSMutableArray array];
+	
+	for (NSString *string in array)
+	{
+		NSDate *date = [self reportDateFromShortDate:string];
+		[tmpArray addObject:date];
+	}
+
+	return [tmpArray sortedArrayUsingSelector:@selector(compare:)];
+}
+
 //- (BOOL) needToDownloadFinancialReportWithFilename:(NSString *)fileName region:(ReportRegion *)foundRegion month:(int *)foundMonth year:(int *)foundYear
 //{
 //	NSArray *split = [[fileName stringByReplacingOccurrencesOfString:@".txt" withString:@""] componentsSeparatedByString:@"_"];
@@ -261,13 +284,13 @@
 	
 	if (error)
 	{
-		[self setStatusError:[error localizedDescription]];
+		[self finishWithErrorMessage:[error localizedDescription]];
 		return;
 	}
 	
 	if (!data) 
 	{
-		[self setStatusError:@"No data received from Sales & Trends (1)"];
+		[self finishWithErrorMessage:@"No data received from Sales & Trends (1)"];
 		return;
 	}
 	
@@ -289,13 +312,13 @@
 	
 	if (error)
 	{
-		[self setStatusError:[error localizedDescription]];
+		[self finishWithErrorMessage:[error localizedDescription]];
 		return;
 	}
 	
 	if (!data) 
 	{
-		[self setStatusError:@"No data received from Sales & Trends (2)"];
+		[self finishWithErrorMessage:@"No data received from Sales & Trends (2)"];
 		return;
 	}
 	
@@ -303,7 +326,7 @@
 	
 	if (![html rangeOfString:@"Ajax-Response\" content=\"redirect"].length)
 	{
-		[self setStatusError:@"Error going to Sales & Trends"];
+		[self finishWithErrorMessage:@"Error going to Sales & Trends"];
 		return;
 	}
 	
@@ -321,13 +344,13 @@
 	
 	if (error)
 	{
-		[self setStatusError:[error localizedDescription]];
+		[self finishWithErrorMessage:[error localizedDescription]];
 		return;
 	}
 	
 	if (!data) 
 	{
-		[self setStatusError:@"No data received from Sales & Trends (3)"];
+		[self finishWithErrorMessage:@"No data received from Sales & Trends (3)"];
 		return;
 	}
 	
@@ -346,13 +369,13 @@
 	
 	if (error)
 	{
-		[self setStatusError:[error localizedDescription]];
+		[self finishWithErrorMessage:[error localizedDescription]];
 		return;
 	}
 	
 	if (!data) 
 	{
-		[self setStatusError:@"No data received from Sales & Trends (4)"];
+		[self finishWithErrorMessage:@"No data received from Sales & Trends (4)"];
 		return;
 	}
 	
@@ -371,8 +394,7 @@
 		dayOptions = [[dayOptions objectAtIndex:0] optionsFromSelect];
 	}
 	
-	
-	NSPredicate *weekPred = [NSPredicate predicateWithFormat:@"name = 'theForm:weePickerSourceSelectElement'"];
+	NSPredicate *weekPred = [NSPredicate predicateWithFormat:@"name = 'theForm:weekPickerSourceSelectElement'"];
 	NSArray *weekOptions = [html arrayOfHTMLForTags:@"select" matchingPredicate:weekPred];
 	
 	if ([weekOptions count]==1)
@@ -403,13 +425,13 @@
 	
 	if (error)
 	{
-		[self setStatusError:[error localizedDescription]];
+		[self finishWithErrorMessage:[error localizedDescription]];
 		return;
 	}
 	
 	if (!data) 
 	{
-		[self setStatusError:@"No data received from Sales face"];
+		[self finishWithErrorMessage:@"No data received from Sales face"];
 		return;
 	}
 	
@@ -454,13 +476,13 @@
 	
 	if (error)
 	{
-		[self setStatusError:[error localizedDescription]];
+		[self finishWithErrorMessage:[error localizedDescription]];
 		return;
 	}
 	
 	if (!data) 
 	{
-		[self setStatusError:@"No data received from Sales & Trends"];
+		[self finishWithErrorMessage:@"No data received from Sales & Trends"];
 		return;
 	}
 	
@@ -483,15 +505,20 @@
 	
 	//----- download DAILY
 	
-	for (NSString *oneDayOption in dayOptions)
+	// NOTE: dayOptions needs to be sorted by date ascending, new reports extend product sums
+	dayOptions = [self dateOptionsArrayFromStringOptionsArray:dayOptions];
+	
+	
+	for (NSDate *reportDate in dayOptions)
 	{
-		NSDate *reportDate = [self reportDateFromShortDate:oneDayOption];
+		//NSDate *reportDate = [self reportDateFromShortDate:oneDayOption];
 		
 		if ([self shouldDownloadReportWithDate:reportDate reportType:ReportTypeDay reportRegion:ReportRegionUnknown])
 		{
-			NSInteger index = [dayOptions indexOfObject:oneDayOption];
+			NSString *oneDayOption = [self stringFromReportDate:reportDate];
+			//NSInteger index = [dayOptions indexOfObject:oneDayOption];
 			
-			if (index)
+			//if (index)
 			{
 				// -----switch daily report screen via AJAX
 				
@@ -506,13 +533,13 @@
 				
 				if (error)
 				{
-					[self setStatusError:[error localizedDescription]];
+					[self finishWithErrorMessage:[error localizedDescription]];
 					return;
 				}
 				
 				if (!data) 
 				{
-					[self setStatusError:@"No data received from Sales & Trends"];
+					[self finishWithErrorMessage:@"No data received from Sales & Trends"];
 					return;
 				}
 				
@@ -544,13 +571,13 @@
 			
 			if (error)
 			{
-				[self setStatusError:[error localizedDescription]];
+				[self finishWithErrorMessage:[error localizedDescription]];
 				return;
 			}
 			
 			if (!data) 
 			{
-				[self setStatusError:@"No data received from Sales face"];
+				[self finishWithErrorMessage:@"No data received from Sales face"];
 				return;
 			}
 			
@@ -572,9 +599,16 @@
 	
 	// ----- switch to weekly so that we get the viewstate for weekly
 	
+	NSString *oneDayOption = @"";
+	
+	if ([dayOptions count])
+	{
+		oneDayOption = [self stringFromReportDate:[dayOptions objectAtIndex:0]];
+	}
+
 	extraFormString = [NSString stringWithFormat:@"theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
-					   [[dayOptions objectAtIndex:0] stringByUrlEncoding],
-					   [[dayOptions objectAtIndex:0] stringByUrlEncoding]];
+					   [oneDayOption stringByUrlEncoding],
+					   [oneDayOption stringByUrlEncoding]];
 	
 	ajaxRequest = [NSURLRequest ajaxRequestWithParameters:weekSwitchAjaxParams extraFormString:extraFormString viewState:viewState baseURL:baseURL];
 	
@@ -584,13 +618,13 @@
 	
 	if (error)
 	{
-		[self setStatusError:[error localizedDescription]];
+		[self finishWithErrorMessage:[error localizedDescription]];
 		return;
 	}
 	
 	if (!data) 
 	{
-		[self setStatusError:@"No data received from Weekly"];
+		[self finishWithErrorMessage:@"No data received from Weekly"];
 		return;
 	}
 	
@@ -632,20 +666,24 @@
 	
 	//----- download WEEKLY
 	
-	for (NSString *oneWeekOption in weekOptions)
+	// NOTE: weekOptions should to be sorted by date ascending
+	weekOptions = [self dateOptionsArrayFromStringOptionsArray:weekOptions];
+
+	for (NSDate *reportDate in weekOptions)
 	{
-		NSDate *reportDate = [self reportDateFromShortDate:oneWeekOption];
+		NSString *oneWeekOption = [self stringFromReportDate:reportDate];
+		//NSDate *reportDate = [self reportDateFromShortDate:oneWeekOption];
 		
 		if ([self shouldDownloadReportWithDate:reportDate reportType:ReportTypeWeek reportRegion:ReportRegionUnknown])
 		{
-			NSInteger index = [weekOptions indexOfObject:oneWeekOption];
-			
-			if (index)
+//			NSInteger index = [weekOptions indexOfObject:oneWeekOption];
+//			
+//			if (index)
 			{
 				// -----switch weekly report screen via AJAX
 				
 				NSString *extraFormString = [NSString stringWithFormat:@"theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
-											 [[dayOptions objectAtIndex:0] stringByUrlEncoding],
+											 [oneDayOption stringByUrlEncoding],
 											 [oneWeekOption stringByUrlEncoding]];
 				
 				
@@ -655,13 +693,13 @@
 				
 				if (error)
 				{
-					[self setStatusError:[error localizedDescription]];
+					[self finishWithErrorMessage:[error localizedDescription]];
 					return;
 				}
 				
 				if (!data) 
 				{
-					[self setStatusError:@"No data received from Weeks"];
+					[self finishWithErrorMessage:@"No data received from Weeks"];
 					return;
 				}
 				
@@ -677,7 +715,7 @@
 										timeoutInterval:60.0];	
 			
 			bodyString = [NSString stringWithFormat:@"theForm=theForm&theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@&javax.faces.ViewState=%@&theForm%%3AdownloadLabel2=theForm%%3AdownloadLabel2",
-						  [[dayOptions objectAtIndex:0] stringByUrlEncoding],
+						  [oneDayOption stringByUrlEncoding],
 						  [oneWeekOption stringByUrlEncoding],
 						  [viewState stringByUrlEncoding] ];
 			bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
@@ -693,13 +731,13 @@
 			
 			if (error)
 			{
-				[self setStatusError:[error localizedDescription]];
+				[self finishWithErrorMessage:[error localizedDescription]];
 				return;
 			}
 			
 			if (!data) 
 			{
-				[self setStatusError:@"No data received from Sales face"];
+				[self finishWithErrorMessage:@"No data received from Sales face"];
 				return;
 			}
 			
@@ -729,8 +767,9 @@
 
 - (void) main
 {
-	[NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:@"reportingitc.apple.com"];
-	[NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:@"itunesconnect.apple.com"];
+// for testing via proxy	
+//	[NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:@"reportingitc.apple.com"];
+//	[NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:@"itunesconnect.apple.com"];
 	
 	
 	
@@ -766,13 +805,13 @@
 	
 	if (error)
 	{
-		[self setStatusError:[error localizedDescription]];
+		[self finishWithErrorMessage:[error localizedDescription]];
 		return;
 	}
 	
 	if (!data) 
 	{
-		[self setStatusError:@"No data received from login screen request"];
+		[self finishWithErrorMessage:@"No data received from login screen request"];
 		return;
 	}
 	
@@ -806,13 +845,13 @@
 		
 		if (error)
 		{
-			[self setStatusError:[error localizedDescription]];
+			[self finishWithErrorMessage:[error localizedDescription]];
 			return;
 		}
 		
 		if (!data) 
 		{
-			[self setStatusError:@"No data received from login"];
+			[self finishWithErrorMessage:@"No data received from login"];
 			return;
 		}
 		
@@ -824,7 +863,7 @@
 		
 		if (![sessionCookies count])
 		{
-			[self setStatusError:@"Login Failed"];
+			[self finishWithErrorMessage:@"Login Failed"];
 			return;
 		}
 		
@@ -854,13 +893,13 @@
 		
 		if (error)
 		{
-			[self setStatusError:[error localizedDescription]];
+			[self finishWithErrorMessage:[error localizedDescription]];
 			return;
 		}
 		
 		if (!data) 
 		{
-			[self setStatusError:@"No data received from login screen request"];
+			[self finishWithErrorMessage:@"No data received from login screen request"];
 			return;
 		}
 		
@@ -894,13 +933,13 @@
 			
 			if (error)
 			{
-				[self setStatusError:[error localizedDescription]];
+				[self finishWithErrorMessage:[error localizedDescription]];
 				return;
 			}
 			
 			if (!data) 
 			{
-				[self setStatusError:@"No data received from login"];
+				[self finishWithErrorMessage:@"No data received from login"];
 				return;
 			}
 			
@@ -912,7 +951,7 @@
 			
 			if (![sessionCookies count])
 			{
-				[self setStatusError:@"Login Failed"];
+				[self finishWithErrorMessage:@"Login Failed"];
 				return;
 			}
 			
@@ -929,11 +968,11 @@
 	{
 		if (alternateLogin)
 		{
-			[self setStatusSuccess:@"Synchronization via ITTS Done"];
+			[self finishWithSuccessMessage:@"Synchronization via ITTS Done"];
 		}
 		else
 		{
-			[self setStatusError:@"No link to financial reports"];
+			[self finishWithErrorMessage:@"No link to financial reports"];
 			return;
 		}
 	}
@@ -955,13 +994,13 @@
 	
 	if (error)
 	{
-		[self setStatusError:[error localizedDescription]];
+		[self finishWithErrorMessage:[error localizedDescription]];
 		return;
 	}
 	
 	if (!data) 
 	{
-		[self setStatusError:@"No data received from FR"];
+		[self finishWithErrorMessage:@"No data received from FR"];
 		return;
 	}
 	
@@ -1000,13 +1039,13 @@
 	
 	if (error)
 	{
-		[self setStatusError:[error localizedDescription]];
+		[self finishWithErrorMessage:[error localizedDescription]];
 		return;
 	}
 	
 	if (!data) 
 	{
-		[self setStatusError:@"No data received (vendor selection)"];
+		[self finishWithErrorMessage:@"No data received (vendor selection)"];
 		return;
 	}
 	
@@ -1099,13 +1138,13 @@
 					
 					if (error)
 					{
-						[self setStatusError:[error localizedDescription]];
+						[self finishWithErrorMessage:[error localizedDescription]];
 						return;
 					}
 					
 					if (!data) 
 					{
-						[self setStatusError:@"No data received for report"];
+						[self finishWithErrorMessage:@"No data received for report"];
 						return;
 					}
 					
@@ -1186,13 +1225,13 @@
 			
 			if (error)
 			{
-				[self setStatusError:[error localizedDescription]];
+				[self finishWithErrorMessage:[error localizedDescription]];
 				return;
 			}
 			
 			if (!data) 
 			{
-				[self setStatusError:@"No data received for report"];
+				[self finishWithErrorMessage:@"No data received for report"];
 				return;
 			}
 			
@@ -1201,7 +1240,7 @@
 	} 
 	while (financialsDownloaded);
 	
-	[self setStatusSuccess:@"Synchronization Done"];
+	[self finishWithSuccessMessage:@"Synchronization Done"];
 }
 
 
@@ -1210,10 +1249,10 @@
 	return NO;
 }
 
-- (BOOL) isFinished
-{
-	return !workInProgress;
-}
+//- (BOOL) isFinished
+//{
+//	return !workInProgress;
+//}
 
 #pragma mark Status
 

@@ -99,8 +99,6 @@
 	NSURL *launchURL;
 	BOOL forceSynch = NO;
 	
-	//[[CoreDatabase sharedInstance] buildSummaryForAllApps];
-	
 	if (launchOptions)
 	{
 		launchURL = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
