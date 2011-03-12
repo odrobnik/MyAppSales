@@ -2,3 +2,6 @@
 build
 *.mode1v3
 *.pbxuser
+*.svn
+*Oliver.*
+*/project.xcworkspace/*
