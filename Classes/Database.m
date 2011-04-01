@@ -71,7 +71,7 @@ static Database *_sharedInstance;
 
 - (id) init
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		newReportsByType = [[NSMutableDictionary alloc] init];
 		appGroupings = [[NSMutableSet alloc] init];
@@ -304,7 +304,7 @@ static Database *_sharedInstance;
 	
 	// try cache first
 	
-	NSString *path = [NSString pathForFileInDocuments:[NSString stringWithFormat:@"index_cache_%d.dat", reportType]];
+	//NSString *path = [NSString pathForFileInDocuments:[NSString stringWithFormat:@"index_cache_%d.dat", reportType]];
 	//NSData *compressed = [NSData dataWithContentsOfFile:path];
 	
 //	NSData *compressed;

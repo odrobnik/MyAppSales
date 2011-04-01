@@ -205,8 +205,6 @@
 	// migrate reports separately
 	NSArray *allReports = [database allReports];
 	
-	NSLog(@"%d reports", [allReports count]);
-	
 	for (Report_v1 *oneReport in allReports)
 	{
 		// create a report for each
@@ -230,6 +228,9 @@
 		
 		[reportLookup setObject:report forKey:[NSNumber numberWithInt:oneReport.primaryKey]];
 	}
+	
+	NSLog(@"%d reports imported", [allReports count]);
+	[self save];
 	
 	// migrate sales separately
 	sqlite3_stmt *statement = nil;
@@ -287,23 +288,26 @@
 	// don't need it any more
 	sqlite3_finalize(statement);
 	
-	
-	// make summary right away as well
-	for (Report *oneReport in [reportLookup allValues])
-	{
-		[self buildSummaryForReport:oneReport];
-	}
-	
-	// make product summaries
-	for (Product *oneProduct in [productLookup allValues])
-	{
-		if (![oneProduct.isInAppPurchase boolValue])
-		{
-			[self buildSummaryForProduct:oneProduct];
-		}
-	}
-	
 	[self save];
+	
+
+	// TAKES TOO LONG!
+//	// make summary right away as well
+//	for (Report *oneReport in [reportLookup allValues])
+//	{
+//		[self buildSummaryForReport:oneReport];
+//	}
+	
+//	// make product summaries
+//	for (Product *oneProduct in [productLookup allValues])
+//	{
+//		if (![oneProduct.isInAppPurchase boolValue])
+//		{
+//			[self buildSummaryForProduct:oneProduct];
+//		}
+//	}
+//	
+//	[self save];
 	
 	// export country plist
 	NSString *path = [NSString pathForFileInDocuments:@"countries.plist"];

@@ -161,7 +161,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 		terminator:(NSData *)e
          maxLength:(CFIndex)m
 {
-	if(self = [super init])
+	if ((self = [super init]))
 	{
 		buffer = [d retain];
 		timeout = t;

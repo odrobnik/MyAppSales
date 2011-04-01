@@ -49,7 +49,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 
 -(id)init
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		dirty = NO;
 		hydrated = NO;
@@ -340,7 +340,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 
 - (id)initWithReportText:(NSString *)string
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		// Make a list of apps in this report
 		NSMutableSet *tmpAppsInReport = [NSMutableSet set];

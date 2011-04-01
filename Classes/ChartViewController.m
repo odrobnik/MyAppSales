@@ -30,7 +30,7 @@
 
 - (id)initWithChartData:(NSDictionary *)dataDict
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		UIView *rootView = [[UIView alloc] init];
 		self.view = rootView;

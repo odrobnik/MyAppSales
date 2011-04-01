@@ -15,7 +15,7 @@
 
 - (id)initWithCountry:(Country_v1 *)cntry sumSales:(NSInteger)sales sumUpdates:(NSInteger)updates sumRefunds:(NSInteger)refunds
 {
-	if (self = [super init]) 
+	if ((self = [super init])) 
 	{
 		self.country = cntry;
 		self.sumSales = sales;

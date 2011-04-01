@@ -24,7 +24,7 @@
 
 - (id) initForAppID:(NSInteger)appID storeID:(NSInteger)storeID delegate:(NSObject <ReviewScraperDelegate> *) scrDelegate;
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		_appID = appID;
 		_storeID = storeID;

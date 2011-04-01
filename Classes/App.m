@@ -51,7 +51,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 - (id)init
 {
 	// default images
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		self.iconImage = [UIImage imageNamed:@"Empty.png"];
 		UIImage *tmpImageNanoResized = [self.iconImage imageByScalingToSize:CGSizeMake(32.0,32.0)];

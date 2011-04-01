@@ -28,6 +28,9 @@
 	NSMutableDictionary *flagDictionary;
 	NSMutableDictionary *iconDictionary;
 	
+	// Country cache
+	NSMutableDictionary *countryDictionary;
+	
 	
 	// Core Data Stack
 	NSPersistentStoreCoordinator *persistentStoreCoordinator;
@@ -36,7 +39,6 @@
 	
 	
 	// caches
-	NSArray *countries;
 	NSMutableDictionary *newReportsByType;
 	NSMutableDictionary *newAppsByProductGroup;
 }

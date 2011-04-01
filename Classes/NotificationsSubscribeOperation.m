@@ -18,7 +18,7 @@
 
 - (id) initForAccount:(GenericAccount *)notificationsAccount subscribe:(BOOL)doSubscribe;
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		account = [notificationsAccount retain];
 		workInProgress = YES;

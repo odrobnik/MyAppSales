@@ -22,7 +22,7 @@
 
 - (id)initWithMode:(PinLockControllerMode)initMode 
 {
-    if (self = [super init]) 
+    if ((self = [super init])) 
 	{
 		mode = initMode;
 

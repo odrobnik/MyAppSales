@@ -26,7 +26,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 
 - (id) initWithApp:(App *)reviewApp country:(Country_v1 *)reviewCountry title:(NSString *)aTitle name:(NSString *)aName version:(NSString *)aVersion date:(NSDate *)aDate review:(NSString *)aReview stars:(double)aStars
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		self.app = reviewApp;
 		self.country = reviewCountry;
@@ -52,7 +52,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 
 - (id) initWithString:(NSString *)stub
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		NSScanner *scanner = [NSScanner scannerWithString:stub];
 		

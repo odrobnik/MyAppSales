@@ -41,7 +41,7 @@ static SynchingManager * _sharedInstance;
 
 - (id) init
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		queue = [[NSOperationQueue alloc] init];
 		queue.maxConcurrentOperationCount = 10;  // more does not seem to improve time

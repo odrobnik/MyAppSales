@@ -38,7 +38,7 @@ static CoreDatabase *_sharedInstance = nil;
 
 - (id) init
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		NSLog(@"Connected to: %@", [[CoreDatabase databaseStoreUrl] path]);
 		
@@ -62,6 +62,16 @@ static CoreDatabase *_sharedInstance = nil;
 		newReportsByType = [[NSMutableDictionary alloc] init];
 		newAppsByProductGroup = [[NSMutableDictionary alloc] init];
 		
+		
+		NSArray *allCountries = [self allCountriesWithAppStore];
+		countryDictionary = [[NSMutableDictionary alloc] init];
+		
+		for (Country *oneCountry in allCountries)
+		{
+			[countryDictionary setObject:oneCountry forKey:oneCountry.iso2];
+			[countryDictionary setObject:oneCountry forKey:oneCountry.iso3];
+		}
+		
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(willResignActive:) 
 													 name:UIApplicationWillResignActiveNotification
@@ -78,7 +88,7 @@ static CoreDatabase *_sharedInstance = nil;
 	[flagDictionary release];
 	[newReportsByType release];
 	[newAppsByProductGroup release];
-	[countries release];
+	[countryDictionary release];
 	
 	[super dealloc];
 }
@@ -452,28 +462,30 @@ static CoreDatabase *_sharedInstance = nil;
 
 - (Country *) countryForCode:(NSString *)code
 {
-	if ([code length]==2)
+	if ([code length]<=3)
 	{
-		// iso2 code
-		NSFetchRequest *request = [[NSFetchRequest alloc] init];
-		NSEntityDescription *entity = [NSEntityDescription entityForName:@"Country" inManagedObjectContext:self.managedObjectContext];
-		[request setEntity:entity];	
-		[request setFetchLimit:1];
+		return [countryDictionary objectForKey:code];
 		
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"iso2 = %@", code];
-		[request setPredicate:predicate];
-		
-		NSError *error;
-		NSArray *fetchResults = [managedObjectContext executeFetchRequest:request error:&error];
-		if (fetchResults == nil) 
-		{
-			// Handle the error.
-			NSLog(@"Cannot resolve country code '%@', please report this to oliver@drobnik.com", code);
-		}
-		
-		[request release];	
-		
-		return [fetchResults lastObject];
+//		// iso2 code
+//		NSFetchRequest *request = [[NSFetchRequest alloc] init];
+//		NSEntityDescription *entity = [NSEntityDescription entityForName:@"Country" inManagedObjectContext:self.managedObjectContext];
+//		[request setEntity:entity];	
+//		[request setFetchLimit:1];
+//		
+//		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"iso2 = %@", code];
+//		[request setPredicate:predicate];
+//		
+//		NSError *error;
+//		NSArray *fetchResults = [managedObjectContext executeFetchRequest:request error:&error];
+//		if (fetchResults == nil) 
+//		{
+//			// Handle the error.
+//			NSLog(@"Cannot resolve country code '%@', please report this to oliver@drobnik.com", code);
+//		}
+//		
+//		[request release];	
+//		
+//		return [fetchResults lastObject];
 	}
 	else
 	{

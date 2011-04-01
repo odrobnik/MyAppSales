@@ -30,7 +30,7 @@
 
 - (id) initForAccount:(GenericAccount *)itcAccount
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		account = [itcAccount retain];
 		

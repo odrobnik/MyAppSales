@@ -52,7 +52,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 - (id)init
 {
 	// default images
-	if (self = [super init])
+	if ((self = [super init]))
 	{		
 		// subscribe to total update notifications
 		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appTotalsUpdated:) name:@"AppTotalsUpdated" object:nil];

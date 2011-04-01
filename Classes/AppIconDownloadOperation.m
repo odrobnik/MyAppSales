@@ -13,7 +13,7 @@
 
 - (id)initWithApplicationIdentifier:(NSInteger)appID
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		_appID = appID;
 	}

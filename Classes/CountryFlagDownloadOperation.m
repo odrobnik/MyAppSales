@@ -13,7 +13,7 @@
 
 - (id)initWithISO3:(NSString *)iso3
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		self.iso3 = [iso3 lowercaseString];
 	}

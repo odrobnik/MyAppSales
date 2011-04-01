@@ -30,7 +30,7 @@
 
 - (id)initWithProductGroup:(ProductGroup *)productGroup reportType:(ReportType)reportType
 {
-	if (self = [super initWithStyle:UITableViewStylePlain])
+	if ((self = [super initWithStyle:UITableViewStylePlain]))
 	{
 		_productGroup = [productGroup retain];
 		_reportType = reportType;

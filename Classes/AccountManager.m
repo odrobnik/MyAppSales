@@ -43,7 +43,7 @@ static AccountManager *_sharedInstance = nil;
 
 - (id) init
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		[self loadAllGenericAccounts];
 		

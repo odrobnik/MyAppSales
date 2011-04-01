@@ -39,7 +39,7 @@ static sqlite3_stmt *update_statement = nil;
 
 // Creates the object with primary key and title is brought into memory.
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db {
-    if (self = [super init]) 
+    if ((self = [super init])) 
 	{
         apple_identifier = pk;
         database = db;

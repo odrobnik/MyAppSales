@@ -32,7 +32,7 @@ static sqlite3_stmt *init_statement = nil;
 // Creates the object with primary key and title is brought into memory.
 - (id)initWithISO3:(NSString *)pk database:(sqlite3 *)db 
 {
-    if (self = [super init]) 
+    if ((self = [super init])) 
 	{
         self.iso3 = pk;
         database = db;

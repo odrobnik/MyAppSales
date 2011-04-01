@@ -2261,6 +2261,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
 			};
 			name = Debug;
@@ -2268,6 +2269,7 @@
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 			};
 			name = Release;
 		};
