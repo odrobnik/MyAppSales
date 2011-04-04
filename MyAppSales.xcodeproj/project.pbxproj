@@ -341,7 +341,6 @@
 		A7CCCEAE109357C10091FCE1 /* GenericAccount+MyAppSales.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CCCEAD109357C10091FCE1 /* GenericAccount+MyAppSales.m */; };
 		A7CD0666105A7014005F9166 /* cover_mask_rounded_100x100.png in Resources */ = {isa = PBXBuildFile; fileRef = A7CD0665105A7014005F9166 /* cover_mask_rounded_100x100.png */; };
 		A7CD06EA105A7882005F9166 /* UIImage+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CD06E9105A7882005F9166 /* UIImage+Helpers.m */; };
-		A7D2129413499AC200EE20DE /* ScrapeDates.html in Resources */ = {isa = PBXBuildFile; fileRef = A7D2129313499AC200EE20DE /* ScrapeDates.html */; };
 		A7D212971349BAC700EE20DE /* NSScanner+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D212961349BAC700EE20DE /* NSScanner+HTML.m */; };
 		A7D75DC410A8C03C00889B79 /* GenericAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D75DC310A8C03C00889B79 /* GenericAccount.m */; };
 		A7E0F9F3106BB684003B93FE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E0F9F2106BB684003B93FE /* QuartzCore.framework */; };
@@ -801,7 +800,6 @@
 		A7CD0665105A7014005F9166 /* cover_mask_rounded_100x100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover_mask_rounded_100x100.png; sourceTree = "<group>"; };
 		A7CD06E8105A7882005F9166 /* UIImage+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Helpers.h"; sourceTree = "<group>"; };
 		A7CD06E9105A7882005F9166 /* UIImage+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Helpers.m"; sourceTree = "<group>"; };
-		A7D2129313499AC200EE20DE /* ScrapeDates.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = ScrapeDates.html; sourceTree = "<group>"; };
 		A7D212951349BAC700EE20DE /* NSScanner+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSScanner+HTML.h"; sourceTree = "<group>"; };
 		A7D212961349BAC700EE20DE /* NSScanner+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSScanner+HTML.m"; sourceTree = "<group>"; };
 		A7D75DC210A8C03C00889B79 /* GenericAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericAccount.h; sourceTree = "<group>"; };
@@ -944,7 +942,6 @@
 				A7EDD2FD0FA4E2C50079FE78 /* AppViewController.xib */,
 				2899E55F0DE3E45000AC0155 /* RootViewController.xib */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
-				A7D2129313499AC200EE20DE /* ScrapeDates.html */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1967,7 +1964,6 @@
 				A735532C10CFAC4300F6DC0A /* blueArrow.png in Resources */,
 				A735532D10CFAC4300F6DC0A /* blackArrow.png in Resources */,
 				A7B8888712F675430001706E /* Sum.png in Resources */,
-				A7D2129413499AC200EE20DE /* ScrapeDates.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
