@@ -8,6 +8,7 @@
 
 #import "NSString+AJAX.h"
 #import "NSString+Helpers.h"
+#import "NSScanner+HTML.h"
 
 
 @implementation NSString (AJAX)
@@ -16,7 +17,6 @@
 
 - (NSDictionary *)parametersFromAjaxStringCharactersScanned:(NSUInteger *)charactersScanned
 {
-	
 	NSScanner *scanner = [NSScanner scannerWithString:self];
 	NSMutableDictionary *tmpDict = [NSMutableDictionary dictionary];
 	
@@ -36,7 +36,6 @@
 		
 		if ([scanner scanString:@"'" intoString:&stringDelim])
 		{
-
 			if (leftValue)
 			{
 				[scanner scanUpToString:stringDelim intoString:&rightValue];
@@ -79,7 +78,30 @@
 				break;
 			}
 		}
-		
+        else 
+        {
+            if (leftValue)
+			{
+				[scanner scanUpToCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@",:;"] intoString:&rightValue];
+                
+                if ([rightValue hasPrefix:@"function"])
+                {
+                    [scanner setScanLocation:scanner.scanLocation - [rightValue length]];
+                    
+                    // scan entire function
+                    [scanner scanFunctionString:&rightValue];
+                }
+				
+				[tmpDict setObject:rightValue forKey:leftValue];
+				
+				leftValue = rightValue = nil;
+			}
+			else 
+			{
+				[scanner scanUpToCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@",:;"] intoString:&leftValue];
+			}
+         }
+        
 		// skip ,
 		//[scanner scanString:@"," intoString:NULL];
 		
