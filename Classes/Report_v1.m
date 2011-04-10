@@ -57,7 +57,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 
 -(id)init
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		dirty = NO;
 		hydrated = NO;
@@ -75,7 +75,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db fromDate:(NSDate *)aFromDate untilDate:(NSDate *)aUntilDate aDownloadedDate:(NSDate *)aDownloadedDate reportTypeID:(ReportType)reportTypeID reportRegionID:(ReportRegion)reportRegionID appGroupingID:(NSUInteger)appGroupingID
 {
-	if (self = [self init])
+	if ((self = [self init]))
 	{
         primaryKey = pk;
         database = db;
@@ -135,7 +135,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 
 // Creates the object with primary key and title is brought into memory.
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db {
-    if (self = [self init]) 
+    if ((self = [self init]))
 	{
         primaryKey = pk;
         database = db;
@@ -217,7 +217,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 // monthly free reports dont have beginning and end dates, thus they need to be supplied
 - (id)initAsFreeReportWithDict:(NSDictionary *)dict
 {
-	if (self = [self init])
+	if ((self = [self init]))
 	{
 		NSDate *fromDateIn = [dict objectForKey:@"FromDate"];
 		NSDate *untilDateIn = [dict objectForKey:@"UntilDate"];
@@ -250,7 +250,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		
 		//	NSString *prev_until_date = @"";
 		
-		while(oneLine = [enu nextObject])
+		while ((oneLine = [enu nextObject]))
 		{
 			NSString *appIDString = [oneLine getValueForNamedColumn:@"Apple Identifier" headerNames:column_names];
 			NSUInteger appID = [appIDString intValue];
@@ -348,7 +348,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 
 - (id)initWithReportText:(NSString *)string
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		// Make a list of apps in this report
 		NSMutableSet *tmpAppsInReport = [NSMutableSet set];
@@ -1146,7 +1146,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	[df setDateFormat:@"MM/dd/yyyy"];
 	//[df setDateStyle:NSDateFormatterShortStyle];
 	
-	while (oneSale = [enu nextObject])
+	while ((oneSale = [enu nextObject]))
 	{
 		// one report line
 		
@@ -1326,7 +1326,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		NSEnumerator *en = [tmpArray objectEnumerator];
 		Sale_v1 *aSale;
 		
-		while (aSale = [en nextObject]) 
+		while ((aSale = [en nextObject]))
 		{
 			if ((ttype==aSale.transactionType)&&(aSale.unitsSold>0))
 			{
@@ -1368,7 +1368,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		NSEnumerator *en = [tmpArray objectEnumerator];
 		Sale_v1 *aSale;
 		
-		while (aSale = [en nextObject]) 
+		while ((aSale = [en nextObject]))
 		{
 			if ((!product)||(product&&(ttype==aSale.transactionType)))
 			{
@@ -1404,7 +1404,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		NSEnumerator *en = [tmpArray objectEnumerator];
 		Sale_v1 *aSale;
 		
-		while (aSale = [en nextObject]) 
+		while ((aSale = [en nextObject]))
 		{
 			if ((ttype==aSale.transactionType))
 			{
@@ -1466,7 +1466,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		NSEnumerator *en = [tmpArray objectEnumerator];
 		Sale_v1 *aSale;
 		
-		while (aSale = [en nextObject]) 
+		while ((aSale = [en nextObject]))
 		{
 			if (aSale.transactionType==TransactionTypeSale)
 			{
@@ -1510,7 +1510,7 @@ static sqlite3_stmt *hydrate_statement = nil;
  NSEnumerator *en = [tmpArray objectEnumerator];
  Sale *aSale;
  
- while (aSale = [en nextObject]) 
+ while ((aSale = [en nextObject]))
  {
  if ((aSale.transactionType==TransactionTypeSale)&&(aSale.unitsSold<0))
  {

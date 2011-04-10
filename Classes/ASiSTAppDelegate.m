@@ -559,7 +559,7 @@
 	
 	NSError *error=nil;
 	
-	while (aString = [enu nextObject])
+	while ((aString = [enu nextObject]))
 	{
 		NSString *pathOfFile = [documentsDirectory stringByAppendingPathComponent:aString];
 		

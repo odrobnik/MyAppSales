@@ -17,7 +17,7 @@
 
 - (id)initWithFrame:(CGRect)frame Data:(NSDictionary *)data
 {
-	if (self = [super initWithFrame:frame]) {
+	if ((self = [super initWithFrame:frame])) {
         // Initialization code
 		
 		NSArray *colLabels = [data objectForKey:@"Columns"];
@@ -33,7 +33,7 @@
 		
 		int idx = 0; 
 		
-		while (oneApp = [enu nextObject]) 
+		while ((oneApp = [enu nextObject]))
 		{
 				CGSize neededSize = [oneApp sizeWithFont:theFont];
 				if (!required_height)

@@ -24,7 +24,8 @@
 
 - (id) initWithReport:(Report_v1 *)aReport
 {
-	if (self = [super initWithStyle:UITableViewStylePlain]) {
+	if ((self = [super initWithStyle:UITableViewStylePlain]))
+    {
 		report = aReport;
 		[report hydrate];
 		self.title = [aReport listDescriptionShorter:NO];
@@ -50,7 +51,7 @@
 /*
  - (id)initWithStyle:(UITableViewStyle)style {
  // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
- if (self = [super initWithStyle:style]) {
+ if ((self = [super initWithStyle:style])) {
  }
  return self;
  }

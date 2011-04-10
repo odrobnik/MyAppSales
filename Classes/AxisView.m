@@ -16,7 +16,7 @@
 
 - (id)initWithFrame:(CGRect)frame  max:(double)max_value currency:(NSString *)cur
 {
-    if (self = [super initWithFrame:frame]) 
+    if ((self = [super initWithFrame:frame]))
 	{
         // Initialization code
 		max = max_value;

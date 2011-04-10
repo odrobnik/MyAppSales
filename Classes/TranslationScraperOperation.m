@@ -20,7 +20,7 @@
 
 - (id) initForText:(NSString *)textToTrans fromLanguage:(NSString *)fromLang toLanguage:(NSString *)toLang delegate:(NSObject <TranslationScraperDelegate> *) transDelegate
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		scraperDelegate = transDelegate;
 		

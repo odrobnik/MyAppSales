@@ -31,7 +31,15 @@
 **/
 - (NSString *) createBrowseableIndex:(NSString *)path
 {
-    NSArray *array = [[NSFileManager defaultManager] directoryContentsAtPath:path];
+    NSError *error;
+    NSArray *array = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error];
+    
+    // Deal with the error.
+    // The old call to directoryContentsAtPath: didn't check for errors either, so this is OK for now.
+    if (!array)
+    {
+        NSLog(@"Error fetching directory contents at %@: %@", path, error);
+    }
     
     NSMutableString *outdata = [NSMutableString new];
 	[outdata appendString:@"<html><head>"];
@@ -44,8 +52,18 @@
 	[outdata appendFormat:@"<a href=\"..\">..</a><br />\n"];
     for (NSString *fname in array)
     {
-        NSDictionary *fileDict = [[NSFileManager defaultManager] fileAttributesAtPath:[path stringByAppendingPathComponent:fname] traverseLink:NO];
+        NSError *error;
+        NSString *filePath = [path stringByAppendingPathComponent:fname];
+        NSDictionary *fileDict = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:&error];
+        
+        // TODO: Deal with the error.
+        // The old call to fileAttributesAtPath:traverseLink: didn't check for errors either, so this is OK for now.
+        if (!fileDict)
+        {
+            NSLog(@"Error determining file attributes for %@: %@", filePath, error);
+        }
 		//NSLog(@"fileDict: %@", fileDict);
+
         NSString *modDate = [[fileDict objectForKey:NSFileModificationDate] description];
 		if ([[fileDict objectForKey:NSFileType] isEqualToString: @"NSFileTypeDirectory"]) fname = [fname stringByAppendingString:@"/"];
 		[outdata appendFormat:@"<a href=\"%@\">%@</a>		(%8.1f Kb, %@)<br />\n", fname, fname, [[fileDict objectForKey:NSFileSize] floatValue] / 1024, modDate];
@@ -221,7 +239,7 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 	NSEnumerator *enu = [queryParts objectEnumerator];
 	NSString *oneVar;
 	
-	while (oneVar = [enu nextObject])
+	while ((oneVar = [enu nextObject]))
 	{
 		NSArray *varParts = [oneVar componentsSeparatedByString:@"="];
 		
@@ -314,7 +332,7 @@ ret = [zip addFileToZip:path3 newname:@"reports/292809726.png"];
 			NSEnumerator *enu = [queryParts objectEnumerator];
 			NSString *oneVar;
 			
-			while (oneVar = [enu nextObject])
+			while ((oneVar = [enu nextObject]))
 			{
 				NSArray *varParts = [oneVar componentsSeparatedByString:@"="];
 				

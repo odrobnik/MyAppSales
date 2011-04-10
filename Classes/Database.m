@@ -72,7 +72,7 @@ static Database *_sharedInstance;
 
 - (id) init
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		newReportsByType = [[NSMutableDictionary alloc] init];
 		appGroupings = [[NSMutableSet alloc] init];
@@ -309,7 +309,7 @@ static Database *_sharedInstance;
 	//NSData *compressed = [NSData dataWithContentsOfFile:path];
 	
 	NSData *compressed;
-	if (compressed = [[NSData alloc] initWithContentsOfMappedFile:path])
+	if ((compressed = [[NSData alloc] initWithContentsOfMappedFile:path]))
 	{
 		NSData *data = [compressed gzipInflate];
 		
@@ -495,7 +495,7 @@ static Database *_sharedInstance;
 		
 		// get language
 		char *lang_code;
-		if (lang_code = (char *)sqlite3_column_text(statement, 1))
+		if ((lang_code = (char *)sqlite3_column_text(statement, 1)))
 		{
 			NSString *language_code = [NSString stringWithUTF8String:lang_code];
 			NSString *language_name = [loc displayNameForKey:NSLocaleLanguageCode value:language_code];
@@ -946,7 +946,7 @@ static Database *_sharedInstance;
 	NSMutableArray *tmpArray = [[NSMutableArray alloc] initWithCapacity:[sortedKeys count]];
 	
 	
-	while (oneKey = [enu nextObject]) {
+	while ((oneKey = [enu nextObject])) {
 		App *oneApp = [apps objectForKey:oneKey];
 		[tmpArray addObject:oneApp];
 	}
@@ -965,7 +965,7 @@ static Database *_sharedInstance;
 	NSMutableArray *tmpArray = [[NSMutableArray alloc] initWithCapacity:[sortedKeys count]];
 	
 	
-	while (oneKey = [enu nextObject]) {
+	while ((oneKey = [enu nextObject])) {
 		App *oneApp = [apps objectForKey:oneKey];
 		
 		if ([self appGroupingForProduct:oneApp]==grouping)
@@ -992,7 +992,7 @@ static Database *_sharedInstance;
 	NSMutableArray *tmpArray = [[NSMutableArray alloc] initWithCapacity:[sortedKeys count]];
 	
 	
-	while (oneKey = [enu nextObject]) {
+	while ((oneKey = [enu nextObject])) {
 		Product_v1 *oneProduct = [combinedAppAndIAP objectForKey:oneKey];
 		
 		if ([self appGroupingForProduct:oneProduct]==grouping)
@@ -1415,11 +1415,20 @@ static Database *_sharedInstance;
     NSString *documentsDirectory = [paths objectAtIndex:0];
 	
 	// get list of all files in document directory
-	NSArray *docs = [fileManager directoryContentsAtPath:documentsDirectory];
+    NSError *error;
+    NSArray *docs = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:&error];
+    
+    // TODO: Deal with the error.
+    // The old call to directoryContentsAtPath: didn't check for errors either, so this is OK for now.
+    if (!docs)
+    {
+        NSLog(@"Error fetching directory contents at %@: %@", documentsDirectory, error);
+    }
+
 	NSEnumerator *enu = [docs objectEnumerator];
 	NSString *aString;
 	
-	while (aString = [enu nextObject])
+	while ((aString = [enu nextObject]))
 	{
 		if ([[aString lowercaseString] hasSuffix:@".txt"])
 		{

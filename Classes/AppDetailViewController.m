@@ -39,7 +39,7 @@
 - (id) initForApp:(App *)app
 {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if (self = [super initWithStyle:UITableViewStylePlain]) 
+    if ((self = [super initWithStyle:UITableViewStylePlain]))
 	{
 		self.myApp = app;
 		self.title = app.title;

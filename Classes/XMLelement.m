@@ -16,7 +16,7 @@
 
 - (id) initWithName:(NSString *)elementName
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		self.name = elementName; 
 		self.text = [NSMutableString string];

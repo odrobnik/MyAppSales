@@ -24,7 +24,7 @@ static sqlite3_stmt *delete_statement = nil;
 
 - (id) initWithAppSet:(NSSet *)appSet
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		apps = [[NSMutableSet alloc] initWithSet:appSet];
 	}
@@ -58,7 +58,7 @@ static sqlite3_stmt *delete_statement = nil;
 
 #pragma mark Database
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db {
-    if (self = [super init]) 
+    if ((self = [super init]))
 	{
         primaryKey = pk;
         database = db;

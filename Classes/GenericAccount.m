@@ -32,7 +32,7 @@ static const UInt8 kKeychainIdentifier[]    = "com.drobnik.asist.KeychainUI\0";
 
 - (id) initFromKeychainDictionary:(NSDictionary *)dict
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		account = [[dict objectForKey:(id)kSecAttrAccount] retain];
 		description = [[dict objectForKey:(id)kSecAttrDescription] retain];
@@ -66,7 +66,7 @@ static const UInt8 kKeychainIdentifier[]    = "com.drobnik.asist.KeychainUI\0";
 
 - (id) initService:(NSString *)aService forUser:(NSString *)aUser
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		account = [aUser retain];
 		service = [aService retain];

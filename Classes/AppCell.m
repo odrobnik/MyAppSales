@@ -25,7 +25,7 @@
 
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = TABLEVIEWCELL_PLAIN_INIT) 
+    if ((self = TABLEVIEWCELL_PLAIN_INIT))
 	{
 		// create label views to contain the various pieces of text that make up the cell.
 		// Add these as subviews.

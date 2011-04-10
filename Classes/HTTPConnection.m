@@ -108,7 +108,7 @@ static NSMutableArray *recentNonces;
 **/
 - (id)initWithAsyncSocket:(AsyncSocket *)newSocket forServer:(HTTPServer *)myServer
 {
-	if(self = [super init])
+	if ((self = [super init]))
 	{
 		// Take over ownership of the socket
 		asyncSocket = [newSocket retain];

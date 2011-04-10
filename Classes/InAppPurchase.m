@@ -39,7 +39,7 @@ static sqlite3_stmt *update_statement = nil;
 
 // Creates the object with primary key and title is brought into memory.
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db {
-    if (self = [super init]) 
+    if ((self = [super init])) 
 	{
         apple_identifier = pk;
         database = db;
@@ -89,7 +89,7 @@ static sqlite3_stmt *update_statement = nil;
 // used to create new apps, primary key must not be in the DB already
 - (id) initWithTitle:(NSString *)a_title vendor_identifier:(NSString *)a_vendor_identifier apple_identifier:(NSUInteger)a_apple_identifier company_name:(NSString *)a_company_name parent:(App *)parentApp database:(sqlite3 *)db
 {
-	if (self = [self init])
+	if ((self = [self init]))
 	{
 		database = db;
 		self.title = a_title;  // property copies it anyway, app is "dirty" after setting

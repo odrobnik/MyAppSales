@@ -22,7 +22,7 @@
 
 
 
-@interface XMLdocument : NSObject
+@interface XMLdocument : NSObject<NSXMLParserDelegate>
 
 #if !TARGET_OS_IPHONE
 <NSXMLParserDelegate>  // this only when building for Mac
