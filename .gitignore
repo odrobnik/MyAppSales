@@ -2,3 +2,5 @@
 build
 *.mode1v3
 *.pbxuser
+/MyAppSales.xcodeproj/project.xcworkspace/
+/MyAppSales.xcodeproj/xcuserdata/
