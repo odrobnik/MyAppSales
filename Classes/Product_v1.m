@@ -52,7 +52,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 - (id)init
 {
 	// default images
-	if (self = [super init])
+	if ((self = [super init]))
 	{		
 		// subscribe to total update notifications
 		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appTotalsUpdated:) name:@"AppTotalsUpdated" object:nil];
@@ -97,7 +97,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 
 // Creates the object with primary key and title is brought into memory.
 - (id)initWithPrimaryKey:(NSInteger)pk database:(sqlite3 *)db {
-    if (self = [self init]) 
+    if ((self = [self init]))
 	{
         apple_identifier = pk;
         database = db;
@@ -136,7 +136,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 // used to create new apps, primary key must not be in the DB already
 - (id) initWithTitle:(NSString *)a_title vendor_identifier:(NSString *)a_vendor_identifier apple_identifier:(NSUInteger)a_apple_identifier company_name:(NSString *)a_company_name database:(sqlite3 *)db
 {
-	if (self = [self init])
+	if ((self = [self init]))
 	{
 		database = db;
 		self.title = a_title;  // property copies it anyway, app is "dirty" after setting

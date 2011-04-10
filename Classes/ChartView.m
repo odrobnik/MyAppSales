@@ -25,7 +25,7 @@
 
 - (id)initWithChartData:(NSDictionary *)dict
 {
-    if (self = [super initWithFrame:CGRectZero]) 
+    if ((self = [super initWithFrame:CGRectZero]))
 	{
         // Initialization code
 		self.myData = dict;

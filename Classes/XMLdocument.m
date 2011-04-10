@@ -56,7 +56,7 @@
 // designated initializer	
 - (id) init
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 	}
 	
@@ -65,7 +65,7 @@
 
 - (id) initWithString:(NSString *)xmlString
 {
-	if (self = [self init])
+	if ((self = [self init]))
 	{
 		// make data from string
 		
@@ -92,7 +92,7 @@
 
 - (id) initWithData:(NSData *)data
 {
-	if (self = [self init])
+	if ((self = [self init]))
 	{
 		// create parser
 		NSXMLParser *parser = [[[NSXMLParser alloc] initWithData:data] autorelease];	
@@ -115,7 +115,7 @@
 
 - (id) initWithContentsOfFile:(NSString *)path
 {
-	if (self = [self init])
+	if ((self = [self init]))
 	{
 		
 		// make a file path out of the parameter
@@ -142,7 +142,7 @@
 
 - (id) initWithContentsOfURL:(NSURL *)url
 {
-	if (self = [self init])
+	if ((self = [self init]))
 	{
 		// create parser
 		NSXMLParser *parser = [[[NSXMLParser alloc] initWithContentsOfURL:url] autorelease];	
@@ -165,7 +165,7 @@
 
 - (id) initWithContentsOfFile:(NSString *)path delegate:(id<XMLdocumentDelegate>)XMLdocumentDelegate
 {
-	if (self = [self init])
+	if ((self = [self init]))
 	{
 		self.delegate = XMLdocumentDelegate;
 		
@@ -193,7 +193,7 @@
 
 - (id) initWithContentsOfURL:(NSURL *)url delegate:(id<XMLdocumentDelegate>)XMLdocumentDelegate
 {
-	if (self = [self init])
+	if ((self = [self init]))
 	{
 		self.delegate = XMLdocumentDelegate;
 		

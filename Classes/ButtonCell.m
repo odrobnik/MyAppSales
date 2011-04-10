@@ -16,7 +16,8 @@
 @synthesize centerLabel;
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = TABLEVIEWCELL_PLAIN_INIT) {
+    if ((self = TABLEVIEWCELL_PLAIN_INIT))
+    {
         // Initialization code
 		
 		// create label views to contain the various pieces of text that make up the cell.

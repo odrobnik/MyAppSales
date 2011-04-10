@@ -99,7 +99,7 @@ static char ctrl[0x22];
 }
 
 - (id)init {
-    if (self = [super init]) {
+    if ((self = [super init])) {
         [self setMaxDepth:512];
     }
     return self;

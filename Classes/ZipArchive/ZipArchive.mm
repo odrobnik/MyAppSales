@@ -26,7 +26,7 @@
 
 -(id) init
 {
-	if( self=[super init] )
+	if( (self=[super init]) )
 	{
 		_zipFile = NULL ;
 	}
@@ -109,8 +109,16 @@
 	zip_fileinfo zipInfo = {0};
 	zipInfo.dosDate = (unsigned long) current;
 	
-	NSDictionary* attr = [[NSFileManager defaultManager] fileAttributesAtPath:file traverseLink:YES];
-	if( attr )
+    NSError *error;
+	NSDictionary *attr = [[NSFileManager defaultManager] attributesOfItemAtPath:file error:&error];
+    
+    // TODO: Deal with the error.
+    // The old call to fileAttributesAtPath:traverseLink: didn't check for errors either, so this is OK for now.
+    if (!attr)
+    {
+        NSLog(@"Error determining file attributes %@: %@", file, error);
+    }
+    else
 	{
 		NSDate* fileDate = (NSDate*)[attr objectForKey:NSFileModificationDate];
 		if( fileDate )

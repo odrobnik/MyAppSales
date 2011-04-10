@@ -29,7 +29,7 @@
 
 - (id) initForApp:(App *)reviewApp country:(Country_v1 *)reviewCountry delegate:(NSObject <ReviewScraperDelegate> *) scrDelegate
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		self.app = reviewApp;
 		self.country = reviewCountry;

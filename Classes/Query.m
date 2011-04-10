@@ -16,7 +16,7 @@
 
 - (id)initWithDatabase:(sqlite3 *)db
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		database = db;
 		return self;

@@ -16,7 +16,7 @@
 
 - (id) initWithList:(NSArray *)list
 {
-    if (self = [super initWithStyle:UITableViewStylePlain]) 
+    if ((self = [super initWithStyle:UITableViewStylePlain]))
 	{
 		myList = [list retain];
    
@@ -26,7 +26,7 @@
 
 - (id) initWithDictionary:(NSDictionary *)dict
 {
-    if (self = [super initWithStyle:UITableViewStylePlain]) 
+    if ((self = [super initWithStyle:UITableViewStylePlain]))
 	{
 		// the list are the keys of the dictionary
 		myList = [[dict keysSortedByValueUsingSelector:@selector(compare:)] retain];

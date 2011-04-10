@@ -20,7 +20,8 @@
 
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier
 {
-    if (self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier]) {
+    if ((self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier]))
+    {
         // Initialization code
 		self.accessoryType = UITableViewCellAccessoryNone;
 		self.selectionStyle = UITableViewCellSelectionStyleNone;

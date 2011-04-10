@@ -5,7 +5,7 @@
 
 - (id)initWithFilePath:(NSString *)filePathParam
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		filePath = [filePathParam copy];
 		fileHandle = [[NSFileHandle fileHandleForReadingAtPath:filePath] retain];
@@ -23,7 +23,16 @@
 
 - (UInt64)contentLength
 {
-	NSDictionary *fileAttributes = [[NSFileManager defaultManager] fileAttributesAtPath:filePath traverseLink:NO];
+    NSError *error;
+	NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath
+                                                                                    error:&error];
+    
+    // TODO: Deal with the error.
+    // The old call to fileAttributesAtPath:traverseLink: didn't check for errors either, so this is OK for now.
+    if (!fileAttributes)
+    {
+        NSLog(@"Error determining file attributes for %@: %@", filePath, error);
+    }
 	
 	NSNumber *fileSize = [fileAttributes objectForKey:NSFileSize];
 	
@@ -60,7 +69,7 @@
 
 - (id)initWithData:(NSData *)dataParam
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		offset = 0;
 		data = [dataParam retain];

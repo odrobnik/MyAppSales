@@ -16,7 +16,8 @@
 @synthesize switchCtl, titleLabel;
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = TABLEVIEWCELL_PLAIN_INIT) {
+    if ((self = TABLEVIEWCELL_PLAIN_INIT))
+    {
         // Initialization code
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 

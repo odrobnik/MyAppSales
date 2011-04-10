@@ -12,7 +12,7 @@
 
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier
 {
-	if(self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier])
+	if ((self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier]))
 	{
 		self.reviewTitle = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
 		self.reviewTitle.font = [UIFont boldSystemFontOfSize:14];

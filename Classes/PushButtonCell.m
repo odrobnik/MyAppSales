@@ -14,7 +14,8 @@
 @synthesize title, button;
 
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier]) {
+    if ((self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier]))
+    {
         // Initialization code
 		
 		button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];

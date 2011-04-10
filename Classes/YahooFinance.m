@@ -39,7 +39,7 @@ static YahooFinance *_sharedInstance = nil;
 - (id) initWithAllCurrencies
 {
 	
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		// the latested finance data is cached in the documents directory 
 		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);

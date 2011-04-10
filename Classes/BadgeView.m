@@ -16,7 +16,7 @@
 
 - (id) initWithFrame:(CGRect)frame
 {
-	if (self = [super initWithFrame:frame])
+	if ((self = [super initWithFrame:frame]))
 	{
 		
 		UIImage *image = [UIImage imageNamed:@"Badge.png"];
