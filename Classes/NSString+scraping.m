@@ -366,7 +366,7 @@
 	NSEnumerator *myEnum = [listItems objectEnumerator];
 	NSString *aString;
 	
-	while (aString = [myEnum nextObject])
+	while ((aString = [myEnum nextObject]))
 	{
 		NSScanner *scanner = [NSScanner scannerWithString:aString];
 		
@@ -420,7 +420,7 @@
 	NSString *currentSelfObj;
 	NSString *currentOtherObj;
 	
-	while (currentSelfObj = [selfEnum nextObject])
+	while ((currentSelfObj = [selfEnum nextObject]))
 	{
 		currentOtherObj = [otherEnum nextObject];
 		

@@ -250,7 +250,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		
 		//	NSString *prev_until_date = @"";
 		
-		while(oneLine = [enu nextObject])
+		while ((oneLine = [enu nextObject]))
 		{
 			NSString *appIDString = [oneLine getValueForNamedColumn:@"Apple Identifier" headerNames:column_names];
 			NSUInteger appID = [appIDString intValue];
@@ -1146,7 +1146,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 	[df setDateFormat:@"MM/dd/yyyy"];
 	//[df setDateStyle:NSDateFormatterShortStyle];
 	
-	while (oneSale = [enu nextObject])
+	while ((oneSale = [enu nextObject]))
 	{
 		// one report line
 		
@@ -1326,7 +1326,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		NSEnumerator *en = [tmpArray objectEnumerator];
 		Sale_v1 *aSale;
 		
-		while (aSale = [en nextObject]) 
+		while ((aSale = [en nextObject]))
 		{
 			if ((ttype==aSale.transactionType)&&(aSale.unitsSold>0))
 			{
@@ -1368,7 +1368,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		NSEnumerator *en = [tmpArray objectEnumerator];
 		Sale_v1 *aSale;
 		
-		while (aSale = [en nextObject]) 
+		while ((aSale = [en nextObject]))
 		{
 			if ((!product)||(product&&(ttype==aSale.transactionType)))
 			{
@@ -1404,7 +1404,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		NSEnumerator *en = [tmpArray objectEnumerator];
 		Sale_v1 *aSale;
 		
-		while (aSale = [en nextObject]) 
+		while ((aSale = [en nextObject]))
 		{
 			if ((ttype==aSale.transactionType))
 			{
@@ -1466,7 +1466,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		NSEnumerator *en = [tmpArray objectEnumerator];
 		Sale_v1 *aSale;
 		
-		while (aSale = [en nextObject]) 
+		while ((aSale = [en nextObject]))
 		{
 			if (aSale.transactionType==TransactionTypeSale)
 			{
@@ -1510,7 +1510,7 @@ static sqlite3_stmt *hydrate_statement = nil;
  NSEnumerator *en = [tmpArray objectEnumerator];
  Sale *aSale;
  
- while (aSale = [en nextObject]) 
+ while ((aSale = [en nextObject]))
  {
  if ((aSale.transactionType==TransactionTypeSale)&&(aSale.unitsSold<0))
  {

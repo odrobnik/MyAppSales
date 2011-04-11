@@ -150,7 +150,7 @@
 	NSString *name;
 	
 	int idx = 0;
-	while (name = [enu nextObject]) 
+	while ((name = [enu nextObject]))
 	{
 		NSString *key = [myYahoo.nameIndex objectForKey:name];
 		

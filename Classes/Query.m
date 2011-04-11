@@ -61,7 +61,7 @@
 
 	NSDictionary *royaltyTotals = [report objectForKey:@"Totals"];
 
-	while (app = [enu nextObject]) 
+	while ((app = [enu nextObject]))
 	{
 		// depending on show_free we add free apps or sold apps
 		
@@ -96,7 +96,7 @@
 	NSString *rowDate;
 	NSMutableArray *outputArray = [[NSMutableArray alloc] init];
 	
-	while (rowDate = [dateEnum nextObject]) 
+	while ((rowDate = [dateEnum nextObject]))
 	{
 		NSDictionary *theRow = [dataRoot objectForKey:rowDate];
 		NSMutableArray *output = [[NSMutableArray alloc] init];
@@ -104,7 +104,7 @@
 		NSEnumerator *appEnu = [appsToInclude objectEnumerator];
 		App *appKey;
 				
-		while (appKey = [appEnu nextObject]) 
+		while ((appKey = [appEnu nextObject]))
 		{
 			NSString *app_key = [NSString stringWithFormat:@"%d", appKey.apple_identifier];
 			//NSDictionary *theApp = [theRow objectForKey:[NSNumber numberWithInt:appKey.apple_identifier]];
@@ -167,7 +167,7 @@
 	
 	NSMutableArray *row;
 	
-	while (row = [en nextObject]) 
+	while ((row = [en nextObject]))
 	{
 		double sumSoFar = 0;
 		int idx = 0;

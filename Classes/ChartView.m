@@ -154,7 +154,7 @@
 	int last_week_length = 7;
 	int week = 0;
 	
-	while (oneDate = [self dateFromString:[enu nextObject]]) 
+	while ((oneDate = [self dateFromString:[enu nextObject]]))
 	{
 		NSDateComponents *weekdayComponents =
 		[gregorian components:NSWeekCalendarUnit| NSWeekdayCalendarUnit fromDate:oneDate];
@@ -293,7 +293,7 @@
 		
 		
 		// for all rows in data
-		while (row = [rowEnu nextObject])
+		while ((row = [rowEnu nextObject]))
 		{
 			NSNumber *value = [row objectAtIndex:idx];
 			double s = [value doubleValue];
@@ -338,7 +338,7 @@
 			
 			first_date = YES;
 			
-			while (oneDate = [enu nextObject]) 
+			while ((oneDate = [enu nextObject]))
 			{
 				NSDictionary *appsDict = [dataRoot objectForKey:oneDate];
 				double s=0;

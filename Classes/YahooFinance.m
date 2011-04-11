@@ -60,7 +60,7 @@ static YahooFinance *_sharedInstance = nil;
 		
 		self.nameIndex = [[NSMutableDictionary alloc] init];
 		
-		while (key = [enu nextObject]) 
+		while ((key = [enu nextObject]))
 		{
 			NSDictionary *tmpDict = [allCurrencies objectForKey:key];
 			[nameIndex setObject:key forKey:[tmpDict objectForKey:@"Name"]];
@@ -78,7 +78,7 @@ static YahooFinance *_sharedInstance = nil;
 		
 		[string appendString:@"http://quote.yahoo.com/d/quotes.csv?s="];
 		
-		while (oneCurrency = [en nextObject])
+		while ((oneCurrency = [en nextObject]))
 		{
 			//[symbolDict setObject:[oneCurrency objectForKey:@"symbol"] forKey:[oneCurrency objectForKey:@"countryCode"]];
 			
@@ -152,7 +152,7 @@ static YahooFinance *_sharedInstance = nil;
 	NSEnumerator *enu = [lines objectEnumerator];
 	NSString *oneLine;
 	
-	while(oneLine = [enu nextObject])
+	while ((oneLine = [enu nextObject]))
 	{
 		NSArray *cols = [oneLine componentsSeparatedByString:@","];
 		if ([cols count]==4)
