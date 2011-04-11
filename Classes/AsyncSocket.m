@@ -46,7 +46,7 @@ enum AsyncSocketFlags
 @interface AsyncSocket (Private)
 
 // Socket Implementation
-- (CFSocketRef) createAcceptSocketForAddress:(NSData *)addr error:(NSError **)errPtr;
+- (CFSocketRef) newAcceptSocketForAddress:(NSData *)addr error:(NSError **)errPtr;
 - (BOOL) createSocketForAddress:(NSData *)remoteAddr error:(NSError **)errPtr;
 - (BOOL) attachSocketsToRunLoop:(NSRunLoop *)runLoop error:(NSError **)errPtr;
 - (BOOL) configureSocketAndReturnError:(NSError **)errPtr;
@@ -651,13 +651,13 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 
 	if (address)
 	{
-		theSocket = [self createAcceptSocketForAddress:address error:errPtr];
+		theSocket = [self newAcceptSocketForAddress:address error:errPtr];
 		if (theSocket == NULL) goto Failed;
 	}
 	
 	if (address6)
 	{
-		theSocket6 = [self createAcceptSocketForAddress:address6 error:errPtr];
+		theSocket6 = [self newAcceptSocketForAddress:address6 error:errPtr];
 		
 		// Note: The iPhone doesn't currently support IPv6
 		
@@ -814,7 +814,7 @@ Failed:;
  * Returns true if either IPv4 or IPv6 is created.
  * If either is missing, an error is returned (even though the method may return true).
 **/
-- (CFSocketRef)createAcceptSocketForAddress:(NSData *)addr error:(NSError **)errPtr
+- (CFSocketRef)newAcceptSocketForAddress:(NSData *)addr error:(NSError **)errPtr
 {
 	struct sockaddr *pSockAddr = (struct sockaddr *)[addr bytes];
 	int addressFamily = pSockAddr->sa_family;

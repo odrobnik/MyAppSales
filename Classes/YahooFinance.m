@@ -113,11 +113,11 @@ static YahooFinance *_sharedInstance = nil;
 		{
 			// inform the user that the download could not be made
 		}
+        
+        // set up standard currency formatter
+        currencyFormatter = [[NSNumberFormatter alloc] init];
+        [currencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
 	}
-	
-	// set up standard currency formatter
-	currencyFormatter = [[NSNumberFormatter alloc] init];
-	[currencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
 	
 	return self;
 }

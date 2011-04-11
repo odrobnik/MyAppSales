@@ -60,8 +60,8 @@
 // tag of your own invention.
 
 @interface HTTPConnection (PrivateAPI)
-- (CFHTTPMessageRef)prepareUniRangeResponse:(UInt64)contentLength;
-- (CFHTTPMessageRef)prepareMultiRangeResponse:(UInt64)contentLength;
+- (CFHTTPMessageRef)newUniRangeResponse:(UInt64)contentLength;
+- (CFHTTPMessageRef)newMultiRangeResponse:(UInt64)contentLength;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -701,11 +701,11 @@ static NSMutableArray *recentNonces;
 	{
 		if([ranges count] == 1)
 		{
-			response = [self prepareUniRangeResponse:contentLength];
+			response = [self newUniRangeResponse:contentLength];
 		}
 		else
 		{
-			response = [self prepareMultiRangeResponse:contentLength];
+			response = [self newMultiRangeResponse:contentLength];
 		}
 	}
     
@@ -778,7 +778,7 @@ static NSMutableArray *recentNonces;
  * 
  * Note: The returned CFHTTPMessageRef is owned by the sender, who is responsible for releasing it.
 **/
-- (CFHTTPMessageRef)prepareUniRangeResponse:(UInt64)contentLength
+- (CFHTTPMessageRef)newUniRangeResponse:(UInt64)contentLength
 {
 	// Status Code 206 - Partial Content
 	CFHTTPMessageRef response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 206, NULL, kCFHTTPVersion1_1);
@@ -800,7 +800,7 @@ static NSMutableArray *recentNonces;
  * 
  * Note: The returned CFHTTPMessageRef is owned by the sender, who is responsible for releasing it.
 **/
-- (CFHTTPMessageRef)prepareMultiRangeResponse:(UInt64)contentLength
+- (CFHTTPMessageRef)newMultiRangeResponse:(UInt64)contentLength
 {
 	// Status Code 206 - Partial Content
 	CFHTTPMessageRef response = CFHTTPMessageCreateResponse(kCFAllocatorDefault, 206, NULL, kCFHTTPVersion1_1);
