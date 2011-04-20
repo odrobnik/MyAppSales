@@ -245,6 +245,8 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	
 	
 	NSString *sourceSt = [[[NSString alloc] initWithBytes:[receivedData bytes] length:[receivedData length] encoding:NSUTF8StringEncoding] autorelease];
+    
+    
 	if ([sourceSt hasPrefix:@"<"])
 	{	// HTML
 		NSRange range = [sourceSt rangeOfString:@"<iTunes>"];
@@ -267,7 +269,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 			
 		}
 		
-		range = [sourceSt rangeOfString:@"100x100-75.jpg"];
+		range = [sourceSt rangeOfString:@"175x175-75.jpg"];
 		
 		if (range.location!=NSNotFound)
 		{
