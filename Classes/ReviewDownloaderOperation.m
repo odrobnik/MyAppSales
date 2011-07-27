@@ -284,7 +284,7 @@
 			{
 				NSString *contentType = [headers objectForKey:@"Content-Type"];
 				
-				if (![contentType isEqualToString:@"text/xml"])
+				if (![contentType hasPrefix:@"text/xml"])
 				{
 					NSLog(@"Got Content Type: %@", contentType);
 					NSString *sourceSt = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
