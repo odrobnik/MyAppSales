@@ -75,7 +75,8 @@ static Database *_sharedInstance;
 	if (self = [super init])
 	{
 		newReportsByType = [[NSMutableDictionary alloc] init];
-		appGroupings = [[NSMutableSet alloc] init];
+		// appGroupings is always overwritten in initializeDatabase
+		appGroupings = nil; //[[NSMutableSet alloc] init];
 		
 		// connect with database
 		[self createEditableCopyOfDatabaseIfNeeded];

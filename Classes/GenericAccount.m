@@ -188,6 +188,9 @@ static const UInt8 kKeychainIdentifier[]    = "com.drobnik.asist.KeychainUI\0";
 		pk_account = [account retain];
 		pk_service = [service retain];
 		
+		// fixed memory leak
+		CFRelease(attributes);
+		
     }
     else
     {
