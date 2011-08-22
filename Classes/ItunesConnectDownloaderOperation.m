@@ -67,6 +67,10 @@
 	else if ([regionCode isEqualToString:@"CA"]) region = ReportRegionCanada;
 	else if ([regionCode isEqualToString:@"EU"]) region = ReportRegionEurope;
 	else if ([regionCode isEqualToString:@"WW"]) region = ReportRegionRestOfWorld;
+	else if ([regionCode isEqualToString:@"MX"]) region = ReportRegionMexico;
+	else if ([regionCode isEqualToString:@"CH"]) region = ReportRegionSwitzerland;
+	else if ([regionCode isEqualToString:@"NO"]) region = ReportRegionNorway;
+	else if ([regionCode isEqualToString:@"NZ"]) region = ReportRegionNewZealand;
 	else region = ReportRegionUnknown;
 	
 	return region;
@@ -108,6 +112,24 @@
 	{
 		return ReportRegionUK;
 	}
+	
+	if ([string isEqualToString:@"Mexico"])
+	{
+		return ReportRegionMexico;
+	}
+	if ([string isEqualToString:@"Norway"])
+	{
+		return ReportRegionNorway;
+	}
+	if ([string isEqualToString:@"New Zealand"])
+	{
+		return ReportRegionNewZealand;
+	}
+	if ([string isEqualToString:@"Switzerland"])
+	{
+		return ReportRegionSwitzerland;
+	}
+	
 	
 	return ReportRegionUnknown;
 }

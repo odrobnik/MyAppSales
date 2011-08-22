@@ -990,6 +990,14 @@ static sqlite3_stmt *hydrate_statement = nil;
 			return @"AU";
 		case ReportRegionRestOfWorld:
 			return @"WW";
+		case ReportRegionMexico:
+			return @"MX";
+		case ReportRegionNewZealand:
+			return @"NZ";
+		case ReportRegionNorway:
+			return @"NO";
+		case ReportRegionSwitzerland:
+			return @"CH";
 		default:
 			return @"??";
 	}
@@ -1063,6 +1071,18 @@ static sqlite3_stmt *hydrate_statement = nil;
 					break;
 				case ReportRegionRestOfWorld:
 					region_name = @"Rest";
+					break;
+				case ReportRegionMexico:
+					region_name = @"Mexico";
+					break;
+				case ReportRegionNewZealand:
+					region_name = @"New Zealand";
+					break;
+				case ReportRegionNorway:
+					region_name = @"Norway";
+					break;
+				case ReportRegionSwitzerland:
+					region_name = @"Switzerland";
 					break;
 				default:
 					region_name = @"Invalid Region";
