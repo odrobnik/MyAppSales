@@ -103,17 +103,14 @@ static sqlite3_stmt *init_statement = nil;
 		[cntry_code isEqualToString:@"EC"]||
 		[cntry_code isEqualToString:@"GT"]||
 		[cntry_code isEqualToString:@"JM"]||
-		[cntry_code isEqualToString:@"MX"]||
 		[cntry_code isEqualToString:@"PE"]||
 		[cntry_code isEqualToString:@"SV"]||
 		[cntry_code isEqualToString:@"US"]||
 		[cntry_code isEqualToString:@"UY"]||
 		[cntry_code isEqualToString:@"VR"]	||
-		[cntry_code isEqualToString:@"VE"]	
-		) region=ReportRegionUSA;
+		[cntry_code isEqualToString:@"VE"]) region=ReportRegionUSA;
 	else if ([cntry_code isEqualToString:@"AT"]||
 			 [cntry_code isEqualToString:@"BE"]||
-			 [cntry_code isEqualToString:@"CH"]||
 			 [cntry_code isEqualToString:@"CZ"]||
 			 [cntry_code isEqualToString:@"DE"]||
 			 [cntry_code isEqualToString:@"DK"]||
@@ -130,7 +127,6 @@ static sqlite3_stmt *init_statement = nil;
 			 [cntry_code isEqualToString:@"LV"]||
 			 [cntry_code isEqualToString:@"MT"]||
 			 [cntry_code isEqualToString:@"NL"]||
-			 [cntry_code isEqualToString:@"NO"]||
 			 [cntry_code isEqualToString:@"PL"]||
 			 [cntry_code isEqualToString:@"PT"]||
 			 [cntry_code isEqualToString:@"RO"]||
@@ -138,11 +134,16 @@ static sqlite3_stmt *init_statement = nil;
 			 [cntry_code isEqualToString:@"SI"]||
 			 [cntry_code isEqualToString:@"SK"]) region=ReportRegionEurope;
 	else if ([cntry_code isEqualToString:@"CA"]) region=ReportRegionCanada;
-	else if ([cntry_code isEqualToString:@"AU"]||
-			 [cntry_code isEqualToString:@"NZ"]) region=ReportRegionAustralia;
+	else if ([cntry_code isEqualToString:@"AU"]) region=ReportRegionAustralia;
+	else if ([cntry_code isEqualToString:@"NZ"]) region=ReportRegionNewZealand;
 	else if ([cntry_code isEqualToString:@"JP"]) region=ReportRegionJapan;
 	else if ([cntry_code isEqualToString:@"GB"]) region=ReportRegionUK;
+	else if ([cntry_code isEqualToString:@"MX"]) region=ReportRegionMexico;
+	else if ([cntry_code isEqualToString:@"CH"]) region=ReportRegionSwitzerland;
+	else if ([cntry_code isEqualToString:@"NO"]) region=ReportRegionNorway;
+	
 	else region=ReportRegionRestOfWorld;
+	
 	
 	return region;
 }
