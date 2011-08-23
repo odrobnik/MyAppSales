@@ -241,13 +241,11 @@
 	NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url
 														 cachePolicy:NSURLRequestReloadIgnoringCacheData
 													 timeoutInterval:60.0];	
-	NSURLResponse* response; 
+	NSURLResponse* response = nil; 
 	NSError* error = nil;
 	
-	[self setStatus:@"Opening Sales & Trends (1)"];
-	
+	[self setStatus:@"Opening Sales & Trends (1)"];	
 	NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	
 	if (error)
 	{
 		[self setStatusError:[error localizedDescription]];
@@ -264,26 +262,18 @@
 	
 	NSURL *baseURL = [NSURL URLWithString:@"https://reportingitc.apple.com/"];
 	
-	
-	
 	// check if vendor selection is necessary
-	
 	if ([html rangeOfString:@"Choose Vendor"].length)
 	{
 		// make a post so that we get the vendor ids
-		
-		
-		
 		request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://reportingitc.apple.com/jsp/providerselection.faces"]
 										cachePolicy:NSURLRequestReloadIgnoringCacheData
 									timeoutInterval:60.0];	
 		[request setHTTPMethod:@"POST"];
 		
-		
 		[self setStatus:@"Selecting Vendor (2)"];
-
+        
 		NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-		
 		if (error)
 		{
 			[self setStatusError:[error localizedDescription]];
@@ -296,11 +286,7 @@
 			return;
 		}
 		
-		
-		
 		NSString *divHtml = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-		
-		
 		
 		NSPredicate *vendorPred = [NSPredicate predicateWithFormat:@"class = 'vendor'"];
 		NSArray *vendorOptions = [divHtml arrayOfHTMLForTags:@"div" matchingPredicate:vendorPred];
@@ -310,19 +296,15 @@
 		for (NSString *oneVendorDiv in vendorOptions)
 		{
 			NSScanner *scanner = [NSScanner scannerWithString:oneVendorDiv];
-			
 			[scanner scanUpToString:@"setVendorNumber(" intoString:NULL];
 			
 			if ([scanner scanString:@"setVendorNumber(" intoString:NULL])
 			{
 				NSInteger vendorID = 0;
-				
-				[scanner scanInteger:&vendorID];
-				
-				[scanner scanString:@",'" intoString:NULL];
-				
 				NSString *vendorName = nil;
 				
+				[scanner scanInteger:&vendorID];
+				[scanner scanString:@",'" intoString:NULL];
 				[scanner scanUpToString:@"');" intoString:&vendorName];
 				
 				if (vendorName && vendorID)
@@ -336,17 +318,14 @@
 				{
 					NSLog(@"Cannot parse vendor from string '%@'", oneVendorDiv);
 				}
-				
 			}
 		}
 		
 		// get the highest vendor
-		
 		NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"VendorID" ascending:YES];
 		NSArray *sortedVendors = [vendors sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDesc]];
 		
 		NSDictionary *bestVendor = [sortedVendors lastObject];
-		
 		
 		html = [html stringByReplacingOccurrencesOfString:@":param1," withString:[NSString stringWithFormat:@":'%@'", [bestVendor objectForKey:@"VendorID"]]];
 		html = [html stringByReplacingOccurrencesOfString:@":param2," withString:[NSString stringWithFormat:@":'%@'", [bestVendor objectForKey:@"VendorName"]]];
@@ -383,10 +362,8 @@
 	else 
 	{
 		// ----- execute embedded AJAX reload
-		
 		NSArray *ajaxParams= [html parametersFromAjaxSubmitString];
 		NSString *viewState = [html ajaxViewState];
-		
 		
 		NSURLRequest *ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams viewState:viewState baseURL:baseURL];
 		
@@ -416,9 +393,9 @@
 		
 	}
 	
-	// ---- Switching to Dashboard
+	// ---- Switching to sales face
 	
-	url = [NSURL URLWithString:@"/dashboard.faces" relativeToURL:baseURL];
+	url = [NSURL URLWithString:@"/sales.faces" relativeToURL:baseURL];
 	
 	request=[NSMutableURLRequest requestWithURL:url
 									cachePolicy:NSURLRequestReloadIgnoringCacheData
@@ -427,7 +404,6 @@
 	[self setStatus:@"Opening Sales & Trends (3)"];
 	
 	data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	
 	if (error)
 	{
 		[self setStatusError:[error localizedDescription]];
@@ -441,39 +417,19 @@
 	}
 	
 	html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+    
 	NSString *viewState = [html ajaxViewState];
     
-	// ------ refreshMenu() ajax post
-	
-	NSArray *ajaxParams = [html parametersFromAjaxSubmitStringForFunction:@"refreshMenu"];
-	NSURLRequest *ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams viewState:viewState baseURL:baseURL];
-	
-	[self setStatus:@"Opening Sales & Trends (4)"];
-	
-	data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
-	
-	if (error)
-	{
-		[self setStatusError:[error localizedDescription]];
-		return;
-	}
-	
-	if (!data) 
-	{
-		[self setStatusError:@"No data received from Sales & Trends (4)"];
-		return;
-	}
-	
-	NSString *refreshHtml = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	viewState = [refreshHtml ajaxViewState];
-	
-	
+    //some reused variables
+    NSArray *ajaxParams = nil;
+    NSURLRequest *ajaxRequest = nil;
+    NSString *extraFormString = nil;
+    NSString* bodyString = nil;
+    NSData* bodyData = nil;
 	
 	// get first elements from day and week selections
-	
-	NSPredicate *datePred = [NSPredicate predicateWithFormat:@"name = 'theForm:datePickerSourceSelectElement'"];
+	NSPredicate *datePred = [NSPredicate predicateWithFormat:@"name = 'theForm:datePickerSourceSelectElementSales'"];
 	NSArray *dayOptions = [html arrayOfHTMLForTags:@"select" matchingPredicate:datePred];
-	
 	if ([dayOptions count]==1)
 	{
 		dayOptions = [[dayOptions objectAtIndex:0] optionsFromSelect];
@@ -482,75 +438,15 @@
 	
 	NSPredicate *weekPred = [NSPredicate predicateWithFormat:@"name = 'theForm:weekPickerSourceSelectElement'"];
 	NSArray *weekOptions = [html arrayOfHTMLForTags:@"select" matchingPredicate:weekPred];
-	
 	if ([weekOptions count]==1)
 	{
 		weekOptions = [[weekOptions objectAtIndex:0] optionsFromSelect];
 	}
-	
-	// ------ switch to sales tab
-	request=[NSMutableURLRequest requestWithURL:url
-									cachePolicy:NSURLRequestReloadIgnoringCacheData
-								timeoutInterval:60.0];	
-	
-	NSString *bodyString = [NSString stringWithFormat:@"theForm=theForm&theForm%%3Ahideval1=&theForm%%3Axyz=notnormal&theForm%%3Aprodtypesel=iOS&theForm%%3Asubprodsel=Free+Apps&theForm%%3Asubprodlabel=freeAppLabel&theForm%%3AselperiodId=daily&theForm%%3AvendorLogin=&theForm%%3AdatePickerSourceSelectElement=%@&theForm%%3AweekPickerSourceSelectElement=%@&javax.faces.ViewState=%@&theForm%%3Asaletestid=theForm%%3Asaletestid",
-							[[dayOptions objectAtIndex:0] stringByUrlEncoding],
-							[[weekOptions objectAtIndex:0] stringByUrlEncoding],
-							[viewState stringByUrlEncoding] 
-							];
-	NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
-	
-	[request setHTTPMethod:@"POST"];
-	[request addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField: @"Content-Type"];
-	
-	[request setHTTPBody:bodyData];
-	
-	[self setStatus:@"Accessing Sales"];
-	
-	data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-	
-	if (error)
-	{
-		[self setStatusError:[error localizedDescription]];
-		return;
-	}
-	
-	if (!data) 
-	{
-		[self setStatusError:@"No data received from Sales face"];
-		return;
-	}
-	
-	html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	
-	viewState = [html ajaxViewState];
-	
-	
-	// get first elements from day and week selections
-	
-	datePred = [NSPredicate predicateWithFormat:@"name = 'theForm:datePickerSourceSelectElementSales'"];
-	dayOptions = [html arrayOfHTMLForTags:@"select" matchingPredicate:datePred];
-	
-	if ([dayOptions count]==1)
-	{
-		dayOptions = [[dayOptions objectAtIndex:0] optionsFromSelect];
-	}
-	
-	
-	weekPred = [NSPredicate predicateWithFormat:@"name = 'theForm:weekPickerSourceSelectElement'"];
-	weekOptions = [html arrayOfHTMLForTags:@"select" matchingPredicate:weekPred];
-	
-	if ([weekOptions count]==1)
-	{
-		weekOptions = [[weekOptions objectAtIndex:0] optionsFromSelect];
-	}
-	
 	
 	//----- execute onLoad
-	
-	NSString *extraFormString = [NSString stringWithFormat:@"theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
-								 [[dayOptions objectAtIndex:0] stringByUrlEncoding],
-								 [[weekOptions objectAtIndex:0] stringByUrlEncoding]];
+	extraFormString = [NSString stringWithFormat:@"theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
+                       [[dayOptions objectAtIndex:0] stringByUrlEncoding],
+                       [[weekOptions objectAtIndex:0] stringByUrlEncoding]];
 	
 	
 	ajaxParams = [html parametersFromAjaxSubmitStringForFunction:@"onLoad"];
@@ -559,7 +455,6 @@
 	[self setStatus:@"Accessing Sales"];
 	
 	data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
-	
 	if (error)
 	{
 		[self setStatusError:[error localizedDescription]];
@@ -571,10 +466,8 @@
 		[self setStatusError:@"No data received from Sales & Trends"];
 		return;
 	}
-	
-	//html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
+    
 	viewState = [html ajaxViewState];
-	
 	
 	NSString *pickerAjax = [html tagHTMLforTag:@"select" WithID:@"theForm:datePickerSourceSelectElementSales"];
 	ajaxParams = [pickerAjax parametersFromAjaxSubmitString];
@@ -586,27 +479,21 @@
 	NSString *weekSwitchHTML = [html substringFromIndex:range.location];
 	NSArray *weekSwitchAjaxParams = [weekSwitchHTML parametersFromAjaxSubmitString]; // has extra at the end, but we ignore that
 	
-	//NSArray *weekSelectedAjaxParams = [html parametersFromAjaxSubmitStringForFunction:@"WeekSelected"];
-	
-	
 	//----- download DAILY
-	
 	for (NSString *oneDayOption in dayOptions)
 	{
 		NSDate *reportDate = [self reportDateFromShortDate:oneDayOption];
 		
 		if (![reportsToIgnore reportBySearchingForDate:reportDate type:ReportTypeDay region:ReportRegionUnknown])
 		{
-			NSInteger index = [dayOptions indexOfObject:oneDayOption];
+			//NSInteger index = [dayOptions indexOfObject:oneDayOption];
 			
-			if (index)
+			//if (index)
 			{
-				// -----switch daily report screen via AJAX
-				
-				NSString *extraFormString = [NSString stringWithFormat:@"theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
+				// -----switch daily report date via AJAX
+                NSString *extraFormString = [NSString stringWithFormat:@"theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
 											 [oneDayOption stringByUrlEncoding],
 											 [[weekOptions objectAtIndex:0] stringByUrlEncoding]];
-				
 				
 				ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams extraFormString:extraFormString viewState:viewState baseURL:baseURL];
 				
@@ -624,7 +511,6 @@
 					return;
 				}
 				
-				//html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
 				viewState = [html ajaxViewState];
 			}
 			
@@ -635,7 +521,7 @@
 											cachePolicy:NSURLRequestReloadIgnoringCacheData
 										timeoutInterval:60.0];	
 			
-			bodyString = [NSString stringWithFormat:@"theForm=theForm&theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@&javax.faces.ViewState=%@&theForm%%3AdownloadLabel2=theForm%%3AdownloadLabel2",
+			bodyString = [NSString stringWithFormat:@"theForm=theForm&theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@&javax.faces.ViewState=%@&theForm%%3AdownloadLabel2=theForm%%3AdownloadLabel2&",
 						  [oneDayOption stringByUrlEncoding],
 						  [[weekOptions objectAtIndex:0] stringByUrlEncoding],
 						  [viewState stringByUrlEncoding] ];
@@ -665,8 +551,6 @@
 			if ([[response MIMEType] isEqualToString:@"application/a-gzip"])
 			{
 				NSString *reportText = [[[NSString alloc] initWithData:[data gzipInflate] encoding:NSUTF8StringEncoding] autorelease];
-				
-				
 				
 				NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:reportText, @"Text", account, @"Account", reportDate, @"FallbackDate", [NSNumber numberWithInt:ReportTypeDay], @"Type", nil];
 				
@@ -704,49 +588,16 @@
 	
 	viewState = [html ajaxViewState];	
 	
-	
-	
-	
-	/*
-	 // shortcut
-	 
-	 // - execute WeekSelected
-	 
-	 ajaxRequest = [NSURLRequest ajaxRequestWithParameters:weekSelectedAjaxParams extraFormString:extraFormString viewState:viewState baseURL:baseURL];
-	 
-	 [self setStatus:@"Switching to Weekly"];
-	 
-	 data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
-	 
-	 if (error)
-	 {
-	 [self setStatusError:[error localizedDescription]];
-	 return;
-	 }
-	 
-	 if (!data) 
-	 {
-	 [self setStatusError:@"No data received from Weekly"];
-	 return;
-	 }
-	 
-	 html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
-	 
-	 viewState = [html ajaxViewState];
-	 
-	 */
-	
 	//----- download WEEKLY
-	
 	for (NSString *oneWeekOption in weekOptions)
 	{
 		NSDate *reportDate = [self reportDateFromShortDate:oneWeekOption];
 		
 		if (![reportsToIgnore reportBySearchingForDate:reportDate type:ReportTypeWeek region:ReportRegionUnknown])
 		{
-			NSInteger index = [weekOptions indexOfObject:oneWeekOption];
+			//NSInteger index = [weekOptions indexOfObject:oneWeekOption];
 			
-			if (index)
+			//if (index)
 			{
 				// -----switch weekly report screen via AJAX
 				
@@ -771,7 +622,6 @@
 					return;
 				}
 				
-				//html = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSASCIIStringEncoding] autorelease];
 				viewState = [html ajaxViewState];
 			}
 			
@@ -813,17 +663,12 @@
 			{
 				NSString *reportText = [[[NSString alloc] initWithData:[data gzipInflate] encoding:NSUTF8StringEncoding] autorelease];
 				
-				
-				
 				NSDictionary *tmpDict = [NSDictionary dictionaryWithObjectsAndKeys:reportText, @"Text", account, @"Account", reportDate, @"FallbackDate", [NSNumber numberWithInt:ReportTypeDay], @"Type", nil];
 				
 				[[Database sharedInstance] performSelectorOnMainThread:@selector(insertReportFromDict:) withObject:tmpDict waitUntilDone:YES];
-				
 			}
 		}
 	}	
-	
-	
 }
 
 
