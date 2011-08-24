@@ -103,6 +103,8 @@
 	CGFloat width = (contentRect.size.width -  LEFT_COLUMN_OFFSET - RIGHT_MARGIN - 5.0);
 	royaltiesLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET + width*0.6, contentRect.origin.y+2.0*lineHeight + VERTICAL_MARGIN,  width*0.4, lineHeight);
 	totalUnitsLabel.frame = CGRectMake(contentRect.origin.x + LEFT_COLUMN_OFFSET, contentRect.origin.y+2.0*lineHeight + VERTICAL_MARGIN,  width*0.6, lineHeight);
+  
+  self.imageView.frame = CGRectMake(9.0, 9.0, 56.0, 56.0);
 }
 
 - (void)dealloc
