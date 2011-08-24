@@ -791,18 +791,39 @@
 	[alert show];
 	[alert release];
 }
-
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+	[self becomeFirstResponder];
+	[self dismissModalViewControllerAnimated:YES];
+}
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	if (alertView.tag==0)
 	{
-		UIApplication *myApp = [UIApplication sharedApplication];
+		
 	
 		// cancel button has index 0
 		switch (buttonIndex) {
 			case 1:
 			{
-				[myApp openURL:[NSURL URLWithString:@"mailto:oliver@drobnik.com"]];
+			
+				NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+				
+				NSString *version = [info objectForKey:@"CFBundleVersion"];
+				NSArray *array = [[NSArray alloc] initWithObjects:@"oliver@drobnik.com", nil];
+				MFMailComposeViewController *controller = [[MFMailComposeViewController alloc] init];
+				controller.mailComposeDelegate = self;
+				[controller setSubject:[@"MAS v" stringByAppendingString:version]];
+				//[controller setMessageBody:@"Hi,\nI'm using your iPhone app DayNumber.........\n\n\n\n\nThanks." isHTML:NO];
+				//-----check users locale---------------------
+				NSLocale *currentUsersLocale = [NSLocale currentLocale];
+				//NSLog(@"Current Locale: %@", [currentUsersLocale localeIdentifier]);
+				[controller setMessageBody:[@"Hi,\n\nI'm using your iPhone app\n My App Sales, my Region Format Setting is --> " stringByAppendingString:[currentUsersLocale localeIdentifier]]isHTML:NO];
+				
+				[controller setToRecipients:array];
+				[self presentModalViewController:controller animated:YES];
+				[controller release];
+				[array release];
 				break;
 			}
 		}
