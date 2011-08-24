@@ -107,6 +107,8 @@
 	frame.size.width = 30.0;
 	frame.size.height = 15.0;
 	countryCodeLabel.frame = frame;
+  
+  self.imageView.frame = CGRectMake(9.0, 9.0, 32.0, 32.0);
 }
 
 - (void)dealloc
