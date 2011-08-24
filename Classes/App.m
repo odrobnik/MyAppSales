@@ -40,6 +40,8 @@ static sqlite3_stmt *reviews_statement = nil;
 // Date formatter for XML files
 static NSDateFormatter *dateFormatterToRead = nil;
 
+#define SMALL_APP_ICON_SIZE   64.0
+#define LARGE_APP_ICON_SIZE   112.0
 
 @implementation App
 
@@ -55,8 +57,8 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	if (self = [super init])
 	{
 		self.iconImage = [UIImage imageNamed:@"Empty.png"];
-		UIImage *tmpImageNanoResized = [self.iconImage scaleImageToSize:CGSizeMake(32.0,32.0)];
-		self.iconImageNano = tmpImageNanoResized;
+		UIImage *tmpImageNanoResized = [self.iconImage scaleImageToSize:CGSizeMake(SMALL_APP_ICON_SIZE,SMALL_APP_ICON_SIZE)];
+    self.iconImageNano = tmpImageNanoResized;
 		
 		
 		// subscribe to total update notifications
@@ -178,7 +180,7 @@ static NSDateFormatter *dateFormatterToRead = nil;
 	if (tmpImage)
 	{
 		self.iconImage = tmpImage;
-		UIImage *tmpImageNanoResized = [tmpImage scaleImageToSize:CGSizeMake(32.0,32.0)];
+		UIImage *tmpImageNanoResized = [self.iconImage scaleImageToSize:CGSizeMake(SMALL_APP_ICON_SIZE,SMALL_APP_ICON_SIZE)];
 		self.iconImageNano = tmpImageNanoResized;
 		
 		return;
@@ -297,10 +299,10 @@ static NSDateFormatter *dateFormatterToRead = nil;
 		
 		//UIImage *tmpImageRounded = [ImageManipulator makeRoundCornerImage:tmpImage cornerWidth:20 cornerHeight:20];
 		
-		UIImage *tmpImageResized = [tmpImageRounded scaleImageToSize:CGSizeMake(56.0,56.0)];
+		UIImage *tmpImageResized = [tmpImageRounded scaleImageToSize:CGSizeMake(LARGE_APP_ICON_SIZE,LARGE_APP_ICON_SIZE)];
 		self.iconImage = tmpImageResized;
 		
-		UIImage *tmpImageNanoResized = [tmpImageRounded scaleImageToSize:CGSizeMake(32.0,32.0)];
+		UIImage *tmpImageNanoResized = [tmpImageRounded scaleImageToSize:CGSizeMake(SMALL_APP_ICON_SIZE,SMALL_APP_ICON_SIZE)];
 		self.iconImageNano = tmpImageNanoResized;
 		
 		
