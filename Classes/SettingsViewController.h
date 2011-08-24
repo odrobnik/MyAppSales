@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 #import "EditAccountController.h"
 #import "PinLockController.h"
 #import "TableListSelectorView.h"
 
+
 //@class KeychainWrapper;
 
-@interface SettingsViewController : UITableViewController <UIActionSheetDelegate, EditAccountDelegate, PinLockDelegate, TableListSelectorDelegate> {
+@interface SettingsViewController : UITableViewController <UIActionSheetDelegate, EditAccountDelegate, PinLockDelegate, TableListSelectorDelegate, MFMailComposeViewControllerDelegate> {
 	//KeychainWrapper *keychainWrapper;
 	
 	BOOL showAddress;
