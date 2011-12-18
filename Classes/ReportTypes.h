@@ -17,4 +17,5 @@ typedef enum {
 	ReportRegionMexico = 8,
 	ReportRegionSwitzerland = 9,
 	ReportRegionNorway = 10,
-	ReportRegionNewZealand = 11} ReportRegion;
+	ReportRegionNewZealand = 11,
+    ReportRegionChina = 12} ReportRegion;

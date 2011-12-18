@@ -141,6 +141,7 @@ static sqlite3_stmt *init_statement = nil;
 	else if ([cntry_code isEqualToString:@"MX"]) region=ReportRegionMexico;
 	else if ([cntry_code isEqualToString:@"CH"]) region=ReportRegionSwitzerland;
 	else if ([cntry_code isEqualToString:@"NO"]) region=ReportRegionNorway;
+    else if ([cntry_code isEqualToString:@"CN"]) region=ReportRegionChina;
 	
 	else region=ReportRegionRestOfWorld;
 	
