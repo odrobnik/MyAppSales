@@ -444,7 +444,7 @@
 	}
 	
 	//----- execute onLoad
-	extraFormString = [NSString stringWithFormat:@"theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
+	extraFormString = [NSString stringWithFormat:@"theForm%%3AuserType=notnormal&theForm%%3AvendorType=Y&theForm%%3AdateType=D&theForm%%3AoptInVar=A&theForm%%3AcontentType=iOS&theForm%%3AcontentSubType=Paid%%20Apps&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
                        [[dayOptions objectAtIndex:0] stringByUrlEncoding],
                        [[weekOptions objectAtIndex:0] stringByUrlEncoding]];
 	
@@ -491,11 +491,12 @@
 			//if (index)
 			{
 				// -----switch daily report date via AJAX
-                NSString *extraFormString = [NSString stringWithFormat:@"theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
+                NSString *extraFormString2 = [NSString stringWithFormat:@"theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
 											 [oneDayOption stringByUrlEncoding],
 											 [[weekOptions objectAtIndex:0] stringByUrlEncoding]];
 				
-				ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams extraFormString:extraFormString viewState:viewState baseURL:baseURL];
+                NSArray *ajaxParams2 = [html parametersFromAjaxSubmitStringForFunction:@"onLoad"];
+				ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams2 extraFormString:extraFormString2 viewState:viewState baseURL:baseURL];
 				
 				data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
 				
@@ -521,7 +522,7 @@
 											cachePolicy:NSURLRequestReloadIgnoringCacheData
 										timeoutInterval:60.0];	
 			
-			bodyString = [NSString stringWithFormat:@"theForm=theForm&theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@&javax.faces.ViewState=%@&theForm%%3AdownloadLabel2=theForm%%3AdownloadLabel2&",
+			bodyString = [NSString stringWithFormat:@"theForm=theForm&theForm%%3AuserType=notnormal&theForm%%3AvendorType=Y&theForm%%3AdateType=D&theForm%%3AoptInVar=A&theForm%%3AcontentType=iOS&theForm%%3AcontentSubType=Paid%%20Apps&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@&javax.faces.ViewState=%@&theForm%%3AdownloadLabel2=theForm%%3AdownloadLabel2&",
 						  [oneDayOption stringByUrlEncoding],
 						  [[weekOptions objectAtIndex:0] stringByUrlEncoding],
 						  [viewState stringByUrlEncoding] ];
@@ -562,7 +563,7 @@
 	
 	// ----- switch to weekly so that we get the viewstate for weekly
 	
-	extraFormString = [NSString stringWithFormat:@"theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
+	extraFormString = [NSString stringWithFormat:@"theForm%%3AuserType=notnormal&theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
 					   [[dayOptions objectAtIndex:0] stringByUrlEncoding],
 					   [[dayOptions objectAtIndex:0] stringByUrlEncoding]];
 	
@@ -601,7 +602,7 @@
 			{
 				// -----switch weekly report screen via AJAX
 				
-				NSString *extraFormString = [NSString stringWithFormat:@"theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
+				NSString *extraFormString = [NSString stringWithFormat:@"theForm%%3AuserType=notnormal&theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
 											 [[dayOptions objectAtIndex:0] stringByUrlEncoding],
 											 [oneWeekOption stringByUrlEncoding]];
 				
@@ -632,7 +633,7 @@
 											cachePolicy:NSURLRequestReloadIgnoringCacheData
 										timeoutInterval:60.0];	
 			
-			bodyString = [NSString stringWithFormat:@"theForm=theForm&theForm%%3Axyz=notnormal&theForm%%3AvendorType=Y&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@&javax.faces.ViewState=%@&theForm%%3AdownloadLabel2=theForm%%3AdownloadLabel2",
+			bodyString = [NSString stringWithFormat:@"theForm=theForm&theForm%%3AuserType=notnormal&theForm%%3AvendorType=Y&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@&javax.faces.ViewState=%@&theForm%%3AdownloadLabel2=theForm%%3AdownloadLabel2",
 						  [[dayOptions objectAtIndex:0] stringByUrlEncoding],
 						  [oneWeekOption stringByUrlEncoding],
 						  [viewState stringByUrlEncoding] ];
