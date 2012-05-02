@@ -163,7 +163,7 @@
 		switch (typeForNewAccount) 
 		{
 			case AccountTypeITC:
-				return @"Downloading sales report directly from your account. Credentials as safely store on your keychain.";
+				return @"Downloading sales report directly from your account. Credentials are safely stored on your keychain.";
 				break;
 			case AccountTypeNotifications:
 				return @"Notifications is a 3rd party app enabling push notifications for MyAppSales.";
