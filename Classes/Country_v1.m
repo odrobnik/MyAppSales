@@ -113,7 +113,6 @@ static sqlite3_stmt *init_statement = nil;
 			 [cntry_code isEqualToString:@"BE"]||
 			 [cntry_code isEqualToString:@"CZ"]||
 			 [cntry_code isEqualToString:@"DE"]||
-			 [cntry_code isEqualToString:@"DK"]||
 			 [cntry_code isEqualToString:@"EE"]||
 			 [cntry_code isEqualToString:@"ES"]||
 			 [cntry_code isEqualToString:@"FI"]||
@@ -130,7 +129,6 @@ static sqlite3_stmt *init_statement = nil;
 			 [cntry_code isEqualToString:@"PL"]||
 			 [cntry_code isEqualToString:@"PT"]||
 			 [cntry_code isEqualToString:@"RO"]||
-			 [cntry_code isEqualToString:@"SE"]||
 			 [cntry_code isEqualToString:@"SI"]||
 			 [cntry_code isEqualToString:@"SK"]) region=ReportRegionEurope;
 	else if ([cntry_code isEqualToString:@"CA"]) region=ReportRegionCanada;
@@ -142,6 +140,8 @@ static sqlite3_stmt *init_statement = nil;
 	else if ([cntry_code isEqualToString:@"CH"]) region=ReportRegionSwitzerland;
 	else if ([cntry_code isEqualToString:@"NO"]) region=ReportRegionNorway;
     else if ([cntry_code isEqualToString:@"CN"]) region=ReportRegionChina;
+    else if ([cntry_code isEqualToString:@"DK"]) region=ReportRegionDenmark;
+    else if ([cntry_code isEqualToString:@"SE"]) region=ReportRegionSweden;
 	
 	else region=ReportRegionRestOfWorld;
 	
