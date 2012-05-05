@@ -1000,6 +1000,10 @@ static sqlite3_stmt *hydrate_statement = nil;
 			return @"CH";
         case ReportRegionChina:
 			return @"CN";
+        case ReportRegionDenmark:
+			return @"DK";    
+        case ReportRegionSweden:
+			return @"SE";    
 		default:
 			return @"??";
 	}
@@ -1089,6 +1093,12 @@ static sqlite3_stmt *hydrate_statement = nil;
                 case ReportRegionChina:
 					region_name = @"China";
 					break;
+                case ReportRegionDenmark:
+					region_name = @"Denmark";
+					break;
+                case ReportRegionSweden:
+					region_name = @"Sweden";
+					break;    
 				default:
 					region_name = @"Invalid Region";
 			}

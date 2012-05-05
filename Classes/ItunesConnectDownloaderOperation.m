@@ -72,6 +72,8 @@
 	else if ([regionCode isEqualToString:@"NO"]) region = ReportRegionNorway;
 	else if ([regionCode isEqualToString:@"NZ"]) region = ReportRegionNewZealand;
     else if ([regionCode isEqualToString:@"CN"]) region = ReportRegionChina;
+    else if ([regionCode isEqualToString:@"DK"]) region = ReportRegionDenmark;
+    else if ([regionCode isEqualToString:@"SE"]) region = ReportRegionSweden;
 	else region = ReportRegionUnknown;
 	
 	return region;
@@ -134,8 +136,16 @@
 	{
 		return ReportRegionChina;
 	}
-	
-	
+	if ([string isEqualToString:@"Denmark"])
+	{
+		return ReportRegionDenmark;
+	}
+	if ([string isEqualToString:@"Sweden"])
+	{
+		return ReportRegionSweden;
+	}
+    
+    
 	return ReportRegionUnknown;
 }
 
