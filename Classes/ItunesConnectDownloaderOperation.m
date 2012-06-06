@@ -485,7 +485,7 @@
 	viewState = [html ajaxViewState];
 	
 	NSString *pickerAjax = [html tagHTMLforTag:@"select" WithID:@"theForm:datePickerSourceSelectElementSales"];
-	ajaxParams = [pickerAjax parametersFromAjaxSubmitString];
+	ajaxParams = [html parametersFromAjaxSubmitStringForFunction:@"onLoad"];//[pickerAjax parametersFromAjaxSubmitString];
 	
 	NSString *weekPickerAjax = [html tagHTMLforTag:@"select" WithID:@"theForm:weekPickerSourceSelectElement"];
 	NSArray *weekAjaxParams = [weekPickerAjax parametersFromAjaxSubmitString];
@@ -493,7 +493,7 @@
 	NSRange range = [html rangeOfString:@" id=\"weeklyLabel\""];
 	NSString *weekSwitchHTML = [html substringFromIndex:range.location];
 	NSArray *weekSwitchAjaxParams = [weekSwitchHTML parametersFromAjaxSubmitString]; // has extra at the end, but we ignore that
-	
+
 	//----- download DAILY
 	for (NSString *oneDayOption in dayOptions)
 	{
@@ -510,8 +510,7 @@
 											 [oneDayOption stringByUrlEncoding],
 											 [[weekOptions objectAtIndex:0] stringByUrlEncoding]];
 				
-                NSArray *ajaxParams2 = [html parametersFromAjaxSubmitStringForFunction:@"onLoad"];
-				ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams2 extraFormString:extraFormString2 viewState:viewState baseURL:baseURL];
+				ajaxRequest = [NSURLRequest ajaxRequestWithParameters:ajaxParams extraFormString:extraFormString2 viewState:viewState baseURL:baseURL];
 				
 				data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
 				
@@ -578,7 +577,7 @@
 	
 	// ----- switch to weekly so that we get the viewstate for weekly
 	
-	extraFormString = [NSString stringWithFormat:@"theForm%%3AuserType=notnormal&theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
+	extraFormString = [NSString stringWithFormat:@"theForm%%3AuserType=notnormal&theForm%%3AvendorType=Y&theForm%%3AdateType=W&theForm%%3AoptInVar=A&theForm%%3AcontentType=iOS&theForm%%3AcontentSubType=Paid%%20Apps&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
 					   [[dayOptions objectAtIndex:0] stringByUrlEncoding],
 					   [[dayOptions objectAtIndex:0] stringByUrlEncoding]];
 	
@@ -617,12 +616,12 @@
 			{
 				// -----switch weekly report screen via AJAX
 				
-				NSString *extraFormString = [NSString stringWithFormat:@"theForm%%3AuserType=notnormal&theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
+				NSString *extraFormString = [NSString stringWithFormat:@"theForm%%3AvendorType=Y&=&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@",
 											 [[dayOptions objectAtIndex:0] stringByUrlEncoding],
 											 [oneWeekOption stringByUrlEncoding]];
 				
 				
-				ajaxRequest = [NSURLRequest ajaxRequestWithParameters:weekAjaxParams extraFormString:extraFormString viewState:viewState baseURL:baseURL];
+				ajaxRequest = [NSURLRequest ajaxRequestWithParameters:weekSwitchAjaxParams extraFormString:extraFormString viewState:viewState baseURL:baseURL];
 				
 				data = [NSURLConnection sendSynchronousRequest:ajaxRequest returningResponse:&response error:&error];
 				
@@ -648,7 +647,7 @@
 											cachePolicy:NSURLRequestReloadIgnoringCacheData
 										timeoutInterval:60.0];	
 			
-			bodyString = [NSString stringWithFormat:@"theForm=theForm&theForm%%3AuserType=notnormal&theForm%%3AvendorType=Y&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@&javax.faces.ViewState=%@&theForm%%3AdownloadLabel2=theForm%%3AdownloadLabel2",
+			bodyString = [NSString stringWithFormat:@"theForm=theForm&theForm%%3AuserType=notnormal&theForm%%3AvendorType=Y&theForm%%3AdateType=W&theForm%%3AoptInVar=A&theForm%%3AdatePickerSourceSelectElementSales=%@&theForm%%3AweekPickerSourceSelectElement=%@&javax.faces.ViewState=%@&theForm%%3AdownloadLabel2=theForm%%3AdownloadLabel2",
 						  [[dayOptions objectAtIndex:0] stringByUrlEncoding],
 						  [oneWeekOption stringByUrlEncoding],
 						  [viewState stringByUrlEncoding] ];
