@@ -86,13 +86,13 @@
 	[super layoutSubviews];
 	CGRect frame = self.bounds;
 	
-	CGRect grayViewRect = CGRectMake((frame.size.width - PROGRESS_WIDTH)/2.0, 
+	CGRect grayViewRect = CGRectMake((frame.size.width - PROGRESS_WIDTH)/2.0,
 									 (frame.size.height - PROGRESS_HEIGHT)/2.0,
 									 PROGRESS_WIDTH, PROGRESS_HEIGHT);
 	grayView.frame = grayViewRect;
 	
 	CGSize actSize = [actView sizeThatFits:CGSizeZero];
-	actView.frame = CGRectMake((frame.size.width - actSize.width)/2.0, 
+	actView.frame = CGRectMake((frame.size.width - actSize.width)/2.0,
 							   (frame.size.height - actSize.height)/2.0,
 							   actSize.width, actSize.height);
 	
