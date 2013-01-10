@@ -1010,6 +1010,22 @@ static sqlite3_stmt *hydrate_statement = nil;
 			return @"HK";
         case ReportRegionTaiwan:
 			return @"TW";
+        case ReportRegionRussia:
+			return @"RU";
+        case ReportRegionTurkey:
+			return @"TR";
+        case ReportRegionIndia:
+			return @"IN";
+        case ReportRegionIndonesia:
+			return @"ID";
+        case ReportRegionIsrael:
+			return @"IL";
+        case ReportRegionSaudiArabia:
+			return @"SA";
+        case ReportRegionSouthAfrica:
+			return @"ZA";
+        case ReportRegionUnitedArabEmirates:
+			return @"AE";
 		default:
 			return @"??";
 	}
@@ -1113,6 +1129,30 @@ static sqlite3_stmt *hydrate_statement = nil;
 					break;
                 case ReportRegionTaiwan:
 					region_name = @"Taiwan";
+					break;
+                case ReportRegionRussia:
+					region_name = @"Russia";
+					break;
+                case ReportRegionTurkey:
+					region_name = @"Turkey";
+					break;
+                case ReportRegionIndia:
+					region_name = @"India";
+					break;
+                case ReportRegionIndonesia:
+					region_name = @"Indonesia";
+					break;
+                case ReportRegionIsrael:
+					region_name = @"Israel";
+					break;
+                case ReportRegionSaudiArabia:
+					region_name = @"Saudi Arabia";
+					break;
+                case ReportRegionSouthAfrica:
+					region_name = @"South Africa";
+					break;
+                case ReportRegionUnitedArabEmirates:
+					region_name = @"United Arab Emirates";
 					break;
 				default:
 					region_name = @"Invalid Region";
@@ -1456,7 +1496,7 @@ static sqlite3_stmt *hydrate_statement = nil;
 		
 		while (aSale = [en nextObject]) 
 		{
-			if ((ttype==aSale.transactionType))
+			if (ttype==aSale.transactionType)
 			{
 				ret += [[YahooFinance sharedInstance] convertToEuro:(aSale.royaltyPrice * aSale.unitsSold) fromCurrency:aSale.royaltyCurrency]; 
 			}
