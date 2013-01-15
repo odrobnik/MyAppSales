@@ -145,7 +145,15 @@ static sqlite3_stmt *init_statement = nil;
     else if ([cntry_code isEqualToString:@"SG"]) region=ReportRegionSingapore;
     else if ([cntry_code isEqualToString:@"HK"]) region=ReportRegionHongKong;
     else if ([cntry_code isEqualToString:@"TW"]) region=ReportRegionTaiwan;
-	
+	else if ([cntry_code isEqualToString:@"RU"]) region=ReportRegionRussia;
+    else if ([cntry_code isEqualToString:@"TR"]) region=ReportRegionTurkey;
+    else if ([cntry_code isEqualToString:@"IN"]) region=ReportRegionIndia;
+    else if ([cntry_code isEqualToString:@"ID"]) region=ReportRegionIndonesia;
+    else if ([cntry_code isEqualToString:@"IL"]) region=ReportRegionIsrael;
+    else if ([cntry_code isEqualToString:@"SA"]) region=ReportRegionSaudiArabia;
+    else if ([cntry_code isEqualToString:@"ZA"]) region=ReportRegionSouthAfrica;
+    else if ([cntry_code isEqualToString:@"AE"]) region=ReportRegionUnitedArabEmirates;
+    
 	else region=ReportRegionRestOfWorld;
 	
 	

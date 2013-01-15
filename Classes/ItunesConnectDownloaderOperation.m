@@ -77,6 +77,14 @@
     else if ([regionCode isEqualToString:@"SG"]) region = ReportRegionSingapore;
     else if ([regionCode isEqualToString:@"HK"]) region = ReportRegionHongKong;
     else if ([regionCode isEqualToString:@"TW"]) region = ReportRegionTaiwan;
+    else if ([regionCode isEqualToString:@"RU"]) region = ReportRegionRussia;
+    else if ([regionCode isEqualToString:@"TR"]) region = ReportRegionTurkey;
+    else if ([regionCode isEqualToString:@"IN"]) region = ReportRegionIndia;
+    else if ([regionCode isEqualToString:@"ID"]) region = ReportRegionIndonesia;
+    else if ([regionCode isEqualToString:@"IL"]) region = ReportRegionIsrael;
+    else if ([regionCode isEqualToString:@"SA"]) region = ReportRegionSaudiArabia;
+    else if ([regionCode isEqualToString:@"ZA"]) region = ReportRegionSouthAfrica;
+    else if ([regionCode isEqualToString:@"AE"]) region = ReportRegionUnitedArabEmirates;
 	else region = ReportRegionUnknown;
 	
 	return region;
