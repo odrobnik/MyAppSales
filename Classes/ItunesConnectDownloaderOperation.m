@@ -166,8 +166,40 @@
     if ([string isEqualToString:@"Taiwan"])
 	{
 		return ReportRegionTaiwan;
+    }
+    if ([string isEqualToString:@"Russia"])
+    {
+        return ReportRegionRussia;
+    }
+    if ([string isEqualToString:@"Turkey"])
+    {
+        return ReportRegionTurkey;
+    }
+    if ([string isEqualToString:@"India"])
+    {
+        return ReportRegionIndia;
+    }
+    if ([string isEqualToString:@"Indonesia"])
+    {
+        return ReportRegionIndonesia;
+    }
+    if ([string isEqualToString:@"Israel"])
+    {
+        return ReportRegionIsrael;
+    }
+    if ([string isEqualToString:@"Saudi Arabia"])
+    {
+        return ReportRegionSaudiArabia;
+    }
+    if ([string isEqualToString:@"South Africa"])
+    {
+        return ReportRegionSouthAfrica;
+    }
+    if ([string isEqualToString:@"United Arab Emirates"])
+    {
+        return ReportRegionUnitedArabEmirates;
 	}
-
+    
     
 	return ReportRegionUnknown;
 }
